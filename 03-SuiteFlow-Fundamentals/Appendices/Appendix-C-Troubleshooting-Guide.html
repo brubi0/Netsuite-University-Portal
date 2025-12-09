@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Appendix C: Troubleshooting Guide - SuiteFlow Fundamentals</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f5f7fa; padding: 20px; }
+        .container { max-width: 1400px; margin: 0 auto; background: white; border-radius: 15px; padding: 40px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+        h1 { color: #667eea; font-size: 2.5em; margin-bottom: 30px; }
+        .problem-box { background: #ffebee; border-left: 5px solid #f44336; padding: 20px; margin: 20px 0; border-radius: 8px; }
+        .solution-box { background: #e8f5e9; border-left: 5px solid #4caf50; padding: 20px; margin: 20px 0; border-radius: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Appendix C: Troubleshooting Guide</h1>
+        <p style="color: #666; font-size: 1.1em; margin-bottom: 30px;">Common workflow issues and their solutions.</p>
+        
+        <h2 style="color: #2d3748; margin: 30px 0 20px;">Common Issues & Solutions</h2>
+        
+        <div class="problem-box">
+            <h3 style="color: #c62828;">❌ Problem: Workflow not initiating</h3>
+            <p style="color: #666; margin-top: 10px;">Workflow doesn't run when expected on record</p>
+        </div>
+        <div class="solution-box">
+            <h3 style="color: #2e7d32;">✅ Solutions:</h3>
+            <ul style="margin-left: 30px; margin-top: 10px; color: #666;">
+                <li>Check <strong>Release Status</strong> is set to "Released" (not "Testing")</li>
+                <li>Verify <strong>Initiate On</strong> trigger matches your action (Create/Edit/View)</li>
+                <li>Check workflow initiation conditions evaluate to TRUE</li>
+                <li>Confirm user has permissions to the record type</li>
+                <li>Look for conflicting workflows that may be preventing execution</li>
+            </ul>
+        </div>
+        
+        <div class="problem-box">
+            <h3 style="color: #c62828;">❌ Problem: Action not executing</h3>
+            <p style="color: #666; margin-top: 10px;">Action configured but not running</p>
+        </div>
+        <div class="solution-box">
+            <h3 style="color: #2e7d32;">✅ Solutions:</h3>
+            <ul style="margin-left: 30px; margin-top: 10px; color: #666;">
+                <li>Check action conditions evaluate to TRUE</li>
+                <li>Verify trigger type matches the event (client vs. server)</li>
+                <li>Confirm action is supported on the selected trigger</li>
+                <li>Check workflow execution log for error messages</li>
+                <li>Enable logging if not already enabled</li>
+            </ul>
+        </div>
+        
+        <h2 style="color: #2d3748; margin: 40px 0 20px;">Reading Execution Logs</h2>
+        <p style="color: #666; margin-bottom: 20px;">The workflow execution log is your best troubleshooting tool. Access it from: <strong>Record > Workflow History > View Log</strong></p>
+        
+        <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
+            <h3 style="color: #667eea; margin-bottom: 15px;">Log Entry Components:</h3>
+            <ul style="margin-left: 30px; color: #666;">
+                <li><strong>Timestamp:</strong> When the event occurred (uses your time zone preference)</li>
+                <li><strong>Trigger:</strong> Which trigger caused the action to execute</li>
+                <li><strong>State:</strong> Which workflow state the record was in</li>
+                <li><strong>Action:</strong> What action was executed (or attempted)</li>
+                <li><strong>Result:</strong> Success or error message</li>
+                <li><strong>Field IDs:</strong> Internal field identifiers (requires Show Internal IDs preference)</li>
+            </ul>
+        </div>
+        
+        <div style="margin-top: 40px; padding-top: 30px; border-top: 2px solid #e2e8f0;">
+            <a href="../Master-Dashboard.html" style="display: inline-block; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 12px 30px; border-radius: 25px; text-decoration: none; font-weight: 600;">← Back to Course Overview</a>
+        </div>
+    </div>
+</body>
+</html>

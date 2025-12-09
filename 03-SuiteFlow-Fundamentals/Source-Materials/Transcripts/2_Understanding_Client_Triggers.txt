@@ -1,0 +1,47 @@
+Understanding Client Triggers-- this module provides an overview of workflow triggers, which represent specific events that occurred during the processing of a record in NetSuite. We will focus our discussion on client triggers specifically, which represent events that occurred during client side action execution in the user's web browser.
+
+We will also discuss how client triggers can be used to make forms dynamic, by enabling field level validations while the user is interacting with the record entry form. In this module, we will discuss the following topics-- workflow triggers overview, client triggers, and making forms dynamic.
+
+Upon the completion of this module, you will be able to define a workflow trigger and list some examples of how workflow triggers control action execution, list each of the primary client triggers and their role in the workflow execution cycle, and list the three client triggers used to build dynamic forms supporting field level validations.
+
+The most fundamental thing you should remember about workflow triggers is that triggers occur but workflows actions and transitions execute. Workflow triggers are based on events that occur during the processing of a record in NetSuite and dictate when the workflow should execute certain tasks, such as when a workflow should be initiated, when action should be performed, or when a record should transition from one state to another in the workflow.
+
+There are two primary types of workflow triggers-- client triggers and server triggers. Client triggers are events that occur on the user's computer within their website browser whereas server triggers are events that occur on the NetSuite server. The type of trigger you use depends on whether you want to initiate workflow processing on a record or execute a specific action or transition.
+
+For example, if you want to alert users, they must change a field value before they can save a new record. An informational message can be displayed by configuring an action on a client trigger. If you want to send an automated email notification after saving the record, an email can be sent by configuring an action on a server trigger.
+
+In this module, we will focus our discussion on client triggers, which are used to respond to events occurring on a user's local computer within their website browser. Client triggers are events that occurred just before a record is displayed in the browser, while the user is interacting with the record form and when saving a record in NetSuite.
+
+Client triggers only occur when creating a new record or editing an existing record. Client triggers do not occur when viewing a record. There are two form level client triggers-- before user edit and before user submit. Before user edit occurs, when a user creates a new record or edits an existing record, at which time the browser loads a new entry form or an existing record is displayed in the browser.
+
+Before user edit occurs in the brief span of time between when the user requested the record from the server and when it is actually displayed in their website browser. Actions you might perform on the before user edit client trigger include showing and hiding fields, making fields mandatory or optional, and defaulting values on the record form.
+
+Before user submit occurs when the user makes changes to one or more of the fields on the form and saves the record. Before users submit is typically used to perform form level validations on the client before being pushed to the server for additional processing.
+
+Actions you might perform on that before user submit client trigger include validating field values on a form during save, at which point you can choose to display a variety of different message types-- informational messages, alert messages or validation error messages.
+
+Before we discuss how to build smarts into our entry forms using client triggers, let's review some key differences between SuiteFlow and SuiteBuilder. Using SuiteBuilder, you can hide and show fields, set fields as mandatory or optional, and perform other record in form level modifications.
+
+However, these changes are static in nature and affect all users accessing those records and associated forms. Using SuiteFlow, you can create dynamic forms that perform the same form level modifications. Unlike SuiteBuilder however, applying form level modifications using SuiteFlow are dynamic in nature, affecting all users who interact with records that have workflows running on them, in the exact same way.
+
+In addition to the two form level triggers we just discussed, there are three field level client triggers that can be used to create dynamic forms that perform additional processing, such as field level validations, updating field values based on another fields values or changing the fields display characteristics on the fly, while the user is interacting with the form.
+
+The three field level client triggers are before field edit, after field edit and after field sourcing. Before field edit is used to perform field level validations after the user removes field focus or tabs out of the field but before the data is moved from the browser to memory, regardless of whether the field's value was changed.
+
+In this example, there was a field level validation on the rating code field, that checks to see if the value entered is A, B or C. The validation is triggered when clicking or tabbing out of the field. If the value entered is invalid, an error is displayed to the user and focus is returned to the field, so a valid value can be entered and revalidated.
+
+The user will be unable to interact with any other field on the form, until they enter a valid value. Multiple actions can be configured on the before field edit trigger, each referencing the same triggering field. In the example shown here, the triggering field is the rating code field.
+
+After field edit is used to perform a field level validation based on the update of one or more form fields. It occurs only when leaving and validating a field and the field's value was actually changed either through the selection of a value in a dropdown list or direct user entry.
+
+After field edit is often used, when you want to affect another field's value, based on the value of the current field being edited. In this example, changing the review type field triggers an action that makes rating code mandatory or optional based on the selected review type.
+
+After field sourcing is similar to after field edit, as they both execute upon changing the value of a field. However, after field sourcing waits for any value sourcing to occur before performing additional processing on the sourced in value. After field sourcing is most often used when performing on change processing, when selecting a value from a list record field.
+
+In this example, the employee type is being sourced in based on an update to the subordinate field. Once the value of contractor has been sourced into the employee type field, additional processing can occur on the new employee type value, such as field validations that display an informational message to the user.
+
+In this example, the message presents itself like a processing error but unlike a true error message, it does not prevent the user from interacting with other fields on the form. It is merely informational. Here are some key things to remember, when working with client triggers.
+
+Client triggers only occur when creating new records or editing existing records. Use the before user edit trigger to default field values and change field display characteristics on the record form, as it is being loaded into the browser. Use before user submit to validate form fields during record save and return user friendly error messages to the user.
+
+Before field edit, after field edit, and after field sourcing can be used to create dynamic forms that perform additional field level processing based on the value of other fields on the form. Configure actions using client triggers in separate workflows to better manage form level actions during data entry. Control F5 on Windows and command R on Mac OS can be used to refresh the browser page, when testing client side actions. This concludes the Understanding Client Triggers module.

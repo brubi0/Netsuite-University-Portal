@@ -1,0 +1,18 @@
+Course wrap up. During this Advanced Workflows course, you applied the foundational knowledge, skills, and best practices learned throughout this course to build several business process workflows using many of the advanced capabilities of SuiteFlow.
+
+Through the completion of several hands-on exercises, you built several modular workflows supporting the following advanced workflow functions-- configuring Service-level Agreements using scheduled actions and transitions, executing actions and transitions using saved searches as conditions, configuring multiple business processes that run in parallel using sub-workflows, altering the state of a workflow based on changes to related records, using SQL and SuiteScript formulas in conditions, integrating custom workflow actions created using Workflow Action Scripts, and executing workflows in different processing contexts, such as CSV Import, User Event Script, and Suitelet.
+
+For additional information about the topics discussed in this course, we encourage you to visit SuiteAnswers. It can be accessed from the Support tab in your NetSuite account, and it contains a wealth of information that can be used to support your understanding of the concepts discussed throughout this course.
+
+Interested in learning more about all the SuiteTraining courses available? Take a look at the NetSuite training catalog found at NetSuite.com. Then, simply navigate to Services, Training and Certification, Course Catalog. There, you can browse our entire training catalog from virtual ILT courses to on-demand self-study courses.
+
+Interested in becoming NetSuite certified? Become a certified NetSuite user and contribute to your organization's success. Certification requires the completion and successful passing of several required exams. Fees may apply for each exam.
+
+To learn more about the certification courses available, visit the NetSuite Certification program page at NetSuite.com and then navigate to Services, Training and Certification, Certification Program. This concludes the SuiteFlow Advanced Workflows training on-demand course. Thank you for participating in NetSuite on-demand training.
+
+© 2025 Oracle University
+Privacy / Do Not Sell My Info
+Contact Us
+Terms of Use
+Cookie Preferences
+Ad Choices

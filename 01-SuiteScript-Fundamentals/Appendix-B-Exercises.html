@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appendix B: Hands-On Exercises with Full Solutions</title>
+    <style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.8;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:40px 20px}.container{max-width:1100px;margin:0 auto}.header{background:white;padding:30px 40px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.2);margin-bottom:30px}.header h1{color:#2563eb;font-size:2rem;margin-bottom:10px}.header .meta{color:#6b7280;font-size:0.9rem}.content{background:white;padding:40px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.2)}.content h2{color:#1e40af;margin:35px 0 20px 0;font-size:1.5rem;padding-bottom:10px;border-bottom:3px solid #dbeafe}.content h2:first-of-type{margin-top:0}.content h3{color:#374151;margin:25px 0 15px 0;font-size:1.2rem}.content h4{color:#1e40af;margin:20px 0 10px 0;font-size:1.05rem}.content p{margin:15px 0;color:#374151}.content ul,.content ol{margin:15px 0 15px 30px;color:#374151}.content li{margin:8px 0}.info-box{padding:20px 25px;border-radius:8px;margin:25px 0;border-left:5px solid}.info-box.blue{background:#dbeafe;border-color:#2563eb}.info-box.yellow{background:#fef3c7;border-color:#f59e0b}.info-box.green{background:#dcfce7;border-color:#10b981}.info-box.red{background:#fee2e2;border-color:#ef4444}.info-box.purple{background:#f3e8ff;border-color:#9333ea}.info-box strong{color:#1e40af;display:block;margin-bottom:10px;font-size:1.05rem}code{background:#f3f4f6;padding:3px 8px;border-radius:4px;font-family:'Consolas',monospace;font-size:0.85em;color:#ef4444}pre{background:#1e293b;color:#e2e8f0;padding:25px;border-radius:8px;overflow-x:auto;margin:25px 0;border-left:5px solid #667eea;font-size:0.88em;line-height:1.6}pre code{background:none;padding:0;color:inherit}.comment{color:#94a3b8}.keyword{color:#c084fc}.string{color:#86efac}.function{color:#7dd3fc}.module-ref{background:#fef3c7;color:#92400e;padding:3px 10px;border-radius:4px;font-size:0.8em;margin-left:10px;display:inline-block}table{width:100%;border-collapse:collapse;margin:20px 0}table th,table td{padding:12px;text-align:left;border-bottom:1px solid #e5e7eb}table th{background:#f3f4f6;color:#1e40af;font-weight:600}.toc{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:25px;margin-bottom:30px}.toc h3{color:#1e40af;margin-bottom:15px}.toc ul{list-style:none;margin:0;padding:0;columns:2}.toc li{margin:8px 0}.toc a{color:#2563eb;text-decoration:none}.scenario-box{background:linear-gradient(135deg,#dbeafe 0%,#e0e7ff 100%);border:2px solid #3b82f6;border-radius:10px;padding:20px;margin:20px 0}.scenario-box h4{color:#1e40af;margin-bottom:10px}.exercise-step{background:#f8fafc;border-left:4px solid #10b981;padding:15px 20px;margin:15px 0;border-radius:0 8px 8px 0}.nav-buttons{display:flex;justify-content:center;margin-top:40px;gap:20px}.back-btn,.nav-btn{padding:14px 28px;border-radius:8px;text-decoration:none;font-weight:600}.back-btn{background:#6b7280;color:white}.nav-btn{background:#2563eb;color:white}</style>
+</head>
+<body>
+<div class="container">
+<div class="header">
+    <h1>📝 Appendix B: Hands-On Exercises with Full Solutions</h1>
+    <p class="meta">Complete working code from Oracle Student Guide • SuiteDreams Training Scenario</p>
+</div>
+<div class="content">
+
+<div class="info-box blue">
+    <strong>📘 About These Exercises</strong>
+    These exercises are from Oracle's official SuiteScript 2.0 training course. They build upon each other using a fictional company called "SuiteDreams" - a global custom furniture manufacturer. Each exercise includes the complete working code with annotations pointing to the relevant module concepts.
+</div>
+
+<div class="toc">
+    <h3>📑 Exercise Index</h3>
+    <ul>
+        <li><a href="#ex1">Exercise 1: Hello World User Event</a></li>
+        <li><a href="#ex2">Exercise 2: Coupon Code Validation (Client Script)</a></li>
+        <li><a href="#ex3">Exercise 3: Create Task on New Customer</a></li>
+        <li><a href="#ex4">Exercise 4: Product Preferences Sublist</a></li>
+        <li><a href="#ex5">Exercise 5: Product Shortage Search</a></li>
+        <li><a href="#ex6">Exercise 6: Scheduled Script with Cases</a></li>
+        <li><a href="#ex7">Exercise 7: Map/Reduce Payment Report</a></li>
+        <li><a href="#ex8">Exercise 8: Sales Order Financing Suitelet</a></li>
+        <li><a href="#ex9">Exercise 9: Coupon Validation RESTlet</a></li>
+        <li><a href="#ex10">Exercise 10: Workflow Action - Update Customer</a></li>
+    </ul>
+</div>
+
+<!-- ==================== EXERCISE 1 ==================== -->
+<h2 id="ex1">Exercise 1: Hello World User Event Script</h2>
+<span class="module-ref">📚 Module 2: Developing SuiteScripts</span>
+
+<div class="scenario-box">
+    <h4>🎯 Scenario</h4>
+    <p>Create your first SuiteScript that logs "Hello World" when an employee record is loaded. This introduces the basic structure of SuiteScript 2.x and the User Event script type.</p>
+</div>
+
+<h4>Required Setup</h4>
+<ul>
+    <li>Deploy to: <strong>Employee</strong> record</li>
+    <li>Script ID: <code>_urk_ue_employee</code></li>
+    <li>Deployment ID: <code>_urk_ue_employee</code></li>
+</ul>
+
+<h4>Complete Solution: sdr_ue_employee.js</h4>
+<pre><code><span class="comment">/**
+ * @NApiVersion 2.1
+ * @NScriptType UserEventScript
+ * @NModuleScope SameAccount
+ * 
+ * EXERCISE 1: Hello World Script
+ * ══════════════════════════════
+ * 📚 MODULE 2 CONCEPTS:
+ *    - Required JSDoc annotations (@NApiVersion, @NScriptType)
+ *    - The define() statement for module loading
+ *    - User Event entry points (beforeLoad)
+ *    - Using the N/log module
+ * 
+ * Deploy to: Employee record
+ */</span>
+<span class="keyword">define</span>(['N/log'], <span class="keyword">function</span>(log) {
+
+    <span class="comment">/**
+     * beforeLoad Entry Point
+     * ──────────────────────
+     * 📚 MODULE 4 CONCEPT: Entry Points
+     * 
+     * Triggered when: User opens record (view, edit, create, copy, print)
+     * 
+     * @param {Object} context
+     * @param {Record} context.newRecord - The record being loaded
+     * @param {string} context.type - The trigger type (view, edit, create, etc.)
+     * @param {Form} context.form - The form object (for UI manipulation)
+     */</span>
+    <span class="keyword">function</span> <span class="function">beforeLoad</span>(context) {
+        
+        <span class="comment">// 📚 MODULE 2: log.debug() writes to Execution Log
+        // First parameter: title (shows in left column)
+        // Second parameter: details (shows in right column)</span>
+        log.debug({
+            title: <span class="string">'Hello World!'</span>,
+            details: <span class="string">'The script executed successfully on record ID: '</span> + context.newRecord.id
+        });
+        
+        <span class="comment">// 📚 MODULE 3: Getting values from the record object
+        // context.newRecord gives us access to all field values</span>
+        <span class="keyword">var</span> employeeName = context.newRecord.getValue(<span class="string">'entityid'</span>);
+        
+        log.debug(<span class="string">'Employee Name'</span>, employeeName);
+    }
+
+    <span class="comment">// 📚 MODULE 2: Return object exports entry point functions
+    // The property name MUST match the entry point exactly</span>
+    <span class="keyword">return</span> {
+        beforeLoad: beforeLoad
+    };
+});</code></pre>
+
+<div class="info-box green">
+    <strong>✅ How to Test</strong>
+    <ol>
+        <li>Upload script to File Cabinet → SuiteScripts folder</li>
+        <li>Create Script Record: Customization → Scripting → Scripts → New</li>
+        <li>Create Deployment: Set Status to "Testing", Log Level to "Debug"</li>
+        <li>Open any Employee record</li>
+        <li>Check Execution Log in the script deployment record</li>
+    </ol>
+</div>
+
+<!-- ==================== EXERCISE 2 ==================== -->
+<h2 id="ex2">Exercise 2: Coupon Code Validation (Client Script)</h2>
+<span class="module-ref">📚 Module 4: Understanding Entry Points</span>
+
+<div class="scenario-box">
+    <h4>🎯 Scenario</h4>
+    <p>SuiteDreams wants to add coupon codes to customer records. When "Apply Coupon" is checked, the coupon code field should be enabled. Validation requires exactly 5 characters.</p>
+</div>
+
+<h4>Required Custom Fields</h4>
+<table>
+    <tr><th>Field</th><th>ID</th><th>Type</th></tr>
+    <tr><td>Apply Coupon</td><td><code>custentity_urk_apply_coupon</code></td><td>Checkbox</td></tr>
+    <tr><td>Coupon Code</td><td><code>custentity_urk_coupon_code</code></td><td>Free-Form Text</td></tr>
+</table>
+
+<h4>Complete Solution: sdr_cs_customer.js</h4>
+<pre><code><span class="comment">/**
+ * @NApiVersion 2.1
+ * @NScriptType ClientScript
+ * @NModuleScope SameAccount
+ * 
+ * EXERCISE 2: Coupon Code Validation
+ * ═══════════════════════════════════
+ * 📚 MODULE 4 CONCEPTS:
+ *    - Client Script entry points (pageInit, fieldChanged, validateField, saveRecord)
+ *    - Enabling/disabling fields dynamically
+ *    - Field-level and form-level validation
+ *    - Returning boolean from validation functions
+ * 
+ * Deploy to: Customer record
+ */</span>
+<span class="keyword">define</span>(['N/log'], <span class="keyword">function</span>(log) {
+
+    <span class="comment">/**
+     * pageInit - Runs when page first loads
+     * ─────────────────────────────────────
+     * 📚 MODULE 4: Initialize form state
+     * 
+     * Use for: Setting defaults, enabling/disabling fields based on existing values
+     */</span>
+    <span class="keyword">function</span> <span class="function">pageInit</span>(context) {
+        <span class="keyword">var</span> rec = context.currentRecord;
+        <span class="keyword">var</span> mode = context.mode;  <span class="comment">// 'create', 'edit', 'view', 'copy'</span>
+        
+        log.debug(<span class="string">'pageInit'</span>, <span class="string">'Mode: '</span> + mode);
+        
+        <span class="comment">// 📚 MODULE 4: Get field reference to manipulate properties
+        // getField() returns a Field object for UI manipulation</span>
+        <span class="keyword">var</span> couponField = rec.getField({ fieldId: <span class="string">'custentity_urk_coupon_code'</span> });
+        
+        <span class="comment">// Check if Apply Coupon is already checked (for edit mode)</span>
+        <span class="keyword">var</span> applyCoupon = rec.getValue(<span class="string">'custentity_urk_apply_coupon'</span>);
+        
+        <span class="keyword">if</span> (couponField) {
+            <span class="comment">// 📚 MODULE 4: isDisabled property controls field editability</span>
+            couponField.isDisabled = !applyCoupon;
+        }
+    }
+
+    <span class="comment">/**
+     * fieldChanged - Runs when any field value changes
+     * ─────────────────────────────────────────────────
+     * 📚 MODULE 4: React to field changes
+     * 
+     * context.fieldId tells you WHICH field changed
+     * Use to: Enable/disable dependent fields, calculate values
+     */</span>
+    <span class="keyword">function</span> <span class="function">fieldChanged</span>(context) {
+        <span class="keyword">var</span> rec = context.currentRecord;
+        <span class="keyword">var</span> fieldId = context.fieldId;
+        
+        <span class="comment">// Only react to Apply Coupon checkbox</span>
+        <span class="keyword">if</span> (fieldId === <span class="string">'custentity_urk_apply_coupon'</span>) {
+            
+            <span class="keyword">var</span> applyCoupon = rec.getValue(<span class="string">'custentity_urk_apply_coupon'</span>);
+            <span class="keyword">var</span> couponField = rec.getField({ fieldId: <span class="string">'custentity_urk_coupon_code'</span> });
+            
+            <span class="keyword">if</span> (applyCoupon) {
+                <span class="comment">// Enable the coupon code field</span>
+                couponField.isDisabled = <span class="keyword">false</span>;
+            } <span class="keyword">else</span> {
+                <span class="comment">// Disable and CLEAR the coupon code field
+                // 📚 MODULE 4: Best practice - clear dependent fields when disabling</span>
+                couponField.isDisabled = <span class="keyword">true</span>;
+                rec.setValue({
+                    fieldId: <span class="string">'custentity_urk_coupon_code'</span>,
+                    value: <span class="string">''</span>
+                });
+            }
+        }
+    }
+
+    <span class="comment">/**
+     * validateField - Runs when user leaves a field
+     * ──────────────────────────────────────────────
+     * 📚 MODULE 4: Field-level validation
+     * 
+     * MUST return true or false:
+     *   true  = accept the value, move to next field
+     *   false = reject, keep focus on current field
+     */</span>
+    <span class="keyword">function</span> <span class="function">validateField</span>(context) {
+        <span class="keyword">var</span> rec = context.currentRecord;
+        <span class="keyword">var</span> fieldId = context.fieldId;
+        
+        <span class="keyword">if</span> (fieldId === <span class="string">'custentity_urk_coupon_code'</span>) {
+            <span class="keyword">var</span> applyCoupon = rec.getValue(<span class="string">'custentity_urk_apply_coupon'</span>);
+            <span class="keyword">var</span> couponCode = rec.getValue(<span class="string">'custentity_urk_coupon_code'</span>);
+            
+            <span class="comment">// 📚 MODULE 4: Validate only when checkbox is checked and code exists</span>
+            <span class="keyword">if</span> (applyCoupon && couponCode && couponCode.length !== 5) {
+                alert(<span class="string">'Coupon code must be exactly 5 characters.'</span>);
+                <span class="keyword">return false</span>;  <span class="comment">// Keep focus on field</span>
+            }
+        }
+        
+        <span class="keyword">return true</span>;  <span class="comment">// Always return true for other fields!</span>
+    }
+
+    <span class="comment">/**
+     * saveRecord - Runs when user clicks Save
+     * ────────────────────────────────────────
+     * 📚 MODULE 4: Form-level validation before submission
+     * 
+     * MUST return true or false:
+     *   true  = allow save to proceed
+     *   false = cancel save, stay on page
+     * 
+     * TIP: Use confirm() for user confirmation dialogs
+     */</span>
+    <span class="keyword">function</span> <span class="function">saveRecord</span>(context) {
+        <span class="keyword">var</span> rec = context.currentRecord;
+        
+        <span class="keyword">var</span> applyCoupon = rec.getValue(<span class="string">'custentity_urk_apply_coupon'</span>);
+        <span class="keyword">var</span> couponCode = rec.getValue(<span class="string">'custentity_urk_coupon_code'</span>);
+        
+        <span class="comment">// 📚 MODULE 4: Final validation before save</span>
+        <span class="keyword">if</span> (applyCoupon) {
+            <span class="keyword">if</span> (!couponCode || couponCode.length !== 5) {
+                alert(<span class="string">'Please enter a valid 5-character coupon code.'</span>);
+                <span class="keyword">return false</span>;  <span class="comment">// Cancel save</span>
+            }
+        }
+        
+        <span class="comment">// 📚 MODULE 4: Best practice - always return true at the end</span>
+        <span class="keyword">return true</span>;
+    }
+
+    <span class="keyword">return</span> {
+        pageInit: pageInit,
+        fieldChanged: fieldChanged,
+        validateField: validateField,
+        saveRecord: saveRecord
+    };
+});</code></pre>
+
+<!-- ==================== EXERCISE 3 ==================== -->
+<h2 id="ex3">Exercise 3: Create Task on New Customer</h2>
+<span class="module-ref">📚 Module 5: SuiteScript Modules</span>
+
+<div class="scenario-box">
+    <h4>🎯 Scenario</h4>
+    <p>SuiteDreams wants to automatically remind sales reps to follow up with new customers. When a customer is created, automatically create a Task record assigned to their sales rep.</p>
+</div>
+
+<h4>Complete Solution: sdr_ue_customer.js</h4>
+<pre><code><span class="comment">/**
+ * @NApiVersion 2.1
+ * @NScriptType UserEventScript
+ * 
+ * EXERCISE 3: Create Follow-up Task
+ * ══════════════════════════════════
+ * 📚 MODULE 5 CONCEPTS:
+ *    - Loading multiple modules (N/record, N/log, N/email, N/runtime)
+ *    - Creating records with record.create()
+ *    - Using record.Type enum values
+ *    - Checking context.type for operation filtering
+ * 
+ * Deploy to: Customer record
+ */</span>
+<span class="keyword">define</span>(['N/record', 'N/log', 'N/email', 'N/runtime'], 
+<span class="keyword">function</span>(record, log, email, runtime) {
+
+    <span class="comment">/**
+     * afterSubmit - Runs AFTER record is saved to database
+     * ─────────────────────────────────────────────────────
+     * 📚 MODULE 4: Best entry point for creating related records
+     * 
+     * Why afterSubmit? The customer ID now exists in the database,
+     * so we can link the task to it.
+     */</span>
+    <span class="keyword">function</span> <span class="function">afterSubmit</span>(context) {
+        
+        <span class="comment">// 📚 MODULE 5: Filter by operation type
+        // Only create task for NEW customers, not edits</span>
+        <span class="keyword">if</span> (context.type !== context.UserEventType.CREATE) {
+            <span class="keyword">return</span>;
+        }
+        
+        <span class="keyword">var</span> customer = context.newRecord;
+        <span class="keyword">var</span> customerId = customer.id;
+        <span class="keyword">var</span> salesRepId = customer.getValue(<span class="string">'salesrep'</span>);
+        
+        log.debug(<span class="string">'Creating Task'</span>, <span class="string">'Customer: '</span> + customerId + <span class="string">' | Sales Rep: '</span> + salesRepId);
+        
+        <span class="keyword">try</span> {
+            <span class="comment">// 📚 MODULE 5: record.create() to make new records
+            // Use record.Type enum for type safety</span>
+            <span class="keyword">var</span> task = record.create({
+                type: record.Type.TASK
+            });
+            
+            <span class="comment">// 📚 MODULE 3: setValue() to set field values</span>
+            task.setValue({
+                fieldId: <span class="string">'title'</span>,
+                value: <span class="string">'New Customer Follow-up'</span>
+            });
+            
+            task.setValue({
+                fieldId: <span class="string">'message'</span>,
+                value: <span class="string">'Please take care of this customer and follow-up with them soon.'</span>
+            });
+            
+            <span class="comment">// 📚 MODULE 5: PRIORITY uses string values: 'HIGH', 'MEDIUM', 'LOW'</span>
+            task.setValue({
+                fieldId: <span class="string">'priority'</span>,
+                value: <span class="string">'HIGH'</span>
+            });
+            
+            <span class="comment">// Link task to the customer (COMPANY field)</span>
+            task.setValue({
+                fieldId: <span class="string">'company'</span>,
+                value: customerId
+            });
+            
+            <span class="comment">// Assign to sales rep if one exists</span>
+            <span class="keyword">if</span> (salesRepId) {
+                task.setValue({
+                    fieldId: <span class="string">'assigned'</span>,
+                    value: salesRepId
+                });
+            }
+            
+            <span class="comment">// 📚 MODULE 5: save() commits the record to database
+            // Returns the internal ID of the new record</span>
+            <span class="keyword">var</span> taskId = task.save();
+            
+            log.audit(<span class="string">'Task Created'</span>, <span class="string">'Task ID: '</span> + taskId);
+            
+        } <span class="keyword">catch</span> (e) {
+            <span class="comment">// 📚 MODULE 14: Always handle errors gracefully</span>
+            log.error(<span class="string">'Error Creating Task'</span>, e.message);
+        }
+    }
+
+    <span class="comment">/**
+     * BONUS: Send Welcome Email
+     * ─────────────────────────
+     * 📚 MODULE 5: Using N/email module
+     */</span>
+    <span class="keyword">function</span> <span class="function">sendWelcomeEmail</span>(customerId) {
+        <span class="comment">// 📚 MODULE 5: Get current user as email sender</span>
+        <span class="keyword">var</span> currentUser = runtime.getCurrentUser();
+        
+        email.send({
+            author: currentUser.id,
+            recipients: customerId,  <span class="comment">// Customer internal ID</span>
+            subject: <span class="string">'Welcome to SuiteDreams!'</span>,
+            body: <span class="string">'Thank you for becoming a customer. We look forward to serving you.'</span>
+        });
+    }
+
+    <span class="keyword">return</span> {
+        afterSubmit: afterSubmit
+    };
+});</code></pre>
+
+<!-- ==================== EXERCISE 5 ==================== -->
+<h2 id="ex5">Exercise 5: Product Shortage Search</h2>
+<span class="module-ref">📚 Module 7: Searching in NetSuite</span>
+
+<div class="scenario-box">
+    <h4>🎯 Scenario</h4>
+    <p>Create a search to find product shortages - items where the preferred quantity exceeds available inventory. Demonstrate both saved search loading and programmatic search creation.</p>
+</div>
+
+<h4>Complete Solution: sdr_ss_product_shortage.js</h4>
+<pre><code><span class="comment">/**
+ * @NApiVersion 2.1
+ * @NScriptType ScheduledScript
+ * 
+ * EXERCISE 5: Product Shortage Search
+ * ════════════════════════════════════
+ * 📚 MODULE 7 CONCEPTS:
+ *    - Loading saved searches with search.load()
+ *    - Creating searches with search.create()
+ *    - Search filters and columns
+ *    - Processing results with run().each()
+ *    - Using getValue() vs getText()
+ * 
+ * Custom Record: Product Preferences (custrecord_urk_prod_pref)
+ * Fields: Customer, Item, Preferred Quantity
+ */</span>
+<span class="keyword">define</span>(['N/search', 'N/log', 'N/record'], <span class="keyword">function</span>(search, log, record) {
+
+    <span class="keyword">function</span> <span class="function">execute</span>(context) {
+        
+        <span class="comment">// ═══════════════════════════════════════════════════════════
+        // METHOD 1: Load a Saved Search
+        // 📚 MODULE 7: Use script ID (not internal ID) for portability
+        // ═══════════════════════════════════════════════════════════</span>
+        <span class="keyword">var</span> savedSearch = search.load({
+            id: <span class="string">'customsearch_urk_prod_shortages'</span>  <span class="comment">// Script ID of saved search</span>
+        });
+        
+        
+        <span class="comment">// ═══════════════════════════════════════════════════════════
+        // METHOD 2: Create Search Programmatically
+        // 📚 MODULE 7: More flexible, can add dynamic filters
+        // ═══════════════════════════════════════════════════════════</span>
+        <span class="keyword">var</span> productSearch = search.create({
+            type: <span class="string">'customrecord_urk_prod_pref'</span>,
+            
+            <span class="comment">// 📚 MODULE 7: Filter Expression Syntax
+            // [fieldId, operator, value]</span>
+            filters: [
+                [<span class="string">'custrecord_urk_prod_pref_qty'</span>, <span class="string">'greaterthan'</span>, 2],
+                <span class="string">'AND'</span>,
+                <span class="comment">// 📚 MODULE 7: Join syntax - field on related record</span>
+                [<span class="string">'custrecord_urk_prod_pref_customer.subsidiary'</span>, <span class="string">'anyof'</span>, 1]
+            ],
+            
+            <span class="comment">// 📚 MODULE 7: Columns to return</span>
+            columns: [
+                search.createColumn({ name: <span class="string">'custrecord_urk_prod_pref_customer'</span> }),
+                <span class="comment">// Join column: get email from customer record</span>
+                search.createColumn({ 
+                    name: <span class="string">'email'</span>, 
+                    join: <span class="string">'custrecord_urk_prod_pref_customer'</span> 
+                }),
+                search.createColumn({ name: <span class="string">'custrecord_urk_prod_pref_item'</span> }),
+                search.createColumn({ name: <span class="string">'custrecord_urk_prod_pref_qty'</span> }),
+                <span class="comment">// Join column: get available qty from item record</span>
+                search.createColumn({ 
+                    name: <span class="string">'quantityavailable'</span>, 
+                    join: <span class="string">'custrecord_urk_prod_pref_item'</span> 
+                })
+            ]
+        });
+        
+        
+        <span class="comment">// ═══════════════════════════════════════════════════════════
+        // PROCESSING RESULTS
+        // 📚 MODULE 7: run().each() processes up to 4000 results
+        // ═══════════════════════════════════════════════════════════</span>
+        <span class="keyword">var</span> resultCount = 0;
+        
+        productSearch.run().each(<span class="keyword">function</span>(result) {
+            
+            <span class="comment">// 📚 MODULE 7: getValue() returns internal ID for list fields
+            // getText() returns display value</span>
+            <span class="keyword">var</span> customerId = result.getValue(<span class="string">'custrecord_urk_prod_pref_customer'</span>);
+            <span class="keyword">var</span> customerName = result.getText(<span class="string">'custrecord_urk_prod_pref_customer'</span>);
+            
+            <span class="keyword">var</span> itemId = result.getValue(<span class="string">'custrecord_urk_prod_pref_item'</span>);
+            <span class="keyword">var</span> itemName = result.getText(<span class="string">'custrecord_urk_prod_pref_item'</span>);
+            
+            <span class="keyword">var</span> preferredQty = parseInt(result.getValue(<span class="string">'custrecord_urk_prod_pref_qty'</span>)) || 0;
+            
+            <span class="comment">// 📚 MODULE 7: Join columns use the join parameter</span>
+            <span class="keyword">var</span> availableQty = parseInt(result.getValue({
+                name: <span class="string">'quantityavailable'</span>,
+                join: <span class="string">'custrecord_urk_prod_pref_item'</span>
+            })) || 0;
+            
+            <span class="keyword">var</span> customerEmail = result.getValue({
+                name: <span class="string">'email'</span>,
+                join: <span class="string">'custrecord_urk_prod_pref_customer'</span>
+            });
+            
+            log.debug(<span class="string">'Product Preference'</span>, JSON.stringify({
+                customer: customerName,
+                item: itemName,
+                preferred: preferredQty,
+                available: availableQty,
+                email: customerEmail
+            }));
+            
+            <span class="comment">// Check for shortage</span>
+            <span class="keyword">if</span> (availableQty < preferredQty) {
+                log.audit(<span class="string">'SHORTAGE DETECTED'</span>, 
+                    itemName + <span class="string">' - Need: '</span> + preferredQty + <span class="string">', Have: '</span> + availableQty);
+                
+                <span class="comment">// Create support case (see Exercise 6)</span>
+                createSupportCase(customerId, itemId, itemName, preferredQty, availableQty);
+            }
+            
+            resultCount++;
+            <span class="keyword">return true</span>;  <span class="comment">// Continue to next result (false stops)</span>
+        });
+        
+        log.audit(<span class="string">'Search Complete'</span>, <span class="string">'Processed '</span> + resultCount + <span class="string">' records'</span>);
+    }
+    
+    <span class="comment">/**
+     * Helper: Create Support Case for Shortage
+     * 📚 MODULE 5: Creating records
+     */</span>
+    <span class="keyword">function</span> <span class="function">createSupportCase</span>(customerId, itemId, itemName, preferred, available) {
+        <span class="keyword">var</span> supportCase = record.create({ type: record.Type.SUPPORT_CASE });
+        
+        supportCase.setValue(<span class="string">'title'</span>, <span class="string">'Item low for customer'</span>);
+        supportCase.setValue(<span class="string">'company'</span>, customerId);
+        supportCase.setValue(<span class="string">'incomingmessage'</span>, 
+            <span class="string">'Customer prefers to purchase '</span> + preferred + <span class="string">' x '</span> + itemName + 
+            <span class="string">' but only '</span> + available + <span class="string">' are in stock.'</span>);
+        
+        <span class="keyword">var</span> caseId = supportCase.save();
+        log.audit(<span class="string">'Case Created'</span>, <span class="string">'Case ID: '</span> + caseId);
+    }
+
+    <span class="keyword">return</span> { execute: execute };
+});</code></pre>
+
+<!-- ==================== EXERCISE 7 ==================== -->
+<h2 id="ex7">Exercise 7: Map/Reduce Payment Report</h2>
+<span class="module-ref">📚 Module 9: Map/Reduce Scripts</span>
+
+<div class="scenario-box">
+    <h4>🎯 Scenario</h4>
+    <p>Calculate total deposited and undeposited payments per customer using Map/Reduce for automatic governance handling and parallel processing.</p>
+</div>
+
+<h4>Complete Solution: sdr_mr_payment_report.js</h4>
+<pre><code><span class="comment">/**
+ * @NApiVersion 2.1
+ * @NScriptType MapReduceScript
+ * 
+ * EXERCISE 7: Customer Payment Report
+ * ════════════════════════════════════
+ * 📚 MODULE 9 CONCEPTS:
+ *    - Four M/R stages: getInputData, map, reduce, summarize
+ *    - Automatic governance handling
+ *    - Parallel processing
+ *    - Key-value pair paradigm
+ *    - JSON parsing between stages
+ */</span>
+<span class="keyword">define</span>(['N/search', 'N/log'], <span class="keyword">function</span>(search, log) {
+
+    <span class="comment">/**
+     * STAGE 1: getInputData
+     * ─────────────────────
+     * 📚 MODULE 9: Returns data source for processing
+     * 
+     * Can return:
+     * - Search object (most common)
+     * - Array of objects
+     * - Saved search reference { type: 'search', id: 'customsearch_xxx' }
+     */</span>
+    <span class="keyword">function</span> <span class="function">getInputData</span>() {
+        log.audit(<span class="string">'M/R Started'</span>, <span class="string">'getInputData executing'</span>);
+        
+        <span class="comment">// 📚 MODULE 9: Return search - each result goes to map()</span>
+        <span class="keyword">return</span> search.create({
+            type: <span class="string">'transaction'</span>,
+            filters: [
+                [<span class="string">'type'</span>, <span class="string">'anyof'</span>, <span class="string">'CustPymt'</span>],
+                <span class="string">'AND'</span>,
+                [<span class="string">'mainline'</span>, <span class="string">'is'</span>, <span class="keyword">true</span>]
+            ],
+            columns: [<span class="string">'entity'</span>, <span class="string">'status'</span>, <span class="string">'amount'</span>]
+        });
+        
+        <span class="comment">// Alternative: Reference saved search
+        // return { type: 'search', id: 'customsearch_urk_payments' };</span>
+    }
+
+    <span class="comment">/**
+     * STAGE 2: map
+     * ────────────
+     * 📚 MODULE 9: Process EACH input individually
+     * 
+     * Called once per search result (automatically parallelized)
+     * context.value = JSON string of search result
+     * context.write() = send key-value pair to reduce stage
+     */</span>
+    <span class="keyword">function</span> <span class="function">map</span>(context) {
+        <span class="comment">// 📚 MODULE 9: Parse JSON string from search result</span>
+        <span class="keyword">var</span> searchResult = JSON.parse(context.value);
+        
+        <span class="comment">// Extract values from the search result structure</span>
+        <span class="keyword">var</span> customerId = searchResult.values.entity.value;
+        <span class="keyword">var</span> customerName = searchResult.values.entity.text;
+        <span class="keyword">var</span> status = searchResult.values.status.value;
+        <span class="keyword">var</span> amount = parseFloat(searchResult.values.amount) || 0;
+        
+        <span class="comment">// 📚 MODULE 9: context.write() sends to reduce stage
+        // All values with the SAME KEY go to the SAME reduce() call</span>
+        context.write({
+            key: customerId,
+            value: JSON.stringify({
+                name: customerName,
+                status: status,
+                amount: amount
+            })
+        });
+    }
+
+    <span class="comment">/**
+     * STAGE 3: reduce
+     * ───────────────
+     * 📚 MODULE 9: Process all values for each unique key
+     * 
+     * context.key = the key from map()
+     * context.values = ARRAY of all values written with that key
+     */</span>
+    <span class="keyword">function</span> <span class="function">reduce</span>(context) {
+        <span class="keyword">var</span> customerId = context.key;
+        <span class="keyword">var</span> values = context.values;  <span class="comment">// Array of JSON strings</span>
+        
+        <span class="keyword">var</span> depositedTotal = 0;
+        <span class="keyword">var</span> undepositedTotal = 0;
+        <span class="keyword">var</span> customerName = <span class="string">''</span>;
+        
+        <span class="comment">// 📚 MODULE 9: Loop through all payments for this customer</span>
+        values.forEach(<span class="keyword">function</span>(valueStr) {
+            <span class="keyword">var</span> payment = JSON.parse(valueStr);
+            customerName = payment.name;
+            
+            <span class="keyword">if</span> (payment.status === <span class="string">'deposited'</span>) {
+                depositedTotal += payment.amount;
+            } <span class="keyword">else</span> {
+                undepositedTotal += payment.amount;
+            }
+        });
+        
+        <span class="comment">// Log results for this customer</span>
+        log.audit(<span class="string">'Customer Totals'</span>, 
+            customerName + <span class="string">' | Deposited: $'</span> + depositedTotal.toFixed(2) +
+            <span class="string">' | Undeposited: $'</span> + undepositedTotal.toFixed(2));
+        
+        <span class="comment">// 📚 MODULE 9: Optional - write to summarize stage</span>
+        context.write({
+            key: customerId,
+            value: depositedTotal + undepositedTotal
+        });
+    }
+
+    <span class="comment">/**
+     * STAGE 4: summarize
+     * ──────────────────
+     * 📚 MODULE 9: Final processing, error handling, reporting
+     * 
+     * summary object contains:
+     * - usage, concurrency, yields (statistics)
+     * - inputSummary, mapSummary, reduceSummary (errors)
+     * - output (final key-value pairs from reduce)
+     */</span>
+    <span class="keyword">function</span> <span class="function">summarize</span>(summary) {
+        <span class="comment">// 📚 MODULE 9: Log execution statistics</span>
+        log.audit(<span class="string">'Execution Stats'</span>, JSON.stringify({
+            usage: summary.usage,           <span class="comment">// Total governance used</span>
+            concurrency: summary.concurrency, <span class="comment">// Max parallel threads</span>
+            yields: summary.yields          <span class="comment">// Times script yielded</span>
+        }));
+        
+        <span class="comment">// 📚 MODULE 9: Check for errors in each stage</span>
+        <span class="keyword">if</span> (summary.inputSummary.error) {
+            log.error(<span class="string">'Input Error'</span>, summary.inputSummary.error);
+        }
+        
+        summary.mapSummary.errors.iterator().each(<span class="keyword">function</span>(key, error) {
+            log.error(<span class="string">'Map Error'</span>, <span class="string">'Key: '</span> + key + <span class="string">' Error: '</span> + error);
+            <span class="keyword">return true</span>;
+        });
+        
+        summary.reduceSummary.errors.iterator().each(<span class="keyword">function</span>(key, error) {
+            log.error(<span class="string">'Reduce Error'</span>, <span class="string">'Key: '</span> + key + <span class="string">' Error: '</span> + error);
+            <span class="keyword">return true</span>;
+        });
+        
+        <span class="comment">// 📚 MODULE 9: Process final output</span>
+        <span class="keyword">var</span> grandTotal = 0;
+        summary.output.iterator().each(<span class="keyword">function</span>(key, value) {
+            grandTotal += parseFloat(value) || 0;
+            <span class="keyword">return true</span>;
+        });
+        
+        log.audit(<span class="string">'GRAND TOTAL'</span>, <span class="string">'$'</span> + grandTotal.toFixed(2));
+    }
+
+    <span class="keyword">return</span> {
+        getInputData: getInputData,
+        map: map,
+        reduce: reduce,
+        summarize: summarize
+    };
+});</code></pre>
+
+<!-- ==================== EXERCISE 8 ==================== -->
+<h2 id="ex8">Exercise 8: Sales Order Financing Suitelet</h2>
+<span class="module-ref">📚 Module 12: NetSuite Pages</span>
+
+<div class="scenario-box">
+    <h4>🎯 Scenario</h4>
+    <p>Create a custom form for entering financing information on sales orders. Users are redirected to the Suitelet after saving an order, enter the financing price, and are redirected back.</p>
+</div>
+
+<h4>Complete Solution: sdr_sl_salesorder_finance.js</h4>
+<pre><code><span class="comment">/**
+ * @NApiVersion 2.1
+ * @NScriptType Suitelet
+ * 
+ * EXERCISE 8: Sales Order Financing Form
+ * ═══════════════════════════════════════
+ * 📚 MODULE 12 CONCEPTS:
+ *    - Creating forms with N/ui/serverWidget
+ *    - GET vs POST request handling
+ *    - URL parameters
+ *    - Redirecting users
+ *    - Field types and display types
+ */</span>
+<span class="keyword">define</span>(['N/ui/serverWidget', 'N/record', 'N/redirect', 'N/log'], 
+<span class="keyword">function</span>(serverWidget, record, redirect, log) {
+
+    <span class="comment">/**
+     * onRequest - Main entry point for Suitelets
+     * ───────────────────────────────────────────
+     * 📚 MODULE 12: Handles both GET and POST requests
+     */</span>
+    <span class="keyword">function</span> <span class="function">onRequest</span>(context) {
+        <span class="keyword">var</span> request = context.request;
+        <span class="keyword">var</span> response = context.response;
+        
+        <span class="comment">// 📚 MODULE 12: Check request method</span>
+        <span class="keyword">if</span> (request.method === <span class="string">'GET'</span>) {
+            <span class="comment">// Display the form</span>
+            showForm(context);
+        } <span class="keyword">else</span> {
+            <span class="comment">// Process form submission (POST)</span>
+            processForm(context);
+        }
+    }
+
+    <span class="comment">/**
+     * Display the Financing Form
+     * 📚 MODULE 12: Building custom UI pages
+     */</span>
+    <span class="keyword">function</span> <span class="function">showForm</span>(context) {
+        <span class="keyword">var</span> request = context.request;
+        
+        <span class="comment">// 📚 MODULE 12: Get parameters passed from User Event script</span>
+        <span class="keyword">var</span> orderId = request.parameters.custparam_orderid;
+        <span class="keyword">var</span> orderNum = request.parameters.custparam_ordernum;
+        <span class="keyword">var</span> customerId = request.parameters.custparam_customer;
+        <span class="keyword">var</span> customerName = request.parameters.custparam_customername;
+        <span class="keyword">var</span> total = request.parameters.custparam_total;
+        <span class="keyword">var</span> financingPrice = request.parameters.custparam_financing || <span class="string">''</span>;
+        
+        <span class="comment">// 📚 MODULE 12: Create form with serverWidget.createForm()</span>
+        <span class="keyword">var</span> form = serverWidget.createForm({
+            title: <span class="string">'Sales Order Financing'</span>
+        });
+        
+        <span class="comment">// 📚 MODULE 12: Help text field for instructions</span>
+        form.addField({
+            id: <span class="string">'custpage_help'</span>,  <span class="comment">// MUST start with custpage_</span>
+            type: serverWidget.FieldType.HELP,
+            label: <span class="string">'Please assign a financing price to this sales order, then click Submit.'</span>
+        });
+        
+        <span class="comment">// 📚 MODULE 12: Display-only fields (INLINE type)</span>
+        <span class="keyword">var</span> orderNumField = form.addField({
+            id: <span class="string">'custpage_ordernum'</span>,
+            type: serverWidget.FieldType.TEXT,
+            label: <span class="string">'Order #'</span>
+        });
+        orderNumField.defaultValue = orderNum || <span class="string">'To Be Generated'</span>;
+        orderNumField.updateDisplayType({ displayType: serverWidget.FieldDisplayType.INLINE });
+        
+        <span class="keyword">var</span> customerField = form.addField({
+            id: <span class="string">'custpage_customer'</span>,
+            type: serverWidget.FieldType.TEXT,
+            label: <span class="string">'Customer'</span>
+        });
+        customerField.defaultValue = customerName;
+        customerField.updateDisplayType({ displayType: serverWidget.FieldDisplayType.INLINE });
+        
+        <span class="keyword">var</span> totalField = form.addField({
+            id: <span class="string">'custpage_total'</span>,
+            type: serverWidget.FieldType.CURRENCY,
+            label: <span class="string">'Order Total'</span>
+        });
+        totalField.defaultValue = total;
+        totalField.updateDisplayType({ displayType: serverWidget.FieldDisplayType.INLINE });
+        
+        <span class="comment">// 📚 MODULE 12: Editable field for user input</span>
+        <span class="keyword">var</span> financingField = form.addField({
+            id: <span class="string">'custpage_financing'</span>,
+            type: serverWidget.FieldType.CURRENCY,
+            label: <span class="string">'Financing Price'</span>
+        });
+        financingField.defaultValue = financingPrice;
+        financingField.isMandatory = <span class="keyword">true</span>;
+        
+        <span class="comment">// 📚 MODULE 12: Hidden field to pass order ID to POST</span>
+        <span class="keyword">var</span> orderIdField = form.addField({
+            id: <span class="string">'custpage_orderid'</span>,
+            type: serverWidget.FieldType.TEXT,
+            label: <span class="string">'Order ID'</span>
+        });
+        orderIdField.defaultValue = orderId;
+        orderIdField.updateDisplayType({ displayType: serverWidget.FieldDisplayType.HIDDEN });
+        
+        <span class="comment">// 📚 MODULE 12: Submit button for form submission</span>
+        form.addSubmitButton({ label: <span class="string">'Save Financing Info'</span> });
+        
+        <span class="comment">// 📚 MODULE 12: Write form to response</span>
+        context.response.writePage(form);
+    }
+
+    <span class="comment">/**
+     * Process Form Submission
+     * 📚 MODULE 12: Handling POST requests
+     */</span>
+    <span class="keyword">function</span> <span class="function">processForm</span>(context) {
+        <span class="keyword">var</span> request = context.request;
+        
+        <span class="comment">// 📚 MODULE 12: Get values from submitted form
+        // Use the custpage_ field IDs</span>
+        <span class="keyword">var</span> orderId = request.parameters.custpage_orderid;
+        <span class="keyword">var</span> financingPrice = request.parameters.custpage_financing;
+        
+        log.debug(<span class="string">'Processing Form'</span>, <span class="string">'Order: '</span> + orderId + <span class="string">' | Price: '</span> + financingPrice);
+        
+        <span class="keyword">try</span> {
+            <span class="comment">// 📚 MODULE 5: Load and update the sales order</span>
+            <span class="keyword">var</span> salesOrder = record.load({
+                type: record.Type.SALES_ORDER,
+                id: orderId
+            });
+            
+            salesOrder.setValue({
+                fieldId: <span class="string">'custbody_urk_financing_price'</span>,
+                value: financingPrice
+            });
+            
+            salesOrder.save();
+            
+            log.audit(<span class="string">'Order Updated'</span>, <span class="string">'Financing price set to '</span> + financingPrice);
+            
+        } <span class="keyword">catch</span> (e) {
+            log.error(<span class="string">'Update Failed'</span>, e.message);
+        }
+        
+        <span class="comment">// 📚 MODULE 12: Redirect back to the sales order</span>
+        redirect.toRecord({
+            type: record.Type.SALES_ORDER,
+            id: orderId
+        });
+    }
+
+    <span class="keyword">return</span> { onRequest: onRequest };
+});</code></pre>
+
+<h4>User Event Script to Redirect (sdr_ue_salesorder.js)</h4>
+<pre><code><span class="comment">/**
+ * @NApiVersion 2.1
+ * @NScriptType UserEventScript
+ * 
+ * Redirect to Suitelet after Sales Order save
+ * 📚 MODULE 12: Connecting UE to Suitelet
+ */</span>
+<span class="keyword">define</span>(['N/redirect', 'N/log'], <span class="keyword">function</span>(redirect, log) {
+
+    <span class="keyword">function</span> <span class="function">afterSubmit</span>(context) {
+        <span class="keyword">if</span> (context.type !== context.UserEventType.CREATE && 
+            context.type !== context.UserEventType.EDIT) {
+            <span class="keyword">return</span>;
+        }
+        
+        <span class="keyword">var</span> order = context.newRecord;
+        
+        <span class="comment">// 📚 MODULE 12: redirect.toSuitelet() with parameters</span>
+        redirect.toSuitelet({
+            scriptId: <span class="string">'customscript_urk_sl_salesorder_finance'</span>,
+            deploymentId: <span class="string">'customdeploy_urk_sl_salesorder_finance'</span>,
+            parameters: {
+                <span class="comment">// 📚 MODULE 12: Best practice - prefix with custparam_</span>
+                custparam_orderid: order.id,
+                custparam_ordernum: order.getValue(<span class="string">'tranid'</span>),
+                custparam_customer: order.getValue(<span class="string">'entity'</span>),
+                custparam_customername: order.getText(<span class="string">'entity'</span>),
+                custparam_total: order.getValue(<span class="string">'total'</span>),
+                custparam_financing: order.getValue(<span class="string">'custbody_urk_financing_price'</span>)
+            }
+        });
+    }
+
+    <span class="keyword">return</span> { afterSubmit: afterSubmit };
+});</code></pre>
+
+<!-- ==================== EXERCISE 9 ==================== -->
+<h2 id="ex9">Exercise 9: Coupon Validation RESTlet</h2>
+<span class="module-ref">📚 Module 13: Web Services</span>
+
+<div class="scenario-box">
+    <h4>🎯 Scenario</h4>
+    <p>Hide coupon code validation logic on the server side using a RESTlet. The client script calls the RESTlet to validate coupon codes without exposing valid codes in the browser.</p>
+</div>
+
+<h4>Complete Solution: sdr_rl_coupon_code.js</h4>
+<pre><code><span class="comment">/**
+ * @NApiVersion 2.1
+ * @NScriptType Restlet
+ * 
+ * EXERCISE 9: Coupon Code Validation RESTlet
+ * ═══════════════════════════════════════════
+ * 📚 MODULE 13 CONCEPTS:
+ *    - RESTlet entry points (get, post, put, delete)
+ *    - URL parameters vs request body
+ *    - Calling RESTlets from client scripts
+ *    - Hiding business logic on server
+ */</span>
+<span class="keyword">define</span>(['N/log'], <span class="keyword">function</span>(log) {
+
+    <span class="comment">/**
+     * GET Request Handler
+     * ────────────────────
+     * 📚 MODULE 13: GET requests pass parameters via URL
+     * requestParams object contains URL query parameters
+     */</span>
+    <span class="keyword">function</span> <span class="function">get</span>(requestParams) {
+        <span class="comment">// 📚 MODULE 13: Parameters come directly as object properties</span>
+        <span class="keyword">var</span> couponCode = requestParams.custparam_couponcode;
+        
+        log.debug(<span class="string">'Validating Coupon'</span>, couponCode);
+        
+        <span class="comment">// 📚 SECURITY: Valid codes are hidden on server, not in client JS</span>
+        <span class="keyword">var</span> validCodes = [<span class="string">'ABC12'</span>, <span class="string">'XYZ99'</span>, <span class="string">'SAVE5'</span>];
+        
+        <span class="keyword">if</span> (validCodes.indexOf(couponCode) !== -1) {
+            <span class="keyword">return</span> <span class="string">'valid'</span>;
+        } <span class="keyword">else</span> {
+            <span class="keyword">return</span> <span class="string">'invalid'</span>;
+        }
+    }
+
+    <span class="comment">/**
+     * POST Request Handler
+     * ─────────────────────
+     * 📚 MODULE 13: POST requests pass data in request body
+     */</span>
+    <span class="keyword">function</span> <span class="function">post</span>(requestBody) {
+        <span class="comment">// requestBody is already parsed JSON object</span>
+        <span class="keyword">var</span> couponCode = requestBody.couponCode;
+        <span class="keyword">var</span> customerId = requestBody.customerId;
+        
+        log.debug(<span class="string">'POST Validation'</span>, JSON.stringify(requestBody));
+        
+        <span class="comment">// More complex validation logic could go here</span>
+        <span class="keyword">return</span> {
+            success: <span class="keyword">true</span>,
+            valid: couponCode === <span class="string">'ABC12'</span>,
+            message: couponCode === <span class="string">'ABC12'</span> ? <span class="string">'Coupon applied!'</span> : <span class="string">'Invalid coupon'</span>
+        };
+    }
+
+    <span class="keyword">return</span> {
+        get: get,
+        post: post
+    };
+});</code></pre>
+
+<h4>Calling the RESTlet from Client Script</h4>
+<pre><code><span class="comment">/**
+ * Client Script - Calling RESTlet
+ * 📚 MODULE 13: Use N/https and N/url modules
+ */</span>
+<span class="keyword">define</span>(['N/https', 'N/url', 'N/log'], <span class="keyword">function</span>(https, url, log) {
+
+    <span class="keyword">function</span> <span class="function">validateField</span>(context) {
+        <span class="keyword">if</span> (context.fieldId !== <span class="string">'custentity_urk_coupon_code'</span>) {
+            <span class="keyword">return true</span>;
+        }
+        
+        <span class="keyword">var</span> rec = context.currentRecord;
+        <span class="keyword">var</span> couponCode = rec.getValue(<span class="string">'custentity_urk_coupon_code'</span>);
+        
+        <span class="keyword">if</span> (!couponCode) <span class="keyword">return true</span>;
+        
+        <span class="comment">// 📚 MODULE 13: Build RESTlet URL dynamically</span>
+        <span class="keyword">var</span> restletUrl = url.resolveScript({
+            scriptId: <span class="string">'customscript_urk_rl_coupon_code'</span>,
+            deploymentId: <span class="string">'customdeploy_urk_rl_coupon_code'</span>
+        });
+        
+        <span class="comment">// 📚 MODULE 13: Append parameters for GET request</span>
+        restletUrl += <span class="string">'&custparam_couponcode='</span> + encodeURIComponent(couponCode);
+        
+        <span class="comment">// 📚 MODULE 13: Call RESTlet with https.get()</span>
+        <span class="keyword">var</span> response = https.get({ url: restletUrl });
+        
+        <span class="keyword">if</span> (response.body === <span class="string">'invalid'</span>) {
+            alert(<span class="string">'Invalid coupon code. Please try again.'</span>);
+            <span class="keyword">return false</span>;
+        }
+        
+        <span class="keyword">return true</span>;
+    }
+
+    <span class="keyword">return</span> { validateField: validateField };
+});</code></pre>
+
+<!-- ==================== EXERCISE 10 ==================== -->
+<h2 id="ex10">Exercise 10: Workflow Action Script</h2>
+<span class="module-ref">📚 Module 11: Workflow Action Scripts</span>
+
+<div class="scenario-box">
+    <h4>🎯 Scenario</h4>
+    <p>Extend a Sales Order approval workflow with a custom action that updates the related customer record with order information.</p>
+</div>
+
+<h4>Complete Solution: sdr_wf_update_customer.js</h4>
+<pre><code><span class="comment">/**
+ * @NApiVersion 2.1
+ * @NScriptType WorkflowActionScript
+ * 
+ * EXERCISE 10: Update Customer from Workflow
+ * ═══════════════════════════════════════════
+ * 📚 MODULE 11 CONCEPTS:
+ *    - Workflow Action Script type
+ *    - Getting record from workflow context
+ *    - Passing data via workflow parameters
+ *    - Returning values for workflow branching
+ */</span>
+<span class="keyword">define</span>(['N/record', 'N/runtime', 'N/log'], <span class="keyword">function</span>(record, runtime, log) {
+
+    <span class="comment">/**
+     * onAction - Entry point for Workflow Action Scripts
+     * ───────────────────────────────────────────────────
+     * 📚 MODULE 11: Triggered when workflow reaches this action
+     * 
+     * Return value can be used for workflow branching
+     */</span>
+    <span class="keyword">function</span> <span class="function">onAction</span>(context) {
+        <span class="comment">// 📚 MODULE 11: Get the record that triggered the workflow</span>
+        <span class="keyword">var</span> salesOrder = context.newRecord;
+        <span class="keyword">var</span> orderId = salesOrder.id;
+        
+        <span class="comment">// 📚 MODULE 10: Get script parameter passed from workflow</span>
+        <span class="keyword">var</span> script = runtime.getCurrentScript();
+        <span class="keyword">var</span> orderDate = script.getParameter({ 
+            name: <span class="string">'custscript_urk_order_date'</span> 
+        });
+        
+        <span class="comment">// Get values from sales order</span>
+        <span class="keyword">var</span> customerId = salesOrder.getValue(<span class="string">'entity'</span>);
+        <span class="keyword">var</span> lineCount = salesOrder.getLineCount({ sublistId: <span class="string">'item'</span> });
+        
+        <span class="comment">// Build notes string</span>
+        <span class="keyword">var</span> notes = <span class="string">'Last Order Date: '</span> + orderDate + <span class="string">'\\n'</span>;
+        notes += <span class="string">'Unique items ordered: '</span> + lineCount;
+        
+        log.debug(<span class="string">'Updating Customer'</span>, <span class="string">'ID: '</span> + customerId + <span class="string">' | Notes: '</span> + notes);
+        
+        <span class="keyword">try</span> {
+            <span class="comment">// Load and update customer</span>
+            <span class="keyword">var</span> customer = record.load({
+                type: record.Type.CUSTOMER,
+                id: customerId
+            });
+            
+            customer.setValue({
+                fieldId: <span class="string">'comments'</span>,
+                value: notes
+            });
+            
+            <span class="keyword">var</span> savedId = customer.save();
+            
+            log.audit(<span class="string">'Customer Updated'</span>, <span class="string">'Saved ID: '</span> + savedId);
+            
+            <span class="comment">// 📚 MODULE 11: Return value for workflow branching</span>
+            <span class="keyword">return</span> <span class="string">'SUCCESS'</span>;
+            
+        } <span class="keyword">catch</span> (e) {
+            log.error(<span class="string">'Update Failed'</span>, e.message);
+            <span class="keyword">return</span> <span class="string">'FAILED'</span>;
+        }
+    }
+
+    <span class="keyword">return</span> { onAction: onAction };
+});</code></pre>
+
+<div class="info-box yellow">
+    <strong>⚠️ Workflow Setup Required</strong>
+    <ol>
+        <li>Create workflow at Customization → Workflow → Workflows</li>
+        <li>Add a State with the custom action</li>
+        <li>Set TRIGGER ON to "After Record Submit"</li>
+        <li>Create script parameter in the script record</li>
+        <li>Map parameter in workflow action (VALUE FIELD = Date)</li>
+        <li>Set STORE RESULTS IN to a state field for branching</li>
+    </ol>
+</div>
+
+<div class="nav-buttons">
+    <a href="Appendix-A-Code-Examples.html" class="nav-btn">← Appendix A: Code Reference</a>
+    <a href="Master-Dashboard.html" class="back-btn">Dashboard</a>
+</div>
+
+</div>
+</div>
+</body>
+</html>

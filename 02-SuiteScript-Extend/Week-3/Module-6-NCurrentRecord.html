@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 6: N/currentRecord Module - SuiteScript Learning Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%); --dark-bg: #1a1a2e; --card-bg: #16213e; --text-primary: #ffffff; --text-secondary: #a0aec0; --border-color: rgba(255,255,255,0.1); --purple: #9f7aea; --success: #48bb78; --warning: #ecc94b; --info: #4299e1; --code-bg: #0d1117; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--dark-bg); color: var(--text-primary); min-height: 100vh; line-height: 1.7; }
+        .nav-bar { background: var(--card-bg); padding: 15px 20px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+        .nav-bar a { color: var(--purple); text-decoration: none; }
+        .header { background: var(--primary-gradient); padding: 50px 20px; }
+        .header-content { max-width: 900px; margin: 0 auto; }
+        .header .module-tag { display: inline-block; background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 20px; font-size: 0.85rem; margin-bottom: 15px; }
+        .header h1 { font-size: 2.2rem; margin-bottom: 10px; }
+        .header p { font-size: 1.1rem; opacity: 0.9; }
+        .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+        .content-section { margin-bottom: 40px; }
+        .content-section h2 { font-size: 1.5rem; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid var(--border-color); }
+        .content-section h3 { font-size: 1.2rem; margin: 25px 0 15px 0; color: var(--purple); }
+        .content-section p { margin-bottom: 15px; color: var(--text-secondary); }
+        .info-box { border-radius: 10px; padding: 20px; margin: 20px 0; }
+        .info-box.blue { background: rgba(66, 153, 225, 0.15); border: 1px solid rgba(66, 153, 225, 0.3); }
+        .info-box.green { background: rgba(72, 187, 120, 0.15); border: 1px solid rgba(72, 187, 120, 0.3); }
+        .info-box.yellow { background: rgba(236, 201, 75, 0.15); border: 1px solid rgba(236, 201, 75, 0.3); }
+        .info-box.purple { background: rgba(159, 122, 234, 0.15); border: 1px solid rgba(159, 122, 234, 0.3); }
+        .info-box h4 { margin-bottom: 10px; }
+        .info-box p { margin-bottom: 0; font-size: 0.95rem; }
+        pre { background: var(--code-bg); border-radius: 10px; padding: 20px; overflow-x: auto; margin: 20px 0; border: 1px solid var(--border-color); }
+        code { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; line-height: 1.6; }
+        .inline-code { background: var(--code-bg); padding: 2px 8px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--purple); }
+        .comment { color: #6a9955; }
+        .keyword { color: #569cd6; }
+        .string { color: #ce9178; }
+        .function { color: #dcdcaa; }
+        .property { color: #9cdcfe; }
+        .concept-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        .concept-table th, .concept-table td { padding: 12px 15px; text-align: left; border: 1px solid var(--border-color); }
+        .concept-table th { background: var(--card-bg); font-weight: 600; color: var(--purple); }
+        .concept-table td { color: var(--text-secondary); }
+        .key-takeaways { background: var(--card-bg); border-radius: 12px; padding: 25px; margin-top: 40px; border: 1px solid var(--border-color); }
+        .key-takeaways h3 { margin-bottom: 15px; }
+        .key-takeaways ul { list-style: none; }
+        .key-takeaways li { padding: 8px 0; padding-left: 25px; position: relative; color: var(--text-secondary); }
+        .key-takeaways li::before { content: '✓'; position: absolute; left: 0; color: var(--success); }
+        .nav-footer { display: flex; justify-content: space-between; margin-top: 50px; padding-top: 30px; border-top: 1px solid var(--border-color); flex-wrap: wrap; gap: 10px; }
+        .nav-footer a { color: var(--purple); text-decoration: none; }
+    </style>
+</head>
+<body>
+    <nav class="nav-bar">
+        <a href="week-3-dashboard.html">← Week 3 Dashboard</a>
+        <div style="display: flex; gap: 15px;">
+            <a href="Module-5-NRecord.html">← Module 5</a>
+            <a href="../Week-4/week-4-dashboard.html">Week 4 →</a>
+        </div>
+    </nav>
+
+    <header class="header">
+        <div class="header-content">
+            <span class="module-tag">Week 3 • Module 6</span>
+            <h1>N/currentRecord Module</h1>
+            <p>Client-side record manipulation for real-time UI updates</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="content-section">
+            <h2>🌐 Client-Side vs Server-Side</h2>
+            <p>The key difference between <span class="inline-code">N/record</span> and <span class="inline-code">N/currentRecord</span>:</p>
+
+            <table class="concept-table">
+                <thead>
+                    <tr>
+                        <th>N/record</th>
+                        <th>N/currentRecord</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Server-side execution</td>
+                        <td>Client-side (browser) execution</td>
+                    </tr>
+                    <tr>
+                        <td>Consumes governance units</td>
+                        <td>No governance consumption</td>
+                    </tr>
+                    <tr>
+                        <td>User sees nothing until save</td>
+                        <td>Updates appear in real-time</td>
+                    </tr>
+                    <tr>
+                        <td>Used in User Event, Scheduled, Map/Reduce</td>
+                        <td>Used in Client Scripts only</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="info-box blue">
+                <h4>💡 Why It Matters</h4>
+                <p>Client Scripts provide instant feedback. When a user changes a field, you can immediately validate, calculate, or update other fields without waiting for a server round-trip.</p>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>🔧 Getting the Current Record</h2>
+            <p>In Client Scripts, you access the record the user is viewing via <span class="inline-code">currentRecord.get()</span>:</p>
+
+            <pre><code><span class="keyword">define</span>([<span class="string">'N/currentRecord'</span>],
+    <span class="keyword">function</span>(currentRecord) {
+        
+        <span class="keyword">function</span> <span class="function">pageInit</span>(context) {
+            <span class="comment">// Access through context in entry points</span>
+            <span class="keyword">const</span> <span class="property">rec</span> = context.currentRecord;
+            <span class="keyword">const</span> <span class="property">customerId</span> = rec.<span class="function">getValue</span>({ fieldId: <span class="string">'entity'</span> });
+        }
+        
+        <span class="keyword">function</span> <span class="function">customButtonHandler</span>() {
+            <span class="comment">// Outside entry points, use currentRecord.get()</span>
+            <span class="keyword">const</span> <span class="property">rec</span> = currentRecord.<span class="function">get</span>();
+            <span class="keyword">const</span> <span class="property">memo</span> = rec.<span class="function">getValue</span>({ fieldId: <span class="string">'memo'</span> });
+        }
+        
+        <span class="keyword">return</span> {
+            pageInit: pageInit
+        };
+    }
+);</code></pre>
+
+            <div class="info-box yellow">
+                <h4>⚠️ Two Ways to Access</h4>
+                <p>Inside entry points (pageInit, fieldChanged, etc.), use <span class="inline-code">context.currentRecord</span>. In custom functions called by buttons or other handlers, use <span class="inline-code">currentRecord.get()</span>.</p>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>📝 Reading and Writing Fields</h2>
+            <p>The same methods as N/record, but changes appear immediately in the UI:</p>
+
+            <pre><code><span class="keyword">function</span> <span class="function">fieldChanged</span>(context) {
+    <span class="keyword">const</span> <span class="property">rec</span> = context.currentRecord;
+    <span class="keyword">const</span> <span class="property">fieldId</span> = context.fieldId;
+    
+    <span class="keyword">if</span> (fieldId === <span class="string">'quantity'</span>) {
+        <span class="keyword">const</span> <span class="property">qty</span> = rec.<span class="function">getValue</span>({ fieldId: <span class="string">'quantity'</span> });
+        <span class="keyword">const</span> <span class="property">rate</span> = rec.<span class="function">getValue</span>({ fieldId: <span class="string">'rate'</span> });
+        
+        <span class="comment">// Calculate and set the amount - user sees it instantly</span>
+        rec.<span class="function">setValue</span>({
+            fieldId: <span class="string">'amount'</span>,
+            value: qty * rate
+        });
+    }
+}</code></pre>
+        </section>
+
+        <section class="content-section">
+            <h2>📊 Sublist Operations</h2>
+            <p>Working with sublists in Client Scripts requires the dynamic pattern:</p>
+
+            <h3>Selecting a Line</h3>
+            <pre><code><span class="comment">// Select line 0 (first line) of the item sublist</span>
+rec.<span class="function">selectLine</span>({
+    sublistId: <span class="string">'item'</span>,
+    line: 0
+});</code></pre>
+
+            <h3>Setting Current Sublist Value</h3>
+            <pre><code><span class="comment">// After selecting a line, modify it</span>
+rec.<span class="function">setCurrentSublistValue</span>({
+    sublistId: <span class="string">'item'</span>,
+    fieldId: <span class="string">'quantity'</span>,
+    value: 5
+});</code></pre>
+
+            <h3>Committing the Line</h3>
+            <pre><code><span class="comment">// Save changes to the selected line</span>
+rec.<span class="function">commitLine</span>({
+    sublistId: <span class="string">'item'</span>
+});</code></pre>
+
+            <div class="info-box green">
+                <h4>✅ Dynamic Mode Pattern</h4>
+                <p>Client-side sublists always work in dynamic mode: <strong>Select → Modify → Commit</strong>. This mirrors how users interact with sublists in the UI.</p>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>🧪 Practical Example: Memo Field Validation</h2>
+            <p>This example from the training replaces "bad" with a smiley face when the user exits the memo field:</p>
+
+            <pre><code><span class="comment">/**
+ * @NApiVersion 2.1
+ * @NScriptType ClientScript
+ */</span>
+<span class="keyword">define</span>([<span class="string">'N/currentRecord'</span>],
+    <span class="keyword">function</span>(currentRecord) {
+        
+        <span class="keyword">function</span> <span class="function">validateField</span>(context) {
+            <span class="keyword">const</span> <span class="property">rec</span> = context.currentRecord;
+            <span class="keyword">const</span> <span class="property">fieldId</span> = context.fieldId;
+            
+            <span class="keyword">if</span> (fieldId === <span class="string">'memo'</span>) {
+                <span class="keyword">let</span> <span class="property">memoValue</span> = rec.<span class="function">getValue</span>({ fieldId: <span class="string">'memo'</span> });
+                
+                <span class="keyword">if</span> (memoValue && memoValue.<span class="function">includes</span>(<span class="string">'bad'</span>)) {
+                    memoValue = memoValue.<span class="function">replace</span>(<span class="string">'bad'</span>, <span class="string">':)'</span>);
+                    rec.<span class="function">setValue</span>({
+                        fieldId: <span class="string">'memo'</span>,
+                        value: memoValue
+                    });
+                }
+            }
+            
+            <span class="keyword">return</span> <span class="keyword">true</span>; <span class="comment">// Allow field change</span>
+        }
+        
+        <span class="keyword">return</span> {
+            validateField: validateField
+        };
+    }
+);</code></pre>
+
+            <div class="info-box purple">
+                <h4>📚 Entry Point: validateField</h4>
+                <p><span class="inline-code">validateField</span> runs when the user exits a field. Return <span class="inline-code">true</span> to accept the change, <span class="inline-code">false</span> to reject it and keep focus on the field.</p>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>🧪 Testing in the Console</h2>
+            <p>You can test N/currentRecord directly in the browser console while viewing a record:</p>
+
+            <pre><code><span class="comment">// Open browser DevTools (F12) while on a record</span>
+<span class="comment">// Paste this to load the module:</span>
+require([<span class="string">'N/currentRecord'</span>], <span class="keyword">function</span>(currentRecord) {
+    <span class="keyword">const</span> <span class="property">rec</span> = currentRecord.<span class="function">get</span>();
+    console.<span class="function">log</span>(<span class="string">'Record Type:'</span>, rec.type);
+    console.<span class="function">log</span>(<span class="string">'Record ID:'</span>, rec.id);
+    console.<span class="function">log</span>(<span class="string">'Entity:'</span>, rec.<span class="function">getValue</span>({ fieldId: <span class="string">'entity'</span> }));
+});</code></pre>
+
+            <div class="info-box blue">
+                <h4>💡 Development Tip</h4>
+                <p>Use console testing to explore field IDs, test getValue/setValue, and prototype logic before writing full scripts.</p>
+            </div>
+        </section>
+
+        <section class="content-section" style="background: rgba(66, 153, 225, 0.1); border: 1px solid rgba(66, 153, 225, 0.2); border-radius: 12px; padding: 25px; margin: 30px 0;">
+            <h2 style="border: none; padding: 0; margin-bottom: 15px;">📖 Finding This in the Docs</h2>
+            <p>To look up N/currentRecord methods:</p>
+            <ol style="margin-left: 20px; color: var(--text-secondary);">
+                <li style="margin-bottom: 8px;">Go to <strong>docs.oracle.com</strong> → SuiteScript 2.x Modules</li>
+                <li style="margin-bottom: 8px;">Click on <strong>N/currentRecord Module</strong></li>
+                <li style="margin-bottom: 8px;">Review the currentRecord.get() method and CurrentRecord object members</li>
+            </ol>
+            <p style="margin-top: 15px;"><strong>Key pages to bookmark:</strong></p>
+            <ul style="margin-left: 20px; color: var(--text-secondary);">
+                <li>currentRecord.get() → accessing record in client scripts</li>
+                <li>CurrentRecord.getValue / setValue → reading/writing fields</li>
+                <li>CurrentRecord.selectLine / commitLine → sublist operations</li>
+                <li>CurrentRecord.setCurrentSublistValue → dynamic mode sublist edits</li>
+                <li>Client Script Type → entry points that receive context.currentRecord</li>
+            </ul>
+        </section>
+
+        <div class="key-takeaways">
+            <h3>🎯 Key Takeaways</h3>
+            <ul>
+                <li><span class="inline-code">N/currentRecord</span> is for Client Scripts only—runs in the browser</li>
+                <li>No governance consumption—changes happen client-side</li>
+                <li>Use <span class="inline-code">context.currentRecord</span> in entry points, <span class="inline-code">currentRecord.get()</span> elsewhere</li>
+                <li>Sublist pattern: <span class="inline-code">selectLine()</span> → <span class="inline-code">setCurrentSublistValue()</span> → <span class="inline-code">commitLine()</span></li>
+                <li><span class="inline-code">validateField</span> returns true/false to accept/reject field changes</li>
+                <li>Test using browser console with <span class="inline-code">require(['N/currentRecord'], ...)</span></li>
+            </ul>
+        </div>
+
+        <nav class="nav-footer">
+            <a href="Module-5-NRecord.html">← Module 5: N/record</a>
+            <a href="../Week-4/week-4-dashboard.html">Week 4: Data Retrieval →</a>
+        </nav>
+    </main>
+</body>
+</html>

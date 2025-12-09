@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 4: Understanding Entry Points</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.8;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:40px 20px}
+        .container{max-width:900px;margin:0 auto}
+        .header{background:white;padding:30px 40px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.2);margin-bottom:30px}
+        .header h1{color:#2563eb;font-size:2rem;margin-bottom:10px}
+        .header .meta{color:#6b7280;font-size:0.9rem}
+        .content{background:white;padding:40px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.2)}
+        .content h2{color:#1e40af;margin:35px 0 20px 0;font-size:1.6rem;padding-bottom:10px;border-bottom:3px solid #dbeafe}
+        .content h2:first-of-type{margin-top:0}
+        .content h3{color:#374151;margin:25px 0 15px 0;font-size:1.3rem}
+        .content p{margin:15px 0;color:#374151;line-height:1.9}
+        .content ul,.content ol{margin:15px 0 15px 30px;color:#374151}
+        .content li{margin:10px 0;line-height:1.7}
+        .info-box{padding:20px 25px;border-radius:8px;margin:25px 0;border-left:5px solid}
+        .info-box.blue{background:#dbeafe;border-color:#2563eb}
+        .info-box.yellow{background:#fef3c7;border-color:#f59e0b}
+        .info-box.green{background:#dcfce7;border-color:#10b981}
+        .info-box.red{background:#fee2e2;border-color:#ef4444}
+        .info-box.purple{background:#f3e8ff;border-color:#9333ea}
+        .info-box strong{color:#1e40af;display:block;margin-bottom:10px;font-size:1.1rem}
+        code{background:#f3f4f6;padding:3px 8px;border-radius:4px;font-family:'Courier New',monospace;font-size:0.9em;color:#ef4444}
+        pre{background:#1e293b;color:#e2e8f0;padding:25px;border-radius:8px;overflow-x:auto;margin:25px 0;border-left:5px solid #667eea}
+        pre code{background:none;padding:0;color:inherit}
+        .takeaway{background:#f0f9ff;border:2px solid #0ea5e9;border-radius:10px;padding:25px;margin:30px 0}
+        .takeaway h3{color:#0369a1;margin:0 0 15px 0}
+        .takeaway ul{margin:10px 0 10px 25px}
+        .takeaway li{color:#0c4a6e;font-weight:500}
+        .nav-buttons{display:flex;justify-content:space-between;margin-top:40px;gap:20px}
+        .back-btn,.next-btn{padding:14px 28px;border-radius:8px;text-decoration:none;font-weight:600;transition:all 0.3s}
+        .back-btn{background:#6b7280;color:white}
+        .next-btn{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:white}
+        .back-btn:hover,.next-btn:hover{transform:translateY(-2px);opacity:0.95}
+        table{width:100%;border-collapse:collapse;margin:20px 0}
+        table th,table td{padding:12px;text-align:left;border-bottom:1px solid #e5e7eb}
+        table th{background:#f3f4f6;color:#1e40af;font-weight:600}
+        .toc{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:20px;margin-bottom:30px}
+        .toc h3{color:#1e40af;margin-bottom:15px;font-size:1.1rem}
+        .toc ul{list-style:none;margin:0;padding:0}
+        .toc li{margin:8px 0}
+        .toc a{color:#2563eb;text-decoration:none}
+        .toc a:hover{text-decoration:underline}
+        .comparison{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:20px 0}
+        .comparison>div{padding:20px;border-radius:8px}
+        .do-this{background:#dcfce7;border:2px solid #10b981}
+        .not-this{background:#fee2e2;border:2px solid #ef4444}
+        .comparison h4{margin:0 0 10px 0;font-size:1rem}
+        @media(max-width:600px){.comparison{grid-template-columns:1fr}}
+    </style>
+</head>
+<body>
+<div class="container">
+<div class="header">
+    <h1>Module 4: Understanding Entry Points</h1>
+    <p class="meta">Week 3 • NetSuite SuiteScript 2.0 Training • ~60 minutes</p>
+</div>
+<div class="content">
+
+<div class="toc">
+    <h3>📑 In This Module</h3>
+    <ul>
+        <li><a href="#objectives">Learning Objectives</a></li>
+        <li><a href="#what-are">1. What Are Entry Points?</a></li>
+        <li><a href="#execution-flow">2. The Complete Execution Flow</a></li>
+        <li><a href="#client-side">3. Client-Side Entry Points</a></li>
+        <li><a href="#server-side">4. Server-Side Entry Points</a></li>
+        <li><a href="#before-after">5. beforeSubmit vs afterSubmit</a></li>
+        <li><a href="#debugging">6. Debugging Client-Side Scripts</a></li>
+        <li><a href="#practice">Practice Exercises</a></li>
+    </ul>
+</div>
+
+<h2 id="objectives">🎯 Learning Objectives</h2>
+<p>By the end of this module, you will be able to:</p>
+<ul>
+    <li>Understand what entry points are and when each triggers</li>
+    <li>Distinguish between client-side and server-side entry points</li>
+    <li>Map user actions to specific entry point functions</li>
+    <li>Choose the right entry point for your automation needs</li>
+    <li>Debug client-side scripts using browser developer tools</li>
+    <li>Understand the complete record lifecycle from load to save</li>
+</ul>
+
+<h2 id="what-are">1. What Are Entry Points?</h2>
+
+<p>An <strong>entry point</strong> is a trigger that determines when your script executes. Think of entry points as "hooks" that NetSuite provides for you to insert your custom logic at specific moments during user interactions.</p>
+
+<div class="info-box blue">
+    <strong>💡 Key Concept</strong>
+    <p>Every entry point is tied to a specific user action or system event. Understanding when each triggers is crucial for placing your code in the right location.</p>
+</div>
+
+<h3>The Two Environments</h3>
+<table>
+    <tr><th>Environment</th><th>Runs On</th><th>Script Types</th><th>Key Characteristic</th></tr>
+    <tr><td><strong>Client-Side</strong></td><td>User's browser</td><td>Client Script</td><td>User is interacting with form</td></tr>
+    <tr><td><strong>Server-Side</strong></td><td>NetSuite servers</td><td>User Event, Scheduled, Map/Reduce, etc.</td><td>Processing on backend</td></tr>
+</table>
+
+<h2 id="execution-flow">2. The Complete Execution Flow</h2>
+
+<p>When a user interacts with a record, entry points fire in a specific order:</p>
+
+<pre><code>User opens record
+    │
+    ▼
+┌─────────────────┐
+│  beforeLoad     │ ← Server-side (User Event)
+└────────┬────────┘
+         │
+    ▼ (Page loads in browser)
+┌─────────────────┐
+│    pageInit     │ ← Client-side (runs once when page loads)
+└────────┬────────┘
+         │
+    User makes changes...
+         │
+┌─────────────────┐
+│  fieldChanged   │ ← Client-side (each field change)
+│  validateField  │
+│  postSourcing   │
+└────────┬────────┘
+         │
+    User clicks Save
+         │
+┌─────────────────┐
+│   saveRecord    │ ← Client-side (can cancel save)
+└────────┬────────┘
+         │
+    Data sent to server
+         │
+┌─────────────────┐
+│  beforeSubmit   │ ← Server-side (before database write)
+└────────┬────────┘
+         │
+    Record saved to database
+         │
+┌─────────────────┐
+│  afterSubmit    │ ← Server-side (after database write)
+└─────────────────┘</code></pre>
+
+<div class="info-box yellow">
+    <strong>⚠️ Critical Understanding</strong>
+    <p>Client-side scripts only run when the user is <em>directly interacting</em> with the form (create, edit, copy). They do NOT run when viewing a record or when records are modified via other means (imports, workflows, other scripts).</p>
+</div>
+
+<h2 id="client-side">3. Client-Side Entry Points</h2>
+
+<h3>pageInit</h3>
+<p>Fires once when the page completely loads. Use for initial setup.</p>
+
+<pre><code>/**
+ * @NScriptType ClientScript
+ */
+define(['N/log'], function(log) {
+    
+    function pageInit(context) {
+        // context.mode = 'create', 'edit', or 'copy'
+        log.debug('Page Init', 'Mode: ' + context.mode);
+        
+        if (context.mode === 'create') {
+            // Set default values for new records
+            context.currentRecord.setValue({
+                fieldId: 'custbody_source',
+                value: 'Web'
+            });
+        }
+    }
+    
+    return { pageInit: pageInit };
+});</code></pre>
+
+<h3>fieldChanged</h3>
+<p>Fires after a field value changes and the user moves to another field.</p>
+
+<pre><code>function fieldChanged(context) {
+    var fieldId = context.fieldId;
+    var currentRecord = context.currentRecord;
+    
+    if (fieldId === 'custbody_discount_pct') {
+        var discount = currentRecord.getValue('custbody_discount_pct');
+        var subtotal = currentRecord.getValue('subtotal');
+        
+        // Calculate and set discount amount
+        currentRecord.setValue({
+            fieldId: 'custbody_discount_amt',
+            value: subtotal * (discount / 100)
+        });
+    }
+}</code></pre>
+
+<h3>validateField</h3>
+<p>Fires before leaving a field. Return <code>false</code> to keep focus on the field.</p>
+
+<pre><code>function validateField(context) {
+    if (context.fieldId === 'custbody_discount_pct') {
+        var discount = context.currentRecord.getValue('custbody_discount_pct');
+        
+        if (discount > 50) {
+            alert('Discount cannot exceed 50%');
+            return false; // Keeps cursor in field
+        }
+    }
+    return true; // Allow leaving field
+}</code></pre>
+
+<h3>saveRecord</h3>
+<p>Fires when user clicks Save. Return <code>false</code> to cancel the save.</p>
+
+<pre><code>function saveRecord(context) {
+    var rec = context.currentRecord;
+    var email = rec.getValue('email');
+    
+    if (!email) {
+        alert('Email is required!');
+        return false; // Cancels save
+    }
+    
+    return true; // Allows save to proceed
+}</code></pre>
+
+<h3>Complete Client Script Entry Points</h3>
+<table>
+    <tr><th>Entry Point</th><th>Triggers When</th><th>Return Value</th></tr>
+    <tr><td><code>pageInit</code></td><td>Page loads</td><td>None</td></tr>
+    <tr><td><code>fieldChanged</code></td><td>Field value changes</td><td>None</td></tr>
+    <tr><td><code>postSourcing</code></td><td>After sourcing completes</td><td>None</td></tr>
+    <tr><td><code>validateField</code></td><td>Before leaving field</td><td>Boolean</td></tr>
+    <tr><td><code>lineInit</code></td><td>Sublist line selected</td><td>None</td></tr>
+    <tr><td><code>validateLine</code></td><td>Before committing line</td><td>Boolean</td></tr>
+    <tr><td><code>validateInsert</code></td><td>Before inserting line</td><td>Boolean</td></tr>
+    <tr><td><code>validateDelete</code></td><td>Before deleting line</td><td>Boolean</td></tr>
+    <tr><td><code>sublistChanged</code></td><td>After sublist change</td><td>None</td></tr>
+    <tr><td><code>saveRecord</code></td><td>Before save</td><td>Boolean</td></tr>
+</table>
+
+<h2 id="server-side">4. Server-Side Entry Points (User Event)</h2>
+
+<h3>beforeLoad</h3>
+<p>Fires before the record is displayed to the user. Use for UI modifications.</p>
+
+<pre><code>function beforeLoad(context) {
+    // context.type tells us what the user is doing
+    if (context.type === context.UserEventType.VIEW) {
+        // Hide a button when viewing
+        context.form.removeButton('custpage_approve');
+    }
+    
+    if (context.type === context.UserEventType.CREATE) {
+        // Add a custom button
+        context.form.addButton({
+            id: 'custpage_validate',
+            label: 'Validate Address',
+            functionName: 'validateAddress'
+        });
+    }
+}</code></pre>
+
+<h3>beforeSubmit</h3>
+<p>Fires after user submits but BEFORE saving to database. Use for validation and data cleanup.</p>
+
+<pre><code>function beforeSubmit(context) {
+    var newRecord = context.newRecord;
+    
+    // Validate data before it's saved
+    var total = newRecord.getValue('total');
+    if (total > 100000) {
+        throw Error('Orders over $100,000 require manager approval');
+    }
+    
+    // Clean up data
+    var phone = newRecord.getValue('phone');
+    newRecord.setValue({
+        fieldId: 'phone',
+        value: phone.replace(/[^0-9]/g, '') // Remove non-digits
+    });
+}</code></pre>
+
+<h3>afterSubmit</h3>
+<p>Fires AFTER the record is saved to database. Use for follow-up actions.</p>
+
+<pre><code>function afterSubmit(context) {
+    if (context.type !== context.UserEventType.CREATE) return;
+    
+    var newRecord = context.newRecord;
+    var customerId = newRecord.getValue('entity');
+    
+    // Send welcome email to new customer
+    email.send({
+        author: -5, // Employee ID
+        recipients: customerId,
+        subject: 'Order Confirmation',
+        body: 'Thank you for your order #' + newRecord.id
+    });
+}</code></pre>
+
+<h2 id="before-after">5. beforeSubmit vs afterSubmit</h2>
+
+<p>This is one of the most important distinctions to understand:</p>
+
+<div class="comparison">
+    <div class="do-this">
+        <h4>✅ Use beforeSubmit For:</h4>
+        <ul>
+            <li>Data validation</li>
+            <li>Field value cleanup/formatting</li>
+            <li>Setting calculated values</li>
+            <li>Preventing invalid saves</li>
+            <li>Anything that should block the save</li>
+        </ul>
+    </div>
+    <div class="do-this">
+        <h4>✅ Use afterSubmit For:</h4>
+        <ul>
+            <li>Sending notifications/emails</li>
+            <li>Creating related records</li>
+            <li>External API calls</li>
+            <li>Logging/auditing</li>
+            <li>Actions that need the record ID</li>
+        </ul>
+    </div>
+</div>
+
+<div class="info-box red">
+    <strong>🚫 Why This Matters</strong>
+    <p>If you send a confirmation email in <code>beforeSubmit</code> and then the save fails, the customer gets a confirmation for an order that doesn't exist! Always send notifications in <code>afterSubmit</code> where you're guaranteed the record was saved.</p>
+</div>
+
+<h3>context.type Values</h3>
+<table>
+    <tr><th>Value</th><th>User Action</th></tr>
+    <tr><td><code>context.UserEventType.CREATE</code></td><td>Creating new record</td></tr>
+    <tr><td><code>context.UserEventType.EDIT</code></td><td>Editing existing record</td></tr>
+    <tr><td><code>context.UserEventType.DELETE</code></td><td>Deleting record</td></tr>
+    <tr><td><code>context.UserEventType.VIEW</code></td><td>Viewing record (beforeLoad only)</td></tr>
+    <tr><td><code>context.UserEventType.COPY</code></td><td>Copying record</td></tr>
+    <tr><td><code>context.UserEventType.XEDIT</code></td><td>Inline edit</td></tr>
+</table>
+
+<h2 id="debugging">6. Debugging Client-Side Scripts</h2>
+
+<h3>Using Browser Developer Tools</h3>
+<p>For client-side scripts, use your browser's built-in debugger (F12 in Chrome):</p>
+
+<ol>
+    <li>Open the record in NetSuite</li>
+    <li>Press F12 to open Developer Tools</li>
+    <li>Go to Sources tab</li>
+    <li>Find your script file</li>
+    <li>Set breakpoints by clicking line numbers</li>
+    <li>Trigger the entry point (e.g., change a field)</li>
+</ol>
+
+<h3>Using console.log</h3>
+<pre><code>function fieldChanged(context) {
+    console.log('Field changed:', context.fieldId);
+    console.log('New value:', context.currentRecord.getValue(context.fieldId));
+    // Output appears in browser console (F12)
+}</code></pre>
+
+<div class="info-box yellow">
+    <strong>⚠️ Cache Issues</strong>
+    <p>Browsers cache JavaScript files. After updating your script, always press <strong>Ctrl+F5</strong> (Windows) or <strong>Cmd+Shift+R</strong> (Mac) to force a fresh reload.</p>
+</div>
+
+<h3>Using the debugger Statement</h3>
+<pre><code>function saveRecord(context) {
+    debugger; // Browser will pause here if DevTools is open
+    var rec = context.currentRecord;
+    // Step through code line by line
+    return true;
+}</code></pre>
+
+<h2 id="practice">🏋️ Practice Exercises</h2>
+
+<div class="info-box green">
+    <strong>Exercise 1: Client Script Basics</strong>
+    <p>Create a Client Script on the Customer record that:</p>
+    <ul>
+        <li>On <code>pageInit</code>: Logs the current mode (create/edit)</li>
+        <li>On <code>fieldChanged</code>: When phone changes, logs the new value</li>
+        <li>On <code>saveRecord</code>: Requires email to be filled in</li>
+    </ul>
+</div>
+
+<div class="info-box green">
+    <strong>Exercise 2: User Event Script</strong>
+    <p>Create a User Event Script on the Sales Order that:</p>
+    <ul>
+        <li>On <code>beforeSubmit</code>: Prevents orders under $100</li>
+        <li>On <code>afterSubmit</code>: Logs "Order created: [ID]" for new orders</li>
+    </ul>
+</div>
+
+<div class="info-box green">
+    <strong>Exercise 3: Execution Order</strong>
+    <p>Create both a Client Script and User Event Script on the same record. Add <code>log.debug</code> or <code>console.log</code> statements to each entry point. Save the record and trace the complete execution order.</p>
+</div>
+
+<div class="takeaway">
+    <h3>🎯 Key Takeaways</h3>
+    <ul>
+        <li>Entry points are triggers tied to specific user actions</li>
+        <li>Client-side scripts run in the browser; server-side run on NetSuite servers</li>
+        <li>Client scripts only fire on create, edit, copy - NOT view</li>
+        <li>Use <code>beforeSubmit</code> for validation; <code>afterSubmit</code> for notifications</li>
+        <li>Always check <code>context.type</code> to filter when your code should run</li>
+        <li>Use Ctrl+F5 to clear browser cache when testing client scripts</li>
+        <li>Execution order: beforeLoad → pageInit → field events → saveRecord → beforeSubmit → afterSubmit</li>
+    </ul>
+</div>
+
+<div class="nav-buttons">
+    <a href="week-3-dashboard.html" class="back-btn">← Back to Week 3</a>
+    <a href="Module-5.html" class="next-btn">Next: Module 5 →</a>
+</div>
+
+</div>
+</div>
+</body>
+</html>

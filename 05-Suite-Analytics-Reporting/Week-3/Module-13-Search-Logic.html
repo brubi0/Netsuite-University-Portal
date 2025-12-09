@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 13: Search Logic (AND/OR/NOT) - Suite Analytics Learning Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #0f0f1a; color: #e0e0e0; line-height: 1.7; }
+        .header { background: linear-gradient(135deg, #0f3460 0%, #533483 100%); padding: 30px 20px; }
+        .header-content { max-width: 900px; margin: 0 auto; }
+        .breadcrumb { font-size: 0.9em; margin-bottom: 10px; opacity: 0.8; }
+        .breadcrumb a { color: #fff; text-decoration: none; }
+        h1 { font-size: 2em; font-weight: 700; color: #fff; }
+        .module-meta { margin-top: 10px; color: rgba(255,255,255,0.8); font-size: 0.9em; }
+        .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+        h2 { color: #e94560; font-size: 1.5em; margin: 40px 0 20px; padding-bottom: 10px; border-bottom: 2px solid #e94560; }
+        p { margin-bottom: 15px; }
+        .concept-box { background: linear-gradient(145deg, #1a1a2e 0%, #1e1e32 100%); border-radius: 15px; padding: 25px; margin: 25px 0; border-left: 4px solid #e94560; }
+        .concept-box h4 { color: #e94560; margin-bottom: 12px; font-size: 1.1em; }
+        .logic-card { background: #1a1a2e; border-radius: 12px; padding: 20px; margin: 15px 0; border: 1px solid rgba(255,255,255,0.1); }
+        .logic-card h4 { margin-bottom: 12px; font-size: 1.1em; }
+        .logic-card.and h4 { color: #4caf50; }
+        .logic-card.or h4 { color: #2196f3; }
+        .logic-card.not h4 { color: #f44336; }
+        .code-box { background: #0d0d15; border-radius: 8px; padding: 15px 20px; margin: 15px 0; font-family: 'Courier New', monospace; font-size: 0.95em; color: #4caf50; border: 1px solid #333; }
+        .example-box { background: linear-gradient(145deg, #1e3a1e 0%, #1a2e1a 100%); border-radius: 12px; padding: 20px; margin: 20px 0; border: 1px solid #4caf50; }
+        .example-box h4 { color: #4caf50; margin-bottom: 12px; }
+        .tip-box { background: rgba(255,193,7,0.1); border-radius: 10px; padding: 20px; margin: 20px 0; border: 1px solid rgba(255,193,7,0.3); }
+        .tip-box h4 { color: #ffc107; margin-bottom: 10px; }
+        .key-point { background: rgba(83,52,131,0.2); border-radius: 10px; padding: 20px; margin: 20px 0; border: 1px solid rgba(83,52,131,0.4); }
+        .key-point h4 { color: #533483; margin-bottom: 10px; }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 50px; padding-top: 30px; border-top: 1px solid #333; flex-wrap: wrap; gap: 15px; }
+        .nav-btn { padding: 12px 25px; border-radius: 25px; text-decoration: none; font-weight: 600; font-size: 0.9em; transition: all 0.3s ease; }
+        .nav-btn.secondary { background: rgba(255,255,255,0.1); color: #fff; }
+        .nav-btn.primary { background: linear-gradient(135deg, #e94560 0%, #533483 100%); color: #fff; }
+        ul { margin-left: 20px; margin-bottom: 15px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="breadcrumb">
+                <a href="../Master-Dashboard.html">Course Overview</a> / 
+                <a href="week-3-dashboard.html">Week 3</a> / Module 13
+            </div>
+            <h1>🔀 Module 13: Search Logic (AND/OR/NOT)</h1>
+            <div class="module-meta">Week 3 • Saved Searches Advanced • Core Skills</div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="concept-box">
+            <h4>Understanding Search Logic</h4>
+            <p>By default, all criteria in a saved search are combined with <strong>AND</strong> logic — meaning all conditions must be true for a record to appear. To create more complex filters, you can use <strong>OR</strong> and <strong>NOT</strong> logic with the "Use Expressions" feature.</p>
+        </div>
+
+        <h2>Logic Operators</h2>
+
+        <div class="logic-card and">
+            <h4>AND Logic (Default)</h4>
+            <p>All conditions must be true. Records must match <strong>every</strong> criterion.</p>
+            <div class="code-box">
+                Status = Open <strong>AND</strong> Amount > 1000 <strong>AND</strong> Type = Invoice<br><br>
+                Result: Only invoices that are open AND have amount > 1000
+            </div>
+        </div>
+
+        <div class="logic-card or">
+            <h4>OR Logic</h4>
+            <p>At least one condition must be true. Records match <strong>any</strong> of the criteria.</p>
+            <div class="code-box">
+                Status = Open <strong>OR</strong> Status = Pending<br><br>
+                Result: All records that are open OR pending
+            </div>
+        </div>
+
+        <div class="logic-card not">
+            <h4>NOT Logic</h4>
+            <p>Excludes records matching the condition.</p>
+            <div class="code-box">
+                Type = Invoice <strong>AND NOT</strong> Status = Paid<br><br>
+                Result: All invoices except those that are paid
+            </div>
+        </div>
+
+        <h2>Using Expressions</h2>
+
+        <div class="key-point">
+            <h4>📍 Enable Expressions</h4>
+            <ol style="margin-left: 20px; margin-top: 10px;">
+                <li>On the Criteria subtab, check <strong>"Use Expressions"</strong></li>
+                <li>Each filter row gets a number (1, 2, 3...)</li>
+                <li>Build your expression using numbers and operators</li>
+                <li>Use parentheses to group conditions</li>
+            </ol>
+        </div>
+
+        <div class="example-box">
+            <h4>💡 Expression Examples</h4>
+            <div class="code-box">
+                <strong>Simple AND:</strong> 1 AND 2 AND 3<br><br>
+                <strong>Simple OR:</strong> 1 OR 2 OR 3<br><br>
+                <strong>Mixed:</strong> 1 AND (2 OR 3)<br><br>
+                <strong>Complex:</strong> (1 AND 2) OR (3 AND 4)<br><br>
+                <strong>With NOT:</strong> 1 AND 2 AND NOT 3
+            </div>
+        </div>
+
+        <h2>Practical Example</h2>
+
+        <div class="example-box">
+            <h4>💡 Find High-Value Open or Overdue Invoices</h4>
+            <p>Criteria:</p>
+            <ol style="margin-left: 20px; margin-top: 10px;">
+                <li>Type = Invoice</li>
+                <li>Amount > 5000</li>
+                <li>Status = Open</li>
+                <li>Status = Overdue</li>
+            </ol>
+            <p style="margin-top: 15px;"><strong>Expression:</strong></p>
+            <div class="code-box">1 AND 2 AND (3 OR 4)</div>
+            <p style="margin-top: 15px;"><strong>Result:</strong> All invoices over $5,000 that are either open or overdue.</p>
+        </div>
+
+        <div class="tip-box">
+            <h4>💡 Pro Tip: Parentheses Matter</h4>
+            <p>Without parentheses, expressions are evaluated left to right. Always use parentheses to ensure your logic is processed correctly:</p>
+            <div class="code-box">
+                1 AND 2 OR 3  →  May give unexpected results<br>
+                1 AND (2 OR 3)  →  Explicit grouping, predictable results
+            </div>
+        </div>
+
+        <div class="concept-box">
+            <h4>🎯 Key Takeaways</h4>
+            <ul>
+                <li><strong>AND</strong> (default) — All conditions must be true</li>
+                <li><strong>OR</strong> — Any condition can be true</li>
+                <li><strong>NOT</strong> — Excludes matching records</li>
+                <li>Check <strong>"Use Expressions"</strong> to enable complex logic</li>
+                <li>Use <strong>parentheses</strong> to group conditions correctly</li>
+                <li>Reference filters by their <strong>row numbers</strong> in expressions</li>
+            </ul>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="Module-12-Logged-In-User.html" class="nav-btn secondary">← Previous: Logged-In User</a>
+            <a href="Module-14-Highlighting.html" class="nav-btn primary">Next: Highlighting →</a>
+        </div>
+    </div>
+</body>
+</html>

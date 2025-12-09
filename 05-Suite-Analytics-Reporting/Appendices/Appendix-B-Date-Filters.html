@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appendix B: Date Filter Reference - Suite Analytics Learning Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #0f0f1a; color: #e0e0e0; line-height: 1.7; }
+        .header { background: linear-gradient(135deg, #0f3460 0%, #533483 100%); padding: 30px 20px; }
+        .header-content { max-width: 1000px; margin: 0 auto; }
+        .breadcrumb { font-size: 0.9em; margin-bottom: 10px; opacity: 0.8; }
+        .breadcrumb a { color: #fff; text-decoration: none; }
+        h1 { font-size: 2em; font-weight: 700; color: #fff; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 40px 20px; }
+        h2 { color: #e94560; font-size: 1.5em; margin: 40px 0 20px; padding-bottom: 10px; border-bottom: 2px solid #e94560; }
+        p { margin-bottom: 15px; }
+        .intro-box { background: linear-gradient(145deg, #1a1a2e 0%, #1e1e32 100%); border-radius: 15px; padding: 25px; margin: 25px 0; border-left: 4px solid #e94560; }
+        .intro-box h4 { color: #e94560; margin-bottom: 12px; }
+        .date-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin: 20px 0; }
+        .date-item { background: #1a1a2e; border-radius: 8px; padding: 12px 15px; text-align: center; border: 1px solid #333; font-size: 0.9em; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #333; }
+        th { background: rgba(233,69,96,0.2); color: #e94560; font-weight: 600; }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 50px; padding-top: 30px; border-top: 1px solid #333; flex-wrap: wrap; gap: 15px; }
+        .nav-btn { padding: 12px 25px; border-radius: 25px; text-decoration: none; font-weight: 600; font-size: 0.9em; transition: all 0.3s ease; }
+        .nav-btn.secondary { background: rgba(255,255,255,0.1); color: #fff; }
+        .nav-btn.primary { background: linear-gradient(135deg, #e94560 0%, #533483 100%); color: #fff; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="breadcrumb">
+                <a href="../Master-Dashboard.html">Course Overview</a> / Appendix B
+            </div>
+            <h1>📅 Appendix B: Date Filter Reference</h1>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="intro-box">
+            <h4>Dynamic Date Selectors</h4>
+            <p>Dynamic date selectors automatically adjust as time passes. Use these instead of fixed dates when you want reports to always show current, relevant data.</p>
+        </div>
+
+        <h2>Day Selectors</h2>
+        <div class="date-grid">
+            <div class="date-item">Today</div>
+            <div class="date-item">Yesterday</div>
+            <div class="date-item">Tomorrow</div>
+            <div class="date-item">Same Day Last Week</div>
+            <div class="date-item">Same Day Last Month</div>
+            <div class="date-item">Same Day Last Year</div>
+        </div>
+
+        <h2>Week Selectors</h2>
+        <div class="date-grid">
+            <div class="date-item">This Week</div>
+            <div class="date-item">Last Week</div>
+            <div class="date-item">Next Week</div>
+            <div class="date-item">This Week to Date</div>
+            <div class="date-item">Last Week to Date</div>
+            <div class="date-item">Same Week Last Year</div>
+        </div>
+
+        <h2>Month Selectors</h2>
+        <div class="date-grid">
+            <div class="date-item">This Month</div>
+            <div class="date-item">Last Month</div>
+            <div class="date-item">Next Month</div>
+            <div class="date-item">This Month to Date</div>
+            <div class="date-item">Same Month Last Year</div>
+            <div class="date-item">Last 30 Days</div>
+        </div>
+
+        <h2>Quarter Selectors</h2>
+        <div class="date-grid">
+            <div class="date-item">This Quarter</div>
+            <div class="date-item">Last Quarter</div>
+            <div class="date-item">This Quarter to Date</div>
+            <div class="date-item">Same Quarter Last Year</div>
+        </div>
+
+        <h2>Fiscal Year Selectors</h2>
+        <div class="date-grid">
+            <div class="date-item">This Fiscal Year</div>
+            <div class="date-item">Last Fiscal Year</div>
+            <div class="date-item">This Fiscal Year to Date</div>
+            <div class="date-item">Last Fiscal Year to Date</div>
+            <div class="date-item">Same Period Last Year</div>
+        </div>
+
+        <h2>Rolling Selectors</h2>
+        <div class="date-grid">
+            <div class="date-item">Last Rolling Week</div>
+            <div class="date-item">Last Rolling Month</div>
+            <div class="date-item">Last Rolling Quarter</div>
+            <div class="date-item">Last Rolling Year</div>
+            <div class="date-item">Last 7 Days</div>
+            <div class="date-item">Last 90 Days</div>
+        </div>
+
+        <h2>Quick Filter Buttons</h2>
+        <table>
+            <thead><tr><th>Button</th><th>Shows Selectors For</th></tr></thead>
+            <tbody>
+                <tr><td>Year</td><td>Fiscal year and calendar year options</td></tr>
+                <tr><td>Quarter</td><td>Quarterly date ranges</td></tr>
+                <tr><td>Month</td><td>Monthly and period options</td></tr>
+                <tr><td>Week</td><td>Weekly date ranges</td></tr>
+                <tr><td>Day</td><td>Daily options (today, yesterday)</td></tr>
+            </tbody>
+        </table>
+
+        <div class="nav-buttons">
+            <a href="Appendix-A-Formula-Reference.html" class="nav-btn secondary">← Formula Reference</a>
+            <a href="Appendix-C-Permissions.html" class="nav-btn primary">Next: Permissions →</a>
+        </div>
+    </div>
+</body>
+</html>

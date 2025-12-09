@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 3: Using Saved Searches in Conditions - SuiteFlow Advanced Workflows</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #0f0f1a; line-height: 1.6; color: #e0e0e0; }
+        .header { background: linear-gradient(135deg, #e94560 0%, #0f3460 100%); color: white; padding: 40px 20px; }
+        .header-content { max-width: 1200px; margin: 0 auto; }
+        .breadcrumb { font-size: 0.9em; margin-bottom: 15px; opacity: 0.9; }
+        .breadcrumb a { color: white; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.3); }
+        .module-title-section { display: flex; align-items: center; gap: 20px; }
+        .module-number { background: rgba(255,255,255,0.2); width: 80px; height: 80px; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 2em; font-weight: 700; }
+        h1 { font-size: 2.5em; font-weight: 700; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        .objectives-box { background: #1a1a2e; border-radius: 15px; padding: 30px; margin-bottom: 30px; border-left: 5px solid #e94560; }
+        .objectives-box h2 { color: #e94560; margin-bottom: 20px; }
+        .objectives-box ul { list-style: none; padding: 0; }
+        .objectives-box li { padding: 10px 0 10px 30px; position: relative; color: #ccc; }
+        .objectives-box li::before { content: "✓"; position: absolute; left: 0; color: #e94560; font-weight: bold; }
+        .content-section { background: #1a1a2e; border-radius: 15px; padding: 40px; margin-bottom: 30px; }
+        .content-section h2 { color: #fff; font-size: 1.8em; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 3px solid #e94560; }
+        .content-section h3 { color: #e94560; font-size: 1.4em; margin-top: 30px; margin-bottom: 15px; }
+        .content-section p { color: #ccc; line-height: 1.8; margin-bottom: 15px; }
+        .content-section ul, .content-section ol { margin-left: 30px; margin-bottom: 20px; }
+        .content-section li { margin-bottom: 10px; color: #ccc; }
+        .info-box { padding: 20px; border-radius: 8px; margin: 25px 0; border-left: 4px solid; }
+        .info-box.blue { background: rgba(33,150,243,0.1); border-left-color: #2196f3; }
+        .info-box.yellow { background: rgba(255,193,7,0.1); border-left-color: #ffc107; }
+        .info-box.green { background: rgba(76,175,80,0.1); border-left-color: #4caf50; }
+        .info-box.red { background: rgba(244,67,54,0.1); border-left-color: #f44336; }
+        .info-box.purple { background: rgba(156,39,176,0.1); border-left-color: #9c27b0; }
+        .info-box h4 { margin-bottom: 10px; font-weight: 600; }
+        .info-box.blue h4 { color: #2196f3; }
+        .info-box.yellow h4 { color: #ffc107; }
+        .info-box.green h4 { color: #4caf50; }
+        .info-box.red h4 { color: #f44336; }
+        .info-box.purple h4 { color: #9c27b0; }
+        .comparison-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        .comparison-table th, .comparison-table td { padding: 15px; text-align: left; border-bottom: 1px solid #333; }
+        .comparison-table th { background: linear-gradient(135deg, #e94560 0%, #0f3460 100%); color: white; }
+        .comparison-table tr:hover { background: rgba(233,69,96,0.1); }
+        .key-takeaways { background: linear-gradient(135deg, #e94560 0%, #0f3460 100%); color: white; border-radius: 15px; padding: 30px; margin: 30px 0; }
+        .key-takeaways h3 { color: white; margin-bottom: 20px; font-size: 1.5em; }
+        .key-takeaways ul { list-style: none; padding: 0; }
+        .key-takeaways li { padding: 12px 0 12px 30px; position: relative; opacity: 0.95; }
+        .key-takeaways li::before { content: "★"; position: absolute; left: 0; }
+        .navigation { display: flex; justify-content: space-between; margin-top: 40px; gap: 20px; flex-wrap: wrap; }
+        .nav-btn { display: inline-flex; align-items: center; padding: 15px 30px; border-radius: 25px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; flex: 1; justify-content: center; min-width: 200px; }
+        .nav-btn-primary { background: linear-gradient(135deg, #e94560 0%, #0f3460 100%); color: white; }
+        .nav-btn-secondary { background: rgba(255,255,255,0.1); color: #fff; }
+        .nav-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(233,69,96,0.3); }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="breadcrumb">
+                <a href="../Master-Dashboard.html">← Course Overview</a> / 
+                <a href="week-2-dashboard.html">Week 2</a> / Module 3
+            </div>
+            <div class="module-title-section">
+                <div class="module-number">03</div>
+                <div>
+                    <h1>Using Saved Searches in Conditions</h1>
+                    <p style="margin-top: 10px; opacity: 0.9;">Advanced Conditional Logic with Saved Searches</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="objectives-box">
+            <h2>🎯 Learning Objectives</h2>
+            <p style="color: #999; margin-bottom: 15px;">Upon completion of this module, you will be able to:</p>
+            <ul>
+                <li>Use saved searches in workflow conditions to execute scheduled workflows, actions, and transitions</li>
+                <li>Use saved searches to access record sublist data during action and transition execution</li>
+                <li>Understand performance implications of saved search conditions</li>
+            </ul>
+        </div>
+
+        <div class="content-section">
+            <h2>Saved Searches as Conditions</h2>
+            
+            <p>Saved searches can be used as <strong>additional conditions</strong> when executing workflows, actions, and transitions—both for scheduled and event-based processing.</p>
+
+            <h3>Key Requirements</h3>
+            <ul>
+                <li>Saved search must be on the <strong>same base record type</strong> as the workflow</li>
+                <li>If both saved search AND Visual Builder conditions are specified, <strong>both must evaluate true</strong></li>
+                <li>Saved searches can access <strong>sublist data</strong> not directly available to SuiteFlow</li>
+            </ul>
+
+            <div class="info-box yellow">
+                <h4>⚠️ Performance Warning</h4>
+                <p>Even basic saved search criteria can <strong>impact workflow processing performance</strong>, particularly when large numbers of records are returned. Use caution when adding saved search conditions.</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Configuration Locations</h2>
+
+            <h3>Event-Based Workflow Initiation</h3>
+            <p>Select saved search from the <strong>Saved Search Condition</strong> dropdown in the workflow's Event Definitions section. The saved search criteria is evaluated in addition to any Visual Builder conditions.</p>
+
+            <h3>Scheduled Workflow Initiation</h3>
+            <p>Select saved search from the <strong>Saved Search Filter</strong> dropdown in the Scheduled section. During each scheduler event, the workflow initiates on each record returned by the search.</p>
+
+            <h3>Action Conditions</h3>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Scenario</th>
+                        <th>Behavior</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Saved search selected, Visual Builder conditions defined</td>
+                        <td>Both are AND'd together—both must be true</td>
+                    </tr>
+                    <tr>
+                        <td>No saved search, Visual Builder conditions defined</td>
+                        <td>Action executes based on Visual Builder conditions only</td>
+                    </tr>
+                    <tr>
+                        <td>Saved search selected, no Visual Builder conditions</td>
+                        <td>Saved search becomes exclusive condition</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="info-box red">
+                <h4>⚠️ Client Triggers Limitation</h4>
+                <p>Saved searches used in action conditions configured on <strong>client triggers will be ignored</strong>. Saved searches only work with server triggers.</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Transition Conditions</h2>
+
+            <p>When using saved searches in transition configurations:</p>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>TRANSITION ON</th>
+                        <th>Saved Search</th>
+                        <th>Result</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Server Trigger</td>
+                        <td>Selected</td>
+                        <td>Transition executes when trigger fires AND search criteria is true</td>
+                    </tr>
+                    <tr>
+                        <td>Blank</td>
+                        <td>Selected</td>
+                        <td>Only saved search criteria used to execute transition</td>
+                    </tr>
+                    <tr>
+                        <td>None</td>
+                        <td>None</td>
+                        <td>Executes based on other configured conditions</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="content-section">
+            <h2>Accessing Sublist Data</h2>
+
+            <p>SuiteFlow does <strong>not directly support</strong> access to record sublist data in action/transition conditions. However, saved searches <strong>do allow access</strong> to most record sublists.</p>
+
+            <h3>How It Works</h3>
+            <ul>
+                <li>Saved search evaluates sublist data</li>
+                <li>Returns only <strong>Boolean values</strong> (true/false) to the workflow</li>
+                <li>Based on return values, configure additional conditions for record processing</li>
+            </ul>
+
+            <div class="info-box blue">
+                <h4>📋 Alternative Methods</h4>
+                <p>For direct sublist field access and updates, use:</p>
+                <ul style="margin-top: 10px; margin-left: 20px;">
+                    <li><strong>Sublist Action Groups</strong> (covered in Fundamentals)</li>
+                    <li><strong>Workflow Action Scripts</strong> (covered in Module 7)</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Best Practices</h2>
+
+            <h3>Performance Optimization</h3>
+            <ol>
+                <li><strong>Limit saved search usage</strong> to event-based workflow initiation when possible</li>
+                <li>Configure saved search conditions <strong>as early as possible</strong> (e.g., workflow initiation vs. individual actions)—evaluated once instead of multiple times</li>
+                <li>Create <strong>appropriate criteria</strong> that only initiates workflows on records requiring processing</li>
+            </ol>
+
+            <div class="info-box green">
+                <h4>✅ Optimization Strategy</h4>
+                <p>Rather than using saved searches on multiple individual actions, use a single saved search at <strong>workflow initiation</strong> level. This ensures the search is evaluated only once per record.</p>
+            </div>
+
+            <h3>Saved Search Requirements</h3>
+            <ul>
+                <li>Must be configured on <strong>same base record type</strong> as workflow</li>
+                <li>Must include at least <strong>one filter</strong> on the Criteria subtab</li>
+                <li>Consider the <strong>number of records returned</strong>—large result sets impact performance</li>
+            </ul>
+        </div>
+
+        <div class="content-section">
+            <h2>Summary: When to Use Saved Searches</h2>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Use Case</th>
+                        <th>Recommendation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Scheduled workflow initiation</td>
+                        <td>✅ Required—provides records to process</td>
+                    </tr>
+                    <tr>
+                        <td>Complex conditions beyond Visual Builder</td>
+                        <td>✅ Good use—enables advanced logic</td>
+                    </tr>
+                    <tr>
+                        <td>Accessing sublist data indirectly</td>
+                        <td>✅ Good use—returns boolean for conditions</td>
+                    </tr>
+                    <tr>
+                        <td>Multiple actions needing same condition</td>
+                        <td>⚠️ Use at initiation level instead</td>
+                    </tr>
+                    <tr>
+                        <td>High-volume record processing</td>
+                        <td>⚠️ Use cautiously—monitor performance</td>
+                    </tr>
+                    <tr>
+                        <td>Client trigger conditions</td>
+                        <td>❌ Not supported—will be ignored</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="key-takeaways">
+            <h3>🌟 Key Takeaways</h3>
+            <ul>
+                <li>Saved searches provide <strong>advanced conditional logic</strong> beyond Visual Builder</li>
+                <li>Must be on <strong>same base record type</strong> as workflow</li>
+                <li>Saved search + Visual Builder conditions are <strong>AND'd together</strong></li>
+                <li>Can access <strong>sublist data</strong> indirectly (returns boolean)</li>
+                <li><strong>Ignored on client triggers</strong>—server triggers only</li>
+                <li>Configure at <strong>initiation level</strong> when possible for better performance</li>
+                <li>Always consider <strong>performance implications</strong> with large result sets</li>
+            </ul>
+        </div>
+
+        <div class="navigation">
+            <a href="Module-02-Scheduling-Actions-Transitions.html" class="nav-btn nav-btn-secondary">← Previous: Module 2</a>
+            <a href="Module-04-Working-Sub-Workflows.html" class="nav-btn nav-btn-primary">Next: Module 4 →</a>
+        </div>
+    </div>
+</body>
+</html>

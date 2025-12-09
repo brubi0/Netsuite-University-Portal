@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 2: Saved Searches Fundamentals - Suite Analytics Learning Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); min-height: 100vh; color: #fff; }
+        .header { background: linear-gradient(135deg, #0f3460 0%, #533483 100%); padding: 40px 20px; }
+        .header-content { max-width: 1200px; margin: 0 auto; }
+        .breadcrumb { font-size: 0.9em; margin-bottom: 15px; opacity: 0.8; }
+        .breadcrumb a { color: #fff; text-decoration: none; }
+        .breadcrumb a:hover { text-decoration: underline; }
+        h1 { font-size: 2.5em; font-weight: 700; margin-bottom: 10px; }
+        .week-meta { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 15px; }
+        .meta-item { background: rgba(255,255,255,0.15); padding: 8px 16px; border-radius: 20px; font-size: 0.85em; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        .week-intro { background: linear-gradient(145deg, #1e1e32 0%, #2a2a4a 100%); border-radius: 20px; padding: 30px; margin-bottom: 40px; border: 1px solid rgba(255,255,255,0.1); }
+        .intro-title { color: #e94560; font-size: 1.2em; margin-bottom: 15px; }
+        .intro-text { line-height: 1.8; opacity: 0.9; }
+        .objectives { margin-top: 20px; }
+        .objectives h4 { margin-bottom: 12px; color: #533483; }
+        .objectives ul { list-style: none; }
+        .objectives li { padding: 8px 0; padding-left: 25px; position: relative; }
+        .objectives li::before { content: "✓"; position: absolute; left: 0; color: #e94560; font-weight: bold; }
+        .module-grid { display: grid; gap: 20px; }
+        .module-card { background: linear-gradient(145deg, #1e1e32 0%, #2a2a4a 100%); border-radius: 15px; padding: 25px; border: 1px solid rgba(255,255,255,0.1); transition: all 0.3s ease; display: flex; align-items: center; gap: 20px; text-decoration: none; color: inherit; }
+        .module-card:hover { transform: translateX(10px); border-color: #e94560; box-shadow: 0 10px 30px rgba(233,69,96,0.2); }
+        .module-number { background: linear-gradient(135deg, #e94560 0%, #533483 100%); width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.2em; flex-shrink: 0; }
+        .module-content { flex: 1; }
+        .module-title { font-size: 1.15em; font-weight: 600; margin-bottom: 5px; }
+        .module-desc { font-size: 0.9em; opacity: 0.7; }
+        .module-arrow { font-size: 1.5em; opacity: 0.5; transition: all 0.3s ease; }
+        .module-card:hover .module-arrow { opacity: 1; transform: translateX(5px); }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 40px; flex-wrap: wrap; gap: 15px; }
+        .nav-btn { padding: 15px 30px; border-radius: 25px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; }
+        .nav-btn.secondary { background: rgba(255,255,255,0.1); color: #fff; }
+        .nav-btn.primary { background: linear-gradient(135deg, #e94560 0%, #533483 100%); color: #fff; }
+        .nav-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(0,0,0,0.3); }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="breadcrumb">
+                <a href="../Master-Dashboard.html">← Course Overview</a> / Week 2
+            </div>
+            <h1>🔍 Week 2: Saved Searches Fundamentals</h1>
+            <div class="week-meta">
+                <span class="meta-item">📚 5 Modules</span>
+                <span class="meta-item">⏱️ ~3 Hours</span>
+                <span class="meta-item">🎯 Core Skills</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="week-intro">
+            <h3 class="intro-title">Week Overview</h3>
+            <p class="intro-text">
+                Saved searches are the most powerful data retrieval tool in NetSuite. Unlike standard reports, saved searches let you define exactly what data you want to see, how it should be filtered, and how it should be displayed. This week covers the fundamentals: creating searches, configuring results columns, sorting, joining data from related records, and setting up criteria filters.
+            </p>
+            <div class="objectives">
+                <h4>Learning Objectives</h4>
+                <ul>
+                    <li>Create saved searches on any record type</li>
+                    <li>Add, remove, reorder, and relabel results columns</li>
+                    <li>Sort results in ascending or descending order</li>
+                    <li>Join data from related record types</li>
+                    <li>Define criteria filters using field-operator-value equations</li>
+                    <li>Use static and dynamic date filters</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="module-grid">
+            <a href="Module-07-Creating-Saved-Searches.html" class="module-card">
+                <div class="module-number">07</div>
+                <div class="module-content">
+                    <div class="module-title">Creating Saved Searches</div>
+                    <div class="module-desc">Search types, naming conventions, public vs. private, and the saved search workflow</div>
+                </div>
+                <div class="module-arrow">→</div>
+            </a>
+
+            <a href="Module-08-Results-Columns.html" class="module-card">
+                <div class="module-number">08</div>
+                <div class="module-content">
+                    <div class="module-title">Results Columns & Sorting</div>
+                    <div class="module-desc">Adding/removing columns, custom labels, reordering, and ascending/descending sort</div>
+                </div>
+                <div class="module-arrow">→</div>
+            </a>
+
+            <a href="Module-09-Joined-Data.html" class="module-card">
+                <div class="module-number">09</div>
+                <div class="module-content">
+                    <div class="module-title">Adding Joined Data</div>
+                    <div class="module-desc">Accessing fields from related records (Sales Rep email, Customer details, etc.)</div>
+                </div>
+                <div class="module-arrow">→</div>
+            </a>
+
+            <a href="Module-10-Criteria-Filters.html" class="module-card">
+                <div class="module-number">10</div>
+                <div class="module-content">
+                    <div class="module-title">Criteria & Filters</div>
+                    <div class="module-desc">Field-operator-value equations, filter types, and editing existing criteria</div>
+                </div>
+                <div class="module-arrow">→</div>
+            </a>
+
+            <a href="Module-11-Date-Filters.html" class="module-card">
+                <div class="module-number">11</div>
+                <div class="module-content">
+                    <div class="module-title">Date Filters</div>
+                    <div class="module-desc">Fixed vs. dynamic date ranges, relative dates, and custom date selectors</div>
+                </div>
+                <div class="module-arrow">→</div>
+            </a>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="../Week-1/week-1-dashboard.html" class="nav-btn secondary">← Back to Week 1</a>
+            <a href="Module-07-Creating-Saved-Searches.html" class="nav-btn primary">Begin Week 2 →</a>
+        </div>
+    </div>
+</body>
+</html>

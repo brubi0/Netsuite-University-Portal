@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 7: N/query Module - SuiteScript Learning Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%); --dark-bg: #1a1a2e; --card-bg: #16213e; --text-primary: #ffffff; --text-secondary: #a0aec0; --border-color: rgba(255,255,255,0.1); --purple: #9f7aea; --success: #48bb78; --warning: #ecc94b; --info: #4299e1; --code-bg: #0d1117; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--dark-bg); color: var(--text-primary); min-height: 100vh; line-height: 1.7; }
+        .nav-bar { background: var(--card-bg); padding: 15px 20px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+        .nav-bar a { color: var(--purple); text-decoration: none; }
+        .header { background: var(--primary-gradient); padding: 50px 20px; }
+        .header-content { max-width: 900px; margin: 0 auto; }
+        .header .module-tag { display: inline-block; background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 20px; font-size: 0.85rem; margin-bottom: 15px; }
+        .header h1 { font-size: 2.2rem; margin-bottom: 10px; }
+        .header p { font-size: 1.1rem; opacity: 0.9; }
+        .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+        .content-section { margin-bottom: 40px; }
+        .content-section h2 { font-size: 1.5rem; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid var(--border-color); }
+        .content-section h3 { font-size: 1.2rem; margin: 25px 0 15px 0; color: var(--purple); }
+        .content-section p { margin-bottom: 15px; color: var(--text-secondary); }
+        .info-box { border-radius: 10px; padding: 20px; margin: 20px 0; }
+        .info-box.blue { background: rgba(66, 153, 225, 0.15); border: 1px solid rgba(66, 153, 225, 0.3); }
+        .info-box.green { background: rgba(72, 187, 120, 0.15); border: 1px solid rgba(72, 187, 120, 0.3); }
+        .info-box.yellow { background: rgba(236, 201, 75, 0.15); border: 1px solid rgba(236, 201, 75, 0.3); }
+        .info-box.purple { background: rgba(159, 122, 234, 0.15); border: 1px solid rgba(159, 122, 234, 0.3); }
+        .info-box h4 { margin-bottom: 10px; }
+        .info-box p { margin-bottom: 0; font-size: 0.95rem; }
+        pre { background: var(--code-bg); border-radius: 10px; padding: 20px; overflow-x: auto; margin: 20px 0; border: 1px solid var(--border-color); }
+        code { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; line-height: 1.6; }
+        .inline-code { background: var(--code-bg); padding: 2px 8px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--purple); }
+        .concept-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        .concept-table th, .concept-table td { padding: 12px 15px; text-align: left; border: 1px solid var(--border-color); }
+        .concept-table th { background: var(--card-bg); font-weight: 600; color: var(--purple); }
+        .concept-table td { color: var(--text-secondary); }
+        .key-takeaways { background: var(--card-bg); border-radius: 12px; padding: 25px; margin-top: 40px; border: 1px solid var(--border-color); }
+        .key-takeaways h3 { margin-bottom: 15px; }
+        .key-takeaways ul { list-style: none; }
+        .key-takeaways li { padding: 8px 0; padding-left: 25px; position: relative; color: var(--text-secondary); }
+        .key-takeaways li::before { content: '✓'; position: absolute; left: 0; color: var(--success); }
+        .nav-footer { display: flex; justify-content: space-between; margin-top: 50px; padding-top: 30px; border-top: 1px solid var(--border-color); flex-wrap: wrap; gap: 10px; }
+        .nav-footer a { color: var(--purple); text-decoration: none; }
+    </style>
+</head>
+<body>
+    <nav class="nav-bar">
+        <a href="week-4-dashboard.html">← Week 4 Dashboard</a>
+        <div style="display: flex; gap: 15px;">
+            <a href="../Week-3/Module-6-NCurrentRecord.html">← Module 6</a>
+            <a href="Module-8-NSearch.html">Module 8 →</a>
+        </div>
+    </nav>
+
+    <header class="header">
+        <div class="header-content">
+            <span class="module-tag">Week 4 • Module 7</span>
+            <h1>N/query Module (SuiteQL)</h1>
+            <p>SQL-like queries for efficient data retrieval in NetSuite</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="content-section">
+            <h2>🗃️ What is SuiteQL?</h2>
+            <p>SuiteQL is NetSuite's SQL-like query language. If you know SQL, you can write SuiteQL. It provides a more familiar syntax for developers coming from database backgrounds and often performs better than traditional searches for complex queries.</p>
+
+            <div class="info-box blue">
+                <h4>💡 SuiteQL vs N/search</h4>
+                <p>SuiteQL uses SQL syntax (SELECT, FROM, WHERE, JOIN). N/search uses NetSuite's proprietary filter/column objects. Both retrieve data—choose based on your comfort level and query complexity.</p>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>📚 The Records Catalog</h2>
+            <p>Before writing queries, you need to know table and column names. The Records Catalog is your schema browser:</p>
+            <p><strong>Navigation:</strong> Setup → Records Catalog</p>
+            <p>Search for record types (e.g., "Customer", "Sales Order") to find:</p>
+            <ul style="list-style: disc; margin-left: 25px; color: var(--text-secondary); margin-bottom: 15px;">
+                <li>Table names (e.g., <span class="inline-code">customer</span>, <span class="inline-code">transaction</span>)</li>
+                <li>Column names and data types</li>
+                <li>Join relationships between tables</li>
+                <li>Custom field IDs</li>
+            </ul>
+
+            <div class="info-box green">
+                <h4>✅ Pro Tip</h4>
+                <p>Bookmark the Records Catalog—you'll reference it constantly when writing SuiteQL queries.</p>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>🔧 Basic Query Syntax</h2>
+            <h3>runSuiteQL()</h3>
+            <p>Execute a query and get up to 5,000 results:</p>
+            <pre><code>const query = require('N/query');
+
+const results = query.runSuiteQL({
+    query: `
+        SELECT id, companyname, email
+        FROM customer
+        WHERE isinactive = 'F'
+    `
+});
+
+// Get results as an array of objects
+const customers = results.asMappedResults();
+customers.forEach(customer => {
+    log.audit('Customer', customer.companyname);
+});</code></pre>
+
+            <h3>Result Limit</h3>
+            <table class="concept-table">
+                <thead>
+                    <tr>
+                        <th>Method</th>
+                        <th>Max Results</th>
+                        <th>Use Case</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="inline-code">runSuiteQL()</span></td>
+                        <td>5,000</td>
+                        <td>Simple queries, smaller datasets</td>
+                    </tr>
+                    <tr>
+                        <td><span class="inline-code">runSuiteQLPaged()</span></td>
+                        <td>Unlimited (1,000/page)</td>
+                        <td>Large datasets, batch processing</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="content-section">
+            <h2>🔗 Joins</h2>
+            <p>Link related tables using implicit inner joins:</p>
+            <pre><code>const results = query.runSuiteQL({
+    query: `
+        SELECT 
+            c.companyname,
+            c.email,
+            cur.name AS currency_name
+        FROM customer c
+        INNER JOIN currency cur ON c.currency = cur.id
+        WHERE c.isinactive = 'F'
+    `
+});</code></pre>
+
+            <div class="info-box yellow">
+                <h4>⚠️ Join Syntax</h4>
+                <p>Use table aliases (c, cur) for readability. The Records Catalog shows which fields can be joined to other tables.</p>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>📊 Pagination with runSuiteQLPaged()</h2>
+            <p>For large datasets, use pagination:</p>
+            <pre><code>const pagedQuery = query.runSuiteQLPaged({
+    query: `SELECT id, companyname FROM customer`,
+    pageSize: 1000
+});
+
+// Iterate through pages
+pagedQuery.pageRanges.forEach(pageRange => {
+    const page = pagedQuery.fetch({ index: pageRange.index });
+    const results = page.data.asMappedResults();
+    
+    results.forEach(row => {
+        // Process each row
+    });
+});</code></pre>
+        </section>
+
+        <section class="content-section">
+            <h2>🔄 Processing Results</h2>
+            <h3>asMappedResults()</h3>
+            <p>Returns an array of objects with column names as keys:</p>
+            <pre><code>const results = query.runSuiteQL({...}).asMappedResults();
+// [ { id: 1, companyname: 'Acme', email: 'acme@example.com' }, ... ]</code></pre>
+
+            <h3>Iterator Pattern</h3>
+            <p>Process results one at a time (memory efficient):</p>
+            <pre><code>const resultSet = query.runSuiteQL({...});
+const iterator = resultSet.iterator();
+
+iterator.each(result => {
+    const values = result.value.values;
+    log.audit('Row', values);
+    return true; // Continue iterating
+});</code></pre>
+        </section>
+
+        <section class="content-section" style="background: rgba(66, 153, 225, 0.1); border: 1px solid rgba(66, 153, 225, 0.2); border-radius: 12px; padding: 25px; margin: 30px 0;">
+            <h2 style="border: none; padding: 0; margin-bottom: 15px;">📖 Finding This in the Docs</h2>
+            <p>To look up N/query and SuiteQL:</p>
+            <ol style="margin-left: 20px; color: var(--text-secondary);">
+                <li style="margin-bottom: 8px;">Go to <strong>docs.oracle.com</strong> → SuiteScript 2.x Modules</li>
+                <li style="margin-bottom: 8px;">Click on <strong>N/query Module</strong></li>
+                <li style="margin-bottom: 8px;">Review runSuiteQL() and runSuiteQLPaged() methods</li>
+            </ol>
+            <p style="margin-top: 15px;"><strong>Key pages to bookmark:</strong></p>
+            <ul style="margin-left: 20px; color: var(--text-secondary);">
+                <li>query.runSuiteQL(options) → SQL query execution</li>
+                <li>query.runSuiteQLPaged(options) → paginated results for large datasets</li>
+                <li>ResultSet.asMappedResults() → converting results to objects</li>
+                <li><strong>Records Catalog</strong> (Setup → Records Catalog) → table/column names for SuiteQL</li>
+                <li>SuiteAnalytics Workbook documentation → SuiteQL syntax reference</li>
+            </ul>
+        </section>
+
+        <div class="key-takeaways">
+            <h3>🎯 Key Takeaways</h3>
+            <ul>
+                <li>SuiteQL uses familiar SQL syntax for NetSuite data retrieval</li>
+                <li>Records Catalog (Setup → Records Catalog) is essential for schema discovery</li>
+                <li><span class="inline-code">runSuiteQL()</span> returns up to 5,000 results</li>
+                <li><span class="inline-code">runSuiteQLPaged()</span> handles unlimited results with pagination</li>
+                <li>Use <span class="inline-code">asMappedResults()</span> for easy object-based access</li>
+                <li>Joins link related tables—check Records Catalog for relationships</li>
+            </ul>
+        </div>
+
+        <nav class="nav-footer">
+            <a href="../Week-3/Module-6-NCurrentRecord.html">← Module 6: N/currentRecord</a>
+            <a href="Module-8-NSearch.html">Module 8: N/search →</a>
+        </nav>
+    </main>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 21: Creating Datasets - Suite Analytics Learning Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #0f0f1a; color: #e0e0e0; line-height: 1.7; }
+        .header { background: linear-gradient(135deg, #0f3460 0%, #533483 100%); padding: 30px 20px; }
+        .header-content { max-width: 900px; margin: 0 auto; }
+        .breadcrumb { font-size: 0.9em; margin-bottom: 10px; opacity: 0.8; }
+        .breadcrumb a { color: #fff; text-decoration: none; }
+        h1 { font-size: 2em; font-weight: 700; color: #fff; }
+        .module-meta { margin-top: 10px; color: rgba(255,255,255,0.8); font-size: 0.9em; }
+        .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+        h2 { color: #e94560; font-size: 1.5em; margin: 40px 0 20px; padding-bottom: 10px; border-bottom: 2px solid #e94560; }
+        p { margin-bottom: 15px; }
+        .concept-box { background: linear-gradient(145deg, #1a1a2e 0%, #1e1e32 100%); border-radius: 15px; padding: 25px; margin: 25px 0; border-left: 4px solid #e94560; }
+        .concept-box h4 { color: #e94560; margin-bottom: 12px; font-size: 1.1em; }
+        .key-point { background: rgba(83,52,131,0.2); border-radius: 10px; padding: 20px; margin: 20px 0; border: 1px solid rgba(83,52,131,0.4); }
+        .key-point h4 { color: #533483; margin-bottom: 10px; }
+        .example-box { background: linear-gradient(145deg, #1e3a1e 0%, #1a2e1a 100%); border-radius: 12px; padding: 20px; margin: 20px 0; border: 1px solid #4caf50; }
+        .example-box h4 { color: #4caf50; margin-bottom: 12px; }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 50px; padding-top: 30px; border-top: 1px solid #333; flex-wrap: wrap; gap: 15px; }
+        .nav-btn { padding: 12px 25px; border-radius: 25px; text-decoration: none; font-weight: 600; font-size: 0.9em; transition: all 0.3s ease; }
+        .nav-btn.secondary { background: rgba(255,255,255,0.1); color: #fff; }
+        .nav-btn.primary { background: linear-gradient(135deg, #e94560 0%, #533483 100%); color: #fff; }
+        ul { margin-left: 20px; margin-bottom: 15px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="breadcrumb">
+                <a href="../Master-Dashboard.html">Course Overview</a> / 
+                <a href="week-4-dashboard.html">Week 4</a> / Module 21
+            </div>
+            <h1>🗃️ Module 21: Creating Datasets</h1>
+            <div class="module-meta">Week 4 • KPIs & Suite Analytics Workbook • Advanced Analytics</div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="concept-box">
+            <h4>What is a Dataset?</h4>
+            <p>A dataset is a query that retrieves data from NetSuite's Analytics Data Source. Think of it like a saved search, but optimized for workbook visualizations. Datasets define <strong>what data</strong> to retrieve; workbooks define <strong>how to display</strong> it.</p>
+        </div>
+
+        <h2>Creating a Dataset</h2>
+
+        <div class="key-point">
+            <h4>📍 Steps</h4>
+            <ol style="margin-left: 20px; margin-top: 10px;">
+                <li>Navigate to <strong>Analytics → Datasets</strong></li>
+                <li>Click <strong>New Dataset</strong></li>
+                <li>Select a <strong>record type</strong> (Transaction, Customer, Item, etc.)</li>
+                <li>Drag fields from the left panel to the <strong>Columns</strong> area</li>
+                <li>Add <strong>Criteria</strong> (filters) to limit results</li>
+                <li>Click <strong>Save</strong></li>
+            </ol>
+        </div>
+
+        <h2>Dataset Features</h2>
+
+        <ul>
+            <li><strong>Drag-and-drop</strong> field selection</li>
+            <li><strong>Linked fields</strong> — access related record data</li>
+            <li><strong>Formula fields</strong> — create calculated columns</li>
+            <li><strong>Criteria</strong> — filter rows returned</li>
+            <li><strong>Preview</strong> — see sample data before saving</li>
+        </ul>
+
+        <div class="example-box">
+            <h4>💡 Example: Sales Transaction Dataset</h4>
+            <ul>
+                <li><strong>Record Type:</strong> Transaction</li>
+                <li><strong>Fields:</strong> Date, Customer, Item, Quantity, Amount</li>
+                <li><strong>Criteria:</strong> Type = Invoice, Main Line = False</li>
+            </ul>
+        </div>
+
+        <div class="concept-box">
+            <h4>🎯 Key Takeaways</h4>
+            <ul>
+                <li>Datasets define <strong>what data</strong> to retrieve</li>
+                <li>Use <strong>drag-and-drop</strong> to select fields</li>
+                <li>Add <strong>Criteria</strong> to filter results</li>
+                <li>Datasets are <strong>reusable</strong> across multiple workbooks</li>
+            </ul>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="Module-20-Workbook-Overview.html" class="nav-btn secondary">← Previous: Workbook Overview</a>
+            <a href="Module-22-Visualizations.html" class="nav-btn primary">Next: Visualizations →</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 6: Scripting Sublists</title>
+    <style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.8;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:40px 20px}.container{max-width:900px;margin:0 auto}.header{background:white;padding:30px 40px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.2);margin-bottom:30px}.header h1{color:#2563eb;font-size:2rem;margin-bottom:10px}.header .meta{color:#6b7280;font-size:0.9rem}.content{background:white;padding:40px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.2)}.content h2{color:#1e40af;margin:35px 0 20px 0;font-size:1.6rem;padding-bottom:10px;border-bottom:3px solid #dbeafe}.content h2:first-of-type{margin-top:0}.content h3{color:#374151;margin:25px 0 15px 0;font-size:1.3rem}.content p{margin:15px 0;color:#374151;line-height:1.9}.content ul,.content ol{margin:15px 0 15px 30px;color:#374151}.content li{margin:10px 0;line-height:1.7}.info-box{padding:20px 25px;border-radius:8px;margin:25px 0;border-left:5px solid}.info-box.blue{background:#dbeafe;border-color:#2563eb}.info-box.yellow{background:#fef3c7;border-color:#f59e0b}.info-box.green{background:#dcfce7;border-color:#10b981}.info-box.red{background:#fee2e2;border-color:#ef4444}.info-box strong{color:#1e40af;display:block;margin-bottom:10px;font-size:1.1rem}code{background:#f3f4f6;padding:3px 8px;border-radius:4px;font-family:'Courier New',monospace;font-size:0.9em;color:#ef4444}pre{background:#1e293b;color:#e2e8f0;padding:25px;border-radius:8px;overflow-x:auto;margin:25px 0;border-left:5px solid #667eea}pre code{background:none;padding:0;color:inherit}.takeaway{background:#f0f9ff;border:2px solid #0ea5e9;border-radius:10px;padding:25px;margin:30px 0}.takeaway h3{color:#0369a1;margin:0 0 15px 0}.takeaway ul{margin:10px 0 10px 25px}.takeaway li{color:#0c4a6e;font-weight:500}.nav-buttons{display:flex;justify-content:space-between;margin-top:40px;gap:20px}.back-btn,.next-btn{padding:14px 28px;border-radius:8px;text-decoration:none;font-weight:600;transition:all 0.3s}.back-btn{background:#6b7280;color:white}.next-btn{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:white}table{width:100%;border-collapse:collapse;margin:20px 0}table th,table td{padding:12px;text-align:left;border-bottom:1px solid #e5e7eb}table th{background:#f3f4f6;color:#1e40af;font-weight:600}.toc{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:20px;margin-bottom:30px}.toc h3{color:#1e40af;margin-bottom:15px}.toc ul{list-style:none;margin:0;padding:0}.toc li{margin:8px 0}.toc a{color:#2563eb;text-decoration:none}.comparison{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:20px 0}.comparison>div{padding:20px;border-radius:8px}.do-this{background:#dcfce7;border:2px solid #10b981}.not-this{background:#fee2e2;border:2px solid #ef4444}@media(max-width:600px){.comparison{grid-template-columns:1fr}}</style>
+</head>
+<body>
+<div class="container">
+<div class="header">
+    <h1>Module 6: Scripting Sublists</h1>
+    <p class="meta">Week 4 • NetSuite SuiteScript 2.0 Training • ~75 minutes</p>
+</div>
+<div class="content">
+
+<div class="toc">
+    <h3>📑 In This Module</h3>
+    <ul>
+        <li><a href="#objectives">Learning Objectives</a></li>
+        <li><a href="#what-are">1. What Are Sublists?</a></li>
+        <li><a href="#elements">2. Sublist Elements</a></li>
+        <li><a href="#reading">3. Reading Sublist Values</a></li>
+        <li><a href="#writing">4. Writing to Sublists</a></li>
+        <li><a href="#dynamic">5. Dynamic Mode Operations</a></li>
+        <li><a href="#practice">Practice Exercises</a></li>
+    </ul>
+</div>
+
+<h2 id="objectives">🎯 Learning Objectives</h2>
+<ul>
+    <li>Understand what sublists are and their structure</li>
+    <li>Read values from sublist lines</li>
+    <li>Add, modify, and remove sublist lines</li>
+    <li>Work with sublists in both standard and dynamic mode</li>
+    <li>Find sublist and field IDs using the Records Browser</li>
+</ul>
+
+<h2 id="what-are">1. What Are Sublists?</h2>
+
+<p>A <strong>sublist</strong> is a list of related records displayed as a table within a parent record. For example, a Sales Order has an "Items" sublist containing all the line items being sold.</p>
+
+<div class="info-box blue">
+    <strong>💡 Key Concept</strong>
+    <p>Unlike body fields which have single values, sublists contain multiple lines (rows), each with multiple fields (columns). Think of them as embedded spreadsheets.</p>
+</div>
+
+<h3>Common Sublists</h3>
+<table>
+    <tr><th>Record Type</th><th>Sublist ID</th><th>Contains</th></tr>
+    <tr><td>Sales Order</td><td><code>item</code></td><td>Line items</td></tr>
+    <tr><td>Invoice</td><td><code>item</code></td><td>Billable items</td></tr>
+    <tr><td>Purchase Order</td><td><code>item</code>, <code>expense</code></td><td>Items and expenses</td></tr>
+    <tr><td>Customer</td><td><code>addressbook</code></td><td>Addresses</td></tr>
+    <tr><td>Employee</td><td><code>roles</code></td><td>Assigned roles</td></tr>
+</table>
+
+<h2 id="elements">2. Sublist Elements</h2>
+
+<p>Every sublist has three key elements you need to know:</p>
+
+<ol>
+    <li><strong>Sublist ID</strong> - The internal name of the sublist (e.g., <code>item</code>)</li>
+    <li><strong>Field ID</strong> - The column name (e.g., <code>quantity</code>, <code>rate</code>)</li>
+    <li><strong>Line Number</strong> - Zero-based index (first line = 0)</li>
+</ol>
+
+<pre><code>// To access a value, you need all three:
+record.getSublistValue({
+    sublistId: 'item',      // Which sublist
+    fieldId: 'quantity',    // Which column
+    line: 0                 // Which row (0-based)
+});</code></pre>
+
+<div class="info-box yellow">
+    <strong>⚠️ Finding IDs</strong>
+    <p>Use the <strong>SuiteScript Records Browser</strong> to find sublist and field IDs. Go to Help Center → SuiteScript 2.0 → Records Browser. The Records Browser shows all sublists and their fields for each record type.</p>
+</div>
+
+<h2 id="reading">3. Reading Sublist Values</h2>
+
+<h3>Get Line Count</h3>
+<pre><code>var lineCount = record.getLineCount({ sublistId: 'item' });
+log.debug('Number of lines', lineCount);</code></pre>
+
+<h3>Get Value from Specific Line</h3>
+<pre><code>// Get quantity from first line
+var qty = record.getSublistValue({
+    sublistId: 'item',
+    fieldId: 'quantity',
+    line: 0
+});
+
+// Get text display (for list fields)
+var itemName = record.getSublistText({
+    sublistId: 'item',
+    fieldId: 'item',
+    line: 0
+});</code></pre>
+
+<h3>Loop Through All Lines</h3>
+<pre><code>var lineCount = record.getLineCount({ sublistId: 'item' });
+
+for (var i = 0; i < lineCount; i++) {
+    var itemId = record.getSublistValue({
+        sublistId: 'item',
+        fieldId: 'item',
+        line: i
+    });
+    var qty = record.getSublistValue({
+        sublistId: 'item',
+        fieldId: 'quantity',
+        line: i
+    });
+    var rate = record.getSublistValue({
+        sublistId: 'item',
+        fieldId: 'rate',
+        line: i
+    });
+    
+    log.debug('Line ' + i, 'Item: ' + itemId + ', Qty: ' + qty + ', Rate: ' + rate);
+}</code></pre>
+
+<h2 id="writing">4. Writing to Sublists (Standard Mode)</h2>
+
+<h3>Set Value on Existing Line</h3>
+<pre><code>record.setSublistValue({
+    sublistId: 'item',
+    fieldId: 'quantity',
+    line: 0,
+    value: 10
+});</code></pre>
+
+<h3>Insert a New Line</h3>
+<pre><code>// Insert at specific position
+record.insertLine({
+    sublistId: 'item',
+    line: 0  // Insert at beginning
+});
+
+// Set values on the new line
+record.setSublistValue({
+    sublistId: 'item',
+    fieldId: 'item',
+    line: 0,
+    value: 123  // Item internal ID
+});
+record.setSublistValue({
+    sublistId: 'item',
+    fieldId: 'quantity',
+    line: 0,
+    value: 5
+});</code></pre>
+
+<h3>Remove a Line</h3>
+<pre><code>record.removeLine({
+    sublistId: 'item',
+    line: 2  // Remove third line
+});</code></pre>
+
+<h2 id="dynamic">5. Dynamic Mode Operations</h2>
+
+<p>In dynamic mode, you work with sublists like a user would in the UI:</p>
+
+<pre><code>// Load record in dynamic mode
+var salesOrder = record.load({
+    type: record.Type.SALES_ORDER,
+    id: 123,
+    isDynamic: true
+});
+
+// Select a new line
+salesOrder.selectNewLine({ sublistId: 'item' });
+
+// Set values on current line
+salesOrder.setCurrentSublistValue({
+    sublistId: 'item',
+    fieldId: 'item',
+    value: 456
+});
+salesOrder.setCurrentSublistValue({
+    sublistId: 'item',
+    fieldId: 'quantity',
+    value: 10
+});
+
+// Commit the line (like clicking Add)
+salesOrder.commitLine({ sublistId: 'item' });
+
+salesOrder.save();</code></pre>
+
+<h3>Dynamic Mode Methods</h3>
+<table>
+    <tr><th>Method</th><th>Purpose</th></tr>
+    <tr><td><code>selectLine</code></td><td>Select existing line for editing</td></tr>
+    <tr><td><code>selectNewLine</code></td><td>Start adding a new line</td></tr>
+    <tr><td><code>setCurrentSublistValue</code></td><td>Set value on selected line</td></tr>
+    <tr><td><code>getCurrentSublistValue</code></td><td>Get value from selected line</td></tr>
+    <tr><td><code>commitLine</code></td><td>Save the current line</td></tr>
+    <tr><td><code>cancelLine</code></td><td>Discard changes to current line</td></tr>
+</table>
+
+<div class="comparison">
+    <div class="do-this">
+        <h4>✅ Standard Mode (Server Scripts)</h4>
+        <ul>
+            <li>Faster performance</li>
+            <li>Direct line access by index</li>
+            <li>setSublistValue()</li>
+            <li>Best for bulk operations</li>
+        </ul>
+    </div>
+    <div class="do-this">
+        <h4>✅ Dynamic Mode (Client Scripts)</h4>
+        <ul>
+            <li>Triggers field sourcing</li>
+            <li>Select → Edit → Commit workflow</li>
+            <li>setCurrentSublistValue()</li>
+            <li>Mimics user behavior</li>
+        </ul>
+    </div>
+</div>
+
+<h2 id="practice">🏋️ Practice Exercises</h2>
+
+<div class="info-box green">
+    <strong>Exercise 1: Calculate Line Totals</strong>
+    <p>Create a User Event script that loops through all item lines on a Sales Order and logs each line's amount (quantity × rate).</p>
+</div>
+
+<div class="info-box green">
+    <strong>Exercise 2: Add a Line</strong>
+    <p>Create a script that adds a "Shipping" item to every Sales Order on beforeSubmit.</p>
+</div>
+
+<div class="info-box green">
+    <strong>Exercise 3: Validate Quantities</strong>
+    <p>Create a Client Script validateLine function that prevents committing a line with quantity greater than 100.</p>
+</div>
+
+<div class="takeaway">
+    <h3>🎯 Key Takeaways</h3>
+    <ul>
+        <li>Sublists need three identifiers: sublistId, fieldId, and line number</li>
+        <li>Line numbers are zero-based (first line = 0)</li>
+        <li>Use getLineCount() before looping through lines</li>
+        <li>Standard mode: setSublistValue() with line number</li>
+        <li>Dynamic mode: selectLine() → setCurrentSublistValue() → commitLine()</li>
+        <li>Use Records Browser to find sublist and field IDs</li>
+    </ul>
+</div>
+
+<div class="nav-buttons">
+    <a href="week-4-dashboard.html" class="back-btn">← Back to Week 4</a>
+    <a href="Module-7.html" class="next-btn">Next: Module 7 →</a>
+</div>
+
+</div>
+</div>
+</body>
+</html>

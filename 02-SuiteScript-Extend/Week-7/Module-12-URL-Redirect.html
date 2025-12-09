@@ -1,0 +1,54 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Module 12: N/url & N/redirect - SuiteScript Learning Hub</title><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"><style>:root{--primary-gradient:linear-gradient(135deg,#667eea 0%,#764ba2 100%);--dark-bg:#1a1a2e;--card-bg:#16213e;--text-primary:#ffffff;--text-secondary:#a0aec0;--border-color:rgba(255,255,255,0.1);--purple:#9f7aea;--success:#48bb78;--code-bg:#0d1117}*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Inter',sans-serif;background:var(--dark-bg);color:var(--text-primary);min-height:100vh;line-height:1.7}.nav-bar{background:var(--card-bg);padding:15px 20px;border-bottom:1px solid var(--border-color);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100}.nav-bar a{color:var(--purple);text-decoration:none}.header{background:var(--primary-gradient);padding:50px 20px}.header-content{max-width:900px;margin:0 auto}.header .module-tag{display:inline-block;background:rgba(255,255,255,0.2);padding:5px 12px;border-radius:20px;font-size:0.85rem;margin-bottom:15px}.header h1{font-size:2.2rem;margin-bottom:10px}.header p{font-size:1.1rem;opacity:0.9}.container{max-width:900px;margin:0 auto;padding:40px 20px}.content-section{margin-bottom:40px}.content-section h2{font-size:1.5rem;margin-bottom:20px;padding-bottom:10px;border-bottom:2px solid var(--border-color)}.content-section h3{font-size:1.2rem;margin:25px 0 15px 0;color:var(--purple)}.content-section p{margin-bottom:15px;color:var(--text-secondary)}.info-box{border-radius:10px;padding:20px;margin:20px 0}.info-box.blue{background:rgba(66,153,225,0.15);border:1px solid rgba(66,153,225,0.3)}.info-box.green{background:rgba(72,187,120,0.15);border:1px solid rgba(72,187,120,0.3)}.info-box h4{margin-bottom:10px}.info-box p{margin-bottom:0;font-size:0.95rem}pre{background:var(--code-bg);border-radius:10px;padding:20px;overflow-x:auto;margin:20px 0;border:1px solid var(--border-color)}code{font-family:'JetBrains Mono',monospace;font-size:0.85rem;line-height:1.6}.inline-code{background:var(--code-bg);padding:2px 8px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:0.85rem;color:var(--purple)}.concept-table{width:100%;border-collapse:collapse;margin:20px 0}.concept-table th,.concept-table td{padding:12px 15px;text-align:left;border:1px solid var(--border-color)}.concept-table th{background:var(--card-bg);font-weight:600;color:var(--purple)}.concept-table td{color:var(--text-secondary)}.key-takeaways{background:var(--card-bg);border-radius:12px;padding:25px;margin-top:40px;border:1px solid var(--border-color)}.key-takeaways h3{margin-bottom:15px}.key-takeaways ul{list-style:none}.key-takeaways li{padding:8px 0;padding-left:25px;position:relative;color:var(--text-secondary)}.key-takeaways li::before{content:'✓';position:absolute;left:0;color:var(--success)}.nav-footer{display:flex;justify-content:space-between;margin-top:50px;padding-top:30px;border-top:1px solid var(--border-color);flex-wrap:wrap;gap:10px}.nav-footer a{color:var(--purple);text-decoration:none}</style></head><body><nav class="nav-bar"><a href="week-7-dashboard.html">← Week 7 Dashboard</a><div style="display:flex;gap:15px"><a href="../Week-6/Module-11-ServerWidget.html">← Module 11</a><a href="Module-13-Message-Dialog.html">Module 13 →</a></div></nav><header class="header"><div class="header-content"><span class="module-tag">Week 7 • Module 12</span><h1>N/url & N/redirect</h1><p>Generating URLs and navigating users programmatically</p></div></header><main class="container"><section class="content-section"><h2>🔗 N/url Module</h2><p>The url module generates URLs for records, scripts, and NetSuite domains.</p><h3>url.resolveRecord()</h3><pre><code>const url = require('N/url');
+
+// Generate URL to view a Sales Order
+const recordUrl = url.resolveRecord({
+    recordType: 'salesorder',
+    recordId: 12345,
+    isEditMode: false
+});
+// Returns: /app/accounting/transactions/salesord.nl?id=12345</code></pre><h3>url.resolveScript()</h3><pre><code>// Generate URL to a Suitelet
+const suiteletUrl = url.resolveScript({
+    scriptId: 'customscript_my_suitelet',
+    deploymentId: 'customdeploy_my_suitelet',
+    params: {
+        action: 'view',
+        customerId: 123
+    }
+});
+// Returns: /app/site/hosting/scriptlet.nl?script=123&deploy=1&action=view&customerId=123</code></pre><h3>url.resolveDomain()</h3><pre><code>// Get account-specific domain
+const domain = url.resolveDomain({
+    hostType: url.HostType.APPLICATION
+});
+// Returns: https://12345.app.netsuite.com</code></pre></section><section class="content-section"><h2>↪️ N/redirect Module</h2><p>The redirect module navigates users from server-side scripts (User Event afterSubmit, Suitelet).</p><h3>redirect.toRecord()</h3><pre><code>const redirect = require('N/redirect');
+
+// In afterSubmit or Suitelet POST handler
+redirect.toRecord({
+    type: 'salesorder',
+    id: newRecordId,
+    isEditMode: false
+});</code></pre><h3>redirect.toSuitelet()</h3><pre><code>redirect.toSuitelet({
+    scriptId: 'customscript_confirmation',
+    deploymentId: 'customdeploy_confirmation',
+    parameters: {
+        status: 'success',
+        recordId: 12345
+    }
+});</code></pre><div class="info-box green"><h4>✅ Server-Side Only</h4><p>N/redirect only works in server-side scripts. For client-side navigation, use window.location or the N/url module to generate URLs.</p></div></section><section class="content-section" style="background: rgba(66, 153, 225, 0.1); border: 1px solid rgba(66, 153, 225, 0.2); border-radius: 12px; padding: 25px; margin: 30px 0;">
+            <h2 style="border: none; padding: 0; margin-bottom: 15px;">📖 Finding This in the Docs</h2>
+            <p>To look up URL generation and redirects:</p>
+            <ol style="margin-left: 20px; color: var(--text-secondary);">
+                <li style="margin-bottom: 8px;">Go to <strong>docs.oracle.com</strong> → SuiteScript 2.x Modules</li>
+                <li style="margin-bottom: 8px;">Click on <strong>N/url Module</strong> for URL generation</li>
+                <li style="margin-bottom: 8px;">Click on <strong>N/redirect Module</strong> for server-side navigation</li>
+            </ol>
+            <p style="margin-top: 15px;"><strong>Key pages to bookmark:</strong></p>
+            <ul style="margin-left: 20px; color: var(--text-secondary);">
+                <li>url.resolveRecord(options) → generate record URLs</li>
+                <li>url.resolveScript(options) → generate Suitelet URLs with params</li>
+                <li>url.resolveDomain(options) → get account domain</li>
+                <li>redirect.toRecord(options) → navigate to records</li>
+                <li>redirect.toSuitelet(options) → navigate to Suitelets</li>
+            </ul>
+        </section>
+
+        <div class="key-takeaways"><h3>🎯 Key Takeaways</h3><ul><li><span class="inline-code">url.resolveRecord()</span> generates URLs to view/edit records</li><li><span class="inline-code">url.resolveScript()</span> generates URLs to Suitelets with parameters</li><li><span class="inline-code">url.resolveDomain()</span> gets the account-specific NetSuite domain</li><li><span class="inline-code">redirect.toRecord()</span> navigates to a record (server-side only)</li><li><span class="inline-code">redirect.toSuitelet()</span> navigates to a Suitelet</li><li>Redirects work in afterSubmit and Suitelet POST handlers</li></ul></div><nav class="nav-footer"><a href="../Week-6/Module-11-ServerWidget.html">← Module 11: serverWidget</a><a href="Module-13-Message-Dialog.html">Module 13: Message & Dialog →</a></nav></main></body></html>

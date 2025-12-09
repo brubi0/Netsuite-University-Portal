@@ -1,0 +1,1683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appendix A: Complete Code Examples & Exercises</title>
+    <style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.8;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:40px 20px}.container{max-width:1000px;margin:0 auto}.header{background:white;padding:30px 40px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.2);margin-bottom:30px}.header h1{color:#2563eb;font-size:2rem;margin-bottom:10px}.header .meta{color:#6b7280;font-size:0.9rem}.content{background:white;padding:40px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.2)}.content h2{color:#1e40af;margin:35px 0 20px 0;font-size:1.6rem;padding-bottom:10px;border-bottom:3px solid #dbeafe}.content h2:first-of-type{margin-top:0}.content h3{color:#374151;margin:25px 0 15px 0;font-size:1.3rem}.content h4{color:#1e40af;margin:20px 0 10px 0;font-size:1.1rem}.content p{margin:15px 0;color:#374151}.content ul,.content ol{margin:15px 0 15px 30px;color:#374151}.content li{margin:10px 0}.info-box{padding:20px 25px;border-radius:8px;margin:25px 0;border-left:5px solid}.info-box.blue{background:#dbeafe;border-color:#2563eb}.info-box.yellow{background:#fef3c7;border-color:#f59e0b}.info-box.green{background:#dcfce7;border-color:#10b981}.info-box.red{background:#fee2e2;border-color:#ef4444}.info-box.purple{background:#f3e8ff;border-color:#9333ea}.info-box strong{color:#1e40af;display:block;margin-bottom:10px;font-size:1.1rem}code{background:#f3f4f6;padding:3px 8px;border-radius:4px;font-family:monospace;font-size:0.85em;color:#ef4444}pre{background:#1e293b;color:#e2e8f0;padding:25px;border-radius:8px;overflow-x:auto;margin:25px 0;border-left:5px solid #667eea;font-size:0.9em;line-height:1.6}pre code{background:none;padding:0;color:inherit}.comment{color:#6b7280;font-style:italic}.module-ref{background:#fef3c7;color:#92400e;padding:2px 8px;border-radius:4px;font-size:0.8em;margin-left:10px}table{width:100%;border-collapse:collapse;margin:20px 0}table th,table td{padding:12px;text-align:left;border-bottom:1px solid #e5e7eb}table th{background:#f3f4f6;color:#1e40af;font-weight:600}.toc{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:20px;margin-bottom:30px}.toc h3{color:#1e40af;margin-bottom:15px}.toc ul{list-style:none;margin:0;padding:0}.toc li{margin:8px 0}.toc a{color:#2563eb;text-decoration:none}.nav-buttons{display:flex;justify-content:center;margin-top:40px;gap:20px}.back-btn{padding:14px 28px;border-radius:8px;text-decoration:none;font-weight:600;background:#6b7280;color:white}</style>
+</head>
+<body>
+<div class="container">
+<div class="header">
+    <h1>Appendix A: Complete Code Examples & Exercises</h1>
+    <p class="meta">Full working scripts with detailed annotations • Based on Oracle Student Guide</p>
+</div>
+<div class="content">
+
+<div class="toc">
+    <h3>📑 Contents</h3>
+    <ul>
+        <li><a href="#syntax">1. JavaScript Syntax Quick Reference</a></li>
+        <li><a href="#hello">2. Hello World - Complete User Event Script</a></li>
+        <li><a href="#client">3. Client Script - Field Validation & Defaults</a></li>
+        <li><a href="#sublist">4. Working with Sublists</a></li>
+        <li><a href="#search">5. Search Examples</a></li>
+        <li><a href="#scheduled">6. Scheduled Script with Governance</a></li>
+        <li><a href="#mapreduce">7. Map/Reduce - Payment Processing</a></li>
+        <li><a href="#suitelet">8. Suitelet - Custom Form</a></li>
+        <li><a href="#restlet">9. RESTlet - CRUD Operations</a></li>
+        <li><a href="#workflow">10. Workflow Action Script</a></li>
+        <li><a href="#governance">11. Governance Reference</a></li>
+        <li><a href="#real-world">12. Real-World Example: Invoice Accrual JE ⭐</a></li>
+    </ul>
+</div>
+
+<h2 id="syntax">1. JavaScript Syntax Quick Reference</h2>
+
+<h3>Creating Objects</h3>
+<pre><code>// Anonymous object syntax - used everywhere in SuiteScript
+var myObject = {
+    property1: 'value1',
+    property2: 123,
+    property3: function() { return 'Hello'; }
+};</code></pre>
+
+<h3>The Define Statement</h3>
+<pre><code>// Standard SuiteScript 2.x module pattern
+define(['N/record', 'N/log'], function(record, log) {
+    
+    // Private functions (not exported)
+    function helperFunction() {
+        return 'I am internal';
+    }
+    
+    // Entry point function
+    function afterSubmit(context) {
+        helperFunction();
+        log.debug('Executed', 'Script ran!');
+    }
+    
+    // Export entry points
+    return {
+        afterSubmit: afterSubmit
+    };
+});</code></pre>
+
+<h3>Truthy/Falsey Checks</h3>
+<pre><code>// These are all "falsey" in JavaScript:
+// 0, "", null, undefined, NaN, false
+
+// Quick empty check:
+if (!someValue) {
+    // someValue is empty, null, undefined, 0, or false
+}
+
+// Equivalent to:
+if (someValue == 0 || someValue == "" || someValue == null || 
+    someValue == undefined || someValue == NaN) {
+}</code></pre>
+
+<h3>Search Expressions (Shorthand)</h3>
+<pre><code>// Filter expression syntax: [fieldId, operator, value]
+var filters = [
+    ['type', 'anyof', 'SalesOrd'],
+    'AND',
+    ['mainline', 'is', true],
+    'AND',
+    ['status', 'noneof', 'SalesOrd:C']  // Not Cancelled
+];
+
+// Column expression: just field IDs
+var columns = ['tranid', 'entity', 'total', 'status'];</code></pre>
+
+<h2 id="hello">2. Hello World - Complete User Event Script</h2>
+<span class="module-ref">📚 See Module 2, Module 3</span>
+
+<pre><code>/**
+ * @NApiVersion 2.1
+ * @NScriptType UserEventScript
+ * @NModuleScope SameAccount
+ * 
+ * Complete Hello World script demonstrating:
+ * - Required annotations
+ * - Module loading
+ * - Context object usage
+ * - All three User Event entry points
+ * - Logging at different levels
+ * 
+ * Deploy to: Customer record
+ */
+define(['N/log', 'N/record'], function(log, record) {
+
+    /**
+     * beforeLoad - Triggered when record is loaded for view/edit
+     * Use for: Adding buttons, hiding fields, modifying form
+     * 
+     * @param {Object} context
+     * @param {Record} context.newRecord - Current record (read-only in View mode)
+     * @param {string} context.type - UserEventType enum value
+     * @param {Form} context.form - Form object for UI manipulation
+     */
+    function beforeLoad(context) {
+        log.debug({
+            title: 'beforeLoad Triggered',
+            details: 'Type: ' + context.type + ' | Record ID: ' + context.newRecord.id
+        });
+        
+        // Example: Add a custom button (only when editing)
+        if (context.type === context.UserEventType.EDIT) {
+            context.form.addButton({
+                id: 'custpage_mybutton',
+                label: 'My Custom Button',
+                functionName: 'myClientFunction'  // Must exist in deployed Client Script
+            });
+        }
+    }
+
+    /**
+     * beforeSubmit - Triggered before record is saved to database
+     * Use for: Validation, setting calculated values, blocking saves
+     * 
+     * @param {Object} context
+     * @param {Record} context.newRecord - Record being saved (writable)
+     * @param {Record} context.oldRecord - Previous record state (on edit/delete)
+     * @param {string} context.type - 'create', 'edit', 'delete', etc.
+     */
+    function beforeSubmit(context) {
+        // Only run on create and edit
+        if (context.type !== context.UserEventType.CREATE && 
+            context.type !== context.UserEventType.EDIT) {
+            return;
+        }
+        
+        var rec = context.newRecord;
+        var companyName = rec.getValue('companyname');
+        
+        // Validation example: require company name
+        if (!companyName) {
+            throw 'Company name is required!';  // Blocks save with error
+        }
+        
+        // Set a calculated field
+        rec.setValue({
+            fieldId: 'custentity_last_modified',
+            value: new Date()
+        });
+        
+        log.audit('Customer Saved', 'Company: ' + companyName);
+    }
+
+    /**
+     * afterSubmit - Triggered after record is saved
+     * Use for: Creating related records, sending emails, external integrations
+     * 
+     * @param {Object} context
+     * @param {Record} context.newRecord - Saved record (read-only)
+     * @param {Record} context.oldRecord - Previous state (on edit)
+     * @param {string} context.type - Trigger type
+     */
+    function afterSubmit(context) {
+        var rec = context.newRecord;
+        
+        log.debug({
+            title: 'afterSubmit Complete',
+            details: JSON.stringify({
+                id: rec.id,
+                type: context.type,
+                company: rec.getValue('companyname')
+            })
+        });
+        
+        // Example: Create a follow-up task for new customers
+        if (context.type === context.UserEventType.CREATE) {
+            var task = record.create({ type: record.Type.TASK });
+            task.setValue('title', 'Follow up with new customer');
+            task.setValue('company', rec.id);
+            task.setValue('priority', 'HIGH');
+            var taskId = task.save();
+            
+            log.audit('Task Created', 'Task ID: ' + taskId);
+        }
+    }
+
+    return {
+        beforeLoad: beforeLoad,
+        beforeSubmit: beforeSubmit,
+        afterSubmit: afterSubmit
+    };
+});</code></pre>
+
+<h2 id="client">3. Client Script - Field Validation & Defaults</h2>
+<span class="module-ref">📚 See Module 4</span>
+
+<pre><code>/**
+ * @NApiVersion 2.1
+ * @NScriptType ClientScript
+ * @NModuleScope SameAccount
+ * 
+ * Complete Client Script demonstrating all common entry points
+ * 
+ * Deploy to: Customer record
+ * Custom fields required:
+ *   - custentity_apply_coupon (Checkbox)
+ *   - custentity_coupon_code (Free-form text)
+ */
+define(['N/currentRecord', 'N/log'], function(currentRecord, log) {
+
+    /**
+     * pageInit - Triggered when page loads
+     * Use for: Setting defaults, enabling/disabling fields
+     */
+    function pageInit(context) {
+        var rec = context.currentRecord;
+        var mode = context.mode;  // 'create', 'edit', 'view', 'copy'
+        
+        log.debug('Page Initialized', 'Mode: ' + mode);
+        
+        // Disable coupon code field initially
+        var couponField = rec.getField({ fieldId: 'custentity_coupon_code' });
+        if (couponField) {
+            couponField.isDisabled = true;
+        }
+        
+        // Set default value on new records
+        if (mode === 'create') {
+            rec.setValue({
+                fieldId: 'category',
+                value: 1  // Default customer category
+            });
+        }
+    }
+
+    /**
+     * fieldChanged - Triggered when any field value changes
+     * Use for: Field dependencies, enabling/disabling other fields
+     */
+    function fieldChanged(context) {
+        var rec = context.currentRecord;
+        var fieldId = context.fieldId;
+        
+        // Only react to Apply Coupon checkbox
+        if (fieldId === 'custentity_apply_coupon') {
+            var applyCoupon = rec.getValue('custentity_apply_coupon');
+            var couponField = rec.getField({ fieldId: 'custentity_coupon_code' });
+            
+            if (applyCoupon) {
+                // Enable coupon code field
+                couponField.isDisabled = false;
+            } else {
+                // Disable and clear coupon code
+                couponField.isDisabled = true;
+                rec.setValue({
+                    fieldId: 'custentity_coupon_code',
+                    value: ''
+                });
+            }
+        }
+    }
+
+    /**
+     * validateField - Triggered when leaving a field
+     * Use for: Field-level validation
+     * Return: true to accept, false to reject (keeps focus on field)
+     */
+    function validateField(context) {
+        var rec = context.currentRecord;
+        var fieldId = context.fieldId;
+        
+        if (fieldId === 'custentity_coupon_code') {
+            var applyCoupon = rec.getValue('custentity_apply_coupon');
+            var couponCode = rec.getValue('custentity_coupon_code');
+            
+            // Validate coupon code length if apply coupon is checked
+            if (applyCoupon && couponCode && couponCode.length !== 5) {
+                alert('Coupon code must be exactly 5 characters.');
+                return false;  // Keep focus on field
+            }
+        }
+        
+        return true;  // Allow field change
+    }
+
+    /**
+     * saveRecord - Triggered when user clicks Save
+     * Use for: Form-level validation before submission
+     * Return: true to save, false to cancel
+     */
+    function saveRecord(context) {
+        var rec = context.currentRecord;
+        
+        var applyCoupon = rec.getValue('custentity_apply_coupon');
+        var couponCode = rec.getValue('custentity_coupon_code');
+        
+        // Require coupon code if Apply Coupon is checked
+        if (applyCoupon && (!couponCode || couponCode.length !== 5)) {
+            alert('Please enter a valid 5-character coupon code.');
+            return false;  // Cancel save
+        }
+        
+        // Confirm save
+        return confirm('Are you sure you want to save this customer?');
+    }
+
+    /**
+     * lineInit - Triggered when a sublist line is selected/created
+     * Use for: Setting line defaults
+     */
+    function lineInit(context) {
+        var rec = context.currentRecord;
+        var sublistId = context.sublistId;
+        
+        // Example: Default quantity on custom sublist
+        if (sublistId === 'recmachcustrecord_product_pref_customer') {
+            var qty = rec.getCurrentSublistValue({
+                sublistId: sublistId,
+                fieldId: 'custrecord_prod_pref_qty'
+            });
+            
+            // Default to 1 if empty
+            if (!qty || isNaN(parseInt(qty))) {
+                rec.setCurrentSublistValue({
+                    sublistId: sublistId,
+                    fieldId: 'custrecord_prod_pref_qty',
+                    value: 1
+                });
+            }
+        }
+    }
+
+    /**
+     * validateLine - Triggered when committing a sublist line
+     * Return: true to accept line, false to reject
+     */
+    function validateLine(context) {
+        var rec = context.currentRecord;
+        var sublistId = context.sublistId;
+        
+        if (sublistId === 'recmachcustrecord_product_pref_customer') {
+            var qty = parseInt(rec.getCurrentSublistValue({
+                sublistId: sublistId,
+                fieldId: 'custrecord_prod_pref_qty'
+            }));
+            
+            if (qty > 10) {
+                alert('Preferred quantity cannot exceed 10.');
+                return false;
+            }
+        }
+        
+        return true;
+    }
+
+    return {
+        pageInit: pageInit,
+        fieldChanged: fieldChanged,
+        validateField: validateField,
+        saveRecord: saveRecord,
+        lineInit: lineInit,
+        validateLine: validateLine
+    };
+});</code></pre>
+
+<h2 id="sublist">4. Working with Sublists</h2>
+<span class="module-ref">📚 See Module 6</span>
+
+<pre><code>/**
+ * @NApiVersion 2.1
+ * @NScriptType UserEventScript
+ * 
+ * Demonstrates sublist manipulation on Sales Orders
+ */
+define(['N/log', 'N/record'], function(log, record) {
+
+    function afterSubmit(context) {
+        if (context.type !== context.UserEventType.CREATE) return;
+        
+        var salesOrder = context.newRecord;
+        
+        // ==== READING SUBLISTS ====
+        
+        // Get line count
+        var lineCount = salesOrder.getLineCount({ sublistId: 'item' });
+        log.debug('Item Lines', 'Total: ' + lineCount);
+        
+        // Loop through all lines
+        var orderTotal = 0;
+        for (var i = 0; i < lineCount; i++) {
+            // Get values from specific line
+            var itemId = salesOrder.getSublistValue({
+                sublistId: 'item',
+                fieldId: 'item',
+                line: i
+            });
+            
+            var itemName = salesOrder.getSublistText({
+                sublistId: 'item',
+                fieldId: 'item',
+                line: i
+            });
+            
+            var quantity = salesOrder.getSublistValue({
+                sublistId: 'item',
+                fieldId: 'quantity',
+                line: i
+            });
+            
+            var amount = salesOrder.getSublistValue({
+                sublistId: 'item',
+                fieldId: 'amount',
+                line: i
+            });
+            
+            orderTotal += parseFloat(amount) || 0;
+            
+            log.debug('Line ' + (i + 1), 
+                itemName + ' | Qty: ' + quantity + ' | Amount: ' + amount);
+        }
+        
+        log.audit('Order Total Calculated', orderTotal);
+    }
+
+    /**
+     * Adding lines to a sublist (dynamic mode required)
+     */
+    function addItemToOrder(orderId, itemId, quantity) {
+        // Load in dynamic mode for sublist manipulation
+        var order = record.load({
+            type: record.Type.SALES_ORDER,
+            id: orderId,
+            isDynamic: true
+        });
+        
+        // Select a new line
+        order.selectNewLine({ sublistId: 'item' });
+        
+        // Set values on current line
+        order.setCurrentSublistValue({
+            sublistId: 'item',
+            fieldId: 'item',
+            value: itemId
+        });
+        
+        order.setCurrentSublistValue({
+            sublistId: 'item',
+            fieldId: 'quantity',
+            value: quantity
+        });
+        
+        // Commit the line
+        order.commitLine({ sublistId: 'item' });
+        
+        // Save changes
+        order.save();
+    }
+
+    return {
+        afterSubmit: afterSubmit
+    };
+});</code></pre>
+
+<h2 id="search">5. Search Examples</h2>
+<span class="module-ref">📚 See Module 7</span>
+
+<pre><code>/**
+ * @NApiVersion 2.1
+ * @NScriptType ScheduledScript
+ * 
+ * Comprehensive search examples
+ */
+define(['N/search', 'N/log', 'N/record'], function(search, log, record) {
+
+    function execute(context) {
+        
+        // ==== LOAD SAVED SEARCH ====
+        var savedSearch = search.load({ id: 'customsearch_my_customers' });
+        
+        // ==== CREATE SEARCH FROM SCRATCH ====
+        var customerSearch = search.create({
+            type: search.Type.CUSTOMER,
+            filters: [
+                ['isinactive', 'is', 'F'],
+                'AND',
+                ['salesrep', 'noneof', '@NONE@'],  // Has a sales rep
+                'AND',
+                ['datecreated', 'within', 'lastmonth']
+            ],
+            columns: [
+                search.createColumn({ name: 'entityid' }),
+                search.createColumn({ name: 'companyname' }),
+                search.createColumn({ name: 'email' }),
+                search.createColumn({ name: 'salesrep' }),
+                // Join to related record
+                search.createColumn({
+                    name: 'phone',
+                    join: 'salesrep'  // Get sales rep's phone
+                }),
+                // Summary column
+                search.createColumn({
+                    name: 'internalid',
+                    summary: search.Summary.COUNT
+                })
+            ]
+        });
+        
+        // ==== RUN WITH EACH (up to 4000 results) ====
+        var resultCount = 0;
+        customerSearch.run().each(function(result) {
+            var entityId = result.getValue('entityid');
+            var company = result.getValue('companyname');
+            var salesRepId = result.getValue('salesrep');
+            var salesRepName = result.getText('salesrep');  // Display value
+            
+            log.debug('Customer', company + ' | Rep: ' + salesRepName);
+            
+            resultCount++;
+            return true;  // Continue to next result (false stops iteration)
+        });
+        
+        log.audit('Search Complete', 'Found ' + resultCount + ' customers');
+        
+        // ==== GETRANGE (for pagination) ====
+        var results = customerSearch.run().getRange({
+            start: 0,
+            end: 100
+        });
+        log.debug('First 100', results.length + ' results');
+        
+        // ==== PAGED EXECUTION (for 4000+ results) ====
+        var pagedData = customerSearch.runPaged({ pageSize: 1000 });
+        log.debug('Paged Search', 'Total results: ' + pagedData.count);
+        
+        pagedData.pageRanges.forEach(function(pageRange) {
+            var page = pagedData.fetch({ index: pageRange.index });
+            page.data.forEach(function(result) {
+                // Process each result
+            });
+        });
+        
+        // ==== LOOKUP FIELDS (single record, 1 unit) ====
+        var customerData = search.lookupFields({
+            type: search.Type.CUSTOMER,
+            id: '123',
+            columns: ['companyname', 'email', 'salesrep']
+        });
+        log.debug('Lookup Result', JSON.stringify(customerData));
+        // Returns: { companyname: 'ABC Corp', email: 'info@abc.com', salesrep: [{value: '5', text: 'John Smith'}] }
+    }
+
+    return { execute: execute };
+});</code></pre>
+
+<h2 id="scheduled">6. Scheduled Script with Governance</h2>
+<span class="module-ref">📚 See Module 8, Module 14</span>
+
+<pre><code>/**
+ * @NApiVersion 2.1
+ * @NScriptType ScheduledScript
+ * 
+ * Scheduled script with governance monitoring and rescheduling
+ */
+define(['N/search', 'N/record', 'N/runtime', 'N/task', 'N/log'], 
+    function(search, record, runtime, task, log) {
+
+    // Governance threshold - reschedule before running out
+    var GOVERNANCE_THRESHOLD = 500;  // Out of 10,000 units
+
+    function execute(context) {
+        var script = runtime.getCurrentScript();
+        
+        // Log remaining governance at start
+        log.audit('Script Started', 'Remaining units: ' + script.getRemainingUsage());
+        
+        // Search for records to process
+        var mySearch = search.create({
+            type: 'customrecord_my_queue',
+            filters: [['custrecord_processed', 'is', 'F']],
+            columns: ['internalid', 'name']
+        });
+        
+        var processedCount = 0;
+        
+        mySearch.run().each(function(result) {
+            // Check governance BEFORE processing
+            var remaining = script.getRemainingUsage();
+            
+            if (remaining < GOVERNANCE_THRESHOLD) {
+                log.audit('Governance Low', 'Rescheduling. Processed: ' + processedCount);
+                rescheduleScript();
+                return false;  // Stop iteration
+            }
+            
+            // Process the record
+            try {
+                processRecord(result.id);
+                processedCount++;
+                
+                // Log progress every 100 records
+                if (processedCount % 100 === 0) {
+                    log.audit('Progress', processedCount + ' records. Remaining: ' + remaining);
+                }
+            } catch (e) {
+                log.error('Processing Error', 'Record ' + result.id + ': ' + e.message);
+            }
+            
+            return true;  // Continue to next
+        });
+        
+        log.audit('Script Complete', 'Processed ' + processedCount + ' records');
+    }
+
+    function processRecord(recordId) {
+        // Load record (10 units)
+        var rec = record.load({
+            type: 'customrecord_my_queue',
+            id: recordId
+        });
+        
+        // Do processing...
+        rec.setValue('custrecord_processed', true);
+        rec.setValue('custrecord_processed_date', new Date());
+        
+        // Save record (20 units)
+        rec.save();
+    }
+
+    function rescheduleScript() {
+        var scriptTask = task.create({
+            taskType: task.TaskType.SCHEDULED_SCRIPT,
+            scriptId: runtime.getCurrentScript().id,
+            deploymentId: runtime.getCurrentScript().deploymentId
+        });
+        
+        var taskId = scriptTask.submit();
+        log.audit('Rescheduled', 'New task ID: ' + taskId);
+    }
+
+    return { execute: execute };
+});</code></pre>
+
+<h2 id="mapreduce">7. Map/Reduce - Payment Processing</h2>
+<span class="module-ref">📚 See Module 9</span>
+
+<pre><code>/**
+ * @NApiVersion 2.1
+ * @NScriptType MapReduceScript
+ * 
+ * Calculate total payments per customer
+ * Demonstrates all four M/R stages
+ */
+define(['N/search', 'N/log', 'N/runtime'], function(search, log, runtime) {
+
+    /**
+     * STAGE 1: getInputData
+     * Returns data to be processed (search, array, or object)
+     * Automatic governance handling
+     */
+    function getInputData() {
+        log.audit('M/R Started', 'getInputData executing');
+        
+        // Return a search - each result becomes a map() input
+        return search.create({
+            type: 'transaction',
+            filters: [
+                ['type', 'anyof', 'CustPymt'],
+                'AND',
+                ['mainline', 'is', true]
+            ],
+            columns: ['entity', 'status', 'amount']
+        });
+        
+        // Alternative: Return saved search by ID
+        // return search.load({ id: 'customsearch_payments' });
+        
+        // Alternative: Return array
+        // return [{ id: 1, name: 'A' }, { id: 2, name: 'B' }];
+    }
+
+    /**
+     * STAGE 2: map
+     * Process each input individually
+     * Write key-value pairs for reduce stage
+     */
+    function map(context) {
+        // context.value is JSON string of search result
+        var searchResult = JSON.parse(context.value);
+        
+        // Extract values from search result structure
+        var customerId = searchResult.values.entity.value;
+        var customerName = searchResult.values.entity.text;
+        var status = searchResult.values.status.value;
+        var amount = parseFloat(searchResult.values.amount) || 0;
+        
+        // Write key-value pair
+        // All values with same key go to same reduce()
+        context.write({
+            key: customerId,
+            value: JSON.stringify({
+                name: customerName,
+                status: status,
+                amount: amount
+            })
+        });
+    }
+
+    /**
+     * STAGE 3: reduce
+     * Process all values for each unique key
+     */
+    function reduce(context) {
+        var customerId = context.key;
+        var values = context.values;  // Array of all values for this key
+        
+        var depositedTotal = 0;
+        var undepositedTotal = 0;
+        var customerName = '';
+        
+        // Process all payments for this customer
+        values.forEach(function(valueStr) {
+            var payment = JSON.parse(valueStr);
+            customerName = payment.name;
+            
+            if (payment.status === 'deposited') {
+                depositedTotal += payment.amount;
+            } else {
+                undepositedTotal += payment.amount;
+            }
+        });
+        
+        // Log results for this customer
+        log.audit('Customer Totals', customerName + 
+            ' | Deposited: $' + depositedTotal.toFixed(2) +
+            ' | Undeposited: $' + undepositedTotal.toFixed(2));
+        
+        // Optionally write to summarize stage
+        context.write({
+            key: customerId,
+            value: depositedTotal + undepositedTotal
+        });
+    }
+
+    /**
+     * STAGE 4: summarize
+     * Final processing, error handling, reporting
+     */
+    function summarize(summary) {
+        // Log overall statistics
+        log.audit('Summary', JSON.stringify({
+            usage: summary.usage,
+            concurrency: summary.concurrency,
+            yields: summary.yields
+        }));
+        
+        // Check for errors
+        if (summary.inputSummary.error) {
+            log.error('Input Error', summary.inputSummary.error);
+        }
+        
+        summary.mapSummary.errors.iterator().each(function(key, error) {
+            log.error('Map Error', 'Key: ' + key + ' Error: ' + error);
+            return true;
+        });
+        
+        summary.reduceSummary.errors.iterator().each(function(key, error) {
+            log.error('Reduce Error', 'Key: ' + key + ' Error: ' + error);
+            return true;
+        });
+        
+        // Process final output
+        var grandTotal = 0;
+        summary.output.iterator().each(function(key, value) {
+            grandTotal += parseFloat(value) || 0;
+            return true;
+        });
+        
+        log.audit('Grand Total', '$' + grandTotal.toFixed(2));
+    }
+
+    return {
+        getInputData: getInputData,
+        map: map,
+        reduce: reduce,
+        summarize: summarize
+    };
+});</code></pre>
+
+<h2 id="suitelet">8. Suitelet - Custom Form</h2>
+<span class="module-ref">📚 See Module 12</span>
+
+<pre><code>/**
+ * @NApiVersion 2.1
+ * @NScriptType Suitelet
+ * 
+ * Custom form with processing
+ */
+define(['N/ui/serverWidget', 'N/search', 'N/log', 'N/redirect'], 
+    function(serverWidget, search, log, redirect) {
+
+    function onRequest(context) {
+        if (context.request.method === 'GET') {
+            // Display the form
+            showForm(context);
+        } else {
+            // Process form submission
+            processForm(context);
+        }
+    }
+
+    function showForm(context) {
+        var form = serverWidget.createForm({
+            title: 'Customer Lookup'
+        });
+        
+        // Add fields (custpage_ prefix required!)
+        form.addField({
+            id: 'custpage_customer',
+            type: serverWidget.FieldType.SELECT,
+            label: 'Select Customer',
+            source: 'customer'  // Populates from customer list
+        });
+        
+        form.addField({
+            id: 'custpage_start_date',
+            type: serverWidget.FieldType.DATE,
+            label: 'Start Date'
+        });
+        
+        form.addField({
+            id: 'custpage_end_date',
+            type: serverWidget.FieldType.DATE,
+            label: 'End Date'
+        });
+        
+        // Add field group
+        var filterGroup = form.addFieldGroup({
+            id: 'custpage_filters',
+            label: 'Filters'
+        });
+        
+        // Checkbox
+        var activeOnly = form.addField({
+            id: 'custpage_active_only',
+            type: serverWidget.FieldType.CHECKBOX,
+            label: 'Active Transactions Only',
+            container: 'custpage_filters'
+        });
+        activeOnly.defaultValue = 'T';
+        
+        // Add submit button
+        form.addSubmitButton({ label: 'Search' });
+        
+        // Add sublist for results
+        var sublist = form.addSublist({
+            id: 'custpage_results',
+            type: serverWidget.SublistType.LIST,
+            label: 'Search Results'
+        });
+        
+        sublist.addField({
+            id: 'custpage_tranid',
+            type: serverWidget.FieldType.TEXT,
+            label: 'Transaction #'
+        });
+        
+        sublist.addField({
+            id: 'custpage_date',
+            type: serverWidget.FieldType.DATE,
+            label: 'Date'
+        });
+        
+        sublist.addField({
+            id: 'custpage_amount',
+            type: serverWidget.FieldType.CURRENCY,
+            label: 'Amount'
+        });
+        
+        context.response.writePage(form);
+    }
+
+    function processForm(context) {
+        var request = context.request;
+        
+        // Get submitted values
+        var customerId = request.parameters.custpage_customer;
+        var startDate = request.parameters.custpage_start_date;
+        var endDate = request.parameters.custpage_end_date;
+        
+        log.debug('Form Submitted', JSON.stringify({
+            customer: customerId,
+            startDate: startDate,
+            endDate: endDate
+        }));
+        
+        // Redirect to customer record
+        redirect.toRecord({
+            type: 'customer',
+            id: customerId
+        });
+        
+        // Or redirect back to suitelet with results
+        // redirect.toSuitelet({
+        //     scriptId: 'customscript_my_suitelet',
+        //     deploymentId: 'customdeploy_my_suitelet',
+        //     parameters: { custid: customerId }
+        // });
+    }
+
+    return { onRequest: onRequest };
+});</code></pre>
+
+<h2 id="restlet">9. RESTlet - CRUD Operations</h2>
+<span class="module-ref">📚 See Module 13</span>
+
+<pre><code>/**
+ * @NApiVersion 2.1
+ * @NScriptType Restlet
+ * 
+ * RESTful API for Customer records
+ */
+define(['N/record', 'N/search', 'N/log'], function(record, search, log) {
+
+    /**
+     * GET - Retrieve customer data
+     * URL params come as requestParams object
+     */
+    function get(requestParams) {
+        var customerId = requestParams.id;
+        
+        if (!customerId) {
+            return { error: true, message: 'Customer ID required' };
+        }
+        
+        try {
+            var customer = record.load({
+                type: record.Type.CUSTOMER,
+                id: customerId
+            });
+            
+            return {
+                success: true,
+                data: {
+                    id: customer.id,
+                    entityId: customer.getValue('entityid'),
+                    companyName: customer.getValue('companyname'),
+                    email: customer.getValue('email'),
+                    phone: customer.getValue('phone'),
+                    balance: customer.getValue('balance')
+                }
+            };
+        } catch (e) {
+            log.error('GET Error', e.message);
+            return { error: true, message: e.message };
+        }
+    }
+
+    /**
+     * POST - Create new customer
+     * Request body comes as requestBody object
+     */
+    function post(requestBody) {
+        try {
+            var customer = record.create({
+                type: record.Type.CUSTOMER
+            });
+            
+            customer.setValue('companyname', requestBody.companyName);
+            customer.setValue('email', requestBody.email);
+            
+            if (requestBody.phone) {
+                customer.setValue('phone', requestBody.phone);
+            }
+            
+            var customerId = customer.save();
+            
+            return {
+                success: true,
+                id: customerId,
+                message: 'Customer created'
+            };
+        } catch (e) {
+            log.error('POST Error', e.message);
+            return { error: true, message: e.message };
+        }
+    }
+
+    /**
+     * PUT - Update existing customer
+     */
+    function put(requestBody) {
+        if (!requestBody.id) {
+            return { error: true, message: 'Customer ID required' };
+        }
+        
+        try {
+            var customer = record.load({
+                type: record.Type.CUSTOMER,
+                id: requestBody.id
+            });
+            
+            // Update only provided fields
+            if (requestBody.companyName) {
+                customer.setValue('companyname', requestBody.companyName);
+            }
+            if (requestBody.email) {
+                customer.setValue('email', requestBody.email);
+            }
+            if (requestBody.phone) {
+                customer.setValue('phone', requestBody.phone);
+            }
+            
+            customer.save();
+            
+            return { success: true, message: 'Customer updated' };
+        } catch (e) {
+            log.error('PUT Error', e.message);
+            return { error: true, message: e.message };
+        }
+    }
+
+    /**
+     * DELETE - Remove customer
+     */
+    function doDelete(requestParams) {
+        if (!requestParams.id) {
+            return { error: true, message: 'Customer ID required' };
+        }
+        
+        try {
+            record.delete({
+                type: record.Type.CUSTOMER,
+                id: requestParams.id
+            });
+            
+            return { success: true, message: 'Customer deleted' };
+        } catch (e) {
+            log.error('DELETE Error', e.message);
+            return { error: true, message: e.message };
+        }
+    }
+
+    return {
+        get: get,
+        post: post,
+        put: put,
+        'delete': doDelete  // 'delete' is reserved word
+    };
+});</code></pre>
+
+<h2 id="workflow">10. Workflow Action Script</h2>
+<span class="module-ref">📚 See Module 11</span>
+
+<pre><code>/**
+ * @NApiVersion 2.1
+ * @NScriptType WorkflowActionScript
+ * 
+ * Custom workflow action to update related records
+ * Attach directly to workflow (no deployment needed)
+ */
+define(['N/record', 'N/runtime', 'N/log'], function(record, runtime, log) {
+
+    function onAction(context) {
+        // Get the record triggering the workflow
+        var salesOrder = context.newRecord;
+        var orderId = salesOrder.id;
+        
+        // Get script parameter from workflow
+        var script = runtime.getCurrentScript();
+        var orderDate = script.getParameter({ name: 'custscript_urk_order_date' });
+        
+        // Get values from the sales order
+        var customerId = salesOrder.getValue('entity');
+        var lineCount = salesOrder.getLineCount({ sublistId: 'item' });
+        
+        // Build notes for customer record
+        var notes = 'Last Order Date: ' + orderDate + '\\n';
+        notes += 'Unique items ordered: ' + lineCount;
+        
+        try {
+            // Load and update customer
+            var customer = record.load({
+                type: record.Type.CUSTOMER,
+                id: customerId
+            });
+            
+            customer.setValue({
+                fieldId: 'comments',
+                value: notes
+            });
+            
+            customer.save();
+            
+            log.audit('Workflow Action', 'Updated customer ' + customerId);
+            
+            // Return value for workflow branching
+            return 'SUCCESS';
+            
+        } catch (e) {
+            log.error('Workflow Action Error', e.message);
+            return 'ERROR';
+        }
+    }
+
+    return { onAction: onAction };
+});</code></pre>
+
+<h2 id="governance">11. Governance Reference</h2>
+<span class="module-ref">📚 See Module 14</span>
+
+<h3>Script Type Limits</h3>
+<table>
+    <tr><th>Script Type</th><th>Governance Limit</th></tr>
+    <tr><td>Client Script</td><td>1,000 units</td></tr>
+    <tr><td>User Event</td><td>1,000 units</td></tr>
+    <tr><td>Suitelet</td><td>1,000 units</td></tr>
+    <tr><td>RESTlet</td><td>5,000 units</td></tr>
+    <tr><td>Scheduled Script</td><td>10,000 units</td></tr>
+    <tr><td>Map/Reduce</td><td>Automatic (per stage)</td></tr>
+</table>
+
+<h3>Common Operation Costs</h3>
+<table>
+    <tr><th>Operation</th><th>Entity/CRM</th><th>Transaction</th><th>Custom</th></tr>
+    <tr><td>record.load()</td><td>5 units</td><td>10 units</td><td>2 units</td></tr>
+    <tr><td>record.save()</td><td>10 units</td><td>20 units</td><td>4 units</td></tr>
+    <tr><td>record.delete()</td><td>20 units</td><td>20 units</td><td>4 units</td></tr>
+    <tr><td>record.submitFields()</td><td colspan="3">2 units (recommended!)</td></tr>
+    <tr><td>search.create().run()</td><td colspan="3">5 units</td></tr>
+    <tr><td>search.lookupFields()</td><td colspan="3">1 unit (recommended!)</td></tr>
+    <tr><td>ResultSet.each()</td><td colspan="3">10 units per 1000 results</td></tr>
+    <tr><td>email.send()</td><td colspan="3">20 units</td></tr>
+    <tr><td>http.get/post()</td><td colspan="3">10 units</td></tr>
+</table>
+
+<div class="info-box green">
+    <strong>✅ Optimization Tips</strong>
+    <ul>
+        <li>Use <code>record.submitFields()</code> (2 units) instead of load+save (15+ units)</li>
+        <li>Use <code>search.lookupFields()</code> (1 unit) for single record reads</li>
+        <li>Offload heavy processing to Scheduled or Map/Reduce scripts</li>
+        <li>Check <code>getRemainingUsage()</code> before expensive operations</li>
+        <li>Use script parameters instead of hardcoded values</li>
+    </ul>
+</div>
+
+<!-- ==================== REAL-WORLD EXAMPLE ==================== -->
+<h2 id="real-world">12. Real-World Example: Invoice Accrual Journal Entry</h2>
+
+<div class="info-box purple">
+    <strong>🏢 Production Script Overview</strong>
+    This is a real production Workflow Action Script that creates accrual Journal Entries when Invoices are created. It demonstrates <strong>10 of 16 modules</strong> in action, including dynamic record creation, sublist iteration, searches, script parameters, and error handling with email notifications.
+</div>
+
+<h4>Modules Demonstrated</h4>
+<table>
+    <tr><th>Module</th><th>Concepts Used</th></tr>
+    <tr><td>0-2</td><td>JSDoc annotations, define(), module loading pattern</td></tr>
+    <tr><td>3</td><td>getValue(), getSublistValue(), getSublistText(), setValue()</td></tr>
+    <tr><td>4</td><td>Entry points (onAction for Workflow Action)</td></tr>
+    <tr><td>5</td><td>N/record, N/search, N/email, N/runtime modules</td></tr>
+    <tr><td>6</td><td>Sublists: getLineCount(), selectNewLine(), setCurrentSublistValue(), commitLine()</td></tr>
+    <tr><td>7</td><td>search.create() with filters, run().each()</td></tr>
+    <tr><td>10</td><td>Script parameters via runtime.getCurrentScript().getParameter()</td></tr>
+    <tr><td>11</td><td>Workflow Action Script type</td></tr>
+    <tr><td>14</td><td>try/catch/finally, log.error(), email error notifications</td></tr>
+    <tr><td>15</td><td>Modular helper functions, comprehensive logging</td></tr>
+</table>
+
+<h4>Complete Annotated Script</h4>
+<pre><code><span class="comment">/**
+ * @NApiVersion 2.x
+ * @NScriptType workflowactionscript
+ * ═══════════════════════════════════════════════════════════════════════════
+ * 📚 MODULE 2: Required JSDoc Annotations
+ *    - @NApiVersion 2.x tells NetSuite which API version
+ *    - @NScriptType workflowactionscript defines the script type
+ * ═══════════════════════════════════════════════════════════════════════════
+ *
+ * @Author:       Bruno
+ * @Created:      2020-08-19
+ * @ScriptName:   WA_Make_Accruals_JE_on_Inv_Create
+ * @Filename:     WA_Make_Accruals_JE_on_Inv_Create.js
+ * @ScriptID:     customscript_wa_make_je_on_inv_create
+ * 
+ * @SandBox:
+ *  @FileID:        [SANDBOX_FILE_ID]
+ *  @InternalURL:   https://[ACCOUNT_ID]-sb1.app.netsuite.com/app/common/scripting/script.nl?id=[SCRIPT_ID]
+ *  @DeploymentURL: https://[ACCOUNT_ID]-sb1.app.netsuite.com/app/common/scripting/scriptrecord.nl?id=[DEPLOY_ID]
+ * 
+ * @Production:
+ *  @FileID:        [PROD_FILE_ID]
+ *  @InternalURL:   https://[ACCOUNT_ID].app.netsuite.com/app/common/scripting/script.nl?id=[SCRIPT_ID]
+ *  @DeploymentURL: https://[ACCOUNT_ID].app.netsuite.com/app/common/scripting/scriptrecord.nl?id=[DEPLOY_ID]
+ *
+ * @AdditionalInfo:
+ *    Accrual account: [ACCRUAL_ACCOUNT_ID] "Accrued Revenue (Invoice Pending)"
+ *
+ * @modifications
+ *  Version     Author      Date          Remarks
+ *  v1.0.0      Bruno       2020-08-19    Initial version
+ *  v1.1.0      Bruno       2020-08-27    Recreate all line fields from invoice on JE
+ *  v1.2.0      Bruno       2020-09-02    Set JE trandate = inv trandate
+ */</span>
+
+<span class="comment">// ═══════════════════════════════════════════════════════════════════════════
+// 📚 MODULE 2 & 5: The define() Statement
+//    - First parameter: Array of module dependencies
+//    - Second parameter: Callback function receiving module objects
+//    - N/record: Create, load, save records
+//    - N/search: Query NetSuite data
+//    - N/email: Send email notifications
+//    - N/runtime: Access script parameters and execution context
+// ═══════════════════════════════════════════════════════════════════════════</span>
+<span class="keyword">define</span>(['N/record', 'N/search', 'N/email', 'N/runtime'], 
+<span class="keyword">function</span>(record, search, email, runtime) {
+
+    <span class="comment">// 📚 MODULE 10: Get script object ONCE at the top for efficiency
+    // This gives us access to script parameters defined in the deployment</span>
+    <span class="keyword">var</span> scriptObj = runtime.getCurrentScript();
+
+    <span class="comment">/**
+     * ═══════════════════════════════════════════════════════════════════════
+     * 📚 MODULE 11: Workflow Action Script Entry Point
+     * 
+     * onAction(context) is triggered when:
+     *   - The workflow reaches this custom action
+     *   - Can be triggered Before Record Submit or After Record Submit
+     * 
+     * context.newRecord - The record that triggered the workflow
+     * Return value - Can be used for workflow branching (1, 'SUCCESS', etc.)
+     * ═══════════════════════════════════════════════════════════════════════
+     */</span>
+    <span class="keyword">function</span> <span class="function">onAction</span>(context) {
+        <span class="comment">// 📚 MODULE 14: Wrap everything in try/catch for error handling</span>
+        <span class="keyword">try</span> {
+            <span class="comment">// 📚 MODULE 11: Get the triggering record from workflow context</span>
+            <span class="keyword">var</span> newRec = context.newRecord;
+            
+            <span class="comment">// 📚 MODULE 15: Debug logging - log the record ID and structure</span>
+            log.debug(<span class="string">'newRec'</span>, newRec.id + <span class="string">' >> '</span> + JSON.stringify(newRec));
+
+            <span class="comment">// 📚 MODULE 3: getValue() to read body field
+            // Check if this invoice already has an accrual JE linked</span>
+            <span class="keyword">var</span> existingJE;
+            <span class="keyword">if</span> (newRec.getValue({fieldId: <span class="string">'custbody_accruals_journal_entry'</span>})) {
+                <span class="comment">// If field has value, verify JE still exists via search</span>
+                existingJE = checkForExistingJE(newRec.id);
+            } <span class="keyword">else</span> {
+                existingJE = newRec.getValue({fieldId: <span class="string">'custbody_accruals_journal_entry'</span>});
+            }
+            
+            log.debug(<span class="string">'existingJE'</span>, JSON.stringify(existingJE));
+            
+            <span class="comment">// Only create new JE if one doesn't exist</span>
+            <span class="keyword">var</span> jeID;
+            <span class="keyword">if</span> (existingJE == <span class="string">''</span>) {
+                jeID = createNewJE(newRec);
+            }
+            
+            log.debug(<span class="string">'jeID'</span>, jeID);
+            
+            <span class="comment">// 📚 MODULE 5: record.submitFields() - Update without loading record
+            // This is MORE EFFICIENT than load() + setValue() + save()
+            // Only costs 2 governance units vs 15+ for load/save!</span>
+            <span class="keyword">if</span> (jeID) {
+                record.submitFields({
+                    type: record.Type.INVOICE,
+                    id: newRec.id,
+                    values: {
+                        custbody_accruals_journal_entry: jeID
+                    },
+                    options: {
+                        enableSourcing: <span class="keyword">false</span>,
+                        ignoreMandatoryFields: <span class="keyword">true</span>
+                    }
+                });
+            }
+
+        } <span class="keyword">catch</span> (err01) {
+            <span class="comment">// 📚 MODULE 14: Log errors with context</span>
+            log.debug(<span class="string">'onAction.err01'</span>, JSON.stringify(err01));
+        } <span class="keyword">finally</span> {
+            <span class="comment">// 📚 MODULE 11: Return value for workflow branching
+            // 1 = success, workflow can use this to determine next state</span>
+            <span class="keyword">return</span> 1;
+        }
+    }
+
+    <span class="comment">/***********************************************/
+    /*********** BEGIN UTILITY FUNCTIONS ***********/
+    /***********************************************/</span>
+
+    <span class="comment">/**
+     * ═══════════════════════════════════════════════════════════════════════
+     * 📚 MODULE 7: Search for Existing Journal Entry
+     * 
+     * Uses search.create() to find any JE already linked to this invoice.
+     * Demonstrates:
+     *   - Filter expressions with AND operators
+     *   - Multiple filter conditions
+     *   - run().each() for processing results
+     *   - Returning early with 'return false'
+     * ═══════════════════════════════════════════════════════════════════════
+     */</span>
+    <span class="keyword">function</span> <span class="function">checkForExistingJE</span>(invID) {
+        <span class="keyword">var</span> jeID = <span class="string">''</span>;
+
+        <span class="keyword">try</span> {
+            <span class="comment">// 📚 MODULE 7: search.create() with filter expression syntax
+            // Format: [fieldId, operator, value]
+            // Use "AND" string between filter arrays</span>
+            <span class="keyword">var</span> jeSrchObj = search.create({
+                type: <span class="string">"journalentry"</span>,
+                filters: [
+                    [<span class="string">"type"</span>, <span class="string">"anyof"</span>, <span class="string">"Journal"</span>],
+                    <span class="string">"AND"</span>,
+                    <span class="comment">// Custom column linking JE line to original invoice</span>
+                    [<span class="string">"custcol_je_attached_invoice"</span>, <span class="string">"anyof"</span>, invID],
+                    <span class="string">"AND"</span>,
+                    <span class="comment">// mainline=T gets header, not individual lines</span>
+                    [<span class="string">"mainline"</span>, <span class="string">"is"</span>, <span class="string">"T"</span>],
+                    <span class="string">"AND"</span>,
+                    <span class="comment">// Exclude reversed JEs</span>
+                    [<span class="string">"isreversal"</span>, <span class="string">"is"</span>, <span class="string">"F"</span>],
+                    <span class="string">"AND"</span>,
+                    [<span class="string">"reversaldate"</span>, <span class="string">"isempty"</span>, <span class="string">""</span>]
+                ]
+            });
+            
+            <span class="comment">// 📚 MODULE 7: run().each() processes up to 4000 results
+            // Return false to stop after first match (we only need one)</span>
+            jeSrchObj.run().each(<span class="keyword">function</span>(r) {
+                log.debug(<span class="string">'jeSrchObj.r'</span>, JSON.stringify(r));
+                jeID = r.id;
+                <span class="keyword">return false</span>;  <span class="comment">// Stop iterating - found what we need</span>
+            });
+            
+        } <span class="keyword">catch</span> (err01) {
+            <span class="comment">// 📚 MODULE 14: log.error() for errors (shows in red in logs)</span>
+            log.error(<span class="string">'checkForExistingJE.err01'</span>, JSON.stringify(err01));
+        } <span class="keyword">finally</span> {
+            <span class="keyword">return</span> jeID;
+        }
+    }
+
+    <span class="comment">/**
+     * ═══════════════════════════════════════════════════════════════════════
+     * 📚 MODULE 5 & 6: Create New Journal Entry from Invoice
+     * 
+     * This function demonstrates:
+     *   - Dynamic record creation with record.create()
+     *   - Reading sublist data with getLineCount() and getSublistValue()
+     *   - Writing sublist data with selectNewLine(), setCurrentSublistValue(), commitLine()
+     *   - Error handling with email notification
+     * ═══════════════════════════════════════════════════════════════════════
+     */</span>
+    <span class="keyword">function</span> <span class="function">createNewJE</span>(invRec) {
+        <span class="keyword">var</span> jeID = <span class="string">''</span>;
+        
+        <span class="keyword">try</span> {
+            <span class="comment">// ─────────────────────────────────────────────────────────────
+            // 📚 MODULE 3: Read header fields from the invoice
+            // ─────────────────────────────────────────────────────────────</span>
+            <span class="keyword">var</span> invSub = invRec.getValue({fieldId: <span class="string">'subsidiary'</span>});
+            <span class="keyword">var</span> invEntity = invRec.getValue({fieldId: <span class="string">'entity'</span>});
+            <span class="keyword">var</span> revRecDate = invRec.getValue({fieldId: <span class="string">'custbody30'</span>});
+            <span class="keyword">var</span> tranDate = invRec.getValue({fieldId: <span class="string">'trandate'</span>});
+            <span class="keyword">var</span> today = <span class="keyword">new</span> Date().toISOString();
+            <span class="keyword">var</span> memo = <span class="string">'Created from invoice: '</span> + invRec.getValue({fieldId: <span class="string">'tranid'</span>}) + 
+                       <span class="string">' (invID: '</span> + invRec.id + <span class="string">') on '</span> + today;
+            
+            <span class="comment">// 📚 MODULE 6: getLineCount() returns number of sublist lines</span>
+            <span class="keyword">var</span> numItems = invRec.getLineCount({sublistId: <span class="string">'item'</span>});
+
+            <span class="comment">// 📚 MODULE 15: Debug logging for troubleshooting</span>
+            log.debug(<span class="string">'invSub'</span>, invSub);
+            log.debug(<span class="string">'invEntity'</span>, invEntity);
+            log.debug(<span class="string">'memo'</span>, memo);
+            log.debug(<span class="string">'numItems'</span>, numItems);
+
+            <span class="comment">// ─────────────────────────────────────────────────────────────
+            // 📚 MODULE 5: Create new record with record.create()
+            // isDynamic: true = use selectNewLine/commitLine pattern
+            // defaultValues: Pre-populate fields during creation
+            // ─────────────────────────────────────────────────────────────</span>
+            <span class="keyword">var</span> jeRec = record.create({
+                type: record.Type.JOURNAL_ENTRY,
+                isDynamic: <span class="keyword">true</span>,
+                defaultValues: {
+                    subsidiary: invSub,
+                    customform: [JE_FORM_ID]
+                }
+            });
+            
+            <span class="comment">// 📚 MODULE 3: setValue() to set header fields</span>
+            jeRec.setValue({fieldId: <span class="string">'trandate'</span>, value: tranDate});
+            jeRec.setValue({fieldId: <span class="string">'memo'</span>, value: invRec.getValue({fieldId: <span class="string">'tranid'</span>})});
+            
+            <span class="keyword">if</span> (revRecDate != <span class="string">''</span>) {
+                jeRec.setValue({fieldId: <span class="string">'custbody30'</span>, value: revRecDate});
+            }
+
+            <span class="keyword">var</span> invAmount = 0;
+            
+            <span class="comment">// ─────────────────────────────────────────────────────────────
+            // 📚 MODULE 6: Loop through invoice lines to create JE lines
+            // ─────────────────────────────────────────────────────────────</span>
+            <span class="keyword">for</span> (<span class="keyword">var</span> i = 0; i < numItems; i++) {
+                
+                <span class="comment">// 📚 MODULE 6: getSublistValue() reads line item fields
+                // Parameters: sublistId, fieldId, line (0-based index)</span>
+                <span class="keyword">var</span> itemID = invRec.getSublistValue({
+                    sublistId: <span class="string">'item'</span>, 
+                    fieldId: <span class="string">'item'</span>, 
+                    line: i
+                }) || <span class="string">''</span>;
+                
+                <span class="keyword">var</span> description = invRec.getSublistValue({
+                    sublistId: <span class="string">'item'</span>, 
+                    fieldId: <span class="string">'description'</span>, 
+                    line: i
+                }) || <span class="string">''</span>;
+                
+                <span class="keyword">var</span> amount = invRec.getSublistValue({
+                    sublistId: <span class="string">'item'</span>, 
+                    fieldId: <span class="string">'amount'</span>, 
+                    line: i
+                }) || 0.00;
+                
+                <span class="comment">// Additional line fields for complete data transfer</span>
+                <span class="keyword">var</span> role = invRec.getSublistValue({sublistId: <span class="string">'item'</span>, fieldId: <span class="string">'custcol9'</span>, line: i}) || <span class="string">''</span>;
+                <span class="keyword">var</span> payStart = invRec.getSublistValue({sublistId: <span class="string">'item'</span>, fieldId: <span class="string">'custcol7'</span>, line: i}) || <span class="string">''</span>;
+                <span class="keyword">var</span> payEnd = invRec.getSublistValue({sublistId: <span class="string">'item'</span>, fieldId: <span class="string">'custcol8'</span>, line: i}) || <span class="string">''</span>;
+                <span class="keyword">var</span> qty = invRec.getSublistValue({sublistId: <span class="string">'item'</span>, fieldId: <span class="string">'quantity'</span>, line: i}) || <span class="string">''</span>;
+                <span class="keyword">var</span> rate = invRec.getSublistValue({sublistId: <span class="string">'item'</span>, fieldId: <span class="string">'rate'</span>, line: i}) || 0.00;
+                <span class="keyword">var</span> dept = invRec.getSublistValue({sublistId: <span class="string">'item'</span>, fieldId: <span class="string">'department'</span>, line: i}) || <span class="string">''</span>;
+                <span class="keyword">var</span> classID = invRec.getSublistValue({sublistId: <span class="string">'item'</span>, fieldId: <span class="string">'class'</span>, line: i}) || <span class="string">''</span>;
+                <span class="keyword">var</span> loc = invRec.getSublistValue({sublistId: <span class="string">'item'</span>, fieldId: <span class="string">'location'</span>, line: i}) || <span class="string">''</span>;
+                
+                <span class="comment">// 📚 MODULE 6: getSublistText() returns display value (not ID)</span>
+                <span class="keyword">var</span> taxCode = invRec.getSublistText({
+                    sublistId: <span class="string">'item'</span>, 
+                    fieldId: <span class="string">'taxcode'</span>, 
+                    line: i
+                }) || <span class="string">''</span>;
+
+                <span class="comment">// Determine which account to use (custom override or default)</span>
+                <span class="keyword">var</span> itemAcct = <span class="string">''</span>;
+                <span class="keyword">var</span> customAcct = invRec.getSublistValue({
+                    sublistId: <span class="string">'item'</span>, 
+                    fieldId: <span class="string">'custcol_item_account'</span>, 
+                    line: i
+                });
+                
+                <span class="keyword">if</span> (customAcct != <span class="string">''</span> && customAcct !== <span class="keyword">undefined</span>) {
+                    itemAcct = customAcct;
+                } <span class="keyword">else</span> {
+                    itemAcct = invRec.getSublistValue({
+                        sublistId: <span class="string">'item'</span>, 
+                        fieldId: <span class="string">'account'</span>, 
+                        line: i
+                    });
+                }
+
+                <span class="comment">// Skip lines without an account</span>
+                <span class="keyword">if</span> (!itemAcct) <span class="keyword">continue</span>;
+
+                <span class="comment">// Running total for the debit side</span>
+                invAmount = parseFloat(invAmount) + parseFloat(amount);
+
+                <span class="comment">// ─────────────────────────────────────────────────────────────
+                // 📚 MODULE 6: CREDIT LINE - Dynamic mode sublist pattern
+                // 1. selectNewLine() - Start a new line
+                // 2. setCurrentSublistValue() - Set field values
+                // 3. commitLine() - Save the line
+                // ─────────────────────────────────────────────────────────────</span>
+                jeRec.selectNewLine({sublistId: <span class="string">'line'</span>});
+                
+                <span class="comment">// Required fields for JE line</span>
+                jeRec.setCurrentSublistValue({
+                    sublistId: <span class="string">'line'</span>, 
+                    fieldId: <span class="string">'account'</span>, 
+                    value: itemAcct
+                });
+                jeRec.setCurrentSublistValue({
+                    sublistId: <span class="string">'line'</span>, 
+                    fieldId: <span class="string">'credit'</span>, 
+                    value: amount
+                });
+                jeRec.setCurrentSublistValue({
+                    sublistId: <span class="string">'line'</span>, 
+                    fieldId: <span class="string">'entity'</span>, 
+                    value: invEntity
+                });
+                
+                <span class="comment">// Link back to original invoice for audit trail</span>
+                jeRec.setCurrentSublistValue({
+                    sublistId: <span class="string">'line'</span>, 
+                    fieldId: <span class="string">'custcol_je_attached_invoice'</span>, 
+                    value: invRec.id
+                });
+                
+                <span class="comment">// Optional fields - only set if they have values</span>
+                <span class="keyword">if</span> (description != <span class="string">''</span>) {
+                    jeRec.setCurrentSublistValue({
+                        sublistId: <span class="string">'line'</span>, 
+                        fieldId: <span class="string">'memo'</span>, 
+                        value: description
+                    });
+                }
+                <span class="keyword">if</span> (itemID != <span class="string">''</span>) {
+                    jeRec.setCurrentSublistValue({
+                        sublistId: <span class="string">'line'</span>, 
+                        fieldId: <span class="string">'custcol_invoice_item'</span>, 
+                        value: itemID
+                    });
+                }
+                <span class="keyword">if</span> (dept != <span class="string">''</span>) {
+                    jeRec.setCurrentSublistValue({
+                        sublistId: <span class="string">'line'</span>, 
+                        fieldId: <span class="string">'department'</span>, 
+                        value: dept
+                    });
+                }
+                <span class="keyword">if</span> (classID != <span class="string">''</span>) {
+                    jeRec.setCurrentSublistValue({
+                        sublistId: <span class="string">'line'</span>, 
+                        fieldId: <span class="string">'class'</span>, 
+                        value: classID
+                    });
+                }
+                <span class="keyword">if</span> (loc != <span class="string">''</span>) {
+                    jeRec.setCurrentSublistValue({
+                        sublistId: <span class="string">'line'</span>, 
+                        fieldId: <span class="string">'location'</span>, 
+                        value: loc
+                    });
+                }
+                
+                <span class="comment">// 📚 MODULE 6: commitLine() saves the current line</span>
+                jeRec.commitLine({sublistId: <span class="string">'line'</span>});
+            }
+
+            <span class="comment">// ─────────────────────────────────────────────────────────────
+            // DEBIT LINE - Single line to Accrual Account
+            // This balances all the credit lines above
+            // ─────────────────────────────────────────────────────────────</span>
+            jeRec.selectNewLine({sublistId: <span class="string">'line'</span>});
+            jeRec.setCurrentSublistValue({
+                sublistId: <span class="string">'line'</span>, 
+                fieldId: <span class="string">'account'</span>, 
+                value: [ACCRUAL_ACCOUNT_ID]  <span class="comment">// Accrued Revenue account</span>
+            });
+            jeRec.setCurrentSublistValue({
+                sublistId: <span class="string">'line'</span>, 
+                fieldId: <span class="string">'debit'</span>, 
+                value: invAmount  <span class="comment">// Total of all credit lines</span>
+            });
+            jeRec.setCurrentSublistValue({
+                sublistId: <span class="string">'line'</span>, 
+                fieldId: <span class="string">'entity'</span>, 
+                value: invEntity
+            });
+            jeRec.setCurrentSublistValue({
+                sublistId: <span class="string">'line'</span>, 
+                fieldId: <span class="string">'custcol_je_attached_invoice'</span>, 
+                value: invRec.id
+            });
+            jeRec.setCurrentSublistValue({
+                sublistId: <span class="string">'line'</span>, 
+                fieldId: <span class="string">'memo'</span>, 
+                value: memo
+            });
+            jeRec.commitLine({sublistId: <span class="string">'line'</span>});
+
+            log.debug(<span class="string">'jeRec'</span>, JSON.stringify(jeRec));
+            
+            <span class="comment">// 📚 MODULE 5: save() commits the record to database
+            // Returns the internal ID of the new record</span>
+            jeID = jeRec.save();
+
+        } <span class="keyword">catch</span> (err01) {
+            <span class="comment">// ─────────────────────────────────────────────────────────────
+            // 📚 MODULE 14: Error Handling with Email Notification
+            // In production, always notify someone when critical scripts fail!
+            // ─────────────────────────────────────────────────────────────</span>
+            log.error(<span class="string">'createNewJE.err01'</span>, JSON.stringify(err01));
+            
+            <span class="keyword">var</span> mailSubject = <span class="string">'Invoice '</span> + invRec.getValue(<span class="string">'tranid'</span>) + 
+                              <span class="string">' Accrual JE Creation Error.'</span>;
+            <span class="keyword">var</span> mailBody = err01.message;
+
+            <span class="comment">// 📚 MODULE 10: Get script parameters for configurable values
+            // This allows changing recipients without modifying code!</span>
+            <span class="keyword">var</span> toEmails = scriptObj.getParameter(<span class="string">'custscript_je_create_notify_emails'</span>);
+            <span class="keyword">var</span> emailArray = toEmails.split(<span class="string">","</span>);
+
+            <span class="comment">// 📚 MODULE 5: email.send() for notifications
+            // relatedRecords links the email to the transaction for easy access</span>
+            email.send({
+                author: scriptObj.getParameter(<span class="string">'custscript_error_email_from'</span>),
+                recipients: emailArray,
+                subject: mailSubject,
+                body: mailBody,
+                relatedRecords: {
+                    transactionId: Number(invRec.id)
+                }
+            });
+        } <span class="keyword">finally</span> {
+            <span class="keyword">return</span> jeID;
+        }
+    }
+
+    <span class="comment">/***********************************************/
+    /************ END UTILITY FUNCTIONS ************/
+    /***********************************************/</span>
+
+    <span class="comment">// 📚 MODULE 2: Return object exports the entry point function</span>
+    <span class="keyword">return</span> {
+        onAction: onAction
+    };
+});</code></pre>
+
+<div class="info-box yellow">
+    <strong>⚠️ Configuration Required</strong>
+    <p>Before deploying, replace these placeholders with your actual values:</p>
+    <ul>
+        <li><code>[ACCOUNT_ID]</code> - Your NetSuite account number</li>
+        <li><code>[SANDBOX_FILE_ID]</code>, <code>[PROD_FILE_ID]</code> - File Cabinet internal IDs</li>
+        <li><code>[SCRIPT_ID]</code>, <code>[DEPLOY_ID]</code> - Script and deployment internal IDs</li>
+        <li><code>[ACCRUAL_ACCOUNT_ID]</code> - Internal ID of your Accrued Revenue GL account</li>
+        <li><code>[JE_FORM_ID]</code> - Internal ID of your Journal Entry custom form</li>
+    </ul>
+</div>
+
+<div class="info-box blue">
+    <strong>📘 Script Parameters Required</strong>
+    <p>Create these parameters in the Script Record → Parameters subtab:</p>
+    <table>
+        <tr><th>ID</th><th>Type</th><th>Description</th></tr>
+        <tr><td><code>custscript_je_create_notify_emails</code></td><td>Free-Form Text</td><td>Comma-separated email addresses for error notifications</td></tr>
+        <tr><td><code>custscript_error_email_from</code></td><td>List/Record (Employee)</td><td>Employee to send error emails from</td></tr>
+    </table>
+</div>
+
+<div class="info-box green">
+    <strong>✅ Key Patterns Demonstrated</strong>
+    <ul>
+        <li><strong>Modular Design</strong> - Main function calls helper functions for readability</li>
+        <li><strong>Defensive Coding</strong> - Check for empty values before setting fields</li>
+        <li><strong>Audit Trail</strong> - Link JE back to source invoice via custom column</li>
+        <li><strong>Configurable Values</strong> - Use script parameters instead of hardcoded IDs</li>
+        <li><strong>Error Recovery</strong> - Email notifications when critical operations fail</li>
+        <li><strong>Efficient Updates</strong> - Use submitFields() instead of load/save pattern</li>
+    </ul>
+</div>
+
+<div class="nav-buttons">
+    <a href="Appendix-B-Exercises.html" class="nav-btn">Appendix B: Exercises →</a>
+    <a href="Master-Dashboard.html" class="back-btn">← Back to Dashboard</a>
+</div>
+
+</div>
+</div>
+</body>
+</html>

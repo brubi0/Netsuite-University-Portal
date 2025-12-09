@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 9: Updating Record Sublist Lines - SuiteFlow Fundamentals</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f5f7fa; line-height: 1.6; color: #2d3748; }
+        .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 40px 20px; }
+        .header-content { max-width: 1200px; margin: 0 auto; }
+        .breadcrumb { font-size: 0.9em; margin-bottom: 15px; opacity: 0.9; }
+        .breadcrumb a { color: white; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.3); }
+        .module-title-section { display: flex; align-items: center; gap: 20px; }
+        .module-number { background: rgba(255,255,255,0.2); width: 80px; height: 80px; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 2em; font-weight: 700; }
+        h1 { font-size: 2.5em; font-weight: 700; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        .objectives-box { background: white; border-radius: 15px; padding: 30px; margin-bottom: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); border-left: 5px solid #667eea; }
+        .objectives-box h2 { color: #667eea; margin-bottom: 20px; }
+        .objectives-box ul { list-style: none; padding: 0; }
+        .objectives-box li { padding: 10px 0 10px 30px; position: relative; color: #555; }
+        .objectives-box li::before { content: "✓"; position: absolute; left: 0; color: #667eea; font-weight: bold; font-size: 1.3em; }
+        .content-section { background: white; border-radius: 15px; padding: 40px; margin-bottom: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
+        .content-section h2 { color: #2d3748; font-size: 1.8em; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 3px solid #667eea; }
+        .content-section h3 { color: #667eea; font-size: 1.4em; margin-top: 30px; margin-bottom: 15px; }
+        .content-section p { color: #555; line-height: 1.8; margin-bottom: 15px; }
+        .content-section ul, .content-section ol { margin-left: 30px; margin-bottom: 20px; }
+        .content-section li { margin-bottom: 10px; color: #555; }
+        .info-box { padding: 20px; border-radius: 8px; margin: 25px 0; border-left: 4px solid; }
+        .info-box.blue { background: #e3f2fd; border-left-color: #2196f3; }
+        .info-box.yellow { background: #fff9c4; border-left-color: #fbc02d; }
+        .info-box.green { background: #e8f5e9; border-left-color: #4caf50; }
+        .info-box.purple { background: #f3e5f5; border-left-color: #9c27b0; }
+        .info-box.red { background: #ffebee; border-left-color: #f44336; }
+        .info-box h4 { margin-bottom: 10px; font-weight: 600; }
+        .info-box.blue h4 { color: #1976d2; }
+        .info-box.yellow h4 { color: #f57f17; }
+        .info-box.green h4 { color: #2e7d32; }
+        .info-box.purple h4 { color: #6a1b9a; }
+        .info-box.red h4 { color: #c62828; }
+        .comparison-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        .comparison-table th, .comparison-table td { padding: 15px; text-align: left; border-bottom: 1px solid #e0e0e0; }
+        .comparison-table th { background: #667eea; color: white; }
+        .comparison-table tr:hover { background: #f5f5f5; }
+        .key-takeaways { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 15px; padding: 30px; margin: 30px 0; }
+        .key-takeaways h3 { color: white; margin-bottom: 20px; font-size: 1.5em; }
+        .key-takeaways ul { list-style: none; padding: 0; }
+        .key-takeaways li { padding: 12px 0 12px 30px; position: relative; color: white; opacity: 0.95; }
+        .key-takeaways li::before { content: "★"; position: absolute; left: 0; font-size: 1.2em; }
+        .exercise-section { background: #fff3e0; border-radius: 15px; padding: 30px; margin: 30px 0; border-left: 5px solid #ff9800; }
+        .exercise-section h3 { color: #e65100; margin-bottom: 15px; }
+        .exercise-link { display: inline-block; margin-top: 15px; padding: 12px 25px; background: #ff9800; color: white; text-decoration: none; border-radius: 25px; font-weight: 600; }
+        .navigation { display: flex; justify-content: space-between; margin-top: 40px; gap: 20px; flex-wrap: wrap; }
+        .nav-btn { display: inline-flex; align-items: center; padding: 15px 30px; border-radius: 25px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; flex: 1; justify-content: center; min-width: 200px; }
+        .nav-btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .nav-btn-secondary { background: #e2e8f0; color: #2d3748; }
+        .nav-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.15); }
+        code { background: #f1f1f1; padding: 2px 6px; border-radius: 4px; font-family: monospace; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="breadcrumb">
+                <a href="../Master-Dashboard.html">← Course Overview</a> / 
+                <a href="week-6-dashboard.html">Week 6</a> / Module 9
+            </div>
+            <div class="module-title-section">
+                <div class="module-number">09</div>
+                <div>
+                    <h1>Updating Record Sublist Lines</h1>
+                    <p style="margin-top: 10px; opacity: 0.9;">Working with Sublist Action Groups on Transactions</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="objectives-box">
+            <h2>🎯 Learning Objectives</h2>
+            <p style="color: #666; margin-bottom: 15px;">Upon completion of this module, you will be able to:</p>
+            <ul>
+                <li>Configure workflow actions within Sublist Action Groups to access Items and Expenses sublists</li>
+                <li>List the workflow actions supported within Sublist Action Groups</li>
+                <li>Explain how actions execute on records with multiple sublist lines</li>
+                <li>Explain the relationship between group-level and action-level conditions</li>
+            </ul>
+        </div>
+
+        <div class="content-section">
+            <h2>Supported Records and Sublists</h2>
+            
+            <p>As of NetSuite 20.1, sublist processing is limited to specific records and sublists:</p>
+
+            <h3>Items Sublist</h3>
+            <p>Available on Transaction record subtypes:</p>
+            <ul>
+                <li>Sales Order, Purchase Order, Invoice</li>
+                <li>Estimate, Opportunity, Quote</li>
+                <li>Item Fulfillment, Item Receipt</li>
+                <li>And other transaction types with Items sublist</li>
+            </ul>
+
+            <h3>Expenses Sublist</h3>
+            <p>Available on the <strong>Expense Report</strong> transaction subtype.</p>
+
+            <div class="info-box blue">
+                <h4>📋 Check Release Notes</h4>
+                <p>Support for sublists and actions is expanding with each NetSuite release. Always check the SuiteFlow documentation or release notes for the latest supported sublists.</p>
+            </div>
+
+            <div class="info-box yellow">
+                <h4>⚠️ Field Availability</h4>
+                <p>Not all sublist fields visible on the form are accessible via SuiteFlow. If a field isn't listed in SuiteFlow dropdowns, it's not currently supported.</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Identifying Sublist Fields</h2>
+
+            <p>Sublist fields are identified by a <strong>"Line" suffix</strong> in SuiteFlow dropdown lists:</p>
+
+            <ul>
+                <li><code>Location (Line)</code> — the sublist field</li>
+                <li><code>Location (Main)</code> — the transaction body field</li>
+            </ul>
+
+            <h3>The Line Field</h3>
+
+            <p>Each sublist line has a unique <strong>Line ID</strong>:</p>
+            <ul>
+                <li>Assigned when line is added (not visible on form)</li>
+                <li>IDs are NOT sequential—if line 2 is deleted, line 3 doesn't become line 2</li>
+                <li>Line IDs only available at <strong>After Record Submit</strong></li>
+                <li>Use in conditions: <code>Line = 3</code> to target specific line</li>
+            </ul>
+
+            <h3>Using Line Fields in Formulas</h3>
+
+            <p>Reference sublist fields with the <code>line.</code> prefix:</p>
+            <p><code>line.rate = line.rate * 0.75</code> (apply 25% discount)</p>
+        </div>
+
+        <div class="content-section">
+            <h2>Sublist Action Groups</h2>
+
+            <p>The <strong>only way</strong> to execute workflow actions on sublist fields is through Sublist Action Groups.</p>
+
+            <h3>Creating a Sublist Action Group</h3>
+            <ol>
+                <li>Workflow must be on <strong>Transaction</strong> record type with supported subtypes</li>
+                <li>Edit the workflow state</li>
+                <li>Click <strong>New Sublist Group</strong></li>
+                <li>Select the sublist (Items or Expenses)</li>
+                <li>Add conditions at the group level (optional)</li>
+                <li>Add actions to the group</li>
+            </ol>
+
+            <div class="info-box purple">
+                <h4>💡 Two Levels of Conditions</h4>
+                <p><strong>Group-level conditions:</strong> Evaluated first—if false, entire group is skipped.</p>
+                <p><strong>Action-level conditions:</strong> Evaluated for each line that passes group conditions.</p>
+            </div>
+
+            <h3>Supported Actions in Sublist Action Groups</h3>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Action</th>
+                        <th>Purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>Create Record</strong></td><td>Create related records based on line data</td></tr>
+                    <tr><td><strong>Set Field Value</strong></td><td>Update line field values</td></tr>
+                    <tr><td><strong>Send Email</strong></td><td>Send notifications based on line data</td></tr>
+                    <tr><td><strong>Return User Error</strong></td><td>Validate line data and show errors</td></tr>
+                </tbody>
+            </table>
+
+            <div class="info-box yellow">
+                <h4>⚠️ Server Triggers Only</h4>
+                <p>All actions in Sublist Action Groups must be configured on <strong>server triggers</strong>.</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>State-Level Sublist Actions</h2>
+
+            <p>Some actions manipulate the <strong>entire sublist</strong> and are configured at the state level (NOT in Sublist Action Groups):</p>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Action</th>
+                        <th>Purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>Create Line</strong></td><td>Add new lines to the sublist</td></tr>
+                    <tr><td><strong>Set Field Display Label</strong></td><td>Change column header labels</td></tr>
+                    <tr><td><strong>Set Field Display Type</strong></td><td>Show/hide/disable columns</td></tr>
+                    <tr><td><strong>Set Field Mandatory</strong></td><td>Make columns required</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="content-section">
+            <h2>Set Field Value on Before Record Load</h2>
+
+            <p>Special considerations when using Set Field Value in Sublist Action Groups at Before Record Load:</p>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Capability</th>
+                        <th>New/Copied Records</th>
+                        <th>Existing Records</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Retrieve sublist field values</td><td>✓</td><td>✓</td></tr>
+                    <tr><td>Set body/sublist/workflow fields</td><td>✓</td><td>—</td></tr>
+                    <tr><td>Set workflow/state fields only</td><td>✓</td><td>✓</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="content-section">
+            <h2>Practical Example: Promotional Item</h2>
+
+            <p>Automatically add a free promotional item when specific products are ordered:</p>
+
+            <h3>Workflow Design</h3>
+            <ol>
+                <li>Create <strong>workflow fields</strong>: "Loft Promotion" and "Chair Promotion" (checkboxes)</li>
+                <li>Create <strong>Sublist Action Group</strong> on Items sublist</li>
+                <li>Group condition: Either promotion field is false (unchecked)</li>
+                <li>Add <strong>Set Field Value</strong> actions to set promotion flags when specific items found</li>
+                <li>Create <strong>Create Line</strong> action at state level to add promotional items</li>
+            </ol>
+
+            <div class="info-box green">
+                <h4>✅ Using OR Logic in Conditions</h4>
+                <p>To check if EITHER field is false, use <strong>expressions</strong>:</p>
+                <p><code>(Loft Promotion = False) OR (Chair Promotion = False)</code></p>
+            </div>
+
+            <h3>How It Works</h3>
+            <ol>
+                <li>User adds "Parsons Dining Table" to order</li>
+                <li>Sublist Action Group evaluates each line</li>
+                <li>Condition matches → Sets "Chair Promotion" workflow field to True</li>
+                <li>Create Line action fires → Adds "Armless Dining Chair" with $0 price</li>
+            </ol>
+        </div>
+
+        <div class="exercise-section">
+            <h3>🎯 Hands-On Exercises</h3>
+            <p>Build sublist workflows:</p>
+            <ul style="margin-left: 30px; margin-bottom: 20px;">
+                <li>Exercise 1: Create a Sublist Action Group on a Sales Order</li>
+                <li>Exercise 2: Configure Set Field Value to update line quantities</li>
+                <li>Exercise 3: Build promotional item automation with Create Line</li>
+                <li>Exercise 4: Use workflow fields to track processing state</li>
+            </ul>
+            <a href="../Appendices/Appendix-B-Hands-On-Exercises.html#module-9" class="exercise-link">Go to Module 9 Exercises →</a>
+        </div>
+
+        <div class="key-takeaways">
+            <h3>🌟 Key Takeaways</h3>
+            <ul>
+                <li><strong>Sublist Action Groups</strong> are the only way to process sublist line fields</li>
+                <li>Currently limited to <strong>Items</strong> and <strong>Expenses</strong> sublists</li>
+                <li>Sublist fields have <strong>"Line" suffix</strong> in dropdowns</li>
+                <li><strong>Line IDs</strong> are unique but not sequential</li>
+                <li>Group conditions evaluate first; action conditions evaluate per-line</li>
+                <li>Use <strong>Create Line</strong> at state level to add new sublist lines</li>
+                <li><strong>Workflow fields</strong> can track which promotions have been applied</li>
+                <li>Always configure on <strong>server triggers</strong></li>
+            </ul>
+        </div>
+
+        <div class="navigation">
+            <a href="../Week-5/Module-08-Building-Approval-Workflows.html" class="nav-btn nav-btn-secondary">← Previous: Module 8</a>
+            <a href="Module-10-Improving-Workflow-Performance.html" class="nav-btn nav-btn-primary">Next: Module 10 →</a>
+        </div>
+    </div>
+</body>
+</html>

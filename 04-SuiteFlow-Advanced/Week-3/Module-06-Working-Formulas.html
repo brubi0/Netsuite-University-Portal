@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 6: Working with Formulas - SuiteFlow Advanced Workflows</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #0f0f1a; line-height: 1.6; color: #e0e0e0; }
+        .header { background: linear-gradient(135deg, #e94560 0%, #0f3460 100%); color: white; padding: 40px 20px; }
+        .header-content { max-width: 1200px; margin: 0 auto; }
+        .breadcrumb { font-size: 0.9em; margin-bottom: 15px; opacity: 0.9; }
+        .breadcrumb a { color: white; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.3); }
+        .module-title-section { display: flex; align-items: center; gap: 20px; }
+        .module-number { background: rgba(255,255,255,0.2); width: 80px; height: 80px; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 2em; font-weight: 700; }
+        h1 { font-size: 2.5em; font-weight: 700; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        .objectives-box { background: #1a1a2e; border-radius: 15px; padding: 30px; margin-bottom: 30px; border-left: 5px solid #e94560; }
+        .objectives-box h2 { color: #e94560; margin-bottom: 20px; }
+        .objectives-box ul { list-style: none; padding: 0; }
+        .objectives-box li { padding: 10px 0 10px 30px; position: relative; color: #ccc; }
+        .objectives-box li::before { content: "✓"; position: absolute; left: 0; color: #e94560; font-weight: bold; }
+        .content-section { background: #1a1a2e; border-radius: 15px; padding: 40px; margin-bottom: 30px; }
+        .content-section h2 { color: #fff; font-size: 1.8em; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 3px solid #e94560; }
+        .content-section h3 { color: #e94560; font-size: 1.4em; margin-top: 30px; margin-bottom: 15px; }
+        .content-section p { color: #ccc; line-height: 1.8; margin-bottom: 15px; }
+        .content-section ul, .content-section ol { margin-left: 30px; margin-bottom: 20px; }
+        .content-section li { margin-bottom: 10px; color: #ccc; }
+        .info-box { padding: 20px; border-radius: 8px; margin: 25px 0; border-left: 4px solid; }
+        .info-box.blue { background: rgba(33,150,243,0.1); border-left-color: #2196f3; }
+        .info-box.yellow { background: rgba(255,193,7,0.1); border-left-color: #ffc107; }
+        .info-box.green { background: rgba(76,175,80,0.1); border-left-color: #4caf50; }
+        .info-box.purple { background: rgba(156,39,176,0.1); border-left-color: #9c27b0; }
+        .info-box h4 { margin-bottom: 10px; font-weight: 600; }
+        .info-box.blue h4 { color: #2196f3; }
+        .info-box.yellow h4 { color: #ffc107; }
+        .info-box.green h4 { color: #4caf50; }
+        .info-box.purple h4 { color: #9c27b0; }
+        .code-block { background: #0a0a12; border-radius: 8px; padding: 20px; margin: 15px 0; font-family: 'Courier New', monospace; color: #4caf50; overflow-x: auto; }
+        .comparison-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        .comparison-table th, .comparison-table td { padding: 15px; text-align: left; border-bottom: 1px solid #333; }
+        .comparison-table th { background: linear-gradient(135deg, #e94560 0%, #0f3460 100%); color: white; }
+        .comparison-table tr:hover { background: rgba(233,69,96,0.1); }
+        .key-takeaways { background: linear-gradient(135deg, #e94560 0%, #0f3460 100%); color: white; border-radius: 15px; padding: 30px; margin: 30px 0; }
+        .key-takeaways h3 { color: white; margin-bottom: 20px; font-size: 1.5em; }
+        .key-takeaways ul { list-style: none; padding: 0; }
+        .key-takeaways li { padding: 12px 0 12px 30px; position: relative; opacity: 0.95; }
+        .key-takeaways li::before { content: "★"; position: absolute; left: 0; }
+        .navigation { display: flex; justify-content: space-between; margin-top: 40px; gap: 20px; flex-wrap: wrap; }
+        .nav-btn { display: inline-flex; align-items: center; padding: 15px 30px; border-radius: 25px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; flex: 1; justify-content: center; min-width: 200px; }
+        .nav-btn-primary { background: linear-gradient(135deg, #e94560 0%, #0f3460 100%); color: white; }
+        .nav-btn-secondary { background: rgba(255,255,255,0.1); color: #fff; }
+        .nav-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(233,69,96,0.3); }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="breadcrumb">
+                <a href="../Master-Dashboard.html">← Course Overview</a> / 
+                <a href="week-3-dashboard.html">Week 3</a> / Module 6
+            </div>
+            <div class="module-title-section">
+                <div class="module-number">06</div>
+                <div>
+                    <h1>Working with Formulas</h1>
+                    <p style="margin-top: 10px; opacity: 0.9;">SQL Formulas for Server-Side Processing</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="objectives-box">
+            <h2>🎯 Learning Objectives</h2>
+            <p style="color: #999; margin-bottom: 15px;">Upon completion of this module, you will be able to:</p>
+            <ul>
+                <li>List the various ways formulas can be used in SuiteFlow</li>
+                <li>Describe the two primary types of formulas and when to use each</li>
+                <li>Configure complex business rules using SQL formulas and server triggers</li>
+            </ul>
+        </div>
+
+        <div class="content-section">
+            <h2>Formulas Overview</h2>
+            
+            <p>Formulas represent <strong>calculations performed on one or more variables</strong>. In SuiteFlow, formulas enable complex logic beyond what the Visual Builder provides.</p>
+
+            <h3>Formula Use Cases</h3>
+            <ul>
+                <li><strong>Calculate fields:</strong> New salary = current salary × percent increase</li>
+                <li><strong>Concatenate fields:</strong> Account code = phone number + postal code</li>
+                <li><strong>Extract portions:</strong> Get domain name from email address</li>
+                <li><strong>Reformat fields:</strong> Display negatives in parentheses</li>
+                <li><strong>Validate fields:</strong> Error if zip code &lt; 5 digits</li>
+            </ul>
+
+            <div class="info-box blue">
+                <h4>📋 Dynamic Calculation</h4>
+                <p>Formula values are calculated <strong>dynamically when the workflow instance runs</strong>. They can be used to conditionally initiate workflows or execute actions and transitions.</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Formula Types</h2>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Trigger</th>
+                        <th>Use Case</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>SQL Formulas</strong></td>
+                        <td>Server triggers</td>
+                        <td>Database operations, server-side processing</td>
+                    </tr>
+                    <tr>
+                        <td><strong>SuiteScript Formulas</strong></td>
+                        <td>Client triggers</td>
+                        <td>Browser-side processing (covered in Module 7)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="info-box green">
+                <h4>✅ Performance Tip</h4>
+                <p>SQL formulas execute against the NetSuite database on the server—keeping them close to the database improves performance.</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Formula Construction Elements</h2>
+
+            <h3>1. Internal Field IDs</h3>
+            <p>Reference fields using their internal ID enclosed in <strong>curly braces</strong>:</p>
+            <div class="code-block">{custrecord_phone_number}</div>
+            <div class="code-block">{customer.phone}</div>
+
+            <h3>2. SQL Functions</h3>
+            <p>Use SQL functions in conditions for workflow initiation or action/transition conditions on <strong>server triggers</strong>:</p>
+            <div class="code-block">LENGTH({custrecord_rating_code}) &lt; 10</div>
+
+            <h3>3. JavaScript/SuiteScript Functions</h3>
+            <p>Use for <strong>client trigger</strong> conditions (covered in Module 7):</p>
+            <div class="code-block">nlapiGetFieldValue('custrecord_rating_code').length &lt; 10</div>
+        </div>
+
+        <div class="content-section">
+            <h2>SQL Formula Syntax</h2>
+
+            <h3>Field References</h3>
+            <div class="code-block">
+{field_id}                    -- Base record field<br>
+{record.field_id}             -- Related record field<br>
+{custrecord_custom_field}     -- Custom field
+            </div>
+
+            <h3>Common SQL Functions</h3>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Function</th>
+                        <th>Purpose</th>
+                        <th>Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>LENGTH()</td>
+                        <td>Get string length</td>
+                        <td>LENGTH({phone}) &gt; 10</td>
+                    </tr>
+                    <tr>
+                        <td>UPPER() / LOWER()</td>
+                        <td>Change case</td>
+                        <td>UPPER({name})</td>
+                    </tr>
+                    <tr>
+                        <td>SUBSTR()</td>
+                        <td>Extract substring</td>
+                        <td>SUBSTR({email}, 1, 5)</td>
+                    </tr>
+                    <tr>
+                        <td>NVL()</td>
+                        <td>Handle nulls</td>
+                        <td>NVL({amount}, 0)</td>
+                    </tr>
+                    <tr>
+                        <td>TO_CHAR()</td>
+                        <td>Format numbers/dates</td>
+                        <td>TO_CHAR({amount}, '999,999')</td>
+                    </tr>
+                    <tr>
+                        <td>CASE WHEN</td>
+                        <td>Conditional logic</td>
+                        <td>CASE WHEN {status} = 'A' THEN 'Active' ELSE 'Inactive' END</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="content-section">
+            <h2>Formula Examples</h2>
+
+            <h3>Calculate New Salary</h3>
+            <div class="code-block">{custrecord_current_salary} * (1 + {custrecord_increase_pct}/100)</div>
+
+            <h3>Concatenate Fields</h3>
+            <div class="code-block">{phone} || '-' || {zipcode}</div>
+
+            <h3>Extract Email Domain</h3>
+            <div class="code-block">SUBSTR({email}, INSTR({email}, '@') + 1)</div>
+
+            <h3>Validate Field Length</h3>
+            <div class="code-block">LENGTH({custrecord_rating_code}) &lt; 3</div>
+
+            <h3>Increment Counter</h3>
+            <div class="code-block">{custrecord_counter} + 1</div>
+
+            <div class="info-box purple">
+                <h4>💡 Return User Error Example</h4>
+                <p>Use formula in Return User Error action condition to validate that rating code is A, B, or C:</p>
+                <div class="code-block" style="margin-top: 10px;">
+UPPER({custrecord_rating_code}) NOT IN ('A', 'B', 'C')
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Formula Best Practices</h2>
+
+            <ul>
+                <li>Always enclose field IDs in <strong>curly braces</strong> { }</li>
+                <li>Use SQL formulas with <strong>server triggers only</strong></li>
+                <li>Test formulas with various data scenarios</li>
+                <li>Consider <strong>null values</strong>—use NVL() to handle them</li>
+                <li>Keep formulas as simple as possible for maintainability</li>
+                <li>Document complex formulas for future reference</li>
+            </ul>
+
+            <div class="info-box yellow">
+                <h4>⚠️ Trigger Mismatch Warning</h4>
+                <p>If you configure a SQL formula on a <strong>client trigger</strong>, it will be ignored and show "ERROR: Invalid expression" in the workflow execution log. Always match formula type to trigger type.</p>
+            </div>
+        </div>
+
+        <div class="key-takeaways">
+            <h3>🌟 Key Takeaways</h3>
+            <ul>
+                <li>Formulas enable <strong>complex logic</strong> beyond Visual Builder</li>
+                <li><strong>SQL formulas</strong> work with server triggers</li>
+                <li><strong>SuiteScript formulas</strong> work with client triggers (Module 7)</li>
+                <li>Reference fields using <strong>curly braces</strong>: {field_id}</li>
+                <li>Use standard SQL functions: LENGTH, UPPER, SUBSTR, NVL, CASE</li>
+                <li>Formulas calculate <strong>dynamically</strong> at workflow runtime</li>
+                <li>Always <strong>match formula type to trigger type</strong></li>
+            </ul>
+        </div>
+
+        <div class="navigation">
+            <a href="Module-05-Transitioning-Related-Records.html" class="nav-btn nav-btn-secondary">← Previous: Module 5</a>
+            <a href="Module-07-Using-SuiteScript-Workflows.html" class="nav-btn nav-btn-primary">Next: Module 7 →</a>
+        </div>
+    </div>
+</body>
+</html>

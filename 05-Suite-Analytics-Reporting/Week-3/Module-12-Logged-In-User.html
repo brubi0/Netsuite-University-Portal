@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 12: Logged-In User Filters - Suite Analytics Learning Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #0f0f1a; color: #e0e0e0; line-height: 1.7; }
+        .header { background: linear-gradient(135deg, #0f3460 0%, #533483 100%); padding: 30px 20px; }
+        .header-content { max-width: 900px; margin: 0 auto; }
+        .breadcrumb { font-size: 0.9em; margin-bottom: 10px; opacity: 0.8; }
+        .breadcrumb a { color: #fff; text-decoration: none; }
+        h1 { font-size: 2em; font-weight: 700; color: #fff; }
+        .module-meta { margin-top: 10px; color: rgba(255,255,255,0.8); font-size: 0.9em; }
+        .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+        h2 { color: #e94560; font-size: 1.5em; margin: 40px 0 20px; padding-bottom: 10px; border-bottom: 2px solid #e94560; }
+        p { margin-bottom: 15px; }
+        .concept-box { background: linear-gradient(145deg, #1a1a2e 0%, #1e1e32 100%); border-radius: 15px; padding: 25px; margin: 25px 0; border-left: 4px solid #e94560; }
+        .concept-box h4 { color: #e94560; margin-bottom: 12px; font-size: 1.1em; }
+        .variable-card { background: #1a1a2e; border-radius: 12px; padding: 20px; margin: 15px 0; border: 1px solid rgba(255,255,255,0.1); }
+        .variable-card h4 { color: #4caf50; margin-bottom: 10px; font-size: 1.1em; }
+        .variable-card code { background: #0d0d15; padding: 4px 10px; border-radius: 5px; font-size: 1.1em; color: #ffc107; }
+        .example-box { background: linear-gradient(145deg, #1e3a1e 0%, #1a2e1a 100%); border-radius: 12px; padding: 20px; margin: 20px 0; border: 1px solid #4caf50; }
+        .example-box h4 { color: #4caf50; margin-bottom: 12px; }
+        .tip-box { background: rgba(255,193,7,0.1); border-radius: 10px; padding: 20px; margin: 20px 0; border: 1px solid rgba(255,193,7,0.3); }
+        .tip-box h4 { color: #ffc107; margin-bottom: 10px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #333; }
+        th { background: rgba(233,69,96,0.2); color: #e94560; font-weight: 600; }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 50px; padding-top: 30px; border-top: 1px solid #333; flex-wrap: wrap; gap: 15px; }
+        .nav-btn { padding: 12px 25px; border-radius: 25px; text-decoration: none; font-weight: 600; font-size: 0.9em; transition: all 0.3s ease; }
+        .nav-btn.secondary { background: rgba(255,255,255,0.1); color: #fff; }
+        .nav-btn.primary { background: linear-gradient(135deg, #e94560 0%, #533483 100%); color: #fff; }
+        ul { margin-left: 20px; margin-bottom: 15px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="breadcrumb">
+                <a href="../Master-Dashboard.html">Course Overview</a> / 
+                <a href="week-3-dashboard.html">Week 3</a> / Module 12
+            </div>
+            <h1>👤 Module 12: Logged-In User Filters</h1>
+            <div class="module-meta">Week 3 • Saved Searches Advanced • Advanced Skills</div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="concept-box">
+            <h4>Dynamic User Filtering</h4>
+            <p>Instead of hardcoding a specific user's name in your criteria, you can use special variables that automatically filter based on who is viewing the search. This lets you create a single search that shows personalized results for every user.</p>
+        </div>
+
+        <h2>The "Mine" Variable</h2>
+
+        <div class="variable-card">
+            <h4><code>Mine</code></h4>
+            <p>Filters results to show only records where a specific field matches the <strong>currently logged-in user</strong>.</p>
+            <p style="margin-top: 15px;"><strong>Use Cases:</strong></p>
+            <ul>
+                <li>Sales Rep = Mine → Show only my customers</li>
+                <li>Created By = Mine → Show records I created</li>
+                <li>Assigned = Mine → Show cases assigned to me</li>
+            </ul>
+        </div>
+
+        <div class="example-box">
+            <h4>💡 Example: My Customers Search</h4>
+            <p>Create a customer search that each sales rep can use to see only their own customers:</p>
+            <table>
+                <thead>
+                    <tr><th>Field</th><th>Operator</th><th>Value</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Sales Rep</td><td>is</td><td><strong>Mine</strong></td></tr>
+                    <tr><td>Is Inactive</td><td>is</td><td>False</td></tr>
+                </tbody>
+            </table>
+            <p style="margin-top: 15px;"><strong>Result:</strong> When John views the search, he sees his customers. When Sarah views it, she sees hers. One search serves everyone!</p>
+        </div>
+
+        <h2>Other User Variables</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Variable</th>
+                    <th>Returns</th>
+                    <th>Example Use</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Mine</strong></td>
+                    <td>Current logged-in user</td>
+                    <td>Sales Rep = Mine</td>
+                </tr>
+                <tr>
+                    <td><strong>My Team</strong></td>
+                    <td>Users in my team hierarchy</td>
+                    <td>Sales Rep = My Team</td>
+                </tr>
+                <tr>
+                    <td><strong>None</strong></td>
+                    <td>Field is empty/unassigned</td>
+                    <td>Assigned = None</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="tip-box">
+            <h4>💡 Pro Tip: Deployment</h4>
+            <p>Searches using "Mine" are perfect candidates for the <strong>Dashboard View</strong> deployment option. Each user sees their own personalized data without any configuration.</p>
+        </div>
+
+        <div class="concept-box">
+            <h4>🎯 Key Takeaways</h4>
+            <ul>
+                <li><strong>Mine</strong> filters by the currently logged-in user</li>
+                <li>One search can serve all users with personalized results</li>
+                <li>No need to create separate searches for each user</li>
+                <li><strong>My Team</strong> includes users in the current user's hierarchy</li>
+                <li>Combine with <strong>Dashboard View</strong> for personalized portlets</li>
+            </ul>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="week-3-dashboard.html" class="nav-btn secondary">← Week 3 Overview</a>
+            <a href="Module-13-Search-Logic.html" class="nav-btn primary">Next: Search Logic →</a>
+        </div>
+    </div>
+</body>
+</html>

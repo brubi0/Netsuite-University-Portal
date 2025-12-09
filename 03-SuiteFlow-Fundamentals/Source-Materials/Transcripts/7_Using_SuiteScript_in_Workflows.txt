@@ -1,0 +1,198 @@
+Using SuiteScript in workflows-- as we mentioned at the start of this course, SuiteFlow is a powerful yet easy to use business process automation tool that can be used to build robust workflows supporting a wide variety of business cases. But what happens when we need to perform some sort of action that is not supported by standard SuiteFlow actions? This is where SuiteScript can be used to extend the power of workflows through code.
+
+This module focuses on the use of client-side SuiteScript formulas and Workflow Action Scripts, which allow software developers to create custom actions to perform just about any function imaginable within the context of a running workflow. In this module, we will discuss the following topics-- understanding SuiteScript formulas and Workflow Action Scripts and custom actions. Upon the completion of this module, you will be able to configure more complex business rules using SuiteScript formulas and client triggers, explain how Workflow Action Scripts and custom actions can be used to extend your business processes, and describe the process of creating and deploying Workflow Action Scripts and configuring custom actions in SuiteFlow.
+
+As we discussed in the previous module, there are two types of formula styles that you can construct, SQL and SuiteScript formulas. Each of these formula styles define the supported functions and proper syntax required for successful formula execution. In this module, we're going to focus our discussion on SuiteScript formulas, which includes both JavaScript and SuiteScript API functions configured on client triggers. Remember, only formulas created using SuiteScript 1.0 are supported on client triggers. SuiteScript 2.0 functions are not supported except as external scripts, such as Suitelets, user event scripts, or Workflow Action Scripts. In addition, you cannot invoke 1.0 scripts from 2.0 scripts.
+
+Just as with the functions we discussed in the previous module, SuiteScript formulas also have formatting and syntax rules that must be observed. SuiteScript formula rules follow general JavaScript syntax rules. You must enclose all NetSuite field IDs in quotes. These can usually be single or double quotes, as long as you are consistent with their usage. Be aware of case sensitivity when entering SuiteScript function names, as many of them are camel case.
+
+While you can configure a SuiteScript 1.0 formula on a server trigger, the formula will be ignored and will show "ERROR: Invalid" expression in the workflow execution log. An example of configuring a SuiteScript 1.0 formula on a server trigger is shown here. In this case, the Warning message shown in the log is the result of unrecognizable code in the formulaic condition, and therefore returns "False." This Warning message does not indicate a workflow processing error, since the Records Submit Event complete successfully.
+
+Some of the most commonly used SuiteScript 1.0 API functions used in conjunction with SuiteFlow are listed here. Please note that this is an extremely small sampling of the functions available in SuiteScript 1.0. Please refer to the NetSuite Help Center for additional information.
+
+Similar functions are also available in the SuiteScript 2.0 API, but they can only be invoked in the context of a running workflow using an external script, either a Suitelet, User Event Script, or Workflow Action Script. Unlike SuiteScript 1.0, however, they cannot be used in formulaic conditions for any actions and transitions configured on client triggers. We will see a few of these functions in action in future walk-through demonstrations.
+
+In this walk-through demonstration, we will show you how to create a client-side SuiteScript-style formula that replaces the server-side SQL formula that we created earlier that's validating the Rating Code Field in our Save workflow. Before we begin, I do want to review the current return User Error Action that is currently configured in our Performance Review Save workflow. If you recall, that is actually in State 0, rating code validation.
+
+And in the last module, we went in and configured a SQL formula on a server trigger, in this case, to configure our return User Error Action that validates whether our rating code is A, B, or C. And if you recall, we came in and configured the following formula. Now, notice that this is a standard SQL formula just using NetSuite field IDs and various mathematical operators. And you'll also notice that this is, in fact, being executed on a server trigger, which is required by SQL formulas.
+
+What I'm going to do is I'm just going to go ahead and disable or inactivate this particular action here. And we're going to redo this Return User Error action on a client trigger. So let me go ahead and inactivate that. And I'll go ahead and save that Return User Error action. And now what's going to happen is when the Save workflow is initiated, it's going to automatically transition to State 1 and continue its processing as normal.
+
+So let me jump back to my list of workflows here. And before we begin, we need to ask ourselves where the most logical place for this SuiteScript formula validation should be. Remember that SuiteScript formulas must be configured on client triggers, not on server triggers like our SQL formula we were just looking at. Therefore, the best place for this validation will be in our Performance Review Entry workflow. Although the workflow itself is being initiated at before record load because you have to initiate workflows on server triggers, all the configured actions in that Entry workflow are configured on client triggers. So let's go ahead and modify our Entry workflow to create this new formula.
+
+All I'm going to do is select the single state and just add a new Return User Error action. Notice we currently have one for our Salary Increase Amount field, but we're going to go ahead and add a new Return User Error action for our rating code validation.
+
+Only this time, as I've mentioned a few times so far, we're going to go ahead and configure this not on a server trigger but on a client trigger. And in this case, I'm going to choose After Field Edit. You'll see how that works here in just a moment. The field that we want to go ahead and manipulate the triggering field is going to be my Rating Code, which is right there. And I need to enter the text for the actual error message itself. So just like we had before, I'm just going to go ahead and enter "Rating Code must be A, B, or C."
+
+Now let's get to the good stuff, which is our Condition. And we're going to go ahead and use a custom formula in order to do this. And all I'm going to do is just go ahead and paste the formula into the Formula field since I already kind of know what I want to put in there, and then I'll explain what we have here. Hey, there we go.
+
+Now, in this particular example, the SuiteScript 1.0 nlapiGetFieldText function returns the text value of the Review Type field as entered on new performance review records. And it evaluates whether it is equal to salary change. If it is, the value of the Rating Code field is retrieved using the nlapiGetFieldValue function before being compared to the list of valid values, either A, B, or C, which are configured in the Return User Error action. If the Rating Code is not a valid value, the error will be displayed.
+
+So let's go ahead and test this. I'm going to click Set on our formula. And I'll go ahead and save the action configuration. And let's create a new performance review record. Bring that up in a new tab.
+
+And all I'm going to do is I'm not going actually going to save this form. I'm just going to go right over here to the Rating Code field, and I'm going to put in an invalid rating code, such as X. And notice the minute I select that value, because of After Field Edit, it throws the error. "Rating Code must be A, B, or C." You'll also notice that because this was configured on a client trigger, I'm getting a nice, friendly pop-up message for the error. OK, I'm not getting the SuiteScript Error page like we saw when you configure Return User Error actions on server triggers.
+
+So that is one slight difference between configuring Return User Error on client and server triggers. I'm going to go ahead and change that. And notice, the minute I change it to a valid Rating Code and I tab out, it accepts that value accordingly. So that's just a really basic example of conditionally executing a client-side action using a client-side formula.
+
+It is now time for you to complete the required hands-on exercises associated with the topics discussed in this section of the module. To complete the required exercises, refer to your student workbook. When you have finished, you may continue to the next topic.
+
+So what are Workflow Action Scripts? Workflow Action Scripts allow you to create custom workflow actions, which allow you to manipulate data far beyond what is possible using SuiteFlow's built-in actions. Workflow Action Scripts are particularly useful when you need to access a record sublist data beyond what is supported by Sublist Action Groups, as access to record sublist fields is not currently supported using standard SuiteFlow actions.
+
+Workflow Action Scripts are also useful when you simply need to extend the power of SuiteFlow using code in conjunction with a running workflow instance. Using a Workflow Action Script, you can perform complex computational logic by leveraging standard JavaScript libraries as well as NetSuite SuiteScript API calls. To create and edit Workflow Action Scripts, users must have the SuiteScript permission on their assigned user role, and the CLIENT SUITESCRIPT and SERVER SUITESCRIPT features must be enabled in your NetSuite account.
+
+Workflow Action Scripts allow you to create custom workflow actions that can be used to update records in NetSuite, both standard and custom records, update any record sublist data, update any related records data, process saved search results, and invoke NetSuite web services. It's important to note that all scripts discussed in this module were created using the SuiteScript 2.0 API.
+
+As we mentioned just a moment ago, Workflow Action Scripts are simply SuiteScripts that can be invoked as custom actions from within a workflow. Using Workflow Action Scripts, you can create generic custom actions that can be used across several record types, or you can create custom actions that are designed to execute on very specific record types only. For example, you can create a generic action that updates the value of a Sales Rep field on any record that contains a Sales Rep field using the following SuiteScript code.
+
+While it is certainly not the goal of this course to teach you how to write SuiteScript code, you will be seeing several recurring code snippets as you work through the next couple modules of this course. Let's examine a few of these code snippets so you understand their function in a typical SuiteScript 2.0 script file. Referred to as the "JSDocs tag," these required entries identify the SuiteScript version and script type, which both dictate the events that can execute the script. define and record and runtime are referred to as the "define statement." This entry lists the modules and other dependencies loaded by the script.
+
+In this example, the N/record module allows the script to interact with records. The N/runtime module allows you to view runtime settings. For example, you may want to verify the enablement of a specific NetSuite feature before running the script. Another commonly used module is N/uiserverwidget, which allows you to modify record forms and their various UI elements. And an N/workflow module allows you to initiate new workflow instances or trigger existing workflow instances already running on records.
+
+The function(record, runtime) entry represents the callback function and its various arguments. A callback function is a function passed into another function as an argument, which is then invoked inside the outer function to complete its processing. Each argument is associated with a loaded module in the order listed in the define statement above.
+
+Now let's examine the body of the script itself. In this example, the scriptContext entry identifies the initiation context of the workflow. When executing Workflow Action Scripts, the current records context is always "workflow." The newRecord entry retrieves all the fields on the current record and sets the value of the Sales Rep field using the setValue function.
+
+custscript_update_salesrep identifies the associated script record defined in NetSuite. The getParameter function is used to retrieve the parameters established on the script record on the Parameters sub-tab. These parameters are passed into the script during workflow execution, as well as the return type format of the values passed back to the workflow from the script.
+
+Workflow Action Scripts are comprised of several individual components. The first component is the Script File itself, which represents the physical JavaScript or SuiteScript code file in the .js format. This file contains the actual code that will be executed in the context of the running workflow. Once you have the actual physical code file, you can generate a Script Record, which defines the basic properties of the Workflow Action Script, such as its ID, the reference to its associated JavaScript file, and any input and output parameters to the script.
+
+The third step is to create a Script Deployment Record, which defines the specific environments in which the script will be available for execution. All Workflow Action Scripts must be deployed before they can be invoked by users or other workflows. And then finally, once your script is deployed, you can then configure your custom action within SuiteFlow. Let's take a closer look at each workflow action script component.
+
+The first step is to create the JavaScript or SuiteScript code file required to process the records currently running the workflow. The code in the JavaScript or SuiteScript file controls the functionality of the custom action in SuiteFlow. Depending on the coded functionality, you can choose to return the result of the Workflow Action Scripts processing back to the workflow using a custom field, either a workflow, state, or base record field when configuring the custom action.
+
+As a best practice, enter a "was_" prefix when naming your script files to differentiate custom workflow actions from other script types, such as Suitelets or user event scripts. Once created, the script must be uploaded to the NetSuite File Cabinet. A script can be uploaded manually, or it can be uploaded during the creation of the script record in the next step.
+
+Once you have created the Script File, you can define a new Script Record for the Workflow Action Script by navigating to Customization, Scripting, Scripts, New. You will then be prompted to select the physical Script File from the NetSuite File Cabinet. By default, all new scripts will be uploaded to the SuiteScripts folder in the NetSuite File Cabinet, but Script Files can be stored in any folder location you prefer.
+
+Depending on the version of SuiteScript used to define the Script File, you may be prompted to select the type of script you wish to create. For example, if you select a script created using SuiteScript 1.0, you will be prompted to select the script's type from the list shown here. To create a custom workflow action, select Workflow Action from the list of script types.
+
+When selecting a script created using SuiteScript 2.0, the script must contain the following code snippet, which identifies the script's type. As a result, you will not be prompted to select the script's type when configuring a script record for a file created in SuiteScript 2.0. Instead, the appropriate script form will be displayed based on the script type in the code file itself. The available parameters for the script record will vary depending on the type of script record being created.
+
+Once the script record has been created, the Scripts sub-tab will list the selected script file that will be called when invoking the custom action in SuiteFlow. It's important to note that scripts created using SuiteScript 1.0 require a separate script record for each function in the script. Scripts created using SuiteScript 2.0, however, only require a single script record.
+
+The Parameters sub-tab is then used to define the input and output parameters of the Workflow Action Script. Input parameters define the values passed into the script at runtime, while output parameters define the results of the script being returned to the workflow. The RETURN TYPE field defines the format of the returned value, in this case, Free-Form Text. The LABEL field defines the field, either a custom workflow, state, or base record field, that will receive the returned value from the script.
+
+Finally, to make the script available in your testing or production environment, you must deploy the script. You can begin the initial configuration of the required Script Deployment Record on the Deployment sub-tab of the Script Record itself. When defining the Script Deployment Record from the Script Record, additional configuration will be required. Script Deployment Records can be viewed and managed by navigating to Customization, Scripting, Script Deployments. Editing an existing Script Deployment Record displays the Script Deployment page, as shown here. Let's review some of the options that are available.
+
+This APPLIES TO dropdown list defines the record type that the script will be deployed to. A Workflow Action Script designed to process a variety of different records with running workflow instances will require multiple Script Deployment Records, one for each record type. There is also an All Records option that can be selected if desired. If you deploy a script to all record types and you try to create another script deployment for that script, you will receive an error. When the DEPLOYED checkbox is enabled, it indicates that the script is currently deployed for the record selected from the APPLIES TO dropdown list.
+
+When deploying a script, regardless of its type, you must set the release status to "Released" to allow the script to be invoked by users other than the script's owner. Setting the LOG LEVEL to "Debug" shows all audit, error, and emergency information in the script log. Debug mode is most often used when a script is in testing status. Additional settings can also be specified.
+
+On the Audience sub-tab, the users, roles, departments, and subsidiaries that can invoke the script can be specified. On the Parameters sub-tab, script parameters from the script record are also displayed. Like the script record itself, the parameters on the Script Deployment Record will vary depending on the type of script being deployed.
+
+Once you have created each of the required Workflow Action Script components to invoke the script, you can configure the custom action just like any other standard workflow action in SuiteFlow. From the Workflow Manager, select the desired state, add a new action, and select the custom action with the "(Custom)" suffix. All Workflow Action Scripts will be listed in the New Action window only if the script has been deployed to the same base record type of the workflow. Again, this is controlled by the selection in the APPLIES TO dropdown list in the associated Script Deployment Record.
+
+Now let's take a closer look at how data values can be passed to a Workflow Action Script from a workflow action. A script record is configured with a Subordinate Notes parameter that is used to accept an incoming value from the executing workflow. The value to be passed to the script is defined in a Subordinate Notes field in the custom actions configuration within SuiteFlow. The Subordinate Notes value, either 1, 2, or 3, is then received by the Workflow Action Script during runtime execution and stored in a script variable called "notationStyle."
+
+The settings controlling the return value from the script back to the workflow are shown here. A Return Type of Free-Form Text has been specified as a script parameter, which defines the format of the value returned to the workflow from the script. The script file contains the various values that can be returned to the workflow during script processing, in this case, either "S" for "Success" or "F" for "Failure." The return script values are then stored in a workflow state field called Note Status, which can then be used to alter workflow processing by further evaluating the return value in workflow conditions.
+
+Here are some things to keep in mind when using SuiteScript formulas and working with Workflow Action Scripts during workflow execution. If a form does not load properly, you likely have an invalid SuiteScript formula. When troubleshooting record load issues, our first instinct may be to use the workflow execution log. But remember that SuiteScript formulas only execute on client triggers, and client-triggered events are not logged in the workflow execution log. Only use custom actions when you cannot use SuiteFlow's standard actions.
+
+Be mindful of the code you create in Workflow Action Scripts, as it can negatively impact workflow processing performance. If a Workflow Action Script contains resource-intensive operations or long processing loops, the workflow will wait until the script completes its processing before the workflow will continue with the execution of any remaining actions. This synchronous relationship between workflows and Workflow Action Scripts can be perceived as slow workflow processing performance by users. Scheduled scripts can be used to invoke scripts asynchronously.
+
+Test all custom actions independent of workflows using the Script Debugger. If your script runs successfully in the Script Debugger, you can then consider updating the status of the script record from "Testing" to "Released." The Workflow Action Script deployment status must be set to "Released," or the script will only run for the script owner. This is perfectly acceptable when testing your script, as discussed in the previous bullet point.
+
+For a custom action to be available to workflows running on any record, select "All Records" from the APPLIES TO dropdown list on the Deployment Record. The SuiteCloud Development Framework, or SDF, can be used to serialize and deserialize realized complete workflow definitions into XML for portability to other accounts. And the Application Performance Management SuiteApp can be used to identify performance bottlenecks when processing server-side scripts.
+
+In this next walk-through demonstration, we will show you how to integrate Workflow Action Scripts as custom actions in SuiteFlow. First, we'll analyze a pre-built SuiteScript code file that accepts an input parameter from the workflow, which populates a Notes field on the selected subordinate's Employee record. We will then configure the individual components of the Workflow Action Script itself, such as the Script Record and the Script Deployment Record. We will then modify the Approval workflow to execute our custom action. And finally, we'll execute our Approval workflow and verify the execution of our custom action using the workflow execution log.
+
+Let's begin by analyzing the pre-built script that we're going to be using in this particular walk-through demonstration, and that script is actually going to be called our "SuiteDreams_WAS_"-- for Workflow Action Script-- "UpdateSubordinate.js" file. And I just so happen to have that ready to go right here. And what I want to do is just go ahead and discuss at a very high level kind of what this script is doing, and then we'll go ahead and configure the remaining components that we need in order to configure our custom action in suite flow.
+
+So this script is executed as a Workflow Action Script, as indicated by the script type in the JSDocs tag at the top of the script, which you can see right here. Now she says "ScriptType WorkflowActionScript." You can see that this is a SuiteScript 2.x script. And if I scroll down a little bit, because this is a Workflow Action Script, you can see that we have a function down here called "onAction." OK, and that is really indicative of a Workflow Action Script, where you'll see that function reference.
+
+Now, what this script does is it first retrieves select fields from the current record being entered, such as ReviewName, RatingCode, and salaryIncrAmt. It then retrieves a subordinate notes parameter, either 1, 2, or 3, and stores it in a script variable called "notationStyle." This parameter is then evaluated to determine the information that should be entered into the Notes field on the selected subordinate's Employee record. And finally, the script either returns "S" for "Success" or "F" for "Failure."
+
+Let's create a custom state field to store that subord-- [AUDIO OUT]. And to do that, what I'm going to do is modify our Performance Review Approval workflow. And we're going to go ahead and configured the State field in State 2, Approved. This is where we're going to actually initiate this particular script file using our custom action.
+
+So what I'm going to do is, down here in State 2, come over here to the Fields tab. And I'm going to click New State Field. I'm going to go ahead and call this field "Subordinate Notes," just like that. And we'll go ahead and enter an ID, which will be very, very important since we're actually calling these various fields from the script file. This is going to be a Free-Form Text field. And I most certainly want to store the value associated with it.
+
+And that's really all I have to do. We're not going to default any values. We're actually going to populate this accordingly with our parameter when we configured the action. So we've got that all set up. I'm going to go ahead and save the State Field.
+
+And now we can go ahead and create our Various Workflow Action script components, the Script Record and the Script Deployment Record. So let's create the Script Record first. To do that, I'm going to navigate to Customization, Scripting, Scripts. I'll actually open that up in a new tab.
+
+And what I'm going to do is go ahead and create a New Script Record by clicking New Script. And the first thing it's going to do is it's going to say, OK, what script do you want to use to create the Script Record? Its asking me which file I want to upload.
+
+Well, I'm going to go ahead and use my List option here and look for the particular script that I want to work with. It's already been uploaded to our training account, and I can see a whole list of them right here called "SuiteDreams_WAS_UpdateSubordinate" right there. That's the one I want, so I'll select that. Again, that's coming from the NetSuite File Cabinet in our training account. And all I'm going to do is say Create Script Record.
+
+Now, because that is a SuiteScript 2.0 Script File, it already read the JSDocs tag, and it knows that it's a Workflow Action Script. So the form that you are seeing here is specific to the configuration of a Workflow Action Script. If this was a Suitelet or some other script type, this form would differ slightly depending on the type of script you were creating the record for. OK, so just keep that in mind.
+
+Now, in this case, what we're going to do is call this particular script record "Workflow Action Script Update Subordinate Notes." And just as we did with our CUSTOM STATE field, I'm going to go ahead and enter in a script ID. Now, notice it's almost identical to the state field that we actually entered, and I'll be using this ID for pretty much all of the components that we create for this script deployment. And that's OK because of the prefix that is appended to the front end of all IDs in NetSuite, and you'll see that here in a little bit.
+
+I'm going to enter a description for this particular workflow action. It's going to be something like this, "Updates the Notes field on the selected subordinate's Employee record based on Performance Review values." And you'll see right down here in the Scripts sub-tab, it has the Script File reference that we selected and uploaded to the NetSuite File Cabinet.
+
+If I click on the Parameters sub-tab, it's asking me to enter a couple different things. The first thing it's asking me for is, what is the format of the return type coming back from the script to the workflow? And in this case, it's going to be Free-Form Text, which is the format of the state field that we created in our workflow. Down here in the LABEL field, I'm going to go ahead and enter in a name for the actual parameter itself, which is going to be called "Subordinate Notes."
+
+And as I just mentioned, I'm going to be very consistent with my IDs. I'm going to name them all the same since they're all kind of related to the same functionality. Now, you don't have to do this. Your IDs don't have to be the same. I just think it makes it a little easier and provides a little consistency when you're working with multiple script files.
+
+And notice this is also of type Free-Form Text. So this is really the means by which we're able to pass the 1, 2, or 3 parameter from the workflow to the script to have that parameter processed and then return either "success" or "failure" back to the workflow.
+
+And one thing I want to mention before I save the Script Record is notice that I can actually begin the initial configuration of my deployment, Script Deployment Record, right here as well. So let's go ahead and do that.
+
+I'm going to click Deployments. And notice that it's simply saying, what record type do you want to apply this particular script to? Meaning, what records do you want this script to actually execute on? Now, I certainly could choose All Records. That's not realistic. OK, this was specifically designed to process performance reviews.
+
+So that's exactly what I'm going to select here. OK, only deploy this to the Performance Review record type. And once again, I will enter the same ID for this Script Deployment Record. Notice that the status here is Deployed-- oh, I'm sorry Testing. And the LOG LEVEL is set to Debug, which is the default. I'm going to go ahead and leave those just as they are.
+
+Now that I've done the initial configuration of the Script Deployment Record, I can save the Script Record itself. Now, there's still some additional configuration that we have to do on the Script Deployment Record to set who the audience is and a couple other parameters.
+
+I'm going to come up here to Customization, Scripting, Script Deployments. If I come in here and find my Script Record that I just created, which is right down here, I'm going to go ahead and edit that so we can complete its configuration. And you'll notice that everything that I set on the Script Record from the header has already been captured. So I can see the ID. It is currently deployed, the status of Testing and the log level of Debug.
+
+That's all great. But what we haven't done is right down here, the audience. Who do I want to deploy this to? Well, in this case, we're going to keep this real simple. I'm just going to deploy it to anybody. So this is executable by any user who might be working with the Performance Review Record.
+
+And you'll also notice that we have our parameters listed here, where we have a Subordinate Notes field. Now, we're not going to put anything in the Subordinate Notes field right here. This is going to be set in the workflow itself. But this is just showing you that we do have a means by which we're storing that parameter at the script level. So let me go ahead and save this completed script deployment record. And now we're ready to configure the custom action in SuiteFlow.
+
+So let's go ahead and jump back to our Performance Review Approval workflow. And once again, down here in State 2, let's go ahead and configure our custom workflow action. I'm simply going to select New Action. And because we've deployed our script, when I scroll down to the very bottom, notice that I have a custom workflow action called "WAS Update Subordinate Notes" with a "(Custom)" suffix. So I can now configure this like any other workflow action.
+
+So I select it. And the first thing it prompts me for is to select where I want to store the particular value that I'm about to pass to the script, and we're going to store that in our Subordinate Notes (State) field that we created in State 2.
+
+And here is where I'm passing the value. So I can hard-code this a value of 1, 2, or 3 right in the VALUE field. So in this case, let's go ahead and enter 1. And we'll come back and do this again and enter a different value of 3 and show you the results in the Notes field on the subordinate's Employee record. So again, we'll set this to 1 for now. And we'll click Save.
+
+Now let's go ahead and test it. I'm going to come over here. I'll just use this tab, and we'll create a new Performance Review record. I'm going to go ahead and I'll just call this "Workflow Action Script Test #1." I'm going to go ahead and choose Wilheim Schueler as my subordinate. I'll give him a Rating Code, once again, of A and a pretty hefty Salary Increase Amount. And we'll go ahead and save that record.
+
+Now let's go back to our list of records real quick. And let me go ahead and bring up-- let me, actually, sort these by internal ID in descending order. That will be a little better. Jump our new records to the top. And let's take a look at our log files for this new record just real quick.
+
+So over here in Workflow History, you'll notice that the workflows were kicked off, as you would expect. But notice that this particular record is still stuck in the Waiting for Task Completion step here because of our Subscribe to Record action. So what I need to do in order to get this thing moving along in the process and get the record into our Approval workflow is we need to set the associated task record, related task record, to "Completed."
+
+So let me jump over and do that real quick. I'm going to go to Activities, Scheduling, Tasks. And once again, I'll open that in a new tab as well. Here's that latest task record right up here at the top. I'm just going to go ahead and modify that and simply change the status from "Not Started" to "Completed."
+
+I'll save that. Close that tab. And then I simply need to come back here to Workflow History and refresh my Workflow History. And now notice that that transition has been executed by virtue of that status change in the related task record. And I can see that it's currently waiting for my approval in State 1 of the Approval workflow.
+
+So let's go back to that particular record. And where is it? There it is right there. Where our custom action sould actually--
+
+[INTERPOSING VOICES]
+
+Let's go ahead and approve the record.
+
+--initiate.
+
+Now, upon approving the record--
+
+So let's have a look.
+
+--you can transition it--
+
+You can come down here today Workflow History--
+
+--to State 2.
+
+You could see that, upon approval, the record did transition to State 2, Approved. And I can see something happened here. Notice it's storing the value or the return value of "S" for "Success" to the workflow and storing that return value in our Subordinate Notes field.
+
+So let's go and take a look at Wilheim Schueler's Employee record. So I'm going to come up here. And I'm just going to type in "em:sch," his first few letters of his last name. And let's go ahead and edit his employee record.
+
+And if I look right over here in the Notes field in the header, you can see that it has the name of the review-- in this case, it was my Workflow Action Script Test 1-- and the rating code of A. That is indicative of the 1 parameter that we sent in with the script.
+
+Let's go ahead and do another record. Only this time, let's go ahead and modify our Workflow Action Script parameter to send a value of 3 to the Script File. So I'm simply going to change the value of my Subordinate Notes field here. And I'll click Save. I'm going to create a brand new Performance Review record.
+
+This time we'll call it "Test #2." I'll go ahead and select John Ritman as my subordinate, give him a Rating Code, and save the record. Once again, just like we did before, I need to go out and change the status of the related task record. So let me do that.
+
+It's right here. Set it to "Completed." Here we go. Jumping back to our list of Performance Review records-- because I wasn't viewing it before, now when I actually view this record, I should see it automatically go into State 1, Waiting for Approval, as you can see here. And now I should be able to approve this record and kick off our Workflow Action Script.
+
+Notice that, just like we saw before, this particular example also returned "Success" to the workflow. And if I go out and locate John Ritman's Employee record right here, notice I have additional information in the Notes field. I'm now seeing the type of Performance Review. The Salary Increase Amount has been printed in addition to the Rating Code. So that is a really simple yet effective example of working with Workflow Action Scripts in SuiteFlow.
+
+It is now time for you to complete the required hands-on exercises associated with the topics discussed in this module. To complete the required exercises, refer to your student workbook. When you have finished, you may continue with the next module. This concludes the "Using SuiteScript in Workflows" module.
+
+© 2025 Oracle University
+Privacy / Do Not Sell My Info
+Contact Us
+Terms of Use
+Cookie Preferences
+Ad Choices

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 08: Results Columns & Sorting - Suite Analytics Learning Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #0f0f1a; color: #e0e0e0; line-height: 1.7; }
+        .header { background: linear-gradient(135deg, #0f3460 0%, #533483 100%); padding: 30px 20px; }
+        .header-content { max-width: 900px; margin: 0 auto; }
+        .breadcrumb { font-size: 0.9em; margin-bottom: 10px; opacity: 0.8; }
+        .breadcrumb a { color: #fff; text-decoration: none; }
+        h1 { font-size: 2em; font-weight: 700; color: #fff; }
+        .module-meta { margin-top: 10px; color: rgba(255,255,255,0.8); font-size: 0.9em; }
+        .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+        h2 { color: #e94560; font-size: 1.5em; margin: 40px 0 20px; padding-bottom: 10px; border-bottom: 2px solid #e94560; }
+        p { margin-bottom: 15px; }
+        .concept-box { background: linear-gradient(145deg, #1a1a2e 0%, #1e1e32 100%); border-radius: 15px; padding: 25px; margin: 25px 0; border-left: 4px solid #e94560; }
+        .concept-box h4 { color: #e94560; margin-bottom: 12px; font-size: 1.1em; }
+        .steps { background: #12121f; border-radius: 10px; padding: 20px; margin: 15px 0; }
+        .steps ol { margin-left: 20px; }
+        .steps li { padding: 8px 0; }
+        .example-box { background: linear-gradient(145deg, #1e3a1e 0%, #1a2e1a 100%); border-radius: 12px; padding: 20px; margin: 20px 0; border: 1px solid #4caf50; }
+        .example-box h4 { color: #4caf50; margin-bottom: 12px; }
+        .tip-box { background: rgba(255,193,7,0.1); border-radius: 10px; padding: 20px; margin: 20px 0; border: 1px solid rgba(255,193,7,0.3); }
+        .tip-box h4 { color: #ffc107; margin-bottom: 10px; }
+        .key-point { background: rgba(83,52,131,0.2); border-radius: 10px; padding: 20px; margin: 20px 0; border: 1px solid rgba(83,52,131,0.4); }
+        .key-point h4 { color: #533483; margin-bottom: 10px; }
+        .action-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0; }
+        .action-item { background: #1a1a2e; border-radius: 10px; padding: 15px; border: 1px solid #333; }
+        .action-item h5 { color: #2196f3; margin-bottom: 8px; }
+        .action-item p { font-size: 0.9em; opacity: 0.8; margin: 0; }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 50px; padding-top: 30px; border-top: 1px solid #333; flex-wrap: wrap; gap: 15px; }
+        .nav-btn { padding: 12px 25px; border-radius: 25px; text-decoration: none; font-weight: 600; font-size: 0.9em; transition: all 0.3s ease; }
+        .nav-btn.secondary { background: rgba(255,255,255,0.1); color: #fff; }
+        .nav-btn.primary { background: linear-gradient(135deg, #e94560 0%, #533483 100%); color: #fff; }
+        ul { margin-left: 20px; margin-bottom: 15px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="breadcrumb">
+                <a href="../Master-Dashboard.html">Course Overview</a> / 
+                <a href="week-2-dashboard.html">Week 2</a> / Module 08
+            </div>
+            <h1>📊 Module 08: Results Columns & Sorting</h1>
+            <div class="module-meta">Week 2 • Saved Searches Fundamentals • Core Skills</div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="concept-box">
+            <h4>The Results Subtab</h4>
+            <p>The Results subtab is where you define what fields display in your saved search results, how they're sorted, and in what order they appear. This is where you customize the output to show exactly the information your users need.</p>
+        </div>
+
+        <h2>Managing Columns</h2>
+
+        <div class="action-grid">
+            <div class="action-item">
+                <h5>➕ Add Column</h5>
+                <p>Select a field from the dropdown and click <strong>Add</strong></p>
+            </div>
+            <div class="action-item">
+                <h5>➖ Remove Column</h5>
+                <p>Select the field and click <strong>Remove</strong></p>
+            </div>
+            <div class="action-item">
+                <h5>⬆️⬇️ Reorder</h5>
+                <p>Use <strong>Move Up/Down</strong> buttons or drag the handle</p>
+            </div>
+            <div class="action-item">
+                <h5>➡️ Insert</h5>
+                <p>Click <strong>Insert</strong> to add a field above the selected one</p>
+            </div>
+        </div>
+
+        <div class="key-point">
+            <h4>📍 Column Order</h4>
+            <p>The field at the <strong>top</strong> of the columns list appears on the <strong>left</strong> side of search results. The field at the <strong>bottom</strong> appears on the <strong>right</strong>. Reorder columns to put the most important information first.</p>
+        </div>
+
+        <h2>Custom Labels</h2>
+        <p>By default, the field name displays as the column header. You can rename columns with custom labels for clarity.</p>
+
+        <div class="steps">
+            <ol>
+                <li>Click directly into the field under <strong>Custom Label</strong></li>
+                <li>Enter your preferred column header name</li>
+                <li>Click <strong>OK</strong> to confirm</li>
+            </ol>
+        </div>
+
+        <div class="example-box">
+            <h4>💡 Example: Rename "Name" to "Client"</h4>
+            <p>If your company refers to customers as "clients," customize the label:</p>
+            <ul>
+                <li>Field: Name</li>
+                <li>Custom Label: <strong>Client</strong></li>
+            </ul>
+            <p>The search results will now show "Client" as the column header instead of "Name."</p>
+        </div>
+
+        <h2>Sorting Results</h2>
+
+        <div class="key-point">
+            <h4>🔢 Sort By Options</h4>
+            <ul>
+                <li><strong>Sort By</strong> — Primary sort field (required)</li>
+                <li><strong>Then By</strong> — Secondary sort (optional)</li>
+                <li><strong>Then By</strong> — Tertiary sort (optional)</li>
+                <li><strong>Descending</strong> checkbox — Sort from highest to lowest</li>
+            </ul>
+        </div>
+
+        <div class="steps">
+            <ol>
+                <li>On the Results subtab, locate the <strong>Sort By</strong> dropdown</li>
+                <li>Select the field to sort by</li>
+                <li>Check <strong>Descending</strong> to sort from highest to lowest</li>
+                <li>Use <strong>Then By</strong> dropdowns for multi-level sorting</li>
+            </ol>
+        </div>
+
+        <div class="tip-box">
+            <h4>⚠️ Important</h4>
+            <p>You can sort by a field that is <strong>not</strong> included in the results columns. This means results can be ordered by a hidden field, which may confuse users. As a best practice, include the sort-by field in your results columns.</p>
+        </div>
+
+        <div class="example-box">
+            <h4>💡 Example: Sort Customers by Balance</h4>
+            <p>Show customers with the highest balances at the top:</p>
+            <ul>
+                <li><strong>Sort By:</strong> Balance</li>
+                <li><strong>Descending:</strong> ✓ (checked)</li>
+            </ul>
+            <p>Result: The customer with the greatest balance appears first.</p>
+        </div>
+
+        <div class="concept-box">
+            <h4>🎯 Key Takeaways</h4>
+            <ul>
+                <li>Use the <strong>Results subtab</strong> to define columns and sorting</li>
+                <li><strong>Add/Remove</strong> columns to show only relevant fields</li>
+                <li><strong>Reorder</strong> columns — top = left, bottom = right</li>
+                <li>Create <strong>Custom Labels</strong> for clearer column headers</li>
+                <li><strong>Sort By</strong> sets the primary order; use <strong>Then By</strong> for secondary sorting</li>
+                <li>Check <strong>Descending</strong> to sort from highest to lowest</li>
+            </ul>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="Module-07-Creating-Saved-Searches.html" class="nav-btn secondary">← Previous: Creating Searches</a>
+            <a href="Module-09-Joined-Data.html" class="nav-btn primary">Next: Joined Data →</a>
+        </div>
+    </div>
+</body>
+</html>

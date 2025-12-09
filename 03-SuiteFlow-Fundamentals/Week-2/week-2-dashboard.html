@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Week 2: Client-Side Processing - SuiteFlow Fundamentals</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; background: white; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); overflow: hidden; }
+        .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 50px 40px; }
+        .breadcrumb { font-size: 0.9em; opacity: 0.9; margin-bottom: 15px; }
+        .breadcrumb a { color: white; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.3); }
+        h1 { font-size: 2.5em; font-weight: 700; margin-bottom: 10px; }
+        .week-intro { background: #f8f9fa; padding: 40px; border-bottom: 3px solid #667eea; }
+        .week-intro h2 { color: #667eea; margin-bottom: 20px; }
+        .content { padding: 40px; }
+        .module-card { background: white; border-radius: 15px; padding: 30px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); border-left: 5px solid #667eea; }
+        .module-header { display: flex; align-items: center; margin-bottom: 20px; }
+        .module-number { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; width: 60px; height: 60px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5em; font-weight: 700; margin-right: 20px; }
+        .module-link { display: inline-block; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 12px 30px; border-radius: 25px; text-decoration: none; font-weight: 600; }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 40px; }
+        .nav-btn { padding: 12px 25px; border-radius: 25px; text-decoration: none; font-weight: 600; }
+        .nav-btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .nav-btn-secondary { background: #e2e8f0; color: #2d3748; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="breadcrumb"><a href="../Master-Dashboard.html">← Course Overview</a></div>
+            <h1>Week 2: Client-Side Processing</h1>
+            <p style="opacity: 0.9; margin-top: 10px;">Building Dynamic, Interactive Forms</p>
+        </div>
+        <div class="week-intro">
+            <h2>Week 2 Overview</h2>
+            <p>This week focuses on client-side workflow processing—actions that execute in the user's browser as they interact with forms. You'll master client triggers and learn to build dynamic forms that respond intelligently to user input, validate data in real-time, and provide immediate feedback.</p>
+            <p style="margin-top: 15px;">By mastering client triggers, you'll create intuitive user experiences that guide users through data entry, prevent errors before save, and make forms adapt dynamically to user choices.</p>
+        </div>
+        <div class="content">
+            <h2 style="color: #2d3748; margin-bottom: 30px;">Week 2 Modules</h2>
+            <div class="module-card">
+                <div class="module-header">
+                    <div class="module-number">02</div>
+                    <h3>Understanding Client Triggers</h3>
+                </div>
+                <p style="color: #666; margin-bottom: 20px;">Learn the difference between client and server triggers. Master form-level triggers (Before User Edit, Before User Submit) and field-level triggers (Before Field Edit, After Field Edit, After Field Sourcing) to create dynamic, responsive forms.</p>
+                <a href="Module-02-Understanding-Client-Triggers.html" class="module-link">Start Module 2 →</a>
+            </div>
+            <div class="module-card">
+                <div class="module-header">
+                    <div class="module-number">03</div>
+                    <h3>Configuring Actions on Data Entry</h3>
+                </div>
+                <p style="color: #666; margin-bottom: 20px;">Configure common client-side actions: Set Field Display Type, Set Field Mandatory, Set Field Value, Return User Error, Show Message, and Confirm. Master the Visual Builder to create complex conditions that control when actions execute.</p>
+                <a href="Module-03-Configuring-Actions-on-Data-Entry.html" class="module-link">Start Module 3 →</a>
+            </div>
+            <div class="nav-buttons">
+                <a href="../Week-1/week-1-dashboard.html" class="nav-btn nav-btn-secondary">← Previous: Week 1</a>
+                <a href="../Week-3/week-3-dashboard.html" class="nav-btn nav-btn-primary">Next: Week 3 →</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 8: Executing in Different Contexts - SuiteFlow Advanced Workflows</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #0f0f1a; line-height: 1.6; color: #e0e0e0; }
+        .header { background: linear-gradient(135deg, #e94560 0%, #0f3460 100%); color: white; padding: 40px 20px; }
+        .header-content { max-width: 1200px; margin: 0 auto; }
+        .breadcrumb { font-size: 0.9em; margin-bottom: 15px; opacity: 0.9; }
+        .breadcrumb a { color: white; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.3); }
+        .module-title-section { display: flex; align-items: center; gap: 20px; }
+        .module-number { background: rgba(255,255,255,0.2); width: 80px; height: 80px; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 2em; font-weight: 700; }
+        h1 { font-size: 2.5em; font-weight: 700; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        .objectives-box { background: #1a1a2e; border-radius: 15px; padding: 30px; margin-bottom: 30px; border-left: 5px solid #e94560; }
+        .objectives-box h2 { color: #e94560; margin-bottom: 20px; }
+        .objectives-box ul { list-style: none; padding: 0; }
+        .objectives-box li { padding: 10px 0 10px 30px; position: relative; color: #ccc; }
+        .objectives-box li::before { content: "✓"; position: absolute; left: 0; color: #e94560; font-weight: bold; }
+        .content-section { background: #1a1a2e; border-radius: 15px; padding: 40px; margin-bottom: 30px; }
+        .content-section h2 { color: #fff; font-size: 1.8em; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 3px solid #e94560; }
+        .content-section h3 { color: #e94560; font-size: 1.4em; margin-top: 30px; margin-bottom: 15px; }
+        .content-section p { color: #ccc; line-height: 1.8; margin-bottom: 15px; }
+        .content-section ul, .content-section ol { margin-left: 30px; margin-bottom: 20px; }
+        .content-section li { margin-bottom: 10px; color: #ccc; }
+        .info-box { padding: 20px; border-radius: 8px; margin: 25px 0; border-left: 4px solid; }
+        .info-box.blue { background: rgba(33,150,243,0.1); border-left-color: #2196f3; }
+        .info-box.yellow { background: rgba(255,193,7,0.1); border-left-color: #ffc107; }
+        .info-box.green { background: rgba(76,175,80,0.1); border-left-color: #4caf50; }
+        .info-box.purple { background: rgba(156,39,176,0.1); border-left-color: #9c27b0; }
+        .info-box h4 { margin-bottom: 10px; font-weight: 600; }
+        .info-box.blue h4 { color: #2196f3; }
+        .info-box.yellow h4 { color: #ffc107; }
+        .info-box.green h4 { color: #4caf50; }
+        .info-box.purple h4 { color: #9c27b0; }
+        .comparison-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        .comparison-table th, .comparison-table td { padding: 15px; text-align: left; border-bottom: 1px solid #333; }
+        .comparison-table th { background: linear-gradient(135deg, #e94560 0%, #0f3460 100%); color: white; }
+        .comparison-table tr:hover { background: rgba(233,69,96,0.1); }
+        .key-takeaways { background: linear-gradient(135deg, #e94560 0%, #0f3460 100%); color: white; border-radius: 15px; padding: 30px; margin: 30px 0; }
+        .key-takeaways h3 { color: white; margin-bottom: 20px; font-size: 1.5em; }
+        .key-takeaways ul { list-style: none; padding: 0; }
+        .key-takeaways li { padding: 12px 0 12px 30px; position: relative; opacity: 0.95; }
+        .key-takeaways li::before { content: "★"; position: absolute; left: 0; }
+        .navigation { display: flex; justify-content: space-between; margin-top: 40px; gap: 20px; flex-wrap: wrap; }
+        .nav-btn { display: inline-flex; align-items: center; padding: 15px 30px; border-radius: 25px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; flex: 1; justify-content: center; min-width: 200px; }
+        .nav-btn-primary { background: linear-gradient(135deg, #e94560 0%, #0f3460 100%); color: white; }
+        .nav-btn-secondary { background: rgba(255,255,255,0.1); color: #fff; }
+        .nav-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(233,69,96,0.3); }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="breadcrumb">
+                <a href="../Master-Dashboard.html">← Course Overview</a> / 
+                <a href="week-4-dashboard.html">Week 4</a> / Module 8
+            </div>
+            <div class="module-title-section">
+                <div class="module-number">08</div>
+                <div>
+                    <h1>Executing in Different Contexts</h1>
+                    <p style="margin-top: 10px; opacity: 0.9;">CSV Import, Scripts, Suitelets & Mass Updates</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="objectives-box">
+            <h2>🎯 Learning Objectives</h2>
+            <p style="color: #999; margin-bottom: 15px;">Upon completion of this module, you will be able to:</p>
+            <ul>
+                <li>Describe the purpose of the CONTEXTS field on the Workflow Definition page</li>
+                <li>Initiate workflows during record creation in CSV Import and User Event Script contexts</li>
+                <li>Perform on-demand processing in the Suitelet context</li>
+                <li>Execute workflow mass updates and explain when to use each type</li>
+            </ul>
+        </div>
+
+        <div class="content-section">
+            <h2>Understanding Execution Context</h2>
+            
+            <p><strong>Workflow execution context</strong> refers to the NetSuite function or feature used to create, view, or update a record. Records can be accessed through:</p>
+
+            <ul>
+                <li>NetSuite user interface</li>
+                <li>Scripts and web services</li>
+                <li>User Event Scripts</li>
+                <li>Mass updates</li>
+                <li>CSV imports</li>
+            </ul>
+
+            <div class="info-box blue">
+                <h4>📋 Why Use Contexts?</h4>
+                <p>Configuring workflow execution in specific contexts allows you to <strong>restrict certain record processing</strong> to select contexts only. For example, run a workflow only during CSV imports but not through the UI.</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>CSV Import Context</h2>
+
+            <p>Importing large numbers of records via CSV is common. You may want to initiate workflows <strong>only on records created via CSV import</strong>.</p>
+
+            <h3>Configuration Requirements</h3>
+            <ol>
+                <li>Enable <strong>RUN SERVER SUITESCRIPT AND TRIGGER WORKFLOWS</strong> setting</li>
+                <li>Select <strong>CSV IMPORT</strong> from the CONTEXTS multi-select field on workflow definition</li>
+            </ol>
+
+            <h3>Two-Level Settings</h3>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Setting Location</th>
+                        <th>Scope</th>
+                        <th>Recommendation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>CSV Import Global Preferences</td>
+                        <td>All imports</td>
+                        <td>Keep DISABLED</td>
+                    </tr>
+                    <tr>
+                        <td>CSV Import Assistant</td>
+                        <td>Per import</td>
+                        <td>Enable when needed</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="info-box green">
+                <h4>✅ Best Practice</h4>
+                <p>Disable the global CSV Import preference and enable the setting <strong>per import basis</strong> in the CSV Import Assistant. This prevents unintended workflow execution during routine imports.</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>User Event Script Context</h2>
+
+            <p>User Event Scripts can create or update records programmatically. To trigger workflows only when records are modified by User Event Scripts:</p>
+
+            <ol>
+                <li>Select <strong>USER EVENT</strong> from the CONTEXTS field</li>
+                <li>Ensure your User Event Script submits records (triggers Before/After Record Submit)</li>
+            </ol>
+
+            <div class="info-box yellow">
+                <h4>⚠️ Important</h4>
+                <p>User Event Scripts must actually <strong>submit the record</strong> (using record.save() or similar) to trigger workflow events. Simply loading a record won't trigger workflows.</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Suitelet Context</h2>
+
+            <p>Suitelets provide <strong>on-demand processing</strong> capabilities. Use the Suitelet context when you want workflows to execute only when records are created/modified through custom Suitelet interfaces.</p>
+
+            <h3>Use Cases</h3>
+            <ul>
+                <li>Custom data entry forms</li>
+                <li>Integration endpoints</li>
+                <li>Specialized approval interfaces</li>
+                <li>Batch processing utilities</li>
+            </ul>
+        </div>
+
+        <div class="content-section">
+            <h2>Workflow Mass Updates</h2>
+
+            <p>Workflow mass updates allow you to process <strong>multiple records simultaneously</strong> with running workflow instances.</p>
+
+            <h3>Mass Update Types</h3>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Mass Update Type</th>
+                        <th>Purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Trigger Workflow on Records</strong></td>
+                        <td>Force workflow to trigger on selected records</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Update Workflow State</strong></td>
+                        <td>Move records to a specific workflow state</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Reinitialize Workflow on Records</strong></td>
+                        <td>Restart workflow from beginning on selected records</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Example: Force Approval</h3>
+            <p>Use "Update Workflow State" mass update to move multiple pending records directly to an Approved state, bypassing normal approval flow.</p>
+
+            <div class="info-box purple">
+                <h4>💡 Navigation</h4>
+                <p>Access workflow mass updates via: <strong>Lists → Mass Update → Mass Updates</strong>, then look for Workflow-related options under the record type you want to process.</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Context Configuration Summary</h2>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Context</th>
+                        <th>Use When</th>
+                        <th>Configuration</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>CSV Import</strong></td>
+                        <td>Bulk data imports need workflow processing</td>
+                        <td>Enable in Import Assistant + select context</td>
+                    </tr>
+                    <tr>
+                        <td><strong>User Event</strong></td>
+                        <td>Script-based record modifications</td>
+                        <td>Select context on workflow definition</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Suitelet</strong></td>
+                        <td>Custom interface processing</td>
+                        <td>Select context on workflow definition</td>
+                    </tr>
+                    <tr>
+                        <td><strong>UI (default)</strong></td>
+                        <td>Standard user interactions</td>
+                        <td>Default behavior when no context specified</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="key-takeaways">
+            <h3>🌟 Key Takeaways</h3>
+            <ul>
+                <li><strong>Execution context</strong> = the method used to create/update records</li>
+                <li>Use CONTEXTS field to <strong>restrict workflow execution</strong> to specific contexts</li>
+                <li><strong>CSV Import:</strong> Enable per-import, keep global setting disabled</li>
+                <li><strong>User Event:</strong> Scripts must submit records to trigger workflows</li>
+                <li><strong>Suitelet:</strong> For custom interface and on-demand processing</li>
+                <li><strong>Mass Updates:</strong> Process multiple records simultaneously</li>
+            </ul>
+        </div>
+
+        <div class="navigation">
+            <a href="../Week-3/Module-07-Using-SuiteScript-Workflows.html" class="nav-btn nav-btn-secondary">← Previous: Module 7</a>
+            <a href="Module-09-Improving-Workflow-Performance.html" class="nav-btn nav-btn-primary">Next: Module 9 →</a>
+        </div>
+    </div>
+</body>
+</html>

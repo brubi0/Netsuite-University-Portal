@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 8: Scheduled Scripts</title>
+    <style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.8;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:40px 20px}.container{max-width:900px;margin:0 auto}.header{background:white;padding:30px 40px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.2);margin-bottom:30px}.header h1{color:#2563eb;font-size:2rem;margin-bottom:10px}.header .meta{color:#6b7280;font-size:0.9rem}.content{background:white;padding:40px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.2)}.content h2{color:#1e40af;margin:35px 0 20px 0;font-size:1.6rem;padding-bottom:10px;border-bottom:3px solid #dbeafe}.content h2:first-of-type{margin-top:0}.content h3{color:#374151;margin:25px 0 15px 0;font-size:1.3rem}.content p{margin:15px 0;color:#374151}.content ul,.content ol{margin:15px 0 15px 30px;color:#374151}.content li{margin:10px 0}.info-box{padding:20px 25px;border-radius:8px;margin:25px 0;border-left:5px solid}.info-box.blue{background:#dbeafe;border-color:#2563eb}.info-box.yellow{background:#fef3c7;border-color:#f59e0b}.info-box.green{background:#dcfce7;border-color:#10b981}.info-box.red{background:#fee2e2;border-color:#ef4444}.info-box strong{color:#1e40af;display:block;margin-bottom:10px;font-size:1.1rem}code{background:#f3f4f6;padding:3px 8px;border-radius:4px;font-family:monospace;font-size:0.9em;color:#ef4444}pre{background:#1e293b;color:#e2e8f0;padding:25px;border-radius:8px;overflow-x:auto;margin:25px 0;border-left:5px solid #667eea}pre code{background:none;padding:0;color:inherit}.takeaway{background:#f0f9ff;border:2px solid #0ea5e9;border-radius:10px;padding:25px;margin:30px 0}.takeaway h3{color:#0369a1;margin:0 0 15px 0}.takeaway ul{margin:10px 0 10px 25px}.takeaway li{color:#0c4a6e;font-weight:500}.nav-buttons{display:flex;justify-content:space-between;margin-top:40px;gap:20px}.back-btn,.next-btn{padding:14px 28px;border-radius:8px;text-decoration:none;font-weight:600;transition:all 0.3s}.back-btn{background:#6b7280;color:white}.next-btn{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:white}table{width:100%;border-collapse:collapse;margin:20px 0}table th,table td{padding:12px;text-align:left;border-bottom:1px solid #e5e7eb}table th{background:#f3f4f6;color:#1e40af;font-weight:600}.toc{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:20px;margin-bottom:30px}.toc h3{color:#1e40af;margin-bottom:15px}.toc ul{list-style:none;margin:0;padding:0}.toc li{margin:8px 0}.toc a{color:#2563eb;text-decoration:none}</style>
+</head>
+<body>
+<div class="container">
+<div class="header">
+    <h1>Module 8: Scheduled Scripts</h1>
+    <p class="meta">Week 5 • NetSuite SuiteScript 2.0 Training • ~60 minutes</p>
+</div>
+<div class="content">
+
+<div class="toc">
+    <h3>📑 In This Module</h3>
+    <ul>
+        <li><a href="#objectives">Learning Objectives</a></li>
+        <li><a href="#what-are">1. What Are Scheduled Scripts?</a></li>
+        <li><a href="#queuing">2. Queue System</a></li>
+        <li><a href="#creating">3. Creating Scheduled Scripts</a></li>
+        <li><a href="#governance">4. Governance Management</a></li>
+        <li><a href="#rescheduling">5. Rescheduling</a></li>
+        <li><a href="#practice">Practice Exercises</a></li>
+    </ul>
+</div>
+
+<h2 id="objectives">🎯 Learning Objectives</h2>
+<ul>
+    <li>Understand when to use scheduled scripts</li>
+    <li>Learn how the queue system works</li>
+    <li>Create and deploy scheduled scripts</li>
+    <li>Monitor and manage governance usage</li>
+    <li>Implement checkpoint/resume patterns</li>
+</ul>
+
+<h2 id="what-are">1. What Are Scheduled Scripts?</h2>
+
+<p>Scheduled scripts run <strong>automatically at specified times</strong> without user interaction. Unlike User Event scripts that trigger on record actions, scheduled scripts run on a schedule (hourly, daily, weekly) or on-demand.</p>
+
+<div class="info-box blue">
+    <strong>💡 Common Use Cases</strong>
+    <ul>
+        <li>Nightly batch processing</li>
+        <li>Weekly report generation</li>
+        <li>Data cleanup/archival</li>
+        <li>External system synchronization</li>
+        <li>Mass record updates</li>
+    </ul>
+</div>
+
+<h3>Script Structure</h3>
+<pre><code>/**
+ * @NApiVersion 2.1
+ * @NScriptType ScheduledScript
+ */
+define(['N/search', 'N/record', 'N/runtime'], function(search, record, runtime) {
+    
+    function execute(context) {
+        // context.type tells us how script was triggered
+        // 'SCHEDULED', 'ON_DEMAND', 'USER_INTERFACE', 'ABORTED', 'SKIPPED'
+        
+        log.audit('Script Started', 'Type: ' + context.type);
+        
+        // Your batch processing logic here
+        
+        log.audit('Script Completed', 'Success');
+    }
+    
+    return { execute: execute };
+});</code></pre>
+
+<h2 id="queuing">2. Queue System</h2>
+
+<p>Scheduled scripts don't run immediately at their scheduled time. They're placed in a <strong>queue</strong>.</p>
+
+<div class="info-box yellow">
+    <strong>⚠️ Important Queue Behavior</strong>
+    <ul>
+        <li>By default, you have <strong>1 queue</strong> for scheduled scripts</li>
+        <li>Only one script runs per queue at a time</li>
+        <li>The scheduler checks for queued scripts every <strong>30 minutes</strong></li>
+        <li>Scripts scheduled for 5:00 PM might start at 5:00-5:30 PM</li>
+    </ul>
+</div>
+
+<h3>SuiteCloud Plus Queues</h3>
+<table>
+    <tr><th>Level</th><th>Queues</th><th>Use Case</th></tr>
+    <tr><td>Standard</td><td>1</td><td>Light usage</td></tr>
+    <tr><td>Level 1</td><td>5</td><td>Multiple concurrent scripts</td></tr>
+    <tr><td>Level 2</td><td>10</td><td>Heavy batch processing</td></tr>
+    <tr><td>Level 3</td><td>15</td><td>Enterprise workloads</td></tr>
+</table>
+
+<h2 id="creating">3. Creating Scheduled Scripts</h2>
+
+<h3>Step 1: Create the Script File</h3>
+<pre><code>/**
+ * @NApiVersion 2.1
+ * @NScriptType ScheduledScript
+ */
+define(['N/search', 'N/email'], function(search, email) {
+    
+    function execute(context) {
+        // Find overdue invoices
+        var invoiceSearch = search.create({
+            type: search.Type.INVOICE,
+            filters: [
+                ['status', 'anyof', 'CustInvc:A'], // Open
+                ['duedate', 'before', 'today']
+            ],
+            columns: ['entity', 'tranid', 'total', 'duedate']
+        });
+        
+        var count = 0;
+        invoiceSearch.run().each(function(result) {
+            log.debug('Overdue', result.getValue('tranid'));
+            count++;
+            return true;
+        });
+        
+        log.audit('Complete', count + ' overdue invoices found');
+    }
+    
+    return { execute: execute };
+});</code></pre>
+
+<h3>Step 2: Create Script Record</h3>
+<ol>
+    <li>Go to Customization → Scripting → Scripts → New</li>
+    <li>Select your script file</li>
+    <li>Save the Script Record</li>
+</ol>
+
+<h3>Step 3: Create Deployment</h3>
+<ol>
+    <li>On the Script Record, go to Deployments tab</li>
+    <li>Click "New Deployment"</li>
+    <li>Set Status: Testing or Released</li>
+    <li>Configure Schedule (or leave blank for on-demand)</li>
+    <li>Select Queue</li>
+</ol>
+
+<h3>Running On-Demand</h3>
+<p>To run immediately: Edit Deployment → Save and Execute</p>
+
+<h2 id="governance">4. Governance Management</h2>
+
+<p>Scheduled scripts have a <strong>10,000 unit</strong> governance limit. Monitor usage to prevent script termination:</p>
+
+<pre><code>function execute(context) {
+    var script = runtime.getCurrentScript();
+    
+    var customerSearch = search.create({...});
+    
+    customerSearch.run().each(function(result) {
+        // Check remaining governance
+        var remaining = script.getRemainingUsage();
+        
+        if (remaining < 500) {
+            log.audit('Low Governance', 'Stopping early. Remaining: ' + remaining);
+            return false; // Stop processing
+        }
+        
+        // Process record (uses governance)
+        processCustomer(result);
+        
+        return true;
+    });
+}</code></pre>
+
+<h3>Common Governance Costs</h3>
+<table>
+    <tr><th>Operation</th><th>Units</th></tr>
+    <tr><td>record.load()</td><td>10</td></tr>
+    <tr><td>record.save()</td><td>20</td></tr>
+    <tr><td>search.create()</td><td>5</td></tr>
+    <tr><td>search.lookupFields()</td><td>1</td></tr>
+    <tr><td>email.send()</td><td>20</td></tr>
+</table>
+
+<h2 id="rescheduling">5. Rescheduling (Checkpoint/Resume)</h2>
+
+<p>For large datasets, save progress and reschedule:</p>
+
+<pre><code>function execute(context) {
+    var script = runtime.getCurrentScript();
+    var startIndex = script.getParameter('custscript_start_index') || 0;
+    
+    var processed = 0;
+    var search = search.create({...});
+    
+    search.run().each(function(result) {
+        if (script.getRemainingUsage() < 500) {
+            // Reschedule with new start point
+            var taskId = task.create({
+                taskType: task.TaskType.SCHEDULED_SCRIPT,
+                scriptId: 'customscript_my_script',
+                deploymentId: 'customdeploy_my_script',
+                params: { 'custscript_start_index': startIndex + processed }
+            }).submit();
+            
+            log.audit('Rescheduled', 'Task ID: ' + taskId);
+            return false; // Stop this execution
+        }
+        
+        processRecord(result);
+        processed++;
+        return true;
+    });
+}</code></pre>
+
+<div class="info-box green">
+    <strong>✅ Best Practices</strong>
+    <ul>
+        <li>Schedule during off-peak hours (6PM - 6AM PST)</li>
+        <li>Offload heavy processing from User Event scripts to Scheduled</li>
+        <li>Monitor governance and implement checkpoints</li>
+        <li>Log start, progress, and completion</li>
+    </ul>
+</div>
+
+<h2 id="practice">🏋️ Practice Exercises</h2>
+
+<div class="info-box green">
+    <strong>Exercise 1: Basic Scheduled Script</strong>
+    <p>Create a scheduled script that searches for Customers created in the last 7 days and logs their names.</p>
+</div>
+
+<div class="info-box green">
+    <strong>Exercise 2: Governance Monitoring</strong>
+    <p>Modify your script to check remaining governance every 50 records and log the count.</p>
+</div>
+
+<div class="takeaway">
+    <h3>🎯 Key Takeaways</h3>
+    <ul>
+        <li>Scheduled scripts run automatically on a schedule or on-demand</li>
+        <li>Scripts are queued, not immediate - scheduler runs every 30 min</li>
+        <li>10,000 governance units per execution</li>
+        <li>Use getRemainingUsage() to monitor governance</li>
+        <li>Implement checkpoint/reschedule for large datasets</li>
+        <li>Schedule during off-peak hours for better performance</li>
+    </ul>
+</div>
+
+<div class="nav-buttons">
+    <a href="week-5-dashboard.html" class="back-btn">← Back to Week 5</a>
+    <a href="Module-9.html" class="next-btn">Next: Module 9 →</a>
+</div>
+
+</div>
+</div>
+</body>
+</html>

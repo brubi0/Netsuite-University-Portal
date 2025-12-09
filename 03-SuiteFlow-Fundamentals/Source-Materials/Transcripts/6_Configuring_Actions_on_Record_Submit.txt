@@ -1,0 +1,227 @@
+Configuring Actions on Record Submit. In this module, we will examine multi-state workflows and how they provide more control over when actions are executed. We will also examine many of the common actions configured during Record Save. We will then discuss the configuration of state to state transitions, which is a critical part of multi-state workflow design.
+
+Finally, we will discuss how transitions can be configured to change the active trigger of a workflow and how to identify the active trigger at any point during workflow processing. In this module, we will discuss the following topics-- designing multi-state workflows, common actions configured on record submit, configuring transitions, and identifying the active workflow trigger. Upon the completion of this module, you will be able to design state workflows that execute related workflow actions in each state, configure a variety of actions to execute on record submit using server triggers, configure transitions between states and explain their impact on action execution, and describe how a workflow and transition trigger configuration determines a workflow's active trigger.
+
+As we discussed back in the SuiteFlow Overview module, building workflows in a modular fashion facilitates easier workflow maintenance and reusability in other contexts. One additional consideration when building server-side workflows specifically is whether to configure all actions in a single workflow state or create a workflow with multiple states and spread the action configurations out across each state. While there are no specific recommendations regarding the creation of single versus multi-state workflows, there are some important things to consider.
+
+For client-side workflows, configure all client-triggered actions in a single state. Configuring actions across multiple states facilitates workflow troubleshooting. There is a visual advantage in the Workflow Manager when spreading actions out across multiple states. And some use cases may require that the workflow pause and then move forward later. This can be controlled much better using multiple states.
+
+Common actions configured during record submit include the Create Record action, which creates a new record, either standard or custom; Send Email, which sends an email notification; Transform Record, which converts one transaction record type to another record type; Go to Page, which navigates the user to a different page in NetSuite; Go to Record, which navigates the user to a different record in NetSuite; and Return User Error, which, as we've seen, can be used to display validation error messages. When configuring actions that execute when saving a record, it is important to know whether a state in your workflow is running at Before Record Submit or After Record Submit, since some actions are supported by one trigger, but not the other. The difference in each of these supported actions between the Before Record Submit and After Record Submit server triggers is shown here.
+
+The Create Record action should only be used when you're not creating a join on a related record. The highlighted actions are actions supported by that trigger only. When configuring Return User Error on a client trigger, always configure the same validation on the appropriate server trigger. When Set Field Value actions are configured at After Record Submit, the server reloads the record, updates the field value, and recommits the record for each configured set field value action.
+
+Let's take a closer look at the Create Record action. The Create Record action is used to create a new record in NetSuite. The record can be a standard NetSuite record or a custom record and does not need to be the same record type as the base record type for the workflow.
+
+When creating a new record, you must make sure that all required fields for the record type you are creating are populated. Not doing so will cause the action to fail. The Create Record action is supported by all server triggers. However, when creating a new record that establishes a join to a related record during the creation of the parent record itself, be sure to configure the Create Record action on the After Record Submit server trigger. This ensures the parent record is committed to the database before the new joined record is created.
+
+For example, consider the scenario where a workflow is initiated on a customer record. The workflow executes a Create Record action to create a new task record, which creates a join on the customer record being created or updated. The diagram shown here illustrates the differences between each server trigger when saving a new customer record after entry. At Before Record Submit, the creation of the join task record fails because the customer record has not yet been committed to the server database. At After Record Submit, the creation of the join task record is successful, because once the workflow moves into an After Record Submit context, the customer record has likely been committed to the server database successfully.
+
+Now consider this example when saving an existing customer record after edit. At Before Record Submit, the creation of the join task record is successful because the customer record already exists in the database. At After Record Submit, the creation of the join task record is also successful, because just like we saw before, once the workflow moves into an After Record Submit context, the customer record has likely been committed to the server database.
+
+The Send Email action is used to send email notifications. When you configure a Send Email action, you must specify the sender and the recipient; the content of the email as custom text or using a template; and any additional information that you might want to attach to the email, such as file attachments. If the recipient is also a NetSuite customer, you can include a link to the current record in the workflow. The Send Email action can only be configured on the After Record Submit server trigger.
+
+The Transform Record action is used to convert one transaction record type to another record type. The Transform Record action can be configured for the record types shown here. When you transform a record, the base record type for the workflow does not change.
+
+For example, if you convert an estimate to an invoice, the base record of the workflow is still the estimate record. The Transform Record action can be configured on the following server triggers-- after Record Submit; entry and exit. It can also be configured for scheduled execution.
+
+The Go to Page action is used to redirect users from one page to another in NetSuite. The Go to Record action is used to redirect users to a specific record in NetSuite. When configuring the Go to Record action, you must choose the record type that you would like to redirect the user to as well as an optional ID that uniquely identifies the record. If you do not specify a record ID, NetSuite creates a record with the properties you select based on the selected record. The Go to Page and Go to Record actions can be configured on the following server triggers-- After Record Submit and entry.
+
+In this module, you will be building a multi-state workflow that will require the configuration of transitions using the Transition On trigger. Earlier in this course, we introduced you to the three trigger selections in SuiteFlow-- Trigger Type, Trigger On, and Transition On. We have already discussed Trigger Type used for workflow initiation and Trigger On for action execution. Now we will take a closer look at Transition On for transition configuration.
+
+Transition On defines when a transition will execute and move the record from one state in the workflow to another. You configure Transition On for individual transitions by selecting the desired transition arrow in the Workflow Manager and editing the transition using the Transition tab, as shown here. When creating multi-state workflows, it is important to understand the effect of transitions on configured actions. To better understand the relationship between Transition On and the individual action triggers configured in each state, consider the following.
+
+This diagram illustrates the effect of Transition On an action configuration. The Before Record Load, Before Record Submit, and After Record Submit triggers identify the Transition On triggers for incoming and outgoing transitions. In step one, the incoming transition to state two, Before Record Load, establishes the active trigger upon entry into the state.
+
+Actions in state two configured on the entry trigger will be executed in addition to any actions configured at Before Record Load. The orange arrow indicates a pause in the trigger execution sequence, as the workflow waits for the user to save the record. In step two, when the user clicks Save, the active trigger is change to Before Record Submit. As a result, the outgoing transition from state two to state three is now Before Record Submit.
+
+Any actions configured on Before Record Submit will be executed, in addition to any actions configured on exit. The incoming transition to state three, Before Record Submit, establishes the active trigger upon entry into the state. Actions configured on the entry trigger will execute, in addition to any actions configured on Before Record Submit. Once all actions at Before Record Submit have been executed, the active workflow trigger automatically shifts to After Record Submit. And any actions configured on After Record Submit will execute immediately after the actions configured on Before Record Submit.
+
+In step three, now that the active trigger is After Record Submit, the outgoing transition from state three remains After Record Submit. Any actions configured on the exit trigger will then be executed. If the active trigger coming out of state three is changed to Before Record Submit instead of After Record Submit, any actions configured on After Record Submit in state three will not execute.
+
+Being able to identify a workflow's active trigger is critical to understanding how actions and transitions will be executed at various points in the workflow's execution cycle. Remember, triggers occur during three primary workflow events-- Workflow Initiation, Action Execution, and Transition Execution. Each of these trigger selections is associated with a specific trigger configuration.
+
+For workflow initiation, the trigger selection is Trigger Type, which defines when a workflow will be initiated on a record. A workflow's initial context will always be one of the three server triggers defined with the trigger type trigger selection. For Action Execution, the trigger selection is Trigger On, which defines when individual actions will execute in a state. For Transition Execution, the trigger selection is Transition On, which defines when a transition will execute and move the record from one state in the workflow to another.
+
+Now consider the following. In step one, the active trigger is established during the initiation of the workflow based on the Before Record Load trigger selected from the Trigger Type dropdown list on the Workflow Definition page. In step two, if you have a workflow set to Initiate on the Before Record Load server trigger, as shown here, and the transition from state A to state B has a Transition On configuration of blank, the active trigger, in this case Before Record Load, will remain in effect when it transitions to state B. If you configure the transition from state A to state B with the Transition On trigger selection of Before Record Submit, the active trigger now becomes Before Record Submit on the transition into state B. It's important to remember that Trigger On does not change the context of a running workflow and will always execute or not based on the Actions Configured trigger.
+
+In step three, we can assume from the diagram that the user has saved the record at some point during processing in state B, which automatically changes the active trigger to Before Record Submit and then to After Record Submit if there are no validation errors thrown during Save. As a result, the active trigger coming out of state B and into state C is After Record Submit, at which point all actions configured at After Record Submit, such as the Create Record and Send Email actions, will be evaluated for execution.
+
+Here are some key things to remember when building multi-state workflows and configuring actions on Record Save. Multi-state workflows provide a visual advantage in the Workflow Manager and allow you to spread action configurations out across multiple states. Configuring actions across multiple states facilitates workflow troubleshooting when consulting the workflow execution logs.
+
+A workflow's active trigger can be changed at any time by changing the Transition On trigger selection in the transition configuration between two states. Use caution when configuring the Create Record action at Before Record Submit when the record you are creating has a join relationship with the record being entered. If the record you are entering is related to the new record, then Create Record will fail, because the new record has not actually been created in the database until After Record Submit.
+
+In this walkthrough, we will show you how to identify a field's internal field ID and the field's actual name, so you could select the correct field when viewing lists. This is particularly important when configuring the Create Record Action, which requires that you set required fields during the creation of the new record. The relationship between a field, its label, and its internal field it is a complicated one.
+
+A single field can be represented in several different ways, making it difficult to determine which fields to select in lists when creating workflows. From a SuiteFlow perspective, referencing a field improperly when configuring some actions can result in workflow failures. So you need to be able to correlate the label displayed on forms with the field's actual name displayed in field lists. So that's really the purpose of this particular demonstration.
+
+And to demonstrate this, what I'm going to do is I'm going to navigate out to a new task record by going to Activities, Scheduling, Tasks, New. And I'm just going to pick on a couple different fields on this form that really make this or really illustrate this point quite well. The first one is this Notify Assignee by Email checkbox field, right here.
+
+If I click on that to bring up the field level help with my internal IDs and user preference set, you can see that the field ID is actually called Send Email. That really has absolutely nothing to do with the label as it is displayed on the record form. So being able to identify that is really important.
+
+Here's another example. Notice this Insert Before dropdown list. There was only one option there. But if I click on the field level help for that field, notice it's internal field ID is called Order. So if I wanted to actually process this field using workflow or a workflow action, do I reference Insert Before, the label? Or do I reference the field ID, in this case, order?
+
+Well, check this out. There's even another way that this field is referenced. If I come up here to Customize, and then choose Customize Form for this task record here, and I scroll down to the Fields subtab, and then the main sublist, which is selected by default here, notice we can see those fields I was just showing you.
+
+So you can see the Notify Assignee by Email. That's actually the label that is on that Send Email field. But notice this other name. It's actually called Send Email-- two words, not one word. Send Email one word is the internal ID.
+
+This is the description. This is the label. Check out the Order field. Notice it's being displayed, or it's actually called Order, both in the description and as the internal field ID, as we saw. But it's being called Insert Before on the form.
+
+So a couple of things I'm trying to convey here. Number one, always verify field level help on the fields that you want to manipulate on specific records when you're creating your workflows. Cross-reference the internal field IDs on the NetSuite field help with the actual name on the form itself, which is displayed, as you can see here. That way, you know exactly which field to manipulate when you create your workflows.
+
+This is going to be important here in just a moment when we create and configure the Create Record action. We're going to need to populate the required fields for the record being created in order to avoid any workflow processing errors. And the only way we can do that is to reference the correct fields in the Create Record action configuration.
+
+In this walkthrough, we will configure a multi-state workflow requiring transition configuration and a combination of actions on client and server triggers using the NetSuite field IDs from the first walkthrough demonstration. We will also demonstrate the effects of the Active Workflow trigger during workflow processing and introduce you to the Workflow Execution Log. Now let's go ahead and configure our workflow that has some actions configured on record save.
+
+So what I'm going to do is navigate out to our list of workflows by going to Customization, Workflow, Workflows. And I'm just going to go ahead and click New Workflow. Now to stay consistent with the name of our other workflows on our performance review record, I'm going to call this Performance Review Save. And once again, I will enter a ID following naming conventions and select my base record type for the workflow.
+
+I'm going to go ahead and enter a description, set the release status to Testing, and enable the logging option. And we will be taking a look at the logs a little bit in this module. And on the Event Definition section, in terms of how we want to initiate this workflow, we're going to go ahead and check the On Create option. We only want to initiate this workflow during the creation of a new performance review record.
+
+And we're going to go ahead and set the trigger, the initiation trigger, at Before Record Submit. This is what makes this workflow initiate during the save event rather than the load event, which is what we saw in the previous workflow, our load workflow, which we set to initiate on the Before Record Load trigger. Coincidentally, this trigger that we're specifying here for the initiation of this save workflow will be changed up a little bit later in this demonstration to account for some transition issues, which we will be able to identify in the logs.
+
+More on that a little bit. But for right now, we're going to initiate this workflow when the user clicks the Save button in their browser. I'm going to go ahead and save this configuration.
+
+And now what I'm basically going to do is just go ahead and create the general structure of the workflow. And I'm going to go ahead and build out my workflow, which is typically how you will approach the creation of multi-state workflows. This is called stubbing out the workflow, where you can see the different states of the workflow that you need, as well as the various transitions, which we'll be talking about in this module as well. So let's go ahead and do this.
+
+I'm going to create some additional states by clicking the New State button. And I'm going to drag those in a horizontal orientation, here. And I'll create a third state as well. And I'll just move these over like this a little bit. There we go.
+
+There's my three states. I'm going to go ahead and name them. So I'm going to edit each state. And I can double-click on them if I want to or use the Edit option in the context panel. And I'm going to call this state, State 1-- Create Task. I'll click Save. Now notice that I'm not enabling the Do Not Exit Workflow option that I had been enabling in our prior two workflows. This is a multi-state workflow, so I am not going to enable this option, at least not in this state.
+
+In the second, state 2, let's go ahead and call this State 2, Send Email Notification. And I'll click Save on that. And then finally, we'll rename state 3 Go to Record-- Go to New Record, I should say. Let's be a little bit more descriptive there. Create a new record and go to that entry page. There we go. So there's my three states for this workflow.
+
+Now, in order to actually allow the record to transition from the entry state, which in this case, is state 1, as I can see by the start arrow here, I need to create a transition between state 1 and state 2, as well as from state 2 to state 3. Now notice again that state 1 is currently the start and end state until I create a transition by clicking on the little half circle and dragging a transition arrow to the target state.
+
+So now I've just created a transition from state 1 to state 2. I can do the same thing right here. Just click and drag the half blue circle to the target state. Now, notice when you do that, and it creates the transition, I get a new Transition tab over here in the context panel. This is what allows me to come in and edit the transition configuration. I can apply conditions to that. I can change the trigger in which the transition occurs. I can do all kinds of different things in here.
+
+But the key thing I want to point out is notice that none of these particular states, as we've stubbed our workflow out so far, none of them have the Do Not Exit Workflow checkbox enabled, meaning the record is going to come into state 1. The actions are going to process. It's going to transition automatically to state 2. The actions are going to process. It's going to automatically transition to state 3. The actions are going to process, and then the workflow is going to end. And that workflow will not be running on the record anymore.
+
+Now let's go ahead and configure the actions that we need in each one of our three states. We're going to go head and start with state 1, Create Task. And we're going to be configuring really four different actions in this particular portion of the demonstration. We're going to configure a Create Record action in state 1, a Send Email action in state 2, and a Go to Record action in state 3. And then we're going to come back and modify this workflow after we test it and add a validation to the front end of the workflow, which will require the configuration of a Return User Error action. More on that in a little bit.
+
+So what I'm going to do is navigate out here to a new task record. We have to make sure we know what the required fields are. The required fields in the task record are Title, which is clearly empty; Assign To, which is being auto-populated; Priority; Status, which, again, are both auto-populated; start and due dates-- both auto-populated.
+
+So really, there's only one required field that we have to set through our Create Record action explicitly that's not being set automatically. If any of these other fields weren't being set, but they were required, I would have to set them with the action. But so far, Title's the only one I need to worry about. And I can certainly manipulate any of the other fields that are on this form if I want to as well. And you'll see how we do that here in just a second.
+
+So let's jump back to our action configuration and set it up. So Create Record-- it's going to be a task record, as I mentioned before. And the first field that we're going to populate is going to be that Title field. And all I'm going to enter in that is the title of the task. What's the name of the task going to read when you look at it? And it's going to basically be called Your Quarterly Performance Review.
+
+I want to assign this to-- go ahead and choose Assigned, here. I'm going to assign it to not the default value that's being populated. I'm going to override the Assigned field and populate it with a value field of Subordinate. So notice, I'm really creating a condition over here. I'm saying, set this field, and populate it with a value from the related employee record, which just happens to be Subordinate.
+
+I'm going to add that. I'm also going to override the due date, which right now I can't remember what the due date was that's being defaulted in there. But we're going to go ahead and set that at 30 days from now. So I'm going to go ahead and select 30 days from now from that Date dropdown list.
+
+And then finally, I'm going to populate the Message field and the Message subtab. Going to go ahead and enter Message. And the message that I want to go ahead and enter in there is going to be something like this-- "Please complete your self-evaluation form by the specified due date." So there are the four fields that I'm setting with the Create Record action. I'm going to go ahead and save that. There's my Create Record action-- shows me the related record that I'm creating and the trigger in which that action is being executed.
+
+Let's go ahead and create a Send Email action in state 2. So I'll select state 2, create a new action, select Send Email. And let's go ahead and configure this one. So the trigger will once again be entry. That's perfectly acceptable for what we're trying to do, here. Once the record comes into state 2, send the email notification.
+
+Now I need to specify the parameters. Who's the sender of the email? Well, the sender I want to be from the current record. And it's going to be whoever the user is who's entering the record. So whoever's entering the performance review is going to be the sender of the email.
+
+The recipient is also going to be from the current record, but it's going to be whoever is selected as the subordinate. Whoever's selected as the subordinate on the performance review is going to be the recipient. In the subject of the email notification, I'm going to go ahead and specify a custom subject, which is, "Please complete your evaluation form."
+
+And I'm also going to enter in some body text for the email as well. I could put as much as I want. I could style it using basic HTML, if I want to. I can even put links to the record that requires the subordinate's attention, if I want to, by enabling that option. I could even attach a file, much like you would any typical email. In this case, we're not going to worry about that. I'm just going to go ahead and notify them that they need to complete their evaluation. I'm going to save.
+
+Actually, before I save that, there's one more thing that I do want to do here, and that is a condition. In order to avoid email errors, we need to make sure that the users, who are not only sending, but also receiving emails, actually have email addresses on their employee record, because if they don't, the Send Email action will fail. We can see that in the logs.
+
+So what I'm going to do is essentially put a condition on this Send Email action that only executes it if both the sender and recipient actually have an email address. Doesn't have to be a legitimate email address. It could be donaldduck@cartoons.com. It doesn't matter, as long as the field isn't empty. So let's go ahead and create that condition.
+
+So what I'm going to do is say the record that I want to reference is going to be the subordinate-- the subordinate record, which is basically the employee record in this case. And I want to make sure that the email field is not empty. So only do this if the email-- subordinate's email and the user's email are both not empty. Kind of protecting that Send Email action a little bit with two basic conditions. All right, there we go. And you can see that configuration, right there.
+
+Now the last action that we're going to go ahead and configure for this particular workflow, at least at this point, is a Go to Record action. And this is about as easy as Action Configurations get. Well, maybe Lock Record-- Lock Record is probably the easiest. But this one's pretty straightforward.
+
+I'm going to choose Go to Record, which obviously navigates you to a different record in NetSuite. And all I'm going to do is specify the record type. And in this case, what it's going to be is our performance review record type. Now you may be asking, well, I don't really understand why you would go to a new performance review record type.
+
+Well, in this particular case, maybe I'm a manager. Maybe I have 20 subordinates that I have to initiate performance review evaluations for. And I'm the person that enters them into the system. So as the person who's doing all those entries, I may want to enter a performance review record for one of my subordinates and immediately be prompted to enter a second one.
+
+I enter that one, and I'm immediately prompted again to enter a third one. It's just really more of a data entry facilitation mechanism in this particular use case. And that's all I'm going to do. I'm going to go ahead and click Save. And there's my Go to Record action.
+
+So let's go ahead and test this. What I'm going to do is come over-- and I'll just use this tab here for our task record. And let's create a new performance review. I'm going to go to Lists, Custom, Performance Review, New I'm going to call this Q2 performance review. I'll just call this number 2. The subordinate-- I'll go ahead and choose one of my subordinates in the system, in this case, John Rittman. I'll give him a rating code of V, and I'll enter his salary request or the salary increase amount at $3,000.
+
+Now, you've probably not seen me enter V in that field before, but that's going to illustrate a very basic point. That is not a valid rating code. In fact, we really haven't established what the valid rating codes are for this entry form yet. We'll do that here in a little bit. I'm going to go ahead and save this record.
+
+Notice it brings me directly to a new entry form. So what you're looking at here is the results of the Go to Record action. But now if I go over here to my list of performance review records just for a moment, you can see my new record, which is right here. And I can certainly view that or edit it or whatever I want to do and see the details. Notice, it did, in fact, accept my rating code of V.
+
+Now what I want to show you really quick down here is both the Active Workflows and Workflow History subtabs down here. Notice that under Active Workflows, I can see that we have two workflows currently running on this record. We have our entry workflow and our load workflow.
+
+Now remember, the reason those are still running on our new performance review records is because we set them to not exit. They're single-state workflows with that Do Not Exit Workflow checkbox enabled. That keeps them running on the record forever. And I can visually see that. Our Save Workflow did not have that, so that's why you do not see it in the list.
+
+How do we know it ran, then? Well, let's look at Workflow History. If I look at Workflow History, I can see the details of each workflow's processing on this record. So here's my data entry here in the Workflow History subtab. Here's my Record Load entry. We'll look at these in a little bit more detail later. But here are my three states visited by my save workflow-- Create Task, Send Email, Go to Record.
+
+If we look at each one of these-- I'm just going to click on the little log link next to each one of those. This brings up the Workflow Execution Log, where I can see the entries. Notice that this workflow is initiated, as I can see right here. It comes into the first state, state 1 of this workflow, on entry under the Before Submit trigger.
+
+Remember, we configured this workflow to initiate on Before Record Submit. And that's showing that right here. It's showing me the UI event that triggered the workflow-- in this case, the creation of a new performance review record from the user interface by clicking a new button. The first thing it did-- came into that state and executed the task record.
+
+So here I can see the Create Record entry, the record type; the title we specified and our fields that we passed to with the Create Record action; the user the task record was assigned to; the due date, which is a month from now; and the message. And I can even see the new record ID, here-- 434. And that's kind of nice because what I can do is cross-reference that in NetSuite, which I'll do here in just a second.
+
+And then finally, notice that the transition to state 2 happened immediately after the creation of the task record. So just let me quickly show you, if I go out here and bring up my list of task records, and I look for task ID 434, lo and behold, there it is, right there. And I can see the details.
+
+Now if I look at state 2, the log entry for the Send Email action, notice that we have a situation here where this was skipped. This is really interesting. So notice that we have a situation where this particular action was skipped. Let's see if we can get some more information on this.
+
+I'm going to enable the Show Rejected Actions and Transitions checkbox, here. And what it's showing me here is it saying the Send Email action was skipped because it's not executable on the Before Submit trigger. And that's exactly correct. Send Email is only supported at After Record Submit.
+
+So we have a problem with our workflow in terms of the active workflow triggers that are at play between our states of our workflow that we're going to need to fix. So it didn't execute my Send Email action, and then it transitioned to state 3. Let's see if it executed the Go to Record action.
+
+As you can see, it did, because we clearly saw it happen, first of all. I got the new blank entry form. But you can also see that it was, in fact, executed here by looking at the log. Notice, it is running After Record Submit.
+
+So what's going on with our Send Email action? We need to do a little more investigation on why that's not processing. At the same time, it sure would be nice if we added a rating code validation on our rating code field, so we can verify whether or not a proper rating code has been entered. So let's go ahead and do that, and then address our Send Email action at the same time.
+
+So let's go ahead and do that. I'm going to close a couple of my windows here and go back to our Workflow Manager. And before we go ahead and configure that rating code validation, we need to ask ourselves a few questions. First of all, what action do we need to configure in order to perform the validation?
+
+And the answer to that is the Return User Error action. And next question is, when should we perform the validation? And from a trigger perspective, we need to perform the validation during Record Save because that's when this particular workflow is being initiated. And the last question we need to ask ourselves is, what trigger should we use to execute that validation during save? And the answer is Before Record Submit. Let's explain why. And to do that, let's start building our workflow or adding to our workflow.
+
+What I'm going to do here is make a little room between my states, here. And I'm going to add a new state. And I'm going to put it right here out in front as the entry state for my workflow. And I'm going to call this state 0, since state 1 is already taken, and I don't want to go and renumber all of my states. State 0-- Rating Code Validation. It's the state we're performing our Rating Code Validation.
+
+Now currently, this is not the entry state for the workflow, but it needs to be the entry state. So all I'm going to do is come down here and tell it that I want it to be a start state for the workflow. And watch what happens when I click Save on this state definition.
+
+Notice that the start triangle that was on state 1 has automatically been shifted over to state 0. And what that allows me to do now is drag another transition from state 0 to state 1. There we go. And that's really all I need to do.
+
+Now what we're going to do is configure that Return User Error action in state 0. So I'm going to select the state, click New Action, and Select Return User Error. And once again what we're going to do is verify that the rating code is a specific value. In this case, the rating code must be either A, B, or C. If it's neither of those values, throw the error.
+
+Let's go ahead and set the conditions. What I'm going to do is set three different lines, each verifying or validating or evaluating the entered rating code. So the first thing I'm going to do is say is rating code-- if rating code is not equal to A, if rating code is not equal to B, and rating code is not equal to C, if it's none of those three things, then throw the error. There we go. I'll go ahead and save that action.
+
+What I'm going to do is go out here and create a new performance review record. I'll go to List, New Performance Review. I'll just call this Q2 Performance Review Number Three. I'll choose my subordinate-- once again, John Rittman. And let me go ahead and enter in V as my rating code. And I'll enter a new salary increase amount. And let me click Save, and let's see what happens here.
+
+Notice that because I had a Return User Error Action configured on a server trigger, the rating code is being validated, and the error is being thrown as a SuiteScript error page. This is how a Return User Error action manifests itself when configured on a server trigger as opposed to client triggers, which displays a nice pop-up menu that you acknowledge. So in this case, I just got to go back to that record form.
+
+Once again, complete the fields, because it does clear out your fields, and enter a valid rating code. And then click Save again. There we go. The record was successfully saved.
+
+And if I go and look at that record now by going to my list of performance reviews, there it is. And if I view it, I can take a look at the logs. Once again, I've got my entry and load workflows running on the record, as I would expect. But now let's take a look at our Workflow Execution Logs and see if everything processed successfully.
+
+So here's my rating code validation. State 0-- let's check it out. Notice that if I click on the Show Rejected Actions and Transitions, notice I have an entry in here that says-- let me shrink this up a little bit. It says, "Return user error rating code must be A, B, or C was considered," meaning when I actually entered the rating code when I submitted this record, I had entered a valid rating code.
+
+So it didn't need to execute the action. And therefore, it was considered, but not executed. And then notice the transition to state 1, Create Task. So our Return User Error validation is working great. Let's go ahead and check the remaining states to make sure everything worked because we were having a problem with the Send Email action.
+
+So let's take a look at Create Task. Notice that the task record, record 435-- it just got incremented by 1-- was created successfully, as we would expect it to be. And if I look at the Send Email notification action, notice that we're still getting a skipped Send Email action. Well, we need to look at this a little bit more clearly.
+
+Let's take a look at Go to Record. I'm pretty sure that worked because I did get a blank entry form. But I'm just going to verify that it did, in fact, execute. But that Send Email action is being a little stubborn.
+
+If you recall from our previous discussion about identifying the active workflow trigger, this is where we are running into that problem. Remember, if I go back to the workflow, what is the initiating trigger for this workflow? Well, it's Before Record Submit.
+
+So what that tells me is that the active trigger coming into state 0 when this workflow initiates is Before Record Submit. Is Return User Error a valid action at Before Record Submit? Yes, it is. It processed. It worked. We saw it work. It is a valid validation. It then transitions to state 1, where there's a Create Record action.
+
+Is Before Record Submit a valid trigger for the Create Record action? And the answer is, yes, it is. Create Record-- in fact, you should create records at Before Record Submit most of the time. There are situations where you wouldn't want to do that, where After Record Submit would be a better trigger. But in this case, Before Record Submit is great for creating new records.
+
+However, when we get to state 2, remember, the incoming transition context, active trigger, is still Before Record Submit. Is Send Email supported at Before Record Submit? The answer is, no, it is not. So what I can do is this.
+
+I can come in here, select the transition between state 1 and state 2, and force a different trigger context by simply editing the transition and forcing it to After Record Submit. And that's all I have to do. Now the incoming active trigger into state 2 is now After Record Submit. And Send Email should process normally.
+
+Let's go ahead and verify that. I'm going to jump back to my list of performance review records. Let's create yet another one, number 4, John Rittman-- once again, rating code and an increased amount, and we'll save the record. There we go. Let's go to our list of records. Let's view it.
+
+Now if I take a look at the Send Email state here and look at the log file for that, notice that we now have a valid Send Email action execution. Notice that the condition verified true, meaning both emails were, in fact, populated. They were not empty.
+
+And the email was sent from sender minus 5, which happens to be me in this case, Larry Nelson, the administrator, to employee user 961, which in this case was John Rittman. And then finally, it transitioned to state 3, where the Go to Record action was executed. So that is a really, really effective example of how you can force the active workflow trigger using transitions in order to ensure that specific actions configured in those states will process based on that incoming trigger.
+
+Now one last thing that I do want to mention and show you is this. You might be thinking, well, OK, I saw you set the trigger context on that transition between state 1 to state 2 to After Record Submit. But couldn't you have just changed the workflow initiation to After Record Submit? Well, that's a good point. Let's have a look at that.
+
+So what I'm going to do is I'm going to remove the After Record Submit on my transition to set it back to the way it was before. So I'm going to set my transition on trigger to blank. There we go. And I'm going to come over here and set the initiation trigger of the whole workflow-- I'm going to change that to After Record Submit.
+
+Let me scroll down here and change it from Before to After Record Submit. Let's go ahead and save that. There we go. And let's create a new performance review record. We'll call this Q2 Performance Review 5. We'll choose John Rittman and the rating code, and we'll save the record.
+
+Now the question is, when this workflow initiates at After Record Submit, think about the nature of the actions that we have configured in the four states of that workflow in terms of the rating code validation. Watch what happens. I'm going to save the record.
+
+Seems like everything processed, but let's verify the logs. Here's my number 5 record. Let's look in Workflow History, and let's verify our rating code validation first. How did it do in state 0? Well, this is interesting. Notice that we may have another skipped action issue here. If I click Show Rejected Actions and Transitions, notice the workflow is initiated. It comes in under After Record Submit now on a Create Event.
+
+And it immediately transitions to state 1. It skipped the validation-- didn't even consider it-- altogether. Think about the reason why. Is the Return User Error action configurable at After Record Submit? And the answer is, no. Before-- the only trigger you can initiate the Return User Error action on is Before Record Submit. So by fixing our downstream workflow issue with the Send Email action by changing the initiation trigger to After Record Submit, we broke our rating code validation.
+
+So just to verify, let me show you that the Send Email and subsequent actions did in fact process successfully. And you can see that there. You can also see the task record was also created as normal. But one fix broke something else.
+
+So in this particular case, the best way to handle this situation would be just like we had it-- either setting the context here on the transition between state 1 and state 2, or setting the proper trigger context between state 0 and state 1. Either one of those would work. As long as the incoming transition or the trigger coming into state 2 is After Record Submit, you could do it here or here.
+
+So what I'm going to do is I'm going to go ahead and send my workflows initiation back to Before Record Submit to fix our validation on the rating code. And then I'll go ahead and put my active workflow trigger change on the transition from state 0 to state 1. I'll make that After Record Submit. And now we're all set.
+
+It is now time for you to complete the required hands-on exercises associated with the topics discussed in this module. To complete the required exercises, refer to your student workbook. When you have finished, you may continue with the next module. This concludes the Configuring Actions on Record Submit module.

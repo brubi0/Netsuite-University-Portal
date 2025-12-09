@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appendix C: Project Case Studies</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.8; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 40px 20px; }
+        .container { max-width: 1100px; margin: 0 auto; }
+        .header { background: white; padding: 30px 40px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); margin-bottom: 30px; }
+        .header h1 { color: #2563eb; font-size: 2rem; margin-bottom: 10px; }
+        .header .meta { color: #6b7280; font-size: 0.9rem; }
+        .content { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .content h2 { color: #1e40af; margin: 35px 0 20px 0; font-size: 1.5rem; padding-bottom: 10px; border-bottom: 3px solid #dbeafe; }
+        .content h2:first-of-type { margin-top: 0; }
+        .content h3 { color: #374151; margin: 25px 0 15px 0; font-size: 1.2rem; }
+        .content h4 { color: #1e40af; margin: 20px 0 10px 0; font-size: 1.05rem; }
+        .content p { margin: 15px 0; color: #374151; }
+        .content ul, .content ol { margin: 15px 0 15px 30px; color: #374151; }
+        .content li { margin: 8px 0; }
+        .info-box { padding: 20px 25px; border-radius: 8px; margin: 25px 0; border-left: 5px solid; }
+        .info-box.blue { background: #dbeafe; border-color: #2563eb; }
+        .info-box.yellow { background: #fef3c7; border-color: #f59e0b; }
+        .info-box.green { background: #dcfce7; border-color: #10b981; }
+        .info-box.purple { background: #f3e8ff; border-color: #9333ea; }
+        .info-box.red { background: #fee2e2; border-color: #ef4444; }
+        .info-box strong { color: #1e40af; display: block; margin-bottom: 10px; font-size: 1.05rem; }
+        code { background: #f3f4f6; padding: 3px 8px; border-radius: 4px; font-family: 'Consolas', monospace; font-size: 0.85em; color: #ef4444; }
+        pre { background: #1e293b; color: #e2e8f0; padding: 25px; border-radius: 8px; overflow-x: auto; margin: 25px 0; border-left: 5px solid #667eea; font-size: 0.88em; line-height: 1.6; }
+        pre code { background: none; padding: 0; color: inherit; }
+        .comment { color: #94a3b8; }
+        .keyword { color: #c084fc; }
+        .string { color: #86efac; }
+        .function { color: #7dd3fc; }
+        .module-ref { background: #fef3c7; color: #92400e; padding: 3px 10px; border-radius: 4px; font-size: 0.8em; margin-left: 10px; display: inline-block; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        table th, table td { padding: 12px; text-align: left; border-bottom: 1px solid #e5e7eb; }
+        table th { background: #f3f4f6; color: #1e40af; font-weight: 600; }
+        .toc { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 25px; margin-bottom: 30px; }
+        .toc h3 { color: #1e40af; margin-bottom: 15px; }
+        .toc ul { list-style: none; margin: 0; padding: 0; }
+        .toc li { margin: 8px 0; }
+        .toc a { color: #2563eb; text-decoration: none; }
+        .architecture-box { background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); border: 2px solid #0284c7; border-radius: 12px; padding: 25px; margin: 25px 0; }
+        .script-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; margin: 15px 0; }
+        .script-card h4 { color: #1e40af; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+        .script-type { background: #dbeafe; color: #1e40af; padding: 3px 10px; border-radius: 4px; font-size: 0.8em; font-weight: normal; }
+        .flow-diagram { background: #1e293b; color: #e2e8f0; padding: 30px; border-radius: 8px; margin: 25px 0; font-family: monospace; font-size: 0.9em; line-height: 2; text-align: center; }
+        .flow-arrow { color: #60a5fa; }
+        .nav-buttons { display: flex; justify-content: center; margin-top: 40px; gap: 20px; flex-wrap: wrap; }
+        .back-btn, .nav-btn { padding: 14px 28px; border-radius: 8px; text-decoration: none; font-weight: 600; }
+        .back-btn { background: #6b7280; color: white; }
+        .nav-btn { background: #2563eb; color: white; }
+        .version-badge { background: #10b981; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.75em; margin-left: 10px; }
+    </style>
+</head>
+<body>
+<div class="container">
+<div class="header">
+    <h1>📁 Appendix C: Project Case Studies</h1>
+    <p class="meta">Real-world multi-script solutions with architecture patterns and annotated code</p>
+</div>
+<div class="content">
+
+<div class="info-box purple">
+    <strong>🏢 About These Case Studies</strong>
+    These are production-grade solutions showing how multiple script types work together. Each script is annotated with <code>📚 MODULE X:</code> references linking concepts back to the teaching modules. Company-specific details have been replaced with placeholders.
+</div>
+
+<div class="toc">
+    <h3>📑 Contents</h3>
+    <ul>
+        <li><a href="#case2">Case Study 1: Custom Button Controller (Standalone)</a></li>
+        <li><a href="#case2-code">└─ Complete Annotated Code</a></li>
+        <li style="margin-top: 15px;"><a href="#case1">Case Study 2: Case Completion System (4 Scripts)</a></li>
+        <li><a href="#case1-arch">├─ System Architecture</a></li>
+        <li><a href="#case1-email">├─ Suitelet: Email Sender</a></li>
+        <li><a href="#case1-form">├─ Suitelet: Customer Form (Excerpts)</a></li>
+        <li><a href="#case1-ss">├─ Scheduled Script: Deadline Reminders</a></li>
+        <li><a href="#case1-fields">└─ Custom Fields Reference</a></li>
+    </ul>
+</div>
+
+<!-- ==================== CASE STUDY 1: STANDALONE UE ==================== -->
+<h2 id="case2">Case Study 1: Custom Button Controller</h2>
+<span class="version-badge">v1.2</span>
+
+<div class="info-box green">
+    <strong>🎯 Why Start Here?</strong>
+    This is a <strong>standalone User Event script</strong> - simple, self-contained, and demonstrates core patterns. It's the perfect first script to study before diving into multi-script systems.
+</div>
+
+<div class="info-box blue">
+    <strong>📋 Business Problem</strong>
+    Users need quick access to common actions when viewing a Case record:
+    <ul>
+        <li>Print a PDF report of the case</li>
+        <li>Send an email to initiate customer completion workflow</li>
+        <li>The email button should hide once the case is already complete</li>
+    </ul>
+</div>
+
+<h3>Solution Overview</h3>
+<div class="architecture-box">
+    <table>
+        <tr>
+            <th>Script</th>
+            <th>Type</th>
+            <th>Entry Point</th>
+            <th>Modules Used</th>
+        </tr>
+        <tr>
+            <td><code>ue_case_buttons.js</code></td>
+            <td>User Event</td>
+            <td>beforeLoad</td>
+            <td>N/url, N/runtime, N/log</td>
+        </tr>
+    </table>
+</div>
+
+<div class="info-box yellow">
+    <strong>💡 Key Pattern: Conditional Button Visibility</strong>
+    This script checks a custom checkbox field (<code>custevent_service_complete</code>) to decide whether to show the "Get Customer Completion Email" button. This is a common pattern for controlling UI based on record state.
+</div>
+
+<h3 id="case2-code">Complete Annotated Code</h3>
+<span class="module-ref">📚 Modules 3, 4, 12</span>
+
+<pre><code><span class="comment">/**
+ * @NApiVersion 2.1
+ * @NScriptType UserEventScript
+ * @NModuleScope SameAccount
+ * @version 1.2
+ * 
+ * ═══════════════════════════════════════════════════════════════════
+ * 📚 MODULES DEMONSTRATED
+ * ═══════════════════════════════════════════════════════════════════
+ * MODULE 4: User Event entry points (beforeLoad)
+ * MODULE 3: Reading record fields with getValue()
+ * MODULE 12: url.resolveScript() to generate Suitelet URLs
+ * MODULE 4: form.addButton() to add custom buttons
+ * MODULE 14: try/catch error handling
+ * ═══════════════════════════════════════════════════════════════════
+ * 
+ * Adds buttons to Case record:
+ * 1. Print PDF - Always visible
+ * 2. Get Customer Completion Email - Only if service NOT complete
+ */</span>
+<span class="keyword">define</span>(['N/url', 'N/runtime', 'N/log'],
+    <span class="keyword">function</span>(url, runtime, log) {
+
+        <span class="comment">/**
+         * 📚 MODULE 4: beforeLoad Entry Point
+         * ────────────────────────────────────
+         * Triggered BEFORE the page renders when user views the record.
+         * Perfect for: Adding buttons, hiding/showing fields, modifying form
+         * 
+         * context.type values:
+         *   - VIEW: User is viewing record
+         *   - EDIT: User is editing record  
+         *   - CREATE: User is creating new record
+         *   - COPY: User is copying record
+         *   - PRINT: User is printing record
+         */</span>
+        <span class="keyword">function</span> <span class="function">beforeLoad</span>(context) {
+            <span class="keyword">try</span> {
+                log.debug(<span class="string">'beforeLoad Started'</span>, <span class="string">'Type: '</span> + context.type);
+
+                <span class="comment">// ─────────────────────────────────────────────────────────
+                // 📚 MODULE 4: Check execution context
+                // Only add buttons when VIEWING the record
+                // ─────────────────────────────────────────────────────────</span>
+                <span class="keyword">if</span> (context.type !== context.UserEventType.VIEW) {
+                    log.debug(<span class="string">'beforeLoad'</span>, <span class="string">'Not VIEW mode, skipping buttons'</span>);
+                    <span class="keyword">return</span>;
+                }
+
+                <span class="comment">// Get form and record objects from context</span>
+                <span class="keyword">var</span> form = context.form;
+                <span class="keyword">var</span> newRecord = context.newRecord;
+                <span class="keyword">var</span> caseId = newRecord.id;
+
+                <span class="comment">// ─────────────────────────────────────────────────────────
+                // 📚 MODULE 3: getValue() to read custom checkbox field
+                // This determines if we show the email button
+                // ─────────────────────────────────────────────────────────</span>
+                <span class="keyword">var</span> serviceComplete = newRecord.getValue({
+                    fieldId: <span class="string">'custevent_service_complete'</span>
+                });
+                
+                log.debug(<span class="string">'Service Complete Check'</span>, 
+                    <span class="string">'Case ID: '</span> + caseId + <span class="string">', Complete: '</span> + serviceComplete);
+
+                <span class="comment">// ─────────────────────────────────────────────────────────
+                // 📚 MODULE 12: url.resolveScript() generates Suitelet URL
+                // This creates a URL that calls another script
+                // ─────────────────────────────────────────────────────────</span>
+                <span class="keyword">var</span> printPdfURL = url.resolveScript({
+                    scriptId: <span class="string">'customscript_case_pdf_suitelet'</span>,
+                    deploymentId: <span class="string">'customdeploy_case_pdf_suitelet'</span>,
+                    params: {
+                        <span class="string">'caseid'</span>: caseId  <span class="comment">// Pass case ID as URL parameter</span>
+                    }
+                });
+
+                <span class="comment">// ─────────────────────────────────────────────────────────
+                // 📚 MODULE 4: form.addButton() adds custom button
+                // functionName: Client-side JavaScript to execute
+                // ─────────────────────────────────────────────────────────</span>
+                form.addButton({
+                    id: <span class="string">'custpage_print_pdf'</span>,
+                    label: <span class="string">'Print PDF'</span>,
+                    functionName: <span class="string">'window.open(\''</span> + printPdfURL + <span class="string">'\', \'_blank\')'</span>
+                });
+
+                log.debug(<span class="string">'Print PDF Button Added'</span>, <span class="string">'URL: '</span> + printPdfURL);
+
+                <span class="comment">// ─────────────────────────────────────────────────────────
+                // 📚 BUSINESS LOGIC: Conditional button visibility
+                // Only show email button if service is NOT complete
+                // ─────────────────────────────────────────────────────────</span>
+                <span class="keyword">if</span> (!serviceComplete || serviceComplete === <span class="keyword">false</span>) {
+                    
+                    <span class="keyword">var</span> sendEmailURL = url.resolveScript({
+                        scriptId: <span class="string">'customscript_case_send_email'</span>,
+                        deploymentId: <span class="string">'customdeploy_case_send_email'</span>,
+                        params: {
+                            <span class="string">'caseid'</span>: caseId
+                        }
+                    });
+
+                    form.addButton({
+                        id: <span class="string">'custpage_send_email'</span>,
+                        label: <span class="string">'Get Customer Completion Email'</span>,
+                        functionName: <span class="string">'window.open(\''</span> + sendEmailURL + <span class="string">'\', \'_blank\')'</span>
+                    });
+
+                    log.debug(<span class="string">'Email Button Added'</span>, <span class="string">'URL: '</span> + sendEmailURL);
+                } <span class="keyword">else</span> {
+                    <span class="comment">// 📚 MODULE 14: Use log.audit for important business events</span>
+                    log.audit(<span class="string">'Button Skipped'</span>, 
+                        <span class="string">'Case '</span> + caseId + <span class="string">' - Service complete, email button hidden'</span>);
+                }
+
+            } <span class="keyword">catch</span> (e) {
+                <span class="comment">// 📚 MODULE 14: Error handling with stack trace for debugging</span>
+                log.error(<span class="string">'Error in beforeLoad'</span>, e.toString() + <span class="string">' | Stack: '</span> + e.stack);
+            }
+        }
+
+        <span class="comment">// 📚 MODULE 4: Return object maps function to entry point</span>
+        <span class="keyword">return</span> {
+            beforeLoad: beforeLoad
+        };
+    });</code></pre>
+
+<div class="info-box green">
+    <strong>✅ Key Takeaways from This Script</strong>
+    <ul>
+        <li><strong>Single Entry Point:</strong> Uses only <code>beforeLoad</code> - no afterSubmit or beforeSubmit needed</li>
+        <li><strong>Context Checking:</strong> Always check <code>context.type</code> before adding UI elements</li>
+        <li><strong>Conditional UI:</strong> Read field values to show/hide buttons based on record state</li>
+        <li><strong>Script Linking:</strong> Use <code>url.resolveScript()</code> to call other scripts (Suitelets)</li>
+        <li><strong>Client-Side Actions:</strong> <code>functionName</code> executes JavaScript in the browser</li>
+        <li><strong>Error Handling:</strong> Wrap in try/catch so errors don't break the page load</li>
+    </ul>
+</div>
+
+<div class="info-box purple">
+    <strong>🔧 Deployment Settings</strong>
+    <table style="width: 100%; margin-top: 10px;">
+        <tr><td style="width: 30%;"><strong>Deploy To:</strong></td><td>Case (supportcase)</td></tr>
+        <tr><td><strong>Event Type:</strong></td><td>View (beforeLoad only fires on View)</td></tr>
+        <tr><td><strong>Status:</strong></td><td>Released</td></tr>
+        <tr><td><strong>Audience:</strong></td><td>All roles that need to see buttons</td></tr>
+    </table>
+</div>
+
+<!-- ==================== CASE STUDY 2: MULTI-SCRIPT SYSTEM ==================== -->
+<h2 id="case1">Case Study 2: Case Completion System</h2>
+<span class="version-badge">v1.65.0</span>
+
+<div class="info-box blue">
+    <strong>📋 Business Problem</strong>
+    Field Service Engineers complete work at customer sites and need customers to sign off on the work. The company needs:
+    <ul>
+        <li>Digital signature capture from both FSE and customer</li>
+        <li>72-hour deadline for customer signatures (auto-accept if missed)</li>
+        <li>42-hour reminder emails to customers</li>
+        <li>Professional PDF generation for invoicing</li>
+        <li>Automatic notifications to billing team</li>
+    </ul>
+</div>
+
+<div class="info-box purple">
+    <strong>🔗 Relationship to Case Study 1</strong>
+    The User Event script from Case Study 1 (<code>ue_case_buttons.js</code>) adds buttons that trigger these Suitelets. While that script is standalone, these 4 scripts work together as a coordinated system.
+</div>
+
+<h3 id="case1-arch">System Architecture</h3>
+
+<div class="architecture-box">
+    <h4>Script Components (4 Scripts)</h4>
+    <table>
+        <tr>
+            <th>Script</th>
+            <th>Type</th>
+            <th>Purpose</th>
+            <th>Modules Used</th>
+        </tr>
+        <tr>
+            <td><code>sl_case_send_email.js</code></td>
+            <td>Suitelet</td>
+            <td>Sends email with form link to FSE</td>
+            <td>N/email, N/record, N/url, N/log</td>
+        </tr>
+        <tr>
+            <td><code>sl_case_customer_form.js</code></td>
+            <td>Suitelet (Public)</td>
+            <td>Customer signature form &amp; PDF generation</td>
+            <td>N/ui/serverWidget, N/record, N/render, N/file, N/email, N/format, N/url</td>
+        </tr>
+        <tr>
+            <td><code>sl_case_pdf_inline.js</code></td>
+            <td>Suitelet</td>
+            <td>Simple case report PDF</td>
+            <td>N/render, N/record, N/log</td>
+        </tr>
+        <tr>
+            <td><code>ss_case_deadline_reminder.js</code></td>
+            <td>Scheduled</td>
+            <td>42/72-hour reminder processing</td>
+            <td>N/search, N/record, N/email, N/url, N/format</td>
+        </tr>
+    </table>
+</div>
+
+<h4>Workflow Diagram</h4>
+<div class="flow-diagram">
+<pre>
+┌─────────────────────────────────────────────────────────────────────────┐
+│  TRIGGER: Button click from Case record (via ue_case_buttons.js)        │
+└───────────────────────────────┬─────────────────────────────────────────┘
+                                │
+                                ▼
+┌─────────────────────────────────┐     ┌─────────────────────────────────┐
+│  sl_case_send_email             │────▶│  Email sent to FSE with link    │
+│  (Suitelet)                     │     │  to customer form               │
+└─────────────────────────────────┘     └───────────────┬─────────────────┘
+                                                        │
+                        ┌───────────────────────────────┘
+                        ▼
+┌─────────────────────────────────┐     ┌─────────────────────────────────┐
+│  sl_case_customer_form          │────▶│  FSE signs → Customer signs     │
+│  (Public Suitelet)              │     │  → PDF generated → Team notified│
+└─────────────────────────────────┘     └─────────────────────────────────┘
+                        ▲
+                        │ (Reminder links)
+┌─────────────────────────────────┐
+│  ss_case_deadline_reminder      │  ◀──── Runs hourly
+│  (Scheduled Script)             │        • 42-hour: Send reminder
+└─────────────────────────────────┘        • 72-hour: Auto-close case
+</pre>
+</div>
+
+<!-- ==================== EMAIL SUITELET ==================== -->
+<h3 id="case1-email">Suitelet: Email Sender</h3>
+<span class="module-ref">📚 Modules 5, 12</span>
+
+<div class="script-card">
+    <h4>sl_case_send_email.js <span class="script-type">Suitelet</span></h4>
+    <p>Sends an email to the assigned FSE containing a link to the customer form. Also creates a Message activity record for audit trail.</p>
+</div>
+
+<pre><code><span class="comment">/**
+ * @NApiVersion 2.1
+ * @NScriptType Suitelet
+ * @NModuleScope SameAccount
+ * 
+ * 📚 MODULE 5: N/email for sending emails
+ * 📚 MODULE 5: N/record for loading cases and creating messages
+ * 📚 MODULE 12: Suitelet as a processing endpoint
+ */</span>
+<span class="keyword">define</span>(['N/email', 'N/record', 'N/log', 'N/url', 'N/runtime'],
+    <span class="keyword">function</span>(email, record, log, url, runtime) {
+
+        <span class="keyword">function</span> <span class="function">onRequest</span>(context) {
+            <span class="keyword">try</span> {
+                <span class="comment">// 📚 MODULE 12: Get URL parameters from request</span>
+                <span class="keyword">var</span> caseId = context.request.parameters.caseid;
+
+                <span class="keyword">if</span> (!caseId) {
+                    context.response.write(<span class="string">'Error: No Case ID provided'</span>);
+                    <span class="keyword">return</span>;
+                }
+
+                log.debug(<span class="string">'Sending email'</span>, <span class="string">'Case ID: '</span> + caseId);
+
+                <span class="comment">// 📚 MODULE 5: record.load() to get case data (10 governance units)</span>
+                <span class="keyword">var</span> caseRecord = record.load({
+                    type: record.Type.SUPPORT_CASE,
+                    id: caseId
+                });
+
+                <span class="comment">// 📚 MODULE 3: getValue() vs getText()
+                // getValue = internal ID, getText = display name</span>
+                <span class="keyword">var</span> caseNumber = caseRecord.getValue({fieldId: <span class="string">'casenumber'</span>});
+                <span class="keyword">var</span> caseTitle = caseRecord.getValue({fieldId: <span class="string">'title'</span>});
+                <span class="keyword">var</span> customerName = caseRecord.getText({fieldId: <span class="string">'company'</span>});
+
+                <span class="comment">// 📚 MODULE 12: Generate external URL for customer form
+                // returnExternalUrl: true = full URL for non-NetSuite users</span>
+                <span class="keyword">var</span> customerFormURL = url.resolveScript({
+                    scriptId: <span class="string">'customscript_case_customer_form'</span>,
+                    deploymentId: <span class="string">'customdeploy_case_customer_form'</span>,
+                    params: { <span class="string">'caseid'</span>: caseId },
+                    returnExternalUrl: <span class="keyword">true</span>
+                });
+
+                <span class="comment">// 📚 BUSINESS LOGIC: Dynamic recipient from case assignment</span>
+                <span class="keyword">var</span> emailAuthor = [SERVICE_EMPLOYEE_ID];
+                <span class="keyword">var</span> emailRecipient = caseRecord.getValue({fieldId: <span class="string">'assigned'</span>});
+
+                <span class="keyword">if</span> (!emailRecipient) {
+                    <span class="keyword">var</span> errorMsg = <span class="string">'Error: Case '</span> + caseNumber + <span class="string">' has no assigned user.'</span>;
+                    log.error(<span class="string">'sl_case_send_email Error'</span>, errorMsg);
+                    context.response.write(errorMsg);
+                    <span class="keyword">return</span>;
+                }
+
+                <span class="comment">// Build HTML email body</span>
+                <span class="keyword">var</span> subject = <span class="string">'ACTION REQUIRED: Get Customer Completion for Case #'</span> + caseNumber;
+                <span class="keyword">var</span> body = <span class="string">'&lt;html&gt;&lt;body style="font-family: Arial, sans-serif;"&gt;'</span>;
+                body += <span class="string">'&lt;p&gt;Please use this link to collect customer completion:&lt;/p&gt;'</span>;
+                body += <span class="string">'&lt;p&gt;&lt;strong&gt;Case: '</span> + caseNumber + <span class="string">' - '</span> + escapeHTML(caseTitle) + <span class="string">'&lt;/strong&gt;&lt;/p&gt;'</span>;
+                body += <span class="string">'&lt;p&gt;&lt;a href="'</span> + customerFormURL + <span class="string">'"&gt;START CUSTOMER FORM&lt;/a&gt;&lt;/p&gt;'</span>;
+                body += <span class="string">'&lt;/body&gt;&lt;/html&gt;'</span>;
+
+                <span class="comment">// 📚 MODULE 5: email.send() - sends email (20 governance units)</span>
+                email.send({
+                    author: emailAuthor,
+                    recipients: emailRecipient,
+                    subject: subject,
+                    body: body
+                });
+
+                log.audit(<span class="string">'Email Sent'</span>, <span class="string">'To: '</span> + emailRecipient + <span class="string">', Case: '</span> + caseNumber);
+
+                <span class="comment">// ─────────────────────────────────────────────────────────
+                // 📚 MODULE 5: Create Message record for audit trail
+                // This logs the email in the Case's Communication subtab
+                // ─────────────────────────────────────────────────────────</span>
+                <span class="keyword">try</span> {
+                    <span class="keyword">var</span> messageRecord = record.create({
+                        type: record.Type.MESSAGE
+                    });
+
+                    messageRecord.setValue({fieldId: <span class="string">'author'</span>, value: emailAuthor});
+                    messageRecord.setValue({fieldId: <span class="string">'recipient'</span>, value: emailRecipient});
+                    messageRecord.setValue({fieldId: <span class="string">'subject'</span>, value: subject});
+                    messageRecord.setValue({fieldId: <span class="string">'message'</span>, value: body});
+                    messageRecord.setValue({fieldId: <span class="string">'entity'</span>, value: caseRecord.getValue({fieldId: <span class="string">'company'</span>})});
+                    messageRecord.setValue({fieldId: <span class="string">'activity'</span>, value: caseId});
+                    messageRecord.setValue({fieldId: <span class="string">'emailed'</span>, value: <span class="keyword">true</span>});
+                    messageRecord.setValue({fieldId: <span class="string">'messagetype'</span>, value: <span class="string">'emailout'</span>});
+
+                    <span class="keyword">var</span> messageId = messageRecord.save();
+                    log.audit(<span class="string">'Message activity created'</span>, <span class="string">'ID: '</span> + messageId);
+
+                } <span class="keyword">catch</span> (msgError) {
+                    <span class="comment">// 📚 MODULE 14: Non-critical error - log but don't fail</span>
+                    log.error(<span class="string">'Could not create message'</span>, msgError.toString());
+                }
+
+                <span class="comment">// 📚 MODULE 12: Write HTML response to browser</span>
+                <span class="keyword">var</span> successHTML = <span class="string">'&lt;html&gt;&lt;body&gt;&lt;h1&gt;Email Sent Successfully!&lt;/h1&gt;'</span>;
+                successHTML += <span class="string">'&lt;p&gt;Case: '</span> + escapeHTML(caseNumber) + <span class="string">'&lt;/p&gt;'</span>;
+                successHTML += <span class="string">'&lt;script&gt;setTimeout(function(){ window.close(); }, 3000);&lt;/script&gt;'</span>;
+                successHTML += <span class="string">'&lt;/body&gt;&lt;/html&gt;'</span>;
+
+                context.response.write(successHTML);
+
+            } <span class="keyword">catch</span> (e) {
+                log.error(<span class="string">'Error in sl_case_send_email'</span>, e.toString());
+                context.response.write(<span class="string">'Error: '</span> + e.toString());
+            }
+        }
+
+        <span class="comment">// 📚 MODULE 15: Helper function for security</span>
+        <span class="keyword">function</span> <span class="function">escapeHTML</span>(text) {
+            <span class="keyword">if</span> (!text) <span class="keyword">return</span> <span class="string">''</span>;
+            <span class="keyword">return</span> text.replace(/&/g, <span class="string">'&amp;amp;'</span>)
+                       .replace(/</g, <span class="string">'&amp;lt;'</span>)
+                       .replace(/>/g, <span class="string">'&amp;gt;'</span>);
+        }
+
+        <span class="keyword">return</span> { onRequest: onRequest };
+    });</code></pre>
+
+<!-- ==================== CUSTOMER FORM SUITELET ==================== -->
+<h3 id="case1-form">Suitelet: Customer Form (Key Excerpts)</h3>
+<span class="module-ref">📚 Modules 3, 5, 12</span>
+
+<div class="script-card">
+    <h4>sl_case_customer_form.js <span class="script-type">Suitelet (Public)</span></h4>
+    <p>1,300+ line Suitelet handling signature capture, deadline calculation, PDF generation, and email notifications. Key excerpts shown below.</p>
+</div>
+
+<div class="info-box yellow">
+    <strong>⚠️ Public Suitelet Configuration</strong>
+    This script uses <code>@NModuleScope Public</code> because customers access it via external URL without NetSuite login. The deployment must be set to "Available Without Login" for external access.
+</div>
+
+<h4>GET/POST Request Handling</h4>
+<pre><code><span class="comment">/**
+ * 📚 MODULE 12: Suitelet with GET/POST handling
+ * 
+ * GET  = Display the form
+ * POST = Process form submission
+ */</span>
+<span class="keyword">function</span> <span class="function">onRequest</span>(context) {
+    <span class="keyword">if</span> (context.request.method === <span class="string">'GET'</span>) {
+        showForm(context);
+    } <span class="keyword">else</span> {
+        processForm(context);
+    }
+}</code></pre>
+
+<h4>Deadline Checking Logic</h4>
+<pre><code><span class="comment">/**
+ * 📚 MODULE 5: Using N/format for date parsing
+ * Checks if the 72-hour deadline has passed
+ */</span>
+<span class="keyword">var</span> deadline = caseRecord.getValue({fieldId: <span class="string">'custevent_signature_deadline'</span>});
+<span class="keyword">var</span> deadlinePassed = <span class="keyword">false</span>;
+
+<span class="keyword">if</span> (deadline) {
+    <span class="comment">// 📚 MODULE 5: format.parse() converts string to Date object</span>
+    <span class="keyword">var</span> deadlineDate = format.parse({
+        value: deadline,
+        type: format.Type.DATETIME
+    });
+    <span class="keyword">var</span> now = <span class="keyword">new</span> Date();
+    deadlinePassed = (now > deadlineDate);
+}
+
+<span class="comment">// If locked, use submitFields to mark complete (more efficient than load/save)</span>
+<span class="keyword">if</span> (deadlinePassed && !serviceCompleteFlag) {
+    <span class="comment">// 📚 MODULE 5: record.submitFields() - only 2 governance units!</span>
+    record.submitFields({
+        type: record.Type.SUPPORT_CASE,
+        id: caseId,
+        values: {
+            <span class="string">'custevent_service_complete'</span>: <span class="keyword">true</span>
+        },
+        options: {
+            enableSourcing: <span class="keyword">false</span>,
+            ignoreMandatoryFields: <span class="keyword">true</span>
+        }
+    });
+}</code></pre>
+
+<h4>72-Hour Deadline Calculation</h4>
+<pre><code><span class="comment">/**
+ * When FSE signs, calculate the 72-hour deadline
+ * 📚 MODULE 3: Working with Date objects
+ */</span>
+<span class="keyword">var</span> fseSignatureTimestamp = <span class="keyword">new</span> Date();
+
+<span class="comment">// Calculate 72 hours from now (72 * 60 * 60 * 1000 milliseconds)</span>
+<span class="keyword">var</span> deadlineTimestamp = <span class="keyword">new</span> Date(fseSignatureTimestamp.getTime() + (72 * 60 * 60 * 1000));
+
+<span class="comment">// 📚 MODULE 3: Save both timestamps to case record</span>
+caseRecord.setValue({fieldId: <span class="string">'custevent_fse_signature_dt_tm'</span>, value: fseSignatureTimestamp});
+caseRecord.setValue({fieldId: <span class="string">'custevent_signature_deadline'</span>, value: deadlineTimestamp});
+caseRecord.save();</code></pre>
+
+<h4>PDF Generation with N/render</h4>
+<pre><code><span class="comment">/**
+ * 📚 MODULE 12: PDF Generation with N/render
+ * Uses FreeMarker template syntax in XML
+ */</span>
+<span class="keyword">function</span> <span class="function">generatePDF</span>(caseId, signatureData) {
+    <span class="comment">// Load case for PDF data</span>
+    <span class="keyword">var</span> caseRecord = record.load({
+        type: record.Type.SUPPORT_CASE,
+        id: caseId
+    });
+    
+    <span class="comment">// 📚 MODULE 12: XML template with BFO PDF syntax</span>
+    <span class="keyword">var</span> xmlTemplate = <span class="string">'&lt;?xml version="1.0"?&gt;'</span> +
+        <span class="string">'&lt;!DOCTYPE pdf PUBLIC "-//big.faceless.org//report" "report-1.1.dtd"&gt;'</span> +
+        <span class="string">'&lt;pdf&gt;&lt;head&gt;&lt;style&gt;...&lt;/style&gt;&lt;/head&gt;'</span> +
+        <span class="string">'&lt;body&gt;'</span> +
+        <span class="string">'&lt;h1&gt;Case Completion Report&lt;/h1&gt;'</span> +
+        <span class="string">'&lt;p&gt;Case: ${record.casenumber}&lt;/p&gt;'</span> +
+        <span class="string">'...more template content...'</span> +
+        <span class="string">'&lt;/body&gt;&lt;/pdf&gt;'</span>;
+    
+    <span class="comment">// 📚 MODULE 12: render.create() for PDF generation</span>
+    <span class="keyword">var</span> pdfRenderer = render.create();
+    pdfRenderer.templateContent = xmlTemplate;
+    
+    <span class="comment">// Add case record for template variables</span>
+    pdfRenderer.addRecord({
+        templateName: <span class="string">'record'</span>,
+        record: caseRecord
+    });
+    
+    <span class="comment">// 📚 MODULE 12: renderAsPdf() creates file object</span>
+    <span class="keyword">var</span> pdfFile = pdfRenderer.renderAsPdf();
+    pdfFile.name = <span class="string">'Case_Completion_'</span> + caseNumber + <span class="string">'.pdf'</span>;
+    pdfFile.folder = [PDF_FOLDER_ID];
+    
+    <span class="comment">// 📚 MODULE 5: file.save() returns file ID</span>
+    <span class="keyword">var</span> fileId = pdfFile.save();
+    
+    <span class="comment">// Attach to case record</span>
+    record.attach({
+        record: { type: <span class="string">'file'</span>, id: fileId },
+        to: { type: record.Type.SUPPORT_CASE, id: caseId }
+    });
+    
+    <span class="keyword">return</span> pdfFile;
+}</code></pre>
+
+<!-- ==================== SCHEDULED SCRIPT ==================== -->
+<h3 id="case1-ss">Scheduled Script: Deadline Reminders</h3>
+<span class="module-ref">📚 Modules 7, 8</span>
+
+<div class="script-card">
+    <h4>ss_case_deadline_reminder.js <span class="script-type">Scheduled Script</span></h4>
+    <p>Runs hourly to check for cases that have reached the 42-hour or 72-hour mark. Sends reminder emails and handles auto-closure.</p>
+</div>
+
+<pre><code><span class="comment">/**
+ * @NApiVersion 2.1
+ * @NScriptType ScheduledScript
+ * 
+ * 📚 MODULE 7: N/search for finding cases by criteria
+ * 📚 MODULE 8: Scheduled Script processing pattern
+ */</span>
+<span class="keyword">define</span>(['N/search', 'N/record', 'N/log', 'N/email', 'N/url', 'N/runtime', 'N/format'],
+    <span class="keyword">function</span>(search, record, log, email, url, runtime, format) {
+
+        <span class="comment">/**
+         * 📚 MODULE 8: execute() is the entry point for Scheduled Scripts
+         */</span>
+        <span class="keyword">function</span> <span class="function">execute</span>(context) {
+            log.audit(<span class="string">'START'</span>, <span class="string">'Scheduled Reminder Script Started'</span>);
+
+            <span class="keyword">try</span> {
+                process42HourReminders();
+                process72HourReminders();
+                log.audit(<span class="string">'END'</span>, <span class="string">'Script Finished'</span>);
+            } <span class="keyword">catch</span> (err) {
+                log.error(<span class="string">'CRITICAL ERROR'</span>, err.toString());
+            }
+        }
+
+        <span class="comment">/**
+         * 📚 MODULE 7: Search for cases eligible for 42-hour reminder
+         */</span>
+        <span class="keyword">function</span> <span class="function">process42HourReminders</span>() {
+            log.audit(<span class="string">'42-HOUR'</span>, <span class="string">'Starting 42-Hour Processing'</span>);
+
+            <span class="comment">// 📚 MODULE 7: search.create() with multiple filters</span>
+            <span class="keyword">var</span> search42Hr = search.create({
+                type: search.Type.SUPPORT_CASE,
+                filters: [
+                    <span class="comment">// FSE has signed (signature timestamp exists)</span>
+                    [<span class="string">'custevent_fse_signature_dt_tm'</span>, <span class="string">'isnotempty'</span>, <span class="string">''</span>],
+                    <span class="string">'AND'</span>,
+                    <span class="comment">// Customer has NOT signed</span>
+                    [<span class="string">'custevent_signature_base64'</span>, <span class="string">'isempty'</span>, <span class="string">''</span>],
+                    <span class="string">'AND'</span>,
+                    <span class="comment">// 42-hour reminder not yet sent</span>
+                    [<span class="string">'custevent_42hr_reminder_sent'</span>, <span class="string">'isempty'</span>, <span class="string">''</span>],
+                    <span class="string">'AND'</span>,
+                    <span class="comment">// Customer email exists</span>
+                    [<span class="string">'custevent_customer_reminder_email'</span>, <span class="string">'isnotempty'</span>, <span class="string">''</span>]
+                ],
+                columns: [
+                    <span class="string">'internalid'</span>,
+                    <span class="string">'casenumber'</span>,
+                    <span class="string">'company'</span>,
+                    <span class="string">'custevent_customer_reminder_email'</span>,
+                    <span class="string">'custevent_fse_signature_dt_tm'</span>,
+                    <span class="string">'custevent_signature_deadline'</span>
+                ]
+            });
+
+            <span class="keyword">var</span> count = 0;
+
+            <span class="comment">// 📚 MODULE 7: run().each() processes results one at a time</span>
+            search42Hr.run().each(<span class="keyword">function</span>(result) {
+                <span class="keyword">var</span> caseId = result.getValue(<span class="string">'internalid'</span>);
+
+                <span class="keyword">try</span> {
+                    <span class="comment">// Get FSE signature timestamp</span>
+                    <span class="keyword">var</span> fseSignatureDateString = result.getValue(<span class="string">'custevent_fse_signature_dt_tm'</span>);
+                    
+                    <span class="keyword">if</span> (!fseSignatureDateString) {
+                        <span class="keyword">return true</span>;  <span class="comment">// Continue to next result</span>
+                    }
+
+                    <span class="comment">// 📚 MODULE 5: format.parse() to convert string → Date</span>
+                    <span class="keyword">var</span> fseSignatureDate = format.parse({
+                        value: fseSignatureDateString,
+                        type: format.Type.DATETIME
+                    });
+
+                    <span class="comment">// Calculate 42 hours after FSE signature</span>
+                    <span class="keyword">var</span> fortyTwoHoursAfter = <span class="keyword">new</span> Date(
+                        fseSignatureDate.getTime() + (42 * 60 * 60 * 1000)
+                    );
+                    <span class="keyword">var</span> now = <span class="keyword">new</span> Date();
+
+                    <span class="comment">// Only process if 42 hours have passed</span>
+                    <span class="keyword">if</span> (now < fortyTwoHoursAfter) {
+                        <span class="keyword">return true</span>;  <span class="comment">// Not time yet, continue</span>
+                    }
+
+                    <span class="comment">// Get case details for email</span>
+                    <span class="keyword">var</span> caseNumber = result.getValue(<span class="string">'casenumber'</span>);
+                    <span class="keyword">var</span> companyName = result.getText(<span class="string">'company'</span>) || <span class="string">'Customer'</span>;
+                    <span class="keyword">var</span> customerEmail = result.getValue(<span class="string">'custevent_customer_reminder_email'</span>);
+
+                    <span class="comment">// 📚 MODULE 12: Generate form URL for reminder email</span>
+                    <span class="keyword">var</span> formURL = url.resolveScript({
+                        scriptId: <span class="string">'customscript_case_customer_form'</span>,
+                        deploymentId: <span class="string">'customdeploy_case_customer_form'</span>,
+                        params: { <span class="string">'caseid'</span>: caseId },
+                        returnExternalUrl: <span class="keyword">true</span>
+                    });
+
+                    <span class="comment">// Build and send reminder email</span>
+                    <span class="keyword">var</span> emailSubject = <span class="string">'Reminder: Signature Deadline Approaching - Case #'</span> + caseNumber;
+                    <span class="keyword">var</span> emailBody = <span class="string">'&lt;p&gt;Dear '</span> + companyName + <span class="string">',&lt;/p&gt;'</span>;
+                    emailBody += <span class="string">'&lt;p&gt;Your Case Completion Form deadline is approaching. You have 30 hours remaining.&lt;/p&gt;'</span>;
+                    emailBody += <span class="string">'&lt;p&gt;&lt;a href="'</span> + formURL + <span class="string">'"&gt;CLICK HERE TO SIGN&lt;/a&gt;&lt;/p&gt;'</span>;
+
+                    <span class="comment">// 📚 MODULE 5: email.send() with relatedRecords for case linking</span>
+                    email.send({
+                        author: [SERVICE_EMPLOYEE_ID],
+                        recipients: customerEmail,
+                        subject: emailSubject,
+                        body: emailBody,
+                        relatedRecords: {
+                            activityId: caseId  <span class="comment">// Links email to case</span>
+                        }
+                    });
+
+                    <span class="comment">// 📚 MODULE 5: Mark reminder as sent (efficient update)</span>
+                    record.submitFields({
+                        type: record.Type.SUPPORT_CASE,
+                        id: caseId,
+                        values: {
+                            <span class="string">'custevent_42hr_reminder_sent'</span>: <span class="keyword">new</span> Date()
+                        }
+                    });
+
+                    log.audit(<span class="string">'42-HOUR SENT'</span>, <span class="string">'Case #'</span> + caseNumber);
+                    count++;
+
+                } <span class="keyword">catch</span> (e) {
+                    log.error(<span class="string">'42-HOUR Case '</span> + caseId + <span class="string">' FAILED'</span>, e.toString());
+                }
+
+                <span class="keyword">return true</span>;  <span class="comment">// Continue to next result</span>
+            });
+
+            log.audit(<span class="string">'42-HOUR COMPLETE'</span>, <span class="string">'Processed '</span> + count + <span class="string">' reminder(s)'</span>);
+        }
+
+        <span class="comment">// Similar pattern for process72HourReminders()...
+        // At 72 hours: send timeout notice, set service complete, notify billing team</span>
+
+        <span class="keyword">return</span> { execute: execute };
+    });</code></pre>
+
+<!-- ==================== CUSTOM FIELDS ==================== -->
+<h3 id="case1-fields">Custom Fields Reference</h3>
+
+<div class="info-box green">
+    <strong>📋 Custom Fields on Case Record</strong>
+    <p>These fields are required for the system to function. Create them before deploying scripts.</p>
+</div>
+
+<table>
+    <tr>
+        <th>Field ID</th>
+        <th>Type</th>
+        <th>Purpose</th>
+    </tr>
+    <tr>
+        <td><code>custevent_service_complete</code></td>
+        <td>Checkbox</td>
+        <td>Controls button visibility, set TRUE when complete</td>
+    </tr>
+    <tr>
+        <td><code>custevent_fse_signature_dt_tm</code></td>
+        <td>Date/Time</td>
+        <td>When FSE signed the form</td>
+    </tr>
+    <tr>
+        <td><code>custevent_signature_deadline</code></td>
+        <td>Date/Time</td>
+        <td>72 hours after FSE signature</td>
+    </tr>
+    <tr>
+        <td><code>custevent_signature_dt_tm</code></td>
+        <td>Date/Time</td>
+        <td>When customer signed</td>
+    </tr>
+    <tr>
+        <td><code>custevent_signature_base64</code></td>
+        <td>Long Text</td>
+        <td>Customer signature image data</td>
+    </tr>
+    <tr>
+        <td><code>custevent_fse_signature_base64</code></td>
+        <td>Long Text</td>
+        <td>FSE signature image data</td>
+    </tr>
+    <tr>
+        <td><code>custevent_customer_reminder_email</code></td>
+        <td>Email</td>
+        <td>Customer email for reminders</td>
+    </tr>
+    <tr>
+        <td><code>custevent_42hr_reminder_sent</code></td>
+        <td>Date/Time</td>
+        <td>Timestamp when 42-hour reminder sent</td>
+    </tr>
+    <tr>
+        <td><code>custevent_reminder_sent</code></td>
+        <td>Date/Time</td>
+        <td>Timestamp when 72-hour notice sent</td>
+    </tr>
+    <tr>
+        <td><code>custevent_to_be_invoiced</code></td>
+        <td>Checkbox</td>
+        <td>If TRUE, billing team is notified on completion</td>
+    </tr>
+    <tr>
+        <td><code>custevent_team_notified</code></td>
+        <td>Date/Time</td>
+        <td>When billing team was notified</td>
+    </tr>
+</table>
+
+<div class="info-box blue">
+    <strong>🔑 Key Takeaways from These Case Studies</strong>
+    <ul>
+        <li><strong>Case Study 1 (Standalone):</strong> A single User Event script can provide significant value by adding buttons and conditional UI</li>
+        <li><strong>Case Study 2 (Multi-Script):</strong> Suitelets + Scheduled Scripts work together for complex workflows</li>
+        <li><strong>Public vs Private:</strong> Customer-facing forms use <code>@NModuleScope Public</code> for external access</li>
+        <li><strong>Efficient Updates:</strong> Use <code>submitFields()</code> (2 units) instead of load/save (15+ units)</li>
+        <li><strong>Audit Trail:</strong> Create Message records to log emails in Case communication tab</li>
+        <li><strong>Date Handling:</strong> Use <code>N/format</code> for parsing dates from record fields</li>
+        <li><strong>Error Handling:</strong> Wrap each operation in try/catch so one failure doesn't stop the batch</li>
+    </ul>
+</div>
+
+<div class="nav-buttons">
+    <a href="Appendix-B-Exercises.html" class="nav-btn">← Appendix B: Exercises</a>
+    <a href="Master-Dashboard.html" class="back-btn">Dashboard</a>
+    <a href="Appendix-D-Glossary.html" class="nav-btn">Appendix D: Glossary →</a>
+</div>
+
+</div>
+</div>
+</body>
+</html>

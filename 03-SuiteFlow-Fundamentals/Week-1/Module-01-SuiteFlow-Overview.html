@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 1: SuiteFlow Overview - SuiteFlow Fundamentals</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f5f7fa; line-height: 1.6; color: #2d3748; }
+        .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 40px 20px; }
+        .header-content { max-width: 1200px; margin: 0 auto; }
+        .breadcrumb { font-size: 0.9em; margin-bottom: 15px; opacity: 0.9; }
+        .breadcrumb a { color: white; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.3); }
+        .module-title-section { display: flex; align-items: center; gap: 20px; }
+        .module-number { background: rgba(255,255,255,0.2); width: 80px; height: 80px; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 2em; font-weight: 700; }
+        h1 { font-size: 2.5em; font-weight: 700; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        .objectives-box { background: white; border-radius: 15px; padding: 30px; margin-bottom: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); border-left: 5px solid #667eea; }
+        .objectives-box h2 { color: #667eea; margin-bottom: 20px; }
+        .objectives-box ul { list-style: none; padding: 0; }
+        .objectives-box li { padding: 10px 0 10px 30px; position: relative; color: #555; }
+        .objectives-box li::before { content: "✓"; position: absolute; left: 0; color: #667eea; font-weight: bold; font-size: 1.3em; }
+        .content-section { background: white; border-radius: 15px; padding: 40px; margin-bottom: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
+        .content-section h2 { color: #2d3748; font-size: 1.8em; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 3px solid #667eea; }
+        .content-section h3 { color: #667eea; font-size: 1.4em; margin-top: 30px; margin-bottom: 15px; }
+        .content-section p { color: #555; line-height: 1.8; margin-bottom: 15px; }
+        .content-section ul, .content-section ol { margin-left: 30px; margin-bottom: 20px; }
+        .content-section li { margin-bottom: 10px; color: #555; }
+        .info-box { padding: 20px; border-radius: 8px; margin: 25px 0; border-left: 4px solid; }
+        .info-box.blue { background: #e3f2fd; border-left-color: #2196f3; }
+        .info-box.yellow { background: #fff9c4; border-left-color: #fbc02d; }
+        .info-box.green { background: #e8f5e9; border-left-color: #4caf50; }
+        .info-box.purple { background: #f3e5f5; border-left-color: #9c27b0; }
+        .info-box h4 { color: #1976d2; margin-bottom: 10px; font-weight: 600; }
+        .info-box.yellow h4 { color: #f57f17; }
+        .info-box.green h4 { color: #2e7d32; }
+        .info-box.purple h4 { color: #6a1b9a; }
+        .workflow-diagram { background: #f8f9fa; padding: 30px; border-radius: 10px; margin: 25px 0; text-align: center; }
+        .state-box { display: inline-block; background: white; border: 2px solid #667eea; border-radius: 8px; padding: 15px 25px; margin: 10px; font-weight: 600; color: #667eea; }
+        .arrow { display: inline-block; color: #667eea; font-size: 1.5em; margin: 0 10px; }
+        .key-takeaways { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 15px; padding: 30px; margin: 30px 0; }
+        .key-takeaways h3 { color: white; margin-bottom: 20px; font-size: 1.5em; }
+        .key-takeaways ul { list-style: none; padding: 0; }
+        .key-takeaways li { padding: 12px 0 12px 30px; position: relative; color: white; opacity: 0.95; }
+        .key-takeaways li::before { content: "★"; position: absolute; left: 0; font-size: 1.2em; }
+        .navigation { display: flex; justify-content: space-between; margin-top: 40px; gap: 20px; }
+        .nav-btn { display: inline-flex; align-items: center; padding: 15px 30px; border-radius: 25px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; flex: 1; justify-content: center; }
+        .nav-btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .nav-btn-secondary { background: #e2e8f0; color: #2d3748; }
+        .nav-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.15); }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="breadcrumb">
+                <a href="../Master-Dashboard.html">← Course Overview</a> / 
+                <a href="week-1-dashboard.html">Week 1</a> / 
+                Module 1
+            </div>
+            <div class="module-title-section">
+                <div class="module-number">01</div>
+                <div>
+                    <h1>SuiteFlow Overview</h1>
+                    <p style="margin-top: 10px; opacity: 0.9;">Understanding the Building Blocks of Workflow Automation</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="objectives-box">
+            <h2>🎯 Learning Objectives</h2>
+            <p style="color: #666; margin-bottom: 15px;">Upon completion of this module, you will be able to:</p>
+            <ul>
+                <li>Describe the foundational components of a business process</li>
+                <li>Explain the relationship between workflows and NetSuite record types</li>
+                <li>List the building blocks of workflows created in SuiteFlow</li>
+                <li>Explain the purpose of states, actions, transitions, and triggers</li>
+                <li>Navigate the Workflow Manager interface</li>
+                <li>Explain the benefits of developing workflows in a modularized fashion</li>
+                <li>Create a simple workflow using the Workflow Manager</li>
+            </ul>
+        </div>
+
+        <div class="content-section">
+            <h2>Business Process Fundamentals</h2>
+            
+            <p>A <strong>business process</strong> is a collection of linked tasks or activities that, once completed, accomplish some organizational goal. Understanding business processes is the foundation for effective workflow automation.</p>
+
+            <h3>Common Business Process Examples</h3>
+            <ul>
+                <li><strong>Sales Order Approval:</strong> Automatically approve orders less than $1,000, but require sales manager approval for orders greater than $1,000</li>
+                <li><strong>Auto-routing Records:</strong> Route records to specific users for approval based on business rules</li>
+                <li><strong>Discount Application:</strong> Auto-apply line-item discounts when specific quantity purchased or order amount exceeds threshold</li>
+                <li><strong>Task Automation:</strong> Auto-create task records for sales reps when customer order amounts exceed specified amounts</li>
+            </ul>
+
+            <h3>Business Process Components</h3>
+            <p>Most workflows in SuiteFlow, regardless of complexity, are comprised of these basic components:</p>
+
+            <div class="workflow-diagram">
+                <div style="margin-bottom: 20px;"><strong>Standard Workflow Flow:</strong></div>
+                <div class="state-box">Initiation State</div>
+                <span class="arrow">→</span>
+                <div class="state-box">Action State</div>
+                <span class="arrow">→</span>
+                <div class="state-box">Decision State</div>
+                <span class="arrow">→</span>
+                <div class="state-box">End State</div>
+            </div>
+
+            <div class="info-box blue">
+                <h4>🔹 Initiation/Entry States</h4>
+                <p>Found in ALL business processes. Represents where workflow execution begins. Can be triggered by user action (button click) or automatically (scheduled workflow).</p>
+            </div>
+
+            <div class="info-box green">
+                <h4>🔹 Action States</h4>
+                <p>Represents a task or operation performed at a specific point. Examples: set approval status to "Pending Approval," send email notification to approver, calculate totals, update field values.</p>
+            </div>
+
+            <div class="info-box purple">
+                <h4>🔹 Decision States</h4>
+                <p>Ask a question to validate data. The answer determines which actions execute and which path the workflow follows. Example: "Is amount < $100? If yes, auto-approve. Otherwise, continue to manual approval."</p>
+            </div>
+
+            <div class="info-box yellow">
+                <h4>🔹 Subprocess States</h4>
+                <p>Trigger child workflows (subworkflows) that perform their own tasks. Results return to parent process which takes appropriate action. Common in approval workflows with escalation logic.</p>
+            </div>
+
+            <div class="info-box blue">
+                <h4>🔹 End States</h4>
+                <p>Where workflow processing completes. All workflows have at least one end state, but can have multiple (common in approval workflows with "Approved" and "Rejected" end states).</p>
+            </div>
+
+            <h3>Approval Workflow Example</h3>
+            <p>Let's analyze a basic approval workflow for sales orders:</p>
+
+            <ol>
+                <li><strong>State 1 - Pending Approval:</strong> Workflow entry state that initiates the approval process</li>
+                <li><strong>Decision Point:</strong> Is sales order &lt; $5,000?
+                    <ul style="margin-top: 10px;">
+                        <li><strong>If Yes:</strong> Automatically route to State 3 (Approved)</li>
+                        <li><strong>If No:</strong> Route to State 2 (Finance Approval)</li>
+                    </ul>
+                </li>
+                <li><strong>State 2 - Finance Approval:</strong> Record is locked, Approve/Reject buttons added
+                    <ul style="margin-top: 10px;">
+                        <li><strong>If Approved:</strong> Route to State 3, update status to "Approved," lock record</li>
+                        <li><strong>If Rejected:</strong> Route to State 4, update status to "Rejected," end workflow</li>
+                    </ul>
+                </li>
+                <li><strong>State 3 - Approved:</strong> Approval status updated, record locked (except to finance manager)</li>
+                <li><strong>State 4 - Rejected:</strong> Approval status updated, workflow completes</li>
+            </ol>
+
+            <div class="info-box green">
+                <h4>💡 Design Note</h4>
+                <p>Additional processing could be configured to return rejected orders back to State 1 for resubmission. This creates a loop that allows correction and reapproval!</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>What is SuiteFlow?</h2>
+
+            <p><strong>SuiteFlow</strong> is NetSuite's point-and-click visual workflow development tool used to automate business processes. It transforms complex business logic into visual workflows that execute automatically based on user actions and system events.</p>
+
+            <h3>Key Characteristics</h3>
+            <ul>
+                <li><strong>Visual Representation:</strong> Workflows are visual diagrams showing tasks, participants, and operations at various states</li>
+                <li><strong>Sequential or Parallel:</strong> Steps can run one after another (sequential) or simultaneously (parallel processing paths)</li>
+                <li><strong>Trigger-Based:</strong> Actions and transitions execute based on specific events (triggers) as users interact with records</li>
+                <li><strong>Conditional Logic:</strong> Actions and transitions contain conditions that must be satisfied before execution</li>
+            </ul>
+
+            <h3>What Can SuiteFlow Do?</h3>
+            <ul>
+                <li>Build approval processing workflows with sequential and parallel approvers</li>
+                <li>Send email notifications, including time-based reminder emails</li>
+                <li>Alter workflow state based on changes to related records</li>
+                <li>Configure service-level agreements (SLAs)</li>
+                <li>Implement drip marketing campaigns</li>
+                <li>Define complex business rules and calculations</li>
+            </ul>
+
+            <h3>Workflow-to-Record Relationship</h3>
+            <p><strong>Critical Concept:</strong> Workflows have a <strong>one-to-one relationship</strong> with NetSuite record types. A workflow can only be configured to execute on a single base record type.</p>
+
+            <div class="info-box blue">
+                <h4>📋 Record Type Support</h4>
+                <p>Workflows are supported by most of NetSuite's standard record types AND custom record types. To verify if a specific record type supports workflows, create a new workflow definition and check if the desired record type appears in the dropdown list.</p>
+            </div>
+
+            <div class="info-box yellow">
+                <h4>⚠️ Subtypes Exception</h4>
+                <p>While a workflow can't run on multiple BASE record types, it CAN execute on specific record subtypes. Example: A workflow on "Transaction" can run on Sales Order, Purchase Order, and Vendor Payment subtypes simultaneously.</p>
+            </div>
+
+            <div class="info-box purple">
+                <h4>💡 Multiple Workflows on One Record</h4>
+                <p>Multiple workflows CAN run on a single base record type simultaneously! There's no limit to the number of workflows per record type. This supports the modular design approach we'll discuss shortly.</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>The Four Building Blocks of SuiteFlow</h2>
+
+            <p>Every workflow in SuiteFlow is constructed from four primary building blocks:</p>
+
+            <h3>1. States</h3>
+            <p><strong>States answer: "Where is the record currently in the business process?"</strong></p>
+            <ul>
+                <li>Represent specific points in the workflow where the record "lives"</li>
+                <li>Contain actions that execute when the record is in that state</li>
+                <li>Can be entry states, processing states, decision states, or end states</li>
+                <li>All workflows must have at least one state (automatically created)</li>
+            </ul>
+
+            <h3>2. Actions</h3>
+            <p><strong>Actions answer: "What tasks should be performed in the current state?"</strong></p>
+            <ul>
+                <li>Perform specific tasks: set field values, send emails, create records, show messages</li>
+                <li>Execute based on triggers (when to run)</li>
+                <li>Can contain conditions (under what circumstances to run)</li>
+                <li>Examples: Send Email, Set Field Value, Return User Error, Create Record</li>
+            </ul>
+
+            <h3>3. Transitions</h3>
+            <p><strong>Transitions answer: "Which state should the business process move to next?"</strong></p>
+            <ul>
+                <li>Define the path between states</li>
+                <li>Contain conditions that determine if transition should occur</li>
+                <li>Execute based on triggers</li>
+                <li>Multiple transitions can exist from a single state (branching logic)</li>
+            </ul>
+
+            <h3>4. Triggers</h3>
+            <p><strong>Triggers answer: "When should a workflow be initiated, an action executed, or a transition performed?"</strong></p>
+            <ul>
+                <li>Represent specific events during record processing</li>
+                <li>Two types: <strong>Client Triggers</strong> (browser) and <strong>Server Triggers</strong> (NetSuite server)</li>
+                <li>Control exactly when workflow processing occurs</li>
+                <li>Examples: Before Record Load, Before User Submit, After Record Submit, Before Field Edit</li>
+            </ul>
+
+            <div class="info-box green">
+                <h4>🎓 Remember This!</h4>
+                <p><strong>Triggers OCCUR, but workflows, actions, and transitions EXECUTE.</strong> This distinction is important for understanding workflow execution timing!</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Using the Workflow Manager</h2>
+
+            <p>The Workflow Manager is your visual workspace for creating and managing workflows. Let's tour the interface:</p>
+
+            <h3>Accessing the Workflow Manager</h3>
+            <p>Navigate to: <strong>Customization > Workflow > Workflows > New Workflow</strong></p>
+
+            <h3>Workflow Manager Components</h3>
+            <ul>
+                <li><strong>Workspace (Center):</strong> Visual canvas where you drag and drop states, draw transitions, and see the overall workflow structure</li>
+                <li><strong>Context Panel (Right):</strong> Shows properties and actions for selected workflow components. Changes dynamically based on what you've selected</li>
+                <li><strong>Toolbar (Top):</strong> Contains buttons for common actions like adding states, saving, and switching views</li>
+            </ul>
+
+            <h3>Workflow Definition Fields</h3>
+            <ul>
+                <li><strong>Name:</strong> Descriptive workflow name (e.g., "Furniture Request Entry")</li>
+                <li><strong>ID:</strong> Unique internal identifier (recommended! Makes workflows easier to reference in scripts)</li>
+                <li><strong>Record Type:</strong> The NetSuite record this workflow will execute on</li>
+                <li><strong>Sub Type:</strong> Optional - specific record subtypes if applicable</li>
+                <li><strong>Release Status:</strong> Testing or Released (controls whether workflow is active)</li>
+                <li><strong>Enable Logging:</strong> Critical for troubleshooting! Always enable during development</li>
+            </ul>
+
+            <div class="info-box yellow">
+                <h4>⚠️ Workflow ID Best Practice</h4>
+                <p>While Workflow ID is technically optional, treat it as <strong>required</strong> in your development practice. IDs make workflows much easier to reference in SuiteScript and when troubleshooting execution logs!</p>
+            </div>
+
+            <h3>Context Panel Tabs</h3>
+            <p>The Context Panel displays different tabs depending on what's selected:</p>
+            <ul>
+                <li><strong>Workflow tab:</strong> When no state selected - shows overall workflow properties</li>
+                <li><strong>State tab:</strong> When state selected - shows state properties, actions, and transitions</li>
+                <li><strong>Trigger tabs:</strong> Show actions grouped by when they execute (Before Load, Before Submit, etc.)</li>
+            </ul>
+
+            <div class="info-box blue">
+                <h4>💡 Dynamic Saving</h4>
+                <p>The Workflow Manager saves your work automatically as you make changes! There's no explicit "Save" button. Everything is dynamically persisted to the database.</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Modular Workflow Design</h2>
+
+            <p>One of the most important concepts in SuiteFlow development is <strong>modular design</strong>. Instead of creating one massive workflow that does everything, break processing into multiple smaller, focused workflows.</p>
+
+            <h3>Benefits of Modular Design</h3>
+            <ol>
+                <li><strong>Easier Maintenance:</strong> Smaller workflows are easier to understand, test, and modify</li>
+                <li><strong>Separation of Concerns:</strong> Client-side actions separated from server-side actions</li>
+                <li><strong>Easier Troubleshooting:</strong> Isolating issues is simpler when workflows have focused purposes</li>
+                <li><strong>Reusability:</strong> Workflows can be leveraged as templates for similar processes</li>
+                <li><strong>Better Performance:</strong> Targeted workflows execute only when needed</li>
+            </ol>
+
+            <h3>Modular Design Example</h3>
+            <p>For a Furniture Request process, you might create separate workflows for:</p>
+            <ul>
+                <li><strong>Entry Workflow:</strong> Handles data entry validations and field interactions (client triggers)</li>
+                <li><strong>Load Workflow:</strong> Sets field defaults and display characteristics when loading forms (server triggers)</li>
+                <li><strong>Save Workflow:</strong> Creates related records, sends notifications after save (server triggers)</li>
+                <li><strong>Approval Workflow:</strong> Manages approval routing and state transitions</li>
+            </ul>
+
+            <div class="info-box green">
+                <h4>✅ Best Practice</h4>
+                <p>As you work through course exercises, you'll gain hands-on experience building modular workflows. This approach scales much better than monolithic "do-everything" workflows!</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Workflow Templates</h2>
+
+            <p>NetSuite provides pre-built workflow templates to help you get started quickly with common approval processes.</p>
+
+            <h3>Available Templates</h3>
+            <ul>
+                <li>Journal Entry Basic Approval</li>
+                <li>Purchase Order Basic Approval</li>
+                <li>Sales Order Basic Approval</li>
+                <li>Lead Nurturing</li>
+            </ul>
+
+            <h3>Using Templates</h3>
+            <ol>
+                <li>Navigate to: <strong>Customization > Workflow > Workflows > New Workflow</strong></li>
+                <li>Select <strong>"From Template"</strong> instead of "Create New"</li>
+                <li>Choose the appropriate template from the selection page</li>
+                <li>NetSuite generates a workflow with pre-configured states, actions, conditions, and transitions</li>
+                <li>Customize the template to meet your specific business requirements</li>
+            </ol>
+
+            <div class="info-box purple">
+                <h4>📚 More Information</h4>
+                <p>For detailed information about workflow templates, refer to the Workflow Template reference in the NetSuite Help Center (Help > SuiteCloud Platform > SuiteFlow Workflows).</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>SuiteFlow Permissions</h2>
+
+            <h3>Enabling SuiteFlow</h3>
+            <p>Before using SuiteFlow, the feature must be enabled in your account:</p>
+            <ol>
+                <li>Navigate to: <strong>Setup > Company > Enable Features</strong></li>
+                <li>Select the <strong>SuiteCloud</strong> subtab</li>
+                <li>Locate the <strong>SuiteFlow</strong> section</li>
+                <li>Check the <strong>SuiteFlow</strong> checkbox</li>
+                <li>Click <strong>Save</strong></li>
+            </ol>
+
+            <h3>Workflow Permission</h3>
+            <p>Users need the <strong>Workflow</strong> permission to create, view, and edit workflows:</p>
+            <ol>
+                <li>Navigate to: <strong>Setup > Users/Roles > Manage Roles</strong></li>
+                <li>Edit the desired role (best practice: customize standard roles to create custom roles)</li>
+                <li>Go to <strong>Permissions</strong> subtab > <strong>Setup</strong> sublist</li>
+                <li>Add <strong>Workflow</strong> permission (only level available is "Full")</li>
+                <li>Save the role</li>
+            </ol>
+
+            <div class="info-box yellow">
+                <h4>⚠️ Additional Permissions Required</h4>
+                <p>In addition to the Workflow permission, users must have sufficient permissions to access the record types associated with the workflows they manage. SuiteFlow enforces role permissions!</p>
+            </div>
+
+            <div class="info-box blue">
+                <h4>💡 Permission Impact</h4>
+                <p>If a user doesn't have access to record data and fields due to their role permissions, this can affect how they interact with forms that have workflows running on them. Ensure appropriate record-level permissions to prevent processing errors!</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Walkthrough: Creating Your First Workflow</h2>
+
+            <p>Let's walk through creating a simple workflow that displays a message when users create a new record. This demonstrates the basic workflow creation process.</p>
+
+            <h3>Step 1: Create New Workflow</h3>
+            <ol>
+                <li>Navigate to: <strong>Customization > Workflow > Workflows > New Workflow</strong></li>
+                <li>Enter workflow details:
+                    <ul style="margin-top: 10px;">
+                        <li><strong>Name:</strong> "My First Workflow"</li>
+                        <li><strong>ID:</strong> "wf_my_first" (recommended practice!)</li>
+                        <li><strong>Record Type:</strong> Select your target record (e.g., "Performance Review")</li>
+                        <li><strong>Description:</strong> "Display welcome message on new records"</li>
+                        <li><strong>Release Status:</strong> Testing</li>
+                        <li><strong>Enable Logging:</strong> ✓ Checked</li>
+                        <li><strong>Initiate On:</strong> Create (only initiate when creating new records)</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <h3>Step 2: Configure the Default State</h3>
+            <ol>
+                <li>NetSuite automatically creates a default "State 1" when you save the workflow definition</li>
+                <li>Double-click State 1 (or use State tab > Edit icon)</li>
+                <li>Rename it to something meaningful: "Data Entry"</li>
+                <li>Add a description (optional but recommended): "Display welcome message"</li>
+                <li>Click <strong>Save</strong></li>
+            </ol>
+
+            <h3>Step 3: Add a Show Message Action</h3>
+            <ol>
+                <li>Make sure State 1 is selected in the workspace</li>
+                <li>In the Context Panel, click <strong>New Action</strong></li>
+                <li>Scroll down and select <strong>Show Message</strong></li>
+                <li>In the Parameters section, enter your message: "Please complete your annual performance review."</li>
+                <li>Leave the Trigger at default (<strong>Before User Edit</strong>)</li>
+                <li>Don't add any conditions (we want this to show every time)</li>
+                <li>Click <strong>Save</strong></li>
+            </ol>
+
+            <div class="info-box green">
+                <h4>✅ Notice</h4>
+                <p>The action now appears in the Context Panel under the "Before User Edit" trigger section. This tells you exactly when the action will execute!</p>
+            </div>
+
+            <h3>Step 4: Test Your Workflow</h3>
+            <ol>
+                <li>Navigate to create a new record of your chosen type (e.g., <strong>Lists > Custom > Performance Review > New</strong>)</li>
+                <li>Open in a new tab to keep Workflow Manager available</li>
+                <li>Watch as the form loads - your message should appear immediately!</li>
+                <li>Click <strong>OK</strong> to acknowledge and continue</li>
+            </ol>
+
+            <div class="info-box blue">
+                <h4>💡 Refreshing Client-Side Actions</h4>
+                <p>Press <strong>Ctrl+F5</strong> (Windows) or <strong>Cmd+R</strong> (Mac) to refresh the browser and re-trigger client-side actions. This is invaluable during development! Changes to client-side actions are reflected immediately upon page reload.</p>
+            </div>
+
+            <h3>Step 5: Modify and Test Again</h3>
+            <ol>
+                <li>Return to the Workflow Manager</li>
+                <li>Edit your Show Message action</li>
+                <li>Change "annual" to "quarterly"</li>
+                <li>Click <strong>Save</strong></li>
+                <li>Return to your new record tab and press <strong>Ctrl+F5</strong></li>
+                <li>The updated message appears immediately!</li>
+            </ol>
+
+            <div class="info-box yellow">
+                <h4>⚠️ Client vs. Server Action Testing</h4>
+                <p>This "refresh to re-trigger" behavior only works for <strong>client-side</strong> actions (those using client triggers). Server-side actions require a full save/reload cycle. We'll explore this difference in upcoming modules!</p>
+            </div>
+
+            <p><strong>Congratulations!</strong> You've just created and tested your first SuiteFlow workflow. While simple, this workflow demonstrates the core concepts you'll use to build much more sophisticated automation.</p>
+        </div>
+
+        <div class="key-takeaways">
+            <h3>🌟 Key Takeaways</h3>
+            <ul>
+                <li>Business processes consist of initiation, action, decision, subprocess, and end states</li>
+                <li>Workflows have a <strong>one-to-one relationship</strong> with record types (but can run on multiple subtypes)</li>
+                <li>Four building blocks: <strong>States</strong> (where?), <strong>Actions</strong> (what?), <strong>Transitions</strong> (next state?), <strong>Triggers</strong> (when?)</li>
+                <li>Triggers OCCUR; workflows, actions, and transitions EXECUTE</li>
+                <li>Modular workflow design improves maintenance, troubleshooting, and performance</li>
+                <li>Multiple workflows CAN run simultaneously on a single record type</li>
+                <li>The Workflow Manager saves changes dynamically (no explicit Save button)</li>
+                <li>Client-side actions can be re-triggered by refreshing the browser (Ctrl+F5)</li>
+                <li>Always enable logging during development for troubleshooting</li>
+                <li>Users need both Workflow permission AND appropriate record-level permissions</li>
+            </ul>
+        </div>
+
+        <div class="navigation">
+            <a href="Module-00-Course-Introduction.html" class="nav-btn nav-btn-secondary">
+                ← Previous: Course Introduction
+            </a>
+            <a href="../Week-2/week-2-dashboard.html" class="nav-btn nav-btn-primary">
+                Next: Week 2 - Client-Side Processing →
+            </a>
+        </div>
+    </div>
+</body>
+</html>

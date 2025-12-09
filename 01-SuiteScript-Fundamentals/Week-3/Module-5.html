@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 5: SuiteScript Modules</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.8;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:40px 20px}.container{max-width:900px;margin:0 auto}.header{background:white;padding:30px 40px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.2);margin-bottom:30px}.header h1{color:#2563eb;font-size:2rem;margin-bottom:10px}.header .meta{color:#6b7280;font-size:0.9rem}.content{background:white;padding:40px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.2)}.content h2{color:#1e40af;margin:35px 0 20px 0;font-size:1.6rem;padding-bottom:10px;border-bottom:3px solid #dbeafe}.content h2:first-of-type{margin-top:0}.content h3{color:#374151;margin:25px 0 15px 0;font-size:1.3rem}.content p{margin:15px 0;color:#374151;line-height:1.9}.content ul,.content ol{margin:15px 0 15px 30px;color:#374151}.content li{margin:10px 0;line-height:1.7}.info-box{padding:20px 25px;border-radius:8px;margin:25px 0;border-left:5px solid}.info-box.blue{background:#dbeafe;border-color:#2563eb}.info-box.yellow{background:#fef3c7;border-color:#f59e0b}.info-box.green{background:#dcfce7;border-color:#10b981}.info-box.red{background:#fee2e2;border-color:#ef4444}.info-box.purple{background:#f3e8ff;border-color:#9333ea}.info-box strong{color:#1e40af;display:block;margin-bottom:10px;font-size:1.1rem}code{background:#f3f4f6;padding:3px 8px;border-radius:4px;font-family:'Courier New',monospace;font-size:0.9em;color:#ef4444}pre{background:#1e293b;color:#e2e8f0;padding:25px;border-radius:8px;overflow-x:auto;margin:25px 0;border-left:5px solid #667eea}pre code{background:none;padding:0;color:inherit}.takeaway{background:#f0f9ff;border:2px solid #0ea5e9;border-radius:10px;padding:25px;margin:30px 0}.takeaway h3{color:#0369a1;margin:0 0 15px 0}.takeaway ul{margin:10px 0 10px 25px}.takeaway li{color:#0c4a6e;font-weight:500}.nav-buttons{display:flex;justify-content:space-between;margin-top:40px;gap:20px}.back-btn,.next-btn{padding:14px 28px;border-radius:8px;text-decoration:none;font-weight:600;transition:all 0.3s}.back-btn{background:#6b7280;color:white}.next-btn{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:white}.back-btn:hover,.next-btn:hover{transform:translateY(-2px);opacity:0.95}table{width:100%;border-collapse:collapse;margin:20px 0}table th,table td{padding:12px;text-align:left;border-bottom:1px solid #e5e7eb}table th{background:#f3f4f6;color:#1e40af;font-weight:600}.toc{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:20px;margin-bottom:30px}.toc h3{color:#1e40af;margin-bottom:15px;font-size:1.1rem}.toc ul{list-style:none;margin:0;padding:0}.toc li{margin:8px 0}.toc a{color:#2563eb;text-decoration:none}.toc a:hover{text-decoration:underline}
+    </style>
+</head>
+<body>
+<div class="container">
+<div class="header">
+    <h1>Module 5: SuiteScript Modules</h1>
+    <p class="meta">Week 3 • NetSuite SuiteScript 2.0 Training • ~75 minutes</p>
+</div>
+<div class="content">
+
+<div class="toc">
+    <h3>📑 In This Module</h3>
+    <ul>
+        <li><a href="#objectives">Learning Objectives</a></li>
+        <li><a href="#what-are">1. What Are SuiteScript Modules?</a></li>
+        <li><a href="#loading">2. Loading Modules with define()</a></li>
+        <li><a href="#record">3. The N/record Module</a></li>
+        <li><a href="#common">4. Other Common Modules</a></li>
+        <li><a href="#promises">5. Promises in SuiteScript</a></li>
+        <li><a href="#practice">Practice Exercises</a></li>
+    </ul>
+</div>
+
+<h2 id="objectives">🎯 Learning Objectives</h2>
+<p>By the end of this module, you will be able to:</p>
+<ul>
+    <li>Understand what SuiteScript modules are and why they're used</li>
+    <li>Load modules correctly using the define() statement</li>
+    <li>Use N/record to load, create, and transform records</li>
+    <li>Work with other essential modules (N/email, N/runtime, N/url)</li>
+    <li>Understand synchronous vs asynchronous operations with promises</li>
+</ul>
+
+<h2 id="what-are">1. What Are SuiteScript Modules?</h2>
+
+<p>Modules are <strong>libraries of functionality</strong> that you add to your scripts. Think of them as toolboxes - you only bring the tools you need for the job.</p>
+
+<div class="info-box blue">
+    <strong>💡 Why Modules Matter</strong>
+    <p>In SuiteScript 1.0, all functions were in the global scope, using memory for capabilities you might never use. SuiteScript 2.x modules let you load only what you need, making scripts more efficient and maintainable.</p>
+</div>
+
+<h3>Module Naming Convention</h3>
+<p>NetSuite modules start with <code>N/</code> to indicate they're built-in NetSuite APIs:</p>
+<ul>
+    <li><code>N/record</code> - Work with records</li>
+    <li><code>N/search</code> - Create and run searches</li>
+    <li><code>N/email</code> - Send emails</li>
+    <li><code>N/runtime</code> - Get script/user info</li>
+    <li><code>N/log</code> - Logging (auto-loaded)</li>
+</ul>
+
+<h2 id="loading">2. Loading Modules with define()</h2>
+
+<h3>Basic Syntax</h3>
+<pre><code>/**
+ * @NApiVersion 2.1
+ * @NScriptType UserEventScript
+ */
+define(['N/record', 'N/email', 'N/runtime'], function(record, email, runtime) {
+    
+    // Now you can use record.load(), email.send(), runtime.getCurrentUser()
+    
+    function afterSubmit(context) {
+        // Your code here
+    }
+    
+    return { afterSubmit: afterSubmit };
+});</code></pre>
+
+<div class="info-box yellow">
+    <strong>⚠️ Order Matters!</strong>
+    <p>The order of modules in the array must match the order of parameters in the callback function. If you list <code>['N/record', 'N/email']</code>, your function must be <code>function(record, email)</code> - not <code>function(email, record)</code>.</p>
+</div>
+
+<h3>Variable Naming</h3>
+<p>You can name the variables anything, but convention is to use the module name:</p>
+
+<pre><code>// Standard (recommended)
+define(['N/record'], function(record) { ... });
+
+// Also valid, but non-standard
+define(['N/record'], function(rec) { ... });
+define(['N/record'], function(recordModule) { ... });</code></pre>
+
+<h2 id="record">3. The N/record Module</h2>
+
+<p>The <code>N/record</code> module is essential for working with NetSuite records programmatically.</p>
+
+<h3>Loading a Record</h3>
+<pre><code>var customerRecord = record.load({
+    type: record.Type.CUSTOMER,  // or 'customer'
+    id: 123,
+    isDynamic: false  // Static mode (default)
+});
+
+// Now read/modify the record
+var name = customerRecord.getValue('companyname');
+customerRecord.setValue('phone', '555-1234');
+customerRecord.save();</code></pre>
+
+<h3>Creating a Record</h3>
+<pre><code>var phoneCall = record.create({
+    type: record.Type.PHONE_CALL,
+    isDynamic: true
+});
+
+phoneCall.setValue('title', 'Follow-up call');
+phoneCall.setValue('phone', '555-1234');
+
+var newId = phoneCall.save();
+log.debug('Created Phone Call', 'ID: ' + newId);</code></pre>
+
+<h3>Transforming Records</h3>
+<p>Transform creates a new record from an existing one, copying relevant values:</p>
+
+<pre><code>// Create Invoice from Sales Order
+var invoice = record.transform({
+    fromType: record.Type.SALES_ORDER,
+    fromId: 456,
+    toType: record.Type.INVOICE
+});
+
+var invoiceId = invoice.save();</code></pre>
+
+<h3>Dynamic vs Standard Mode</h3>
+<table>
+    <tr><th>Feature</th><th>Standard Mode</th><th>Dynamic Mode</th></tr>
+    <tr><td>Field sourcing</td><td>Manual</td><td>Automatic</td></tr>
+    <tr><td>Sublist editing</td><td>By line number</td><td>Select → Edit → Commit</td></tr>
+    <tr><td>Performance</td><td>Faster</td><td>Slower</td></tr>
+    <tr><td>Use case</td><td>Bulk operations</td><td>UI-like behavior</td></tr>
+</table>
+
+<div class="info-box green">
+    <strong>✅ Best Practice</strong>
+    <p>Use <strong>Standard mode</strong> (isDynamic: false) for server-side scripts processing multiple records. Use <strong>Dynamic mode</strong> (isDynamic: true) when you need automatic field sourcing or are simulating UI behavior.</p>
+</div>
+
+<h2 id="common">4. Other Common Modules</h2>
+
+<h3>N/email - Send Emails</h3>
+<pre><code>define(['N/email'], function(email) {
+    
+    email.send({
+        author: 123,           // Employee internal ID
+        recipients: 'user@example.com',
+        subject: 'Order Confirmation',
+        body: 'Thank you for your order!'
+    });
+    
+});</code></pre>
+
+<h3>N/runtime - Script & User Context</h3>
+<pre><code>define(['N/runtime'], function(runtime) {
+    
+    // Get current user info
+    var user = runtime.getCurrentUser();
+    log.debug('User', user.name + ' (ID: ' + user.id + ')');
+    
+    // Get current script info
+    var script = runtime.getCurrentScript();
+    log.debug('Remaining Governance', script.getRemainingUsage());
+    
+    // Get script parameters
+    var paramValue = script.getParameter('custscript_my_param');
+    
+});</code></pre>
+
+<h3>N/url - Generate URLs</h3>
+<pre><code>define(['N/url'], function(url) {
+    
+    // URL to a record
+    var recordUrl = url.resolveRecord({
+        recordType: 'customer',
+        recordId: 123,
+        isEditMode: false
+    });
+    
+    // URL to a Suitelet
+    var suiteletUrl = url.resolveScript({
+        scriptId: 'customscript_my_suitelet',
+        deploymentId: 'customdeploy_my_suitelet',
+        params: { custparam_id: 456 }
+    });
+    
+});</code></pre>
+
+<h3>N/format - Date/Number Formatting</h3>
+<pre><code>define(['N/format'], function(format) {
+    
+    // Parse a date string to Date object
+    var dateObj = format.parse({
+        value: '12/25/2024',
+        type: format.Type.DATE
+    });
+    
+    // Format a Date object to string
+    var dateStr = format.format({
+        value: new Date(),
+        type: format.Type.DATETIME
+    });
+    
+});</code></pre>
+
+<h3>Common Modules Reference</h3>
+<table>
+    <tr><th>Module</th><th>Purpose</th><th>Key Functions</th></tr>
+    <tr><td><code>N/record</code></td><td>Record CRUD</td><td>load, create, delete, transform</td></tr>
+    <tr><td><code>N/search</code></td><td>Searching</td><td>create, load, lookupFields</td></tr>
+    <tr><td><code>N/email</code></td><td>Email</td><td>send, sendBulk</td></tr>
+    <tr><td><code>N/runtime</code></td><td>Context info</td><td>getCurrentUser, getCurrentScript</td></tr>
+    <tr><td><code>N/url</code></td><td>URL building</td><td>resolveRecord, resolveScript</td></tr>
+    <tr><td><code>N/format</code></td><td>Formatting</td><td>parse, format</td></tr>
+    <tr><td><code>N/file</code></td><td>File Cabinet</td><td>create, load, delete</td></tr>
+    <tr><td><code>N/http</code></td><td>HTTP calls</td><td>get, post, request</td></tr>
+    <tr><td><code>N/redirect</code></td><td>Page redirect</td><td>toRecord, toSuitelet</td></tr>
+</table>
+
+<h2 id="promises">5. Promises in SuiteScript</h2>
+
+<p>Some operations have <code>.promise()</code> versions for asynchronous execution:</p>
+
+<pre><code>// Synchronous (blocks until complete)
+var rec = record.load({
+    type: 'customer',
+    id: 123
+});
+log.debug('Loaded', rec.getValue('companyname'));
+
+// Asynchronous (returns promise)
+record.load.promise({
+    type: 'customer',
+    id: 123
+}).then(function(rec) {
+    log.debug('Loaded', rec.getValue('companyname'));
+}).catch(function(error) {
+    log.error('Load Failed', error.message);
+});</code></pre>
+
+<div class="info-box purple">
+    <strong>🔮 When to Use Promises</strong>
+    <p>Promises are useful in client scripts where you don't want to freeze the UI while waiting for server responses. In server-side scripts, synchronous calls are usually simpler and sufficient.</p>
+</div>
+
+<h2 id="practice">🏋️ Practice Exercises</h2>
+
+<div class="info-box green">
+    <strong>Exercise 1: Load and Modify</strong>
+    <p>Create a User Event script that loads a related Customer record when a Sales Order is saved, and logs the customer's email address.</p>
+</div>
+
+<div class="info-box green">
+    <strong>Exercise 2: Create Related Record</strong>
+    <p>When a new Employee is created, automatically create a Phone Call record assigned to them with subject "HR Onboarding Call".</p>
+</div>
+
+<div class="info-box green">
+    <strong>Exercise 3: Send Notification</strong>
+    <p>Create an afterSubmit script that sends an email to the sales rep when a Sales Order total exceeds $10,000.</p>
+</div>
+
+<div class="takeaway">
+    <h3>🎯 Key Takeaways</h3>
+    <ul>
+        <li>Modules are loaded via <code>define(['N/module'], function(module) {...})</code></li>
+        <li>Array order must match function parameter order</li>
+        <li><code>N/record</code> provides load(), create(), transform(), delete()</li>
+        <li>Use standard mode for performance, dynamic mode for UI-like behavior</li>
+        <li>Always pass parameters as objects: <code>{ type: 'customer', id: 123 }</code></li>
+        <li>Check Help Center for full module documentation</li>
+    </ul>
+</div>
+
+<div class="nav-buttons">
+    <a href="week-3-dashboard.html" class="back-btn">← Back to Week 3</a>
+    <a href="../Week-4/Module-6.html" class="next-btn">Next: Module 6 →</a>
+</div>
+
+</div>
+</div>
+</body>
+</html>

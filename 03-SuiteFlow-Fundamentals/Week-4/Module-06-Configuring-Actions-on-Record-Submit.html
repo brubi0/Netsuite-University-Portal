@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 6: Configuring Actions on Record Submit - SuiteFlow Fundamentals</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f5f7fa; line-height: 1.6; color: #2d3748; }
+        .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 40px 20px; }
+        .header-content { max-width: 1200px; margin: 0 auto; }
+        .breadcrumb { font-size: 0.9em; margin-bottom: 15px; opacity: 0.9; }
+        .breadcrumb a { color: white; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.3); }
+        .module-title-section { display: flex; align-items: center; gap: 20px; }
+        .module-number { background: rgba(255,255,255,0.2); width: 80px; height: 80px; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 2em; font-weight: 700; }
+        h1 { font-size: 2.5em; font-weight: 700; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        .objectives-box { background: white; border-radius: 15px; padding: 30px; margin-bottom: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); border-left: 5px solid #667eea; }
+        .objectives-box h2 { color: #667eea; margin-bottom: 20px; }
+        .objectives-box ul { list-style: none; padding: 0; }
+        .objectives-box li { padding: 10px 0 10px 30px; position: relative; color: #555; }
+        .objectives-box li::before { content: "✓"; position: absolute; left: 0; color: #667eea; font-weight: bold; font-size: 1.3em; }
+        .content-section { background: white; border-radius: 15px; padding: 40px; margin-bottom: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
+        .content-section h2 { color: #2d3748; font-size: 1.8em; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 3px solid #667eea; }
+        .content-section h3 { color: #667eea; font-size: 1.4em; margin-top: 30px; margin-bottom: 15px; }
+        .content-section p { color: #555; line-height: 1.8; margin-bottom: 15px; }
+        .content-section ul, .content-section ol { margin-left: 30px; margin-bottom: 20px; }
+        .content-section li { margin-bottom: 10px; color: #555; }
+        .info-box { padding: 20px; border-radius: 8px; margin: 25px 0; border-left: 4px solid; }
+        .info-box.blue { background: #e3f2fd; border-left-color: #2196f3; }
+        .info-box.yellow { background: #fff9c4; border-left-color: #fbc02d; }
+        .info-box.green { background: #e8f5e9; border-left-color: #4caf50; }
+        .info-box.purple { background: #f3e5f5; border-left-color: #9c27b0; }
+        .info-box.red { background: #ffebee; border-left-color: #f44336; }
+        .info-box h4 { margin-bottom: 10px; font-weight: 600; }
+        .info-box.blue h4 { color: #1976d2; }
+        .info-box.yellow h4 { color: #f57f17; }
+        .info-box.green h4 { color: #2e7d32; }
+        .info-box.purple h4 { color: #6a1b9a; }
+        .info-box.red h4 { color: #c62828; }
+        .action-card { background: #f8f9fa; border-radius: 10px; padding: 20px; margin: 15px 0; border-left: 4px solid #667eea; }
+        .action-card h4 { color: #667eea; margin-bottom: 10px; }
+        .comparison-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        .comparison-table th, .comparison-table td { padding: 15px; text-align: left; border-bottom: 1px solid #e0e0e0; }
+        .comparison-table th { background: #667eea; color: white; }
+        .comparison-table tr:hover { background: #f5f5f5; }
+        .key-takeaways { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 15px; padding: 30px; margin: 30px 0; }
+        .key-takeaways h3 { color: white; margin-bottom: 20px; font-size: 1.5em; }
+        .key-takeaways ul { list-style: none; padding: 0; }
+        .key-takeaways li { padding: 12px 0 12px 30px; position: relative; color: white; opacity: 0.95; }
+        .key-takeaways li::before { content: "★"; position: absolute; left: 0; font-size: 1.2em; }
+        .exercise-section { background: #fff3e0; border-radius: 15px; padding: 30px; margin: 30px 0; border-left: 5px solid #ff9800; }
+        .exercise-section h3 { color: #e65100; margin-bottom: 15px; }
+        .exercise-link { display: inline-block; margin-top: 15px; padding: 12px 25px; background: #ff9800; color: white; text-decoration: none; border-radius: 25px; font-weight: 600; }
+        .navigation { display: flex; justify-content: space-between; margin-top: 40px; gap: 20px; flex-wrap: wrap; }
+        .nav-btn { display: inline-flex; align-items: center; padding: 15px 30px; border-radius: 25px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; flex: 1; justify-content: center; min-width: 200px; }
+        .nav-btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .nav-btn-secondary { background: #e2e8f0; color: #2d3748; }
+        .nav-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.15); }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="breadcrumb">
+                <a href="../Master-Dashboard.html">← Course Overview</a> / 
+                <a href="week-4-dashboard.html">Week 4</a> / Module 6
+            </div>
+            <div class="module-title-section">
+                <div class="module-number">06</div>
+                <div>
+                    <h1>Configuring Actions on Record Submit</h1>
+                    <p style="margin-top: 10px; opacity: 0.9;">Multi-State Workflows, Transitions, and Active Triggers</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="objectives-box">
+            <h2>🎯 Learning Objectives</h2>
+            <p style="color: #666; margin-bottom: 15px;">Upon completion of this module, you will be able to:</p>
+            <ul>
+                <li>Design multi-state workflows that execute related actions in each state</li>
+                <li>Configure actions to execute on record submit using server triggers</li>
+                <li>Configure transitions between states and understand their impact</li>
+                <li>Describe how workflow and transition triggers determine the active trigger</li>
+            </ul>
+        </div>
+
+        <div class="content-section">
+            <h2>Designing Multi-State Workflows</h2>
+            
+            <p>While single-state workflows work great for client-side actions (Module 3 📚), server-side workflows often benefit from multiple states. Key considerations:</p>
+
+            <ul>
+                <li>For <strong>client-side workflows</strong>: Configure all actions in a single state</li>
+                <li>Spreading actions across states facilitates <strong>troubleshooting</strong></li>
+                <li>Multiple states provide <strong>visual clarity</strong> in Workflow Manager</li>
+                <li>Some use cases require <strong>pausing and resuming</strong>—controlled better with multiple states</li>
+            </ul>
+
+            <div class="info-box purple">
+                <h4>💡 Modular Design Reminder</h4>
+                <p>Remember the modular approach from Module 1 📚—multiple small workflows are easier to maintain than one monolithic workflow!</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Common Record Submit Actions</h2>
+
+            <div class="action-card">
+                <h4>Create Record</h4>
+                <p>Creates a new standard or custom record. Ensure all required fields are populated or the action fails!</p>
+                <p><strong>Triggers:</strong> All server triggers (use After Record Submit when creating joined records on new parent records)</p>
+            </div>
+
+            <div class="action-card">
+                <h4>Send Email</h4>
+                <p>Sends email notifications. Requires sender, recipient, and content (custom text or template).</p>
+                <p><strong>Triggers:</strong> After Record Submit ONLY</p>
+            </div>
+
+            <div class="action-card">
+                <h4>Transform Record</h4>
+                <p>Converts one transaction type to another (e.g., Estimate → Invoice). Base record type stays the same.</p>
+                <p><strong>Triggers:</strong> After Record Submit, Entry, Exit, Scheduled</p>
+            </div>
+
+            <div class="action-card">
+                <h4>Go to Page</h4>
+                <p>Redirects users to a different page in NetSuite.</p>
+                <p><strong>Triggers:</strong> After Record Submit, Entry</p>
+            </div>
+
+            <div class="action-card">
+                <h4>Go to Record</h4>
+                <p>Redirects users to a specific record. If no ID specified, creates a new record of that type.</p>
+                <p><strong>Triggers:</strong> After Record Submit, Entry</p>
+            </div>
+
+            <h3>Before vs. After Record Submit</h3>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Action</th>
+                        <th>Before Record Submit</th>
+                        <th>After Record Submit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Create Record</td><td>✓</td><td>✓ (required for new joined records)</td></tr>
+                    <tr><td>Set Field Value</td><td>✓ (preferred)</td><td>✓ (causes re-save!)</td></tr>
+                    <tr><td>Return User Error</td><td>✓</td><td>—</td></tr>
+                    <tr><td>Send Email</td><td>—</td><td>✓</td></tr>
+                    <tr><td>Go to Page/Record</td><td>—</td><td>✓</td></tr>
+                    <tr><td>Transform Record</td><td>—</td><td>✓</td></tr>
+                </tbody>
+            </table>
+
+            <div class="info-box red">
+                <h4>⚠️ Create Record + Joined Records</h4>
+                <p>When creating a related record that joins to a <strong>new</strong> parent record, use After Record Submit. The parent must exist in the database first! For existing parent records, Before Record Submit works fine.</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Configuring Transitions</h2>
+
+            <p>Transitions move records between states. The <strong>Transition On</strong> trigger defines when a transition executes.</p>
+
+            <h3>The Active Trigger Concept</h3>
+
+            <p>Understanding the <strong>active trigger</strong> is critical for multi-state workflows:</p>
+
+            <ol>
+                <li>The <strong>incoming transition</strong> sets the active trigger when entering a state</li>
+                <li>Actions configured on that trigger (and Entry) will execute</li>
+                <li>When user saves, active trigger shifts to Before Record Submit, then After Record Submit</li>
+                <li>The <strong>outgoing transition's Transition On</strong> determines the active trigger for the next state</li>
+            </ol>
+
+            <div class="info-box yellow">
+                <h4>⚠️ Why Actions Get Skipped</h4>
+                <p>If a state has a Send Email action but the record entered on Before Record Submit, the email <strong>won't send</strong>—Send Email isn't valid at Before Record Submit! Use the Transition On field to force After Record Submit as the incoming trigger.</p>
+            </div>
+
+            <h3>Fixing Active Trigger Issues</h3>
+
+            <p>If workflow initiation is Before Record Submit but you need After Record Submit actions:</p>
+            <ol>
+                <li>Select the transition arrow entering the state with the action</li>
+                <li>Edit the transition</li>
+                <li>Set <strong>Transition On</strong> to "After Record Submit"</li>
+            </ol>
+
+            <div class="info-box green">
+                <h4>✅ Best Practice</h4>
+                <p>Keep workflow initiation at <strong>Before Record Submit</strong> for validations, then use <strong>Transition On</strong> to shift to After Record Submit for states that need it. Changing initiation to After Record Submit would skip validation actions!</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Set Field Value Performance Note</h2>
+
+            <div class="info-box purple">
+                <h4>💡 Important: Set Field Value at After Record Submit</h4>
+                <p>When Set Field Value runs at After Record Submit, the server <strong>reloads the record, updates the value, and re-saves</strong>. This is slower than Before Record Submit where changes commit with the original save. Always prefer Before Record Submit for Set Field Value when possible!</p>
+            </div>
+        </div>
+
+        <div class="exercise-section">
+            <h3>🎯 Hands-On Exercises</h3>
+            <p>Build a multi-state workflow with record submit actions:</p>
+            <ul style="margin-left: 30px; margin-bottom: 20px;">
+                <li>Exercise 1: Create a 4-state workflow with transitions</li>
+                <li>Exercise 2: Configure Create Record and Send Email actions</li>
+                <li>Exercise 3: Use Transition On to fix active trigger issues</li>
+                <li>Exercise 4: Add a Go to Record action for user navigation</li>
+            </ul>
+            <a href="../Appendices/Appendix-B-Hands-On-Exercises.html#module-6" class="exercise-link">Go to Module 6 Exercises →</a>
+        </div>
+
+        <div class="key-takeaways">
+            <h3>🌟 Key Takeaways</h3>
+            <ul>
+                <li><strong>Send Email</strong> only works at After Record Submit</li>
+                <li>Use <strong>After Record Submit</strong> for Create Record when the parent is new</li>
+                <li>The <strong>active trigger</strong> determines which actions execute in each state</li>
+                <li>Use <strong>Transition On</strong> to change the active trigger between states</li>
+                <li><strong>Set Field Value</strong> at After Record Submit causes a re-save—prefer Before Record Submit</li>
+                <li>Skipped actions don't generate errors—check the execution log!</li>
+                <li>Keep initiation at Before Record Submit for validations, shift via transitions</li>
+            </ul>
+        </div>
+
+        <div class="navigation">
+            <a href="../Week-3/Module-05-Configuring-Actions-on-Record-Load.html" class="nav-btn nav-btn-secondary">← Previous: Module 5</a>
+            <a href="Module-07-Troubleshooting-Workflow-Execution.html" class="nav-btn nav-btn-primary">Next: Module 7 →</a>
+        </div>
+    </div>
+</body>
+</html>

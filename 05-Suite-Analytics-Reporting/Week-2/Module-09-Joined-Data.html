@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 09: Adding Joined Data - Suite Analytics Learning Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #0f0f1a; color: #e0e0e0; line-height: 1.7; }
+        .header { background: linear-gradient(135deg, #0f3460 0%, #533483 100%); padding: 30px 20px; }
+        .header-content { max-width: 900px; margin: 0 auto; }
+        .breadcrumb { font-size: 0.9em; margin-bottom: 10px; opacity: 0.8; }
+        .breadcrumb a { color: #fff; text-decoration: none; }
+        h1 { font-size: 2em; font-weight: 700; color: #fff; }
+        .module-meta { margin-top: 10px; color: rgba(255,255,255,0.8); font-size: 0.9em; }
+        .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+        h2 { color: #e94560; font-size: 1.5em; margin: 40px 0 20px; padding-bottom: 10px; border-bottom: 2px solid #e94560; }
+        p { margin-bottom: 15px; }
+        .concept-box { background: linear-gradient(145deg, #1a1a2e 0%, #1e1e32 100%); border-radius: 15px; padding: 25px; margin: 25px 0; border-left: 4px solid #e94560; }
+        .concept-box h4 { color: #e94560; margin-bottom: 12px; font-size: 1.1em; }
+        .steps { background: #12121f; border-radius: 10px; padding: 20px; margin: 15px 0; }
+        .steps ol { margin-left: 20px; }
+        .steps li { padding: 8px 0; }
+        .example-box { background: linear-gradient(145deg, #1e3a1e 0%, #1a2e1a 100%); border-radius: 12px; padding: 20px; margin: 20px 0; border: 1px solid #4caf50; }
+        .example-box h4 { color: #4caf50; margin-bottom: 12px; }
+        .tip-box { background: rgba(255,193,7,0.1); border-radius: 10px; padding: 20px; margin: 20px 0; border: 1px solid rgba(255,193,7,0.3); }
+        .tip-box h4 { color: #ffc107; margin-bottom: 10px; }
+        .warning-box { background: rgba(244,67,54,0.1); border-radius: 10px; padding: 20px; margin: 20px 0; border: 1px solid rgba(244,67,54,0.3); }
+        .warning-box h4 { color: #f44336; margin-bottom: 10px; }
+        .key-point { background: rgba(83,52,131,0.2); border-radius: 10px; padding: 20px; margin: 20px 0; border: 1px solid rgba(83,52,131,0.4); }
+        .key-point h4 { color: #533483; margin-bottom: 10px; }
+        .code-box { background: #0d0d15; border-radius: 8px; padding: 15px; margin: 15px 0; font-family: 'Courier New', monospace; border: 1px solid #333; }
+        .code-box .field { color: #4caf50; }
+        .code-box .join { color: #e94560; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #333; }
+        th { background: rgba(233,69,96,0.2); color: #e94560; font-weight: 600; }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 50px; padding-top: 30px; border-top: 1px solid #333; flex-wrap: wrap; gap: 15px; }
+        .nav-btn { padding: 12px 25px; border-radius: 25px; text-decoration: none; font-weight: 600; font-size: 0.9em; transition: all 0.3s ease; }
+        .nav-btn.secondary { background: rgba(255,255,255,0.1); color: #fff; }
+        .nav-btn.primary { background: linear-gradient(135deg, #e94560 0%, #533483 100%); color: #fff; }
+        ul { margin-left: 20px; margin-bottom: 15px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="breadcrumb">
+                <a href="../Master-Dashboard.html">Course Overview</a> / 
+                <a href="week-2-dashboard.html">Week 2</a> / Module 09
+            </div>
+            <h1>🔗 Module 09: Adding Joined Data</h1>
+            <div class="module-meta">Week 2 • Saved Searches Fundamentals • Core Skills</div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="concept-box">
+            <h4>What is Joined Data?</h4>
+            <p>Joined data allows you to include fields from <strong>related records</strong> in your saved search results. For example, when searching transactions, you can include the customer's phone number, the sales rep's email, or the item's category — all in the same search without creating multiple searches.</p>
+        </div>
+
+        <h2>Understanding Joins</h2>
+        <p>NetSuite uses <strong>ellipsis notation</strong> (...) to indicate that a field is from a related (joined) record type.</p>
+
+        <div class="code-box">
+            <span class="join">Sales Rep...</span> <span class="field">Email</span>
+        </div>
+
+        <p>This notation means: "Go to the Sales Rep record that's linked to this transaction, and retrieve the Email field from that record."</p>
+
+        <div class="key-point">
+            <h4>📍 Common Joins</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Search Type</th>
+                        <th>Available Joins</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Transaction</td>
+                        <td>Customer..., Sales Rep..., Item..., Created By...</td>
+                    </tr>
+                    <tr>
+                        <td>Customer</td>
+                        <td>Sales Rep..., Parent..., Primary Contact...</td>
+                    </tr>
+                    <tr>
+                        <td>Item</td>
+                        <td>Vendor..., Department..., Class...</td>
+                    </tr>
+                    <tr>
+                        <td>Case</td>
+                        <td>Customer..., Assigned..., Company...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2>Adding Joined Fields</h2>
+
+        <div class="steps">
+            <ol>
+                <li>On the <strong>Results</strong> subtab, scroll through the field dropdown</li>
+                <li>Look for fields with <strong>ellipsis (...)</strong> — these are from related records</li>
+                <li>Select the joined field (e.g., "Sales Rep...Email")</li>
+                <li>Click <strong>Add</strong></li>
+                <li>The field is added to your results columns</li>
+            </ol>
+        </div>
+
+        <div class="example-box">
+            <h4>💡 Example: Transaction Search with Customer Details</h4>
+            <p>Create a transaction search that includes customer contact information:</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Field</th>
+                        <th>Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Document Number</td><td>Transaction field</td></tr>
+                    <tr><td>Date</td><td>Transaction field</td></tr>
+                    <tr><td>Amount</td><td>Transaction field</td></tr>
+                    <tr><td>Customer...Company Name</td><td>Joined from Customer</td></tr>
+                    <tr><td>Customer...Phone</td><td>Joined from Customer</td></tr>
+                    <tr><td>Customer...Email</td><td>Joined from Customer</td></tr>
+                    <tr><td>Sales Rep...Email</td><td>Joined from Employee</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2>One-to-Many Relationships</h2>
+
+        <div class="warning-box">
+            <h4>⚠️ Duplicate Rows</h4>
+            <p>When you join to a record that has <strong>multiple related records</strong>, your search may return duplicate rows. For example, if a customer has 5 transactions and you search Customers with joined Transaction data, you'll see the customer listed 5 times — once for each transaction.</p>
+        </div>
+
+        <div class="tip-box">
+            <h4>💡 Pro Tip: Custom Labels for Joined Fields</h4>
+            <p>Joined fields display their full path by default (e.g., "Sales Rep...Email"). Use <strong>Custom Labels</strong> to simplify column headers:</p>
+            <ul>
+                <li>"Sales Rep...Email" → <strong>"Rep Email"</strong></li>
+                <li>"Customer...Phone" → <strong>"Customer Phone"</strong></li>
+            </ul>
+        </div>
+
+        <h2>Using Joins in Criteria</h2>
+        <p>You can also use joined fields in the <strong>Criteria</strong> subtab to filter based on related record data.</p>
+
+        <div class="example-box">
+            <h4>💡 Example: Filter by Sales Rep Location</h4>
+            <p>Find all transactions where the assigned sales rep is in the "West" region:</p>
+            <ul>
+                <li><strong>Field:</strong> Sales Rep...Location</li>
+                <li><strong>Operator:</strong> is</li>
+                <li><strong>Value:</strong> West</li>
+            </ul>
+        </div>
+
+        <div class="concept-box">
+            <h4>🎯 Key Takeaways</h4>
+            <ul>
+                <li><strong>Joined data</strong> pulls fields from related record types</li>
+                <li>Look for <strong>ellipsis notation (...)</strong> to identify joined fields</li>
+                <li>Use joins to avoid creating multiple searches for related data</li>
+                <li>Be aware of <strong>one-to-many relationships</strong> that may cause duplicate rows</li>
+                <li>Use <strong>Custom Labels</strong> to simplify joined field column headers</li>
+                <li>Joined fields can be used in both <strong>Results</strong> and <strong>Criteria</strong></li>
+            </ul>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="Module-08-Results-Columns.html" class="nav-btn secondary">← Previous: Results Columns</a>
+            <a href="Module-10-Criteria-Filters.html" class="nav-btn primary">Next: Criteria & Filters →</a>
+        </div>
+    </div>
+</body>
+</html>

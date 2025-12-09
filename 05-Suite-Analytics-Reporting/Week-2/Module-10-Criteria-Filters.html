@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 10: Criteria & Filters - Suite Analytics Learning Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #0f0f1a; color: #e0e0e0; line-height: 1.7; }
+        .header { background: linear-gradient(135deg, #0f3460 0%, #533483 100%); padding: 30px 20px; }
+        .header-content { max-width: 900px; margin: 0 auto; }
+        .breadcrumb { font-size: 0.9em; margin-bottom: 10px; opacity: 0.8; }
+        .breadcrumb a { color: #fff; text-decoration: none; }
+        h1 { font-size: 2em; font-weight: 700; color: #fff; }
+        .module-meta { margin-top: 10px; color: rgba(255,255,255,0.8); font-size: 0.9em; }
+        .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+        h2 { color: #e94560; font-size: 1.5em; margin: 40px 0 20px; padding-bottom: 10px; border-bottom: 2px solid #e94560; }
+        p { margin-bottom: 15px; }
+        .concept-box { background: linear-gradient(145deg, #1a1a2e 0%, #1e1e32 100%); border-radius: 15px; padding: 25px; margin: 25px 0; border-left: 4px solid #e94560; }
+        .concept-box h4 { color: #e94560; margin-bottom: 12px; font-size: 1.1em; }
+        .formula-box { background: #0d0d15; border-radius: 10px; padding: 20px; margin: 20px 0; border: 1px solid #4caf50; font-family: 'Courier New', monospace; }
+        .formula-box .field { color: #ffc107; }
+        .formula-box .operator { color: #e94560; }
+        .formula-box .value { color: #4caf50; }
+        .example-box { background: linear-gradient(145deg, #1e3a1e 0%, #1a2e1a 100%); border-radius: 12px; padding: 20px; margin: 20px 0; border: 1px solid #4caf50; }
+        .example-box h4 { color: #4caf50; margin-bottom: 12px; }
+        .tip-box { background: rgba(255,193,7,0.1); border-radius: 10px; padding: 20px; margin: 20px 0; border: 1px solid rgba(255,193,7,0.3); }
+        .tip-box h4 { color: #ffc107; margin-bottom: 10px; }
+        .key-point { background: rgba(83,52,131,0.2); border-radius: 10px; padding: 20px; margin: 20px 0; border: 1px solid rgba(83,52,131,0.4); }
+        .key-point h4 { color: #533483; margin-bottom: 10px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #333; }
+        th { background: rgba(233,69,96,0.2); color: #e94560; font-weight: 600; }
+        .steps { background: #12121f; border-radius: 10px; padding: 20px; margin: 15px 0; }
+        .steps ol { margin-left: 20px; }
+        .steps li { padding: 8px 0; }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 50px; padding-top: 30px; border-top: 1px solid #333; flex-wrap: wrap; gap: 15px; }
+        .nav-btn { padding: 12px 25px; border-radius: 25px; text-decoration: none; font-weight: 600; font-size: 0.9em; transition: all 0.3s ease; }
+        .nav-btn.secondary { background: rgba(255,255,255,0.1); color: #fff; }
+        .nav-btn.primary { background: linear-gradient(135deg, #e94560 0%, #533483 100%); color: #fff; }
+        ul { margin-left: 20px; margin-bottom: 15px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="breadcrumb">
+                <a href="../Master-Dashboard.html">Course Overview</a> / 
+                <a href="week-2-dashboard.html">Week 2</a> / Module 10
+            </div>
+            <h1>🎯 Module 10: Criteria & Filters</h1>
+            <div class="module-meta">Week 2 • Saved Searches Fundamentals • Core Skills</div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="concept-box">
+            <h4>The Criteria Subtab</h4>
+            <p>Criteria define which records are included in your saved search results. Each criterion is a <strong>filter</strong> that evaluates to true or false. Only records where all criteria evaluate to true are returned.</p>
+        </div>
+
+        <h2>The Filter Equation</h2>
+        <p>Every filter follows the same pattern:</p>
+
+        <div class="formula-box">
+            <span class="field">Field</span> <span class="operator">Operator</span> <span class="value">Value</span>
+        </div>
+
+        <div class="example-box">
+            <h4>💡 Examples</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Field</th>
+                        <th>Operator</th>
+                        <th>Value</th>
+                        <th>Meaning</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Balance</td>
+                        <td>greater than</td>
+                        <td>1000</td>
+                        <td>Balance exceeds $1,000</td>
+                    </tr>
+                    <tr>
+                        <td>Status</td>
+                        <td>is</td>
+                        <td>Open</td>
+                        <td>Status equals "Open"</td>
+                    </tr>
+                    <tr>
+                        <td>Type</td>
+                        <td>is any of</td>
+                        <td>Invoice, Credit Memo</td>
+                        <td>Type is Invoice OR Credit Memo</td>
+                    </tr>
+                    <tr>
+                        <td>Name</td>
+                        <td>contains</td>
+                        <td>Corp</td>
+                        <td>Name includes "Corp"</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2>Common Operators</h2>
+
+        <div class="key-point">
+            <h4>📋 Operator Reference</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Operator</th>
+                        <th>Use For</th>
+                        <th>Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>is</strong></td><td>Exact match</td><td>Status is Open</td></tr>
+                    <tr><td><strong>is not</strong></td><td>Exclude value</td><td>Type is not Quote</td></tr>
+                    <tr><td><strong>is any of</strong></td><td>Multiple values (OR)</td><td>State is any of CA, NY, TX</td></tr>
+                    <tr><td><strong>is none of</strong></td><td>Exclude multiple</td><td>Category is none of A, B</td></tr>
+                    <tr><td><strong>contains</strong></td><td>Partial text match</td><td>Name contains Inc</td></tr>
+                    <tr><td><strong>does not contain</strong></td><td>Exclude text</td><td>Email does not contain test</td></tr>
+                    <tr><td><strong>starts with</strong></td><td>Beginning match</td><td>Phone starts with 415</td></tr>
+                    <tr><td><strong>greater than</strong></td><td>Numeric comparison</td><td>Amount > 5000</td></tr>
+                    <tr><td><strong>less than</strong></td><td>Numeric comparison</td><td>Quantity < 10</td></tr>
+                    <tr><td><strong>is empty</strong></td><td>Null/blank check</td><td>Email is empty</td></tr>
+                    <tr><td><strong>is not empty</strong></td><td>Has value</td><td>Phone is not empty</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2>Adding Criteria</h2>
+
+        <div class="steps">
+            <ol>
+                <li>Navigate to the <strong>Criteria</strong> subtab</li>
+                <li>In the <strong>Standard</strong> sub-subtab, find the <strong>Filter</strong> dropdown</li>
+                <li>Select a field to filter on</li>
+                <li>Select an <strong>operator</strong> from the dropdown</li>
+                <li>Enter or select a <strong>value</strong></li>
+                <li>Click <strong>Add</strong></li>
+                <li>Repeat to add additional filters</li>
+            </ol>
+        </div>
+
+        <h2>Editing & Removing Filters</h2>
+
+        <div class="key-point">
+            <h4>✏️ Modify Existing Filters</h4>
+            <ul>
+                <li><strong>Edit:</strong> Click directly on the filter row to modify field, operator, or value</li>
+                <li><strong>Remove:</strong> Select the filter and click <strong>Remove</strong></li>
+                <li><strong>Reorder:</strong> Filters are evaluated in order; use Move Up/Down if needed</li>
+            </ul>
+        </div>
+
+        <div class="tip-box">
+            <h4>💡 Available Filters Subtab</h4>
+            <p>Filters added to the <strong>Available Filters</strong> subtab appear as dropdowns when users view the search results. This lets users adjust the search without editing the definition. Use this for date ranges, status filters, or any criteria users might want to customize.</p>
+        </div>
+
+        <div class="concept-box">
+            <h4>🎯 Key Takeaways</h4>
+            <ul>
+                <li>Criteria follow the <strong>Field → Operator → Value</strong> pattern</li>
+                <li>Use <strong>"is any of"</strong> for multiple allowed values</li>
+                <li>Use <strong>"is empty"</strong> to find records with missing data</li>
+                <li>All criteria are combined with <strong>AND</strong> logic by default</li>
+                <li>Add user-adjustable filters to the <strong>Available Filters</strong> subtab</li>
+            </ul>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="Module-09-Joined-Data.html" class="nav-btn secondary">← Previous: Joined Data</a>
+            <a href="Module-11-Date-Filters.html" class="nav-btn primary">Next: Date Filters →</a>
+        </div>
+    </div>
+</body>
+</html>

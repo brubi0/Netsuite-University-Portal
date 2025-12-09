@@ -1,0 +1,313 @@
+Building Approval Workflows. In this module, we will introduce you to the concepts and steps required to build approval-based workflows using commonly configured actions and transitions. We will also discuss the various workflow patterns that can be used to configure multiple approval workflows using looping logic that supports multiple approvers.
+
+In this module, we will discuss the following topics-- approval workflow components; common actions and approval workflows; understanding end states; configuring transitions on button clicks; and configuring multiple approvals. Upon the completion of this module, you will be able to list and describe the fundamental processing states required to support approval processing workflows; create a simple approval workflow that uses workflow action groups, and the add button, lock record, and send email actions; configure transitions between states based on button clicks during the approval process; explain the difference between exiting and non-exiting end states and when you would enable the do not exit workflow option on a workflow end state; and configure a multi-approval workflow that uses looping logic to route approvals up the supervisor hierarchy.
+
+While approval processing workflows can take many forms of varying complexity, it is always important to identify the primary components that will be required to support the approval process. Since the typical approval processing workflow often contains numerous states, actions, and transitions. As a result, when just beginning to create approval workflows in SuiteFlow, it can be advantageous to employ a step-based approach that simplifies the development process. More on this in a minute.
+
+But first, let's examine the minimum set of workflow components required to support a basic approval processing workflow-- One entry state representing approval conditions, in this case, state 1 waiting for approval; one or more states representing end conditions, in this case state 2 approved and state 3 rejected; and a minimum of 2 transitions from the waiting for approval state to each end state, from state 1 to state 2 when a record is approved and from state 1 to state 3 when a record is rejected. It's important to note that a third transition could be created from state 3 back to state 1 for re-approval if initially rejected.
+
+Notice the small icon in the lower left corner of state 2. This represents a non-exiting end state. With this configuration, a transition from state 2 back to state 1 is not possible. We will discuss the difference between exiting and non-exiting end states a little bit later in this module. Using a step-based approach to building workflows makes it easier to manage more complex workflows, such as those supporting approval processing.
+
+Let's review the basic steps of building approval-based workflows. First, create the workflow states and buttons. Assuming a simple three-state approval process and workflow, create each state such as waiting for approval, approved, and rejected.
+
+You can configure each add button action in the waiting for approval state. Configure the transitions to go to the appropriate end states. Then execute the workflow and use workflow history to see how the approval process moves from one state to the next based on each button click.
+
+In step two, restrict actions using conditions. Add conditions that restrict the buttons to only the approver. This may also require that you create a workflow field to store the identity of the current approver at any point in the approval process. In step 3, adjust field and record display characteristics, lock records or execute set field display type actions as needed when the record enters various end states to ensure certain individuals do not have the ability to modify the record once it reaches an end state. In step four, define approval statuses.
+
+Create a custom list in NetSuite that stores approval statuses and set it accordingly at each end state. And finally, add notifications. Configure the appropriate send email actions at various states to notify the approver of pending approvals and the submitters and others of the current approval status. Throughout this course, you have gained experience configuring a variety of different actions on both client and server triggers to process records during entry, load and save.
+
+Now let's examine some additional actions that are commonly used in approval processing workflows. Add button, which adds a custom button to a record form, remove button, which removes a standard NetSuite button from a record form, lock record, which makes a record read only by hiding the Edit button, and of course, send email, which sends email notifications to the individuals involved in the approval process. Let's look at a few of these actions in more detail.
+
+The Add Button action is used to add a custom button to a record form. Use the Add Button action to create a button that transitions a record to the next state in a workflow or navigates the user to another page or record in NetSuite. The most common buttons for approval processing workflows are approve and reject buttons, which, when clicked transition the record to an approved or rejected end state. The Add button action can be configured on the following server triggers, before record load and entry.
+
+The Remove button action is used to remove a standard NetSuite button from a record form. You can not use the Remove Button action to remove a custom button added with the Add Button action. To remove buttons added with add button, delete or inactivate the Add Button action itself.
+
+The Remove Button action can be configured on the following server triggers, before record load, and entry. The Lock Record action is used to make a record read-only while in the current state. After the action executes, the Edit button is removed from the record in the browser. To lock a record in multiple end states, add the action to each state.
+
+The Lock Record action can be configured on the following server triggers-- before record load and entry. One of the key components of any approval processing workflow is the configuration of end states, which represent the logical endpoints of the approval process. They are characterized as states having no transitions to other states in the workflow. And a single workflow can have multiple end states.
+
+There are two types of end states that can be configured in SuiteFlow, exiting end states and non-exiting end states. Non-exiting end states halts further processing of a record after the execution of other actions in the state. It can be used to freeze a record at a particular end state of a workflow. It is commonly used in approval processing workflows to prevent further modification of the record. Non-exiting end states are represented by an icon in the lower left corner of the state in the Workflow Manager.
+
+Exiting end states are the default type of end state and are represented by the end arrow in the Workflow Manager. They allow the workflow to continue processing on a record. Any actions configured in the state will be executed every time the record transitions to the state. The do not exit workflow checkbox located on the workflow state definition page is used to specify an end state as non-exiting. It is commonly used in single state workflows and approval-based workflows.
+
+When do not exit workflow is checked, you will see a small cyclical icon in the bottom left corner of the state. To better understand the difference between exiting and non-exiting end states, consider the following simple multi-state approval workflow. Here, do not exit workflow is enabled in state 2, but it is not enabled for state 3.
+
+State 1, waiting for approval, represents the entry state of the workflow and is indicated by the start arrow. At this state, the record waits for a user to either approve or reject the record. If approved, the workflow transitions to state 2, approved. If rejected, the workflow transitions to state 3, rejected.
+
+If the record is approved, you'd probably want to lock the record to prevent the approved record from being modified at a later time. Checking do not exit workflow allows you to configure a locked record action and prevent such modifications from taking place while the record remains in the approved state.
+
+If the record is rejected, you'd probably want to return the record to state one, waiting for approval, where it could be corrected and perhaps resubmitted for approval. In this case, you would uncheck the do not exit workflow option so the record can move through the process again until ultimately approved.
+
+As we discussed earlier, the workflow execution log can be used to troubleshoot workflow execution and the execution of individual actions configured in each state of a workflow. Enabling do not exit workflow will result in cleaner workflow execution logs, since only one log entry will be made for the initial execution of the workflow.
+
+If you deselect do not exit workflow for a particular state, a log entry will be generated every time the record enters that state. In the configuring actions on record submit module, we introduced the transition on configuration which specifies when a workflow transitions from one state to another. It can also be used to set the active workflow trigger on an incoming transition.
+
+In the case of approval-based workflows, buttons are typically used to approve and reject records, which results in a transition to either an approved or rejected end state. Because these transitions occur based on a specific user event, in this case, clicking the approve or reject buttons, you must configure TRANSITION ON to transition only during these button click events.
+
+The TRANSITION ON dropdown list is used to filter transition execution in conjunction with several options in the Conditions section of the workflow transition definition page. TRANSITION ON can be thought of as just another condition. And it will be AND'D together with any of the additional condition options highlighted here.
+
+For example, if you select after record submit from the TRANSITION ON dropdown list and select a save search from the save search condition dropdown list, the transition will only execute during record save, and only when the current record is returned in the save search results.
+
+Let's take a closer look at how TRANSITION ON conditions are evaluated. If TRANSITION ON is left blank, nothing restricts the execution of the transition. This is often referred to as the path of least resistance between two workflow states. A record enters state 1, all actions execute. And the record auto transitions unencumbered to state 2.
+
+If you want to transition on a button click using a button added with the Add button action, select the appropriate button from the EXECUTE ON button dropdown list and make sure TRANSITION ON is left blank. This ensures that the buttons selected from the EXECUTE ON button dropdown list is the only condition evaluated.
+
+If you want to execute a transition when the Save button is clicked, configure TRANSITION ON at before record submit or after record submit. Before record submit and after record submit events are only triggered when the Save button is clicked. They are not triggered when transitioning using a button added with the Add Button action. As a result, the user would need to simultaneously click the NetSuite Save button and the button selected from the EXECUTE ON button dropdown list in order to execute the transition, which is simply not possible.
+
+Here are some key things to remember when creating approval processing workflows. Create all workflow states, transitions, and buttons prior to configuring any actions other than the Add Button action. TRANSITION ON must be set to blank for buttons added with the Add Button action. And the button must be selected from the Execute As button dropdown list.
+
+Do not configure Add Button actions at before or after record submit since only the Save button can cause before and after record submit triggers to occur. Use the Lock Record action to make an entire record read only, or use set field display-type actions to change the display characteristics of individual fields.
+
+Use the Send Email action to notify individuals at various states of the approval process. Create a custom list to define the necessary approval statuses to meet your specific approval workflow requirements. And finally, create a custom record field or workflow specific field to manage approval statuses and current approvers.
+
+In this walk-through, we will create the necessary states and transitions and configure the necessary actions to support a basic approval processing workflow as part of our performance review business process. Before we create the approval workflow itself, we need to create two SuiteBuilder components to support the necessary performance review statuses-- a custom list and a custom record field that references that list.
+
+Let's start with the custom list to store our approval statuses of pending approval approved and rejected. And to do that, I'm going to navigate to Customization, List Records and Fields, Lists. And here you can see we have a handful of custom lists in our training account.
+
+Let's go ahead and create a new one. OK, I'm going to go ahead and call this performance review statuses. Add the ID that I'm going to enter for this particular field, perf review status, again with our SuiteDreams prefix.
+
+And then all I'm going to do is just go ahead and enter the values down here in the values sublist. So the first value is going to be pending approval. The next value is going to be approved. And the third value is going to be rejected.
+
+And that's all I've got to do. So there is my custom list. And now we need to create a custom record field that references that list for display on our record form. So let's go to Customization, List Records and Fields, Record Types.
+
+We're going to go ahead and add the field to our custom performance review record type in this case. And then right down here in my fields sublist, I'm simply going to click on New Field. I'm going to call this field approval status. That's going to be the label as it's displayed on the record entry form.
+
+The ID is ironically enough going to be exactly the same as what we saw before, perf review approval status. The type of field this is going to be is going to be list record because we want to point it to our performance review status list, which is right there, performance review statuses, OK?
+
+I definitely want to store the value. So I want to make sure I enable that option. In the Display subtab, I'm going to set the display type to inline text, which means that when you initially create the record form, the field will be displayed. But it will be non-editable.
+
+And I am going to default a value into it as well. I'm going to go ahead and say I want to default the pending approval value as the default selection in that list. Now, you're probably wondering, well, wait a minute. Can't you use SuiteFlow for that? And you absolutely could.
+
+If I did not want to hard code the default value for this field here using SuiteBuilder at the record level, I could just as easily configure a set field value action in the entry state of a workflow that does this when the new record is being created. Either way is perfectly fine. However this way is a little bit more static, meaning it will affect all users who access the performance review record form. I'll go ahead and save that. And now we're ready to create our new workflow that references this particular status field.
+
+So let's create a brand new approval workflow by going to Customization, Workflow, Workflows New. And I'm going to go ahead and call this workflow performance review approval. And once again, we'll go ahead and enter the all important workflow ID.
+
+The record type is obviously going to be performance review. And the description is going to be pretty generic, approval workflow. And release status is going to remain at testing. Keep instance and history, we'll keep it only when testing as is best practice when testing your workflows. And certainly we want to enable logging so we can use our workflow logs if necessary.
+
+We're going to go ahead and set this up for uncreate initiation only on after record submit. And that's all we need to do here. And let's go ahead and click Save.
+
+So there's my new workflow definition. And one more thing that I want to do real quick is let's go ahead and create the necessary states and basic transitions for the workflow. So let's basically stub this out. And we do need to create a workflow field to round out the workflow definition.
+
+So we've got a couple more things to do here. So first, let's go ahead and lay the basic structure of this approval workflow here in the workspace. I'm going to create another state, another couple states actually. And I'm going to orient them sort of like that.
+
+And I'm going to go ahead and drag the obligatory transition to each one of those states. So maybe we have a waiting for approval state and an approved state. And we have our waiting for approval down to rejected just like that.
+
+Just go ahead and rename these states accordingly. So state 1, waiting for approval, state 2, we'll just simply call approved. And state 3, we'll go ahead and call rejected, right?
+
+Now, in looking at this workflow as we've got it all configured right now-- I'm trying to get the arrows to go the way I want them. But they don't want to seem to do that. There we go, just got to move it up a little closer perhaps. One thing you'll notice about this is the do not exit workflow option on each of our two end states here.
+
+Now, let's think about what will happen when a record comes into this approval workflow. It's going to come into state 1 waiting for approval. The approver is going to either approve or reject that record. And it's going to transition accordingly. But what's going to happen when it gets to state 2 in this current configuration?
+
+Well, what's going to happen is the status will be updated to approved. The record will be locked. But then the record will actually exit out of this state. And the workflow will basically be done processing on that record.
+
+And that's problematic. When you're done with a workflow, particularly an approval processing workflow, you want to make sure the record stays in whatever end state it ends up with. You don't want it being moved out of that final state of the process, OK?
+
+So we need to be able to keep it there. And the only way we can do that is by enabling the do not exit workflow option on our two end states. So I am going to go back and enable each one of those. There we go.
+
+And the next thing we need to do is create a workflow field to store the current approver at any state or any point in the workflow. So right over here, I've just clicked off of the states here in the workspace. And notice I have my Workflow tab. And notice right here, I have a fields subtab underneath workflow. I'm going to go ahead and select fields and then click New Workflow Field.
+
+Now remember, that workflow fields are accessible from any state in the workflow. I'm going to go ahead and call this current approver. I'm going to go ahead and enter an ID as follows. And I'm going to go ahead and make this a list record type field.
+
+And I'm going to connect to the employee, the joined employee record. Remember, our performance review record is joined to the employee record. And that's what I'm going to go ahead and pull in. I want to find out and store in this field whoever the current employee is who's responsible for the next level approval of a record.
+
+I'm going to go ahead and click Save. And notice I get my current approval workflow field listed. So now we are ready to start building out the actions and transitions for our approval workflow.
+
+Let's begin with the configuration of actions in state 1 waiting for approval. We're going to go ahead and configure two actions specifically, well, technically three actions. But the first one is going to be a set field value action which simply sets the value of our current approver workflow field to whoever the current approver is in the supervisor hierarchy. So to do that, we're going to click New Action. We're going to choose Set Field Value.
+
+The trigger that we're going to use is just going to basically be entry, which as you can see is the default. And that's perfectly fine. Record comes into state 1, sets the value of the current approver right off the bat. And so what we're going to do is scroll down in the parameter section.
+
+The field that I want to set the value for is going to be current approver workflow. You can see the workflow designation in parentheses, indicating our workflow field. We're going to set this to the value of the supervisor from the subordinate record, so whoever the subordinate's supervisor is. And we're going to set a condition that only does this when the current approver workflow field is empty.
+
+So if it's already set, we don't want to reset it. So we only want to set at the one time it comes into the workflow, when it's empty. So we're going to go ahead and put a little catch all here that says, only do this when the current approver workflow field is empty. And we'll click Save. I'll go ahead and click Save on that action configuration. And you can see what we have right here.
+
+So set the workflow current approver equal to the subordinate supervisor when the current approver is empty. Now, let's go ahead and add some buttons in this state so our approver has something to approve and reject the record with. And what we're going to do is create a workflow action group for our buttons.
+
+Now, SuiteFlow allows you to execute multiple actions using a single set of conditions using these workflow action groups. And this can be really useful when you are configuring actions that share a set of conditions. And it's also better from a general workflow performance perspective since the less condition evaluations that need to be performed, the better all your workflows are going to perform overall.
+
+So let's go ahead and do that. With state 1 selected, I'm going to come down here and click on the Edit link for that state. Now, right over here, notice I have a new group button right here in my Actions sublist. I'm going to go ahead and click New Group.
+
+I could certainly give it an ID if I wanted to. In this case, I'm not going to worry about it. But what I'm going to do is set the trigger on to be before record loads. So right before the record form is loaded into the user's browser, I want to go ahead and process the actions that I'm ultimately going to add to this group. But I still need to configure one bit of conditional logic here.
+
+I only want to initiate the actions in this group when the user, in this case-- whoever the user is, is equal to, or any of-- I'm going to go way over her to Value Field, the current approver. So as long as the current approver is equal to whoever the current user is of the record, show the buttons. Otherwise don't show the buttons. I'll go ahead and save that. And I'll save the workflow action group.
+
+Now, notice here in the state definition form, I can see the set field value action is executing first, which is great. That's where I want that. That's got to set the value of current approver before I process it. And then I have the group designated as group 1. I can't change that. That's just how it designates it.
+
+I'm going to go ahead and select group 1. And now I'm going to create two actions in this group. If I scroll all the way to the bottom, you can see I have a new action button. I'm going to click New Action. It's going to be an Add Button action. And I'm simply going to call this button approve. That's going to be the label on the button.
+
+If I want to save the record and approve, I can check that box. And that will give me a combination save and approve button in NetSuite as opposed to just save, OK? It's up to you if you want to turn that on or not. And I'm going to go ahead and click Save on that button configuration. I'm going to add a second button action for my reject button, just like that.
+
+So now I've got two Add Button actions inside of my workflow action group that is set to display those buttons only if the current approver is the current user. And I didn't have to save that, but I did anyway. And I probably don't need to save this either. But I will. Notice it's showing my two add buttons actions nested under group one here. And we're all set to go there.
+
+Now, I just need to go ahead and configure the transitions based on the button clicks, OK. So we've got our two buttons. Let's go ahead and configure this transition, so it only transitions when the Approved button is clicked. To do that, I'm going to edit the transition. I'm going to leave transition on blank and simply select my Approve button from the Execute On button dropdown list. And that's all I'm going to do.
+
+Remember, I could certainly put additional conditions on this, which all must be AND'D together and evaluate true in order for this action to execute. But in this case, I'm just doing the basic button. And I'm going to do the same thing for my reject button, all right? And that is transition on button clicks.
+
+Now let's go ahead and do a basic test of our workflow so far to make sure that the statuses, the current approver, and both of our buttons work, OK? What I'm going to do is come up here to Lists, Custom, Performance Review, New. And we'll go ahead and call this Q2 performance review number 6. The subordinate, I'll go ahead and choose Willheim Schueler this time. And we'll give him a rating code of A with a salary increase amount of $5,000. And I'll even leave a description this time, or some comments. Well done.
+
+Notice our approval status from our custom list is being automatically populated with the default status of pending approval. And also notice that it is being displayed in line as we configured it at the record level in SuiteBuilder, all right? Let's go ahead and save that. Let's go to our list of records.
+
+And let's go ahead and view that newly entered record. And let's have a look at our logs to make sure everything looks good. Notice right away that I now have an additional workflow being listed in the active workflows subtab as you can see right here. That's because I can see that the record is currently waiting for approval in state 1.
+
+I can also see that my set field value action is actually executing properly. Because I can see the value of the current approver workflow field right there, which just happens to be me. So let's take a look at workflow history. And really, all I care about is-- I know the rest of this stuff is working. So we're just going to focus our attention on the approval workflow, and specifically state 1 here.
+
+Let's look at the log file. Shrink that down a little bit. Notice that we're coming in under after record submit on a new record creation. The value of our workflow field is set to the current approver, which in this case is Larry Nelson, or employee ID minus 5. You can see that condition evaluates true.
+
+And then when we actually go in and view the record, and this is under subsequent view after we saved it and I click the View button, it logged this series of actions. Notice we have our action group where that particular condition on the action group evaluates true, since I am the current approver, Larry Nelson. Therefore both of the buttons should be visible on the record, I can see that each one of those actually evaluates true, OK? So let's go and take a look.
+
+Notice that I see at the top of the form my Approve and my Reject button. So if I click Approve, it should transition me to state 2. There it goes. If I come down here, notice that the record has transitioned to state 2 approved.
+
+I can see that entry right here. And if I look in workflow history, I can see the transition occur in that log entry now right here, OK. He even shows you the button, as well as the button idea that initiated the transition to state 2 on the approval of the record.
+
+Now, let's configure the actions in states 2 and 3 of our workflow, starting with our approved state. And the actions between each of our end states are going to be pretty much the same only specific to obviously, approval or rejection. So I'm going to walk you through the configuration of the state 2 actions. And then I'll kind of go away and configure the actions for state 3. And then we'll come back and test both at the same time.
+
+So the three actions that we're going to be working with here are going to be a set field value action to set the approval status to approved, a send email action that notifies the subordinate that their performance review has been approved. And then we're going to lock the record. So the record cannot be modified as it stays in the approved state.
+
+So let's go ahead and do this. The first one is going to be our set field value action right there. And we're going to go ahead and just set our approval status to a static value from our list, which just so happens to be approved right there. And that's all I'm going to do. It's a very simple set field value action. Entry is perfectly fine for this trigger. We're going to set it right when we come in to the approved state and set it only once.
+
+The next action is going to be a send email action. And we're going to send the email from the current record, whoever the user is in this case, to the current records subordinate. And we're going to just let them know, hey, in the subject of the email, your performance review has been approved.
+
+And again, I'm just going to duplicate that in the body. I'm not going to get too-- and I'm going to go ahead and add both of my conditions to verify that both subordinate's email is not empty. And the users email is not empty as well, OK? Save, save on the action configuration. And there we have our send email action.
+
+And then one final action that we're going to go ahead and add in here is going to be the lock record action. And this may be the easiest action to configure in SuiteFlow. So to lock a record, you simply select the lock record action. And that's really about it. Sure you can put a condition on there. You can lock records that are returned in specific saved search results.
+
+You could certainly even change the triggers. But in this case, it really doesn't matter. We're just going to go ahead and leave it at the before record load. And just lock the record. There's no real parameters that need to be set here.
+
+So there are our three new actions. Now, what I'm going to do is I'm going to duplicate each of those three actions for my rejected state for rejection. And then we'll come back and we will go ahead and test our state 2 and state 3 actions.
+
+OK, I have finished adding those actions in state 3, as you can see over here. So I'm setting my approval status to rejected. I'm sending an email notification on the rejection to the subordinate. And then once again, we're locking the record in that end state.
+
+So now let's go ahead and test our actions in each of those states. And to do that, I need to create a couple different performance review records. So I'm going to create one for approval and one for rejection.
+
+So performance review new, and I'll go ahead and call this Q2 performance review approve. Let's go ahead and choose-- actually, I'll go ahead and choose John Rittman since I know he has an email address. Give him a rating code. And we'll go ahead and save that record.
+
+I'll create a second one for rejection once again on John Rittman. We will even enter the same values. It doesn't really matter in this case. And we'll save that. There we go.
+
+Now, if I go back to my list of records here, I should be able to look at each one of them individually. Here's my approval record here. If I view that, notice that I do see my approve and reject buttons, OK? I could certainly look at the log. But they're not going to be much different than what we looked at just a moment ago until we actually click the buttons.
+
+So when I click Approve, notice that the approval status is updated to approved here in the record header, OK? Notice that the record is locked. I can see a little lock icon up here next to the record type. And if I scroll down, I should see that the workflow has successfully transitioned to state 2.
+
+Now, if I look at the state 1 log, I should see the button click right here just like we saw before. And then when it transitions to state 2, I can see the set field value action for the approval status, the send email action to my subordinate and then finally the lock record action on subsequent view of that particular record. So everything is executing as expected.
+
+Let's do the same thing for our reject record. I'll go ahead and view that. And we'll reject it. Notice that I can see that it did end up in state 3 here rejected. And once again, looking at the log file, the same exact results, different end state, OK?
+
+Also notice it's showing you here when it sets at the approval status, notice it's not showing you the literal value of approved or rejected. Notice it's showing you the numeric value of the status itself. So what we mean by that is notice that is set to 3 for rejected.
+
+If I actually go out to my custom lists real quick here, just to show this to you, and I bring up our performance review statuses list, notice that each of my statuses after I enter them gets an internal ID. And it just so happens that 3 is my rejected status. So just note that when you're looking at the logs that oftentimes IDs will be logged rather than the literal text-based status in this case. OK, so just be aware.
+
+It is now time for you to complete the required hands-on exercises associated with the topics discussed in this section of the module. To complete the required exercises, refer to your student workbook. When you have finished, you may continue to the next topic.
+
+There are two types of workflow approval patterns that you may choose to build your approval processing workflows, single state and multi-state approval patterns. Single state, or sequential approvals uses a single state to determine if multiple approvals are required, but not at the same time. For example, you may want to have approvals sequentially move up the supervisor hierarchy.
+
+To identify the next approver in the hierarchy, you need to know who the current approver is at any state of the business process. This can be easily identified by opening an employee record and looking at the supervisor field. Consider the workflow diagram shown here. State 1 waiting for approval represents multiple approvers but not at the same time. The first approver, supervisor A might be set in this state with additional approvers set in state 2, more approvers.
+
+There are many ways to determine whether more approvals are required. But here we can assume supervisor C represents the top level in the supervisor hierarchy and is the last approver in that hierarchy. By configuring a custom workflow field called current approver, conditional looping logic can be configured in state 2 that determines whether there are additional approvers based on the value of the current approver supervisor field.
+
+If there are additional approvers, the value of current approver is set to the next supervisor in the hierarchy. And the record is returned to state 1 for approval by the next approver. This looping process continues until the top of the hierarchy is reached at which point the value of current approver becomes null, since supervisor C does not have a supervisor.
+
+The following additional approval scenarios can be created using a single state looping construct. Loop x levels up the supervisor hierarchy. This can be managed by creating a formula that counts the number of times state 2 loops back to state 1. And loop up the supervisor hierarchy until a VP level employee is reached.
+
+This could be implemented by checking the job title of the current approver supervisor. In a multi-state approval pattern, each individual approver is defined in a separate state of the workflow as illustrated here. Unlike a single state approval pattern which uses a looping construct to determine the next approver, multi-state approval patterns do not require an intermediate decisioning state between each approver since the next approver in the process has already been identified.
+
+In this example, approver A approves or rejects the record in state 1. If rejected, the workflow transitions to state 4. If approved, the workflow evaluates the condition on the transition from state 1 to state 2 to determine who to route the record to for secondary approval.
+
+Finally, you might choose to combine both approval patterns to adopt a hybrid approach. In this example, approver A approves the record in state 1. And the record transitions to state 2 where a condition is evaluated to determine if there are more approvers. If so, the record is routed to the next approver for their approval.
+
+This approach combines the conditional looping construct discussed in the single state approval pattern, as well as the routing of the record to a predetermined approver as in a multi-state approval pattern.
+
+In this walk-through, we will use the previous approval workflow to create a processing loop that checks for additional approvers based on the supervisor hierarchy. The workflow will cycle through the supervisor hierarchy in a sequential manner until each approver has provided their approval. Now, let's create a workflow that supports multiple approvers up the supervisor hierarchy. And to do that, we're going to go ahead and use our existing performance review approval workflow that's open right here.
+
+And before we create that workflow, I do want to do one quick thing. Because we're going to have two approval workflows, I want to make sure that only the new one that supports are multiple approvers is actually processing on our performance review record. So what I'm going to do is I'm going to set the release status of this particular workflow to not initiating.
+
+So I'm just going to come over here, edit the workflow definition and set the release status as I mentioned to not initiating. That way it just won't initiate. And I don't have to worry about conflicts when we create new performance review records. I'm going to go ahead and save that. There we go.
+
+And now what I'm going to do is I am going to use this workflow as the basis for our multi-approval workflow. So I'm going to make a copy of the workflow. And to do that, I'm going to come up here to the More link in the upper right corner. And I'm simply going to select Make copy.
+
+Now, when I do that, notice that it reloads the workflow here in the Workflow Manager. I can see that it's now called performance review approval 2. So let's go ahead and modify this definition a little bit. I'm going to come over here and click the little edit icon.
+
+And I'm just going to go ahead and call this performance review multiple approval. Actually, before I do that, let me show you something. Notice that it actually creates the ID as follows with the prefix, the NetSuite prefix for the SuiteBuilder component, in this case a custom workflow. And then our IDs that we've been entering with our SDR prefix.
+
+Now, in this case, I may want to actually change that ID. And I can certainly do that. I can come right up here and click the Change ID button. It warns you that you're about to change the ID and that you need to make sure that there are now no scripts that reference these IDs that you may break if you change them. But in this case, it's fairly benign.
+
+But I am going to go ahead and paste in the following. I'm just going to call it multi-approve, just to give it a slightly different ID. I going to save that. And you can see the entry right here.
+
+Everything else is pretty much going to stay the same, except I am going to just change my description a little bit. I'll call this multi-approval workflow. And I need to set my release status.
+
+Because recall, we changed the workflow that was the foundation for this new workflow to not initiating. So I am going to set this back to testing so we can verify that it processes successfully using the workflow logs. Everything else like I mentioned, is going to stay exactly the same.
+
+So I'm just going to go ahead and save this updated. Actually, let me go ahead and change my name of the workflow. I almost forgot, call it multiple approvals. And let's go ahead and save that. There we go.
+
+Now, let's go ahead and stub out our workflow to account for our looping construct that's going to check for more approvers. So we do need to add at least one more state to our workflow that actually performs this logic and sends the workflow back to the waiting for approval state when there are more approvals.
+
+So let's create a new state. There we go. Let me just move this out of the way for a second. Let me make some more room. Because I'm going to nestle that right in between my two end states, something like this, as an intermediary state visually in the process.
+
+And now I'm going to go ahead and create and modify my transitions accordingly. So what we want to say here is, when there is approval that occurs in state 1, I want to route the record to the next state, which we're going to call state 1A. And we'll just ask a question here. Are there more approvers?
+
+That's what we'll call this. This is where we're going to have our conditional logic that checks to see if there are more approvers. So what we want to have is instead of this transition on the Approve button going to state 2 right away, we want to have that come into state 1.
+
+So what I'm going to do is modify this transition by selecting it here, coming over and editing that transition and simply changing the target state to state 1A, more approvers. And I certainly could delete the transition and then just re-add a new transition from state 1 to state 1A. But it's just as easy just to change the transition configuration. So now we have our transition from state 1 to state 1A on the Approve button.
+
+What happens if there are more approvers? If this condition that we're going to create evaluates true, we need to send that record back to state 1. So watch what I do here. I'm simply going to take the little half circle from my transition and drag a transition back to state 1. That's all I'm going to do, all right?
+
+We're going to configure some of these transitions a little bit later. But right now we're just stubbing out the general flow of how we want the record to move through the process. When it's approved, check for more approvers. If there are more approvers, send it back for the next person's approval.
+
+Now, if there are no more approvers, when the record is approved, we want to send that to our end state approved. If it's rejected at any point in time during the process, regardless of if it's the first approver or the last approver in the hierarchy, just send it to the rejected state. So this is the general flow of what we're looking for.
+
+Now we can go ahead and configure the individual actions in our new state and configure our transitions accordingly. Let's start with the configuration of the conditions and actions in state 1A. Now, think about what's happening once again here. There's an approver that's set when we come into the workflow by virtue of this set field value right here that sets whoever the selected subordinate supervisor is as the current approver.
+
+Assuming they approve the performance review, it's going to come into state 1. It's going to check for more approvers. So we need to have a set field value action in this state that says, when the record comes in, reset who the approver is based on whoever the next approver in the hierarchy is likely to be, OK?
+
+So here's what we're going to do. What I'm going to do is I'm going to come over here and create a new set field value action. We're going to put it on the entry triggers right when we come into this state. That's perfectly fine. And the field is going to be our current approver field, our workflow field.
+
+And we're going to set that to the value of a field from the current approver workflow field, or join field, and that's going to be whoever the supervisor is. So take whoever the current approver is and find out who their supervisor is and set the value. That's what's bumping it up, the supervisor hierarchy right there.
+
+Now, we don't need to place a condition on this since we are using an empty current approver as the trigger to transition to the approved state. And you're going to see that here when we modify our transitions in just a second. It's all transitioned based, so we don't need specific conditions on this action, OK?
+
+Now, when you go through your module exercise for multiple approvers, you're going to implement this a little bit differently. Instead of checking for the value of current approver like we're doing, you're going to use a custom checkbox field to determine whether the record transitions to either the end state for approvals or whether it goes back to state 1 for more approvals. So a slightly different implementation of the same looping logic.
+
+But let's go ahead and just save this action here. There we go. And now what we can do is we can go ahead and modify our transitions. So what we want to do is we want to make sure that this particular transition from state 1 to state 1A occurs on our reprove review button click. And as you can see, it most certainly does.
+
+What we're going to do is we're going to add a condition on the transition from state 1A to state 2 to only perform this transition when the current approver workflow field is empty, or null. That means there's no more approvers. So if it was approved, the path of least resistance sends it to the approved state.
+
+So what I'm going to do here is modify the transition and simply put a condition that says, only do that when the current approver workflow field is empty, or null, OK? We'll save that. And we'll save that transition configuration. And I can see that right here.
+
+We also need to add a condition on the transition from state 1A back to state 1. So I am going to select this transition right here. And we're going to set this just the opposite of what we just set this one to.
+
+We only want to transition when the current approver workflow field is not empty. So let's go ahead and add that condition. Current approver workflow, not empty. So there's your loop, all right?
+
+So once again, a record comes into state 1. If it's approved, it's automatically routed to state 1A where it checks to see if there are more approvers in the hierarchy. If there are, it sends it back to state 1A and it waits for re-approval. Once all approvals have been provided, it gets routed to state 2 approved. If it's rejected at any point, it automatically routes by virtue of the reject review button to state 3.
+
+Let's go ahead and test our workflow. In order to properly test this workflow, we need to understand the approval hierarchy. We're going to be logging in as Fiona Small, who just happens to be a manager in our SuiteDream's training account.
+
+She's going to login and create a performance review record for one of her subordinates by the name of Aubrey Pober. Once Fiona has approved her performance review, it's going to be routed up the supervisor hierarchy to Fiona's manager, who is James Rawlings. He will log in, provide approval. And that process will continue all the way up the hierarchy to John Rittman and finally to Larry Nelson for final approval. So let's go ahead and do that.
+
+I'm going to log out as Larry Nelson. And let's go ahead and log in as Fiona Small here. I'm going to enter her email address in for this training account. And the first thing that you need to understand when you log in to test this workflow, when you build it in your exercises is that the location of the performance review records is a little different in this login because at the center that is assigned to Fiona Small.
+
+So you'll find the performance review records under customers all the way down at the bottom under Custom and then performance review. So let's go ahead and create a new record. I'm going to call this Q2 review. And then I'll put the actual subordinate name in the title here.
+
+I'll choose Aubrey Pober as the subordinate. It will be a salary change performance review type. And I'll give her a rating code of B. She did a pretty good job this quarter. And we'll give her a salary increase amount.
+
+I'm going to go ahead and save that record. And let's examine the log files when that record saves. Let's go to our list of records here and take a look at what we have. Here's the record right here.
+
+Now, because I've logged in as Fiona Small, when I view this record I should be the current approver. And I should see both Approve and Reject review buttons. And sure enough, I do.
+
+Now, if we come down here and look at the logs under workflow history, we can clearly see that the performance review multiple approvals workflow is in fact running and waiting in state 1 for Fiona Small to approve the record. So I can see the value of current approver right here, all right?
+
+Now, let's go ahead and approve the review. The review has been approved by Fiona. If I come down here, notice that workflow history has now re-executed that workflow. It transitioned to state 1A, more approvers. And it said, are there more approvers? Is there a manager above Fiona Small?
+
+And in fact, there is. And it's James Rawlings. So it reset the current approval to James Rawlings, and now it's waiting for his approval. So let's logout as Fiona and login as James Rawlings.
+
+Once again, I'll navigate to Customers, Custom Performance Reviews. I'll bring up that record. Let me make sure I'm bringing up the right record. It's the Aubrey Pober record, which is right here. And notice, I have my approve buttons. I'll go ahead and approve this one.
+
+And if we look in workflow history, I should see once again entries for that looping logic again. Notice it went ahead, checked for more approvers. It said, yep, there is. Your manager is John Rittman. And it assigned the field accordingly.
+
+So this process is going to continue until we get to the very end of the process. So let me go ahead and work through this. And you can see as I go through it how this all works.
+
+I'll log in as Mr Rittman here. Go ahead and bring up that record, again, providing approval. Looking at my workflow history entries, it's now waiting for final approval by our administrator, Larry Nelson, who is at the top of the supervisor hierarchy. So let's go ahead and just log in as Larry Nelson and complete this process, all right, there is the record.
+
+And once again I'm going to click Approve for final approval. And now if I go into workflow history, before when I was approving the records as our standard users, I didn't have access to the execution logs. Remember, those are only visible when you have administrator privileges, which those other users do not. But now I can see the individual logs.
+
+I'm not going to open those up. I think you kind of know what's going on in there. I encourage you to definitely pop those open if you're curious to see how the actions and transitions are logging themselves for each state in this multi-approval workflow. But you can clearly see that once Larry Nelson provided that final approval, notice that state 1A, more approvers, if I do look at the log file for this one, you will see that this actually was set to blank.
+
+There were no more approvers. So it actually set it to blank. And that's why it actually transitioned directly to state to approved as the final state in the process, OK? You can clearly see that right here.
+
+It is now time for you to complete the required hands on exercises associated with the topics discussed in this section of the module. To complete the required exercises, refer to your student workbook. When you have finished, you may continue with the next module. This concludes the Building Approval Processing Workflows module.

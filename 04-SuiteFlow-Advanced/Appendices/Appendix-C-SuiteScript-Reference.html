@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appendix C: SuiteScript Reference - SuiteFlow Advanced Workflows</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #0f0f1a; line-height: 1.6; color: #e0e0e0; }
+        .header { background: linear-gradient(135deg, #e94560 0%, #0f3460 100%); color: white; padding: 40px 20px; }
+        .header-content { max-width: 1200px; margin: 0 auto; }
+        .breadcrumb { font-size: 0.9em; margin-bottom: 15px; opacity: 0.9; }
+        .breadcrumb a { color: white; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.3); }
+        h1 { font-size: 2.5em; font-weight: 700; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        .content-section { background: #1a1a2e; border-radius: 15px; padding: 40px; margin-bottom: 30px; }
+        .content-section h2 { color: #fff; font-size: 1.8em; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 3px solid #e94560; }
+        .content-section h3 { color: #e94560; font-size: 1.4em; margin-top: 30px; margin-bottom: 15px; }
+        .content-section p { color: #ccc; line-height: 1.8; margin-bottom: 15px; }
+        .content-section ul { margin-left: 30px; margin-bottom: 20px; }
+        .content-section li { margin-bottom: 10px; color: #ccc; }
+        .comparison-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        .comparison-table th, .comparison-table td { padding: 15px; text-align: left; border-bottom: 1px solid #333; }
+        .comparison-table th { background: linear-gradient(135deg, #e94560 0%, #0f3460 100%); color: white; }
+        .comparison-table tr:hover { background: rgba(233,69,96,0.1); }
+        .code-block { background: #0a0a12; border-radius: 8px; padding: 20px; margin: 15px 0; font-family: 'Courier New', monospace; color: #4caf50; overflow-x: auto; font-size: 0.9em; white-space: pre; }
+        .info-box { padding: 20px; border-radius: 8px; margin: 25px 0; border-left: 4px solid; }
+        .info-box.blue { background: rgba(33,150,243,0.1); border-left-color: #2196f3; }
+        .info-box.purple { background: rgba(156,39,176,0.1); border-left-color: #9c27b0; }
+        .info-box h4 { margin-bottom: 10px; font-weight: 600; }
+        .info-box.blue h4 { color: #2196f3; }
+        .info-box.purple h4 { color: #9c27b0; }
+        .nav-btn { display: inline-block; padding: 15px 30px; border-radius: 25px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; background: rgba(255,255,255,0.1); color: #fff; margin-top: 30px; }
+        .nav-btn:hover { transform: translateY(-2px); background: rgba(255,255,255,0.2); }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="breadcrumb"><a href="../Master-Dashboard.html">← Course Overview</a> / Appendix C</div>
+            <h1>💻 Appendix C: SuiteScript Reference</h1>
+            <p style="margin-top: 10px; opacity: 0.9;">Workflow Action Scripts & Integration Functions</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="content-section">
+            <h2>Workflow Action Script Template</h2>
+            <div class="code-block">/**
+ * @NApiVersion 2.x
+ * @NScriptType WorkflowActionScript
+ */
+define(['N/record', 'N/log'], function(record, log) {
+
+    function onAction(scriptContext) {
+        var newRecord = scriptContext.newRecord;
+        var workflowId = scriptContext.workflowId;
+        
+        // Your custom logic here
+        
+        return 'SUCCESS'; // Return value to workflow
+    }
+
+    return {
+        onAction: onAction
+    };
+});</div>
+        </div>
+
+        <div class="content-section">
+            <h2>Script Context Properties</h2>
+            <table class="comparison-table">
+                <thead>
+                    <tr><th>Property</th><th>Description</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>scriptContext.newRecord</td><td>Record being processed</td></tr>
+                    <tr><td>scriptContext.oldRecord</td><td>Previous version (on edit)</td></tr>
+                    <tr><td>scriptContext.workflowId</td><td>Internal ID of workflow</td></tr>
+                    <tr><td>scriptContext.type</td><td>Event type (create, edit, etc.)</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="content-section">
+            <h2>Workflow API Functions</h2>
+
+            <h3>workflow.initiate()</h3>
+            <p>Initiates a workflow on demand (equivalent to Initiate Workflow action).</p>
+            <div class="code-block">var workflowId = workflow.initiate({
+    recordType: 'customrecord_perf_review',
+    recordId: 123,
+    workflowId: 'customworkflow_approval'
+});</div>
+
+            <h3>workflow.trigger()</h3>
+            <p>Wakes up a running workflow and triggers a virtual button click.</p>
+            <div class="code-block">var workflowId = workflow.trigger({
+    recordType: 'customrecord_perf_review',
+    recordId: 123,
+    workflowId: 'customworkflow_approval',
+    actionId: 'custworkflow_approve_btn'
+});</div>
+
+            <div class="info-box blue">
+                <h4>📋 SuiteScript 1.0 Equivalents</h4>
+                <p><strong>nlapiInitiateWorkflow()</strong> and <strong>nlapiTriggerWorkflow()</strong> provide the same functionality in SS 1.0.</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Deployment Steps</h2>
+            <ol>
+                <li>Upload script file to File Cabinet</li>
+                <li>Create Script Record (Script Type = Workflow Action)</li>
+                <li>Create Deployment (Status = Released)</li>
+                <li>Configure any custom parameters</li>
+                <li>In workflow: Add Custom Action → Select deployed script</li>
+            </ol>
+        </div>
+
+        <div class="content-section">
+            <h2>Best Practices</h2>
+            <ul>
+                <li>✓ Use built-in SuiteFlow actions when possible</li>
+                <li>✓ Avoid resource-intensive operations in scripts</li>
+                <li>✓ Use scheduled scripts for batch operations</li>
+                <li>✓ Return meaningful values for workflow conditions</li>
+                <li>✓ Use APM to identify performance bottlenecks</li>
+            </ul>
+
+            <div class="info-box purple">
+                <h4>💡 Performance Tip</h4>
+                <p>Workflows wait synchronously for scripts to complete. For complex batch operations, initiate a scheduled script to process asynchronously.</p>
+            </div>
+        </div>
+
+        <a href="../Master-Dashboard.html" class="nav-btn">← Back to Course Overview</a>
+    </div>
+</body>
+</html>

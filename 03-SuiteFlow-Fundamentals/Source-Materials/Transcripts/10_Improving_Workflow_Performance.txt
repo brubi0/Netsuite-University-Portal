@@ -1,0 +1,57 @@
+Improving Workflow Performance-- the purpose of this module is to provide useful tips and best practices to improve workflow processing performance through a discussion of some of the undocumented backend processes that occur during workflow execution.
+
+By implementing the tips and best practices that we will be discussing, you can improve your organization's overall workflow processing performance. That said, measuring the processing performance of workflows can be somewhat challenging. Tools, such as Chrome's developer tools and NetSuite application Performance Management SuiteApp provides some general timings for workflow and script processing on records.
+
+But they don't provide the level of detail needed to determine, where specific performance bottlenecks are occurring in those workflows and scripts. While many of the performance tips we will discuss result in minuscule performance gains saving just a few milliseconds of processing time during workflow execution can improve overall workflow performance, particularly when thousands or even millions of records are being processed across a large number of user sessions.
+
+Keep this in mind, as we review each tip and best practice in this module. In this module, we will discuss performance tips and best practices associated with the following SuiteFlow concepts-- workflow design, workflow initiation, workflow conditions, processing workflows and actions at after record submit, in workflow logging.
+
+Upon the completion of this module, you will be able to list several tips and best practices associated with workflow design, workflow initiation, constructing appropriate conditions, and reducing workflow logging to improve overall workflow performance, and describe the performance issues that can arise when processing multiple workflows and Set Field Value actions at After Record Submit.
+
+Many of the tips and techniques discussed in this section, reinforce proper workflow design principles, while there are several factors that may affect workflow processing performance, poorly designed workflows are the most common. The first performance tip is adopt in modularized approach to the design and configuration of your workflows.
+
+Don't try and do too much in any one workflow. Consider the nature of the processing performed by each workflow and modularize as necessary. Breaking workflows up into smaller processing chunks is always better. Separate workflow processing between client triggered and server triggered initiation in action and script execution. This allows for easier troubleshooting by separating actions configured on client triggers from those configured on server triggers.
+
+Leveraged sub-workflows, where parent workflows initiate child sub-workflows to handle additional processing tasks on a record. This provides better control over workflow execution order while facilitating troubleshooting. While the design of your workflows is one of the most critical aspects of well-performing workflows, executing workflows only when absolutely necessary to begin with is of equal importance.
+
+One of the easiest ways to prevent workflows from executing unnecessarily is through the configuration of proper workflow conditions. Performance tip number 1 is configure workflow initiation conditions. So workflows only execute, when all configured conditions have been met and the workflow actually has something to process on records.
+
+It's better to define conditions that prevent a workflow from initiating on a record altogether rather than executing a workflow. And then evaluating additional conditions that simply transitions the record to an end state and exits without processing the record in any way.
+
+Performance tip number 2 is select the appropriate event type and context and configure appropriate workflow conditions to limit workflow initiation. Consider the CSV import execution context. Importing large numbers of records via CSV import is a common practice by many customers.
+
+If there is specific processing that you want to isolate to only the records being imported, you can set the context field to CSV import, which prevents workflow processing on non-imported records. Customers should only initiate workflows during bulk data imports, when absolutely necessary.
+
+However, not specifying either of these conditional fields may initiate workflows on records unnecessarily, resulting in reduced workflow processing performance during record load or save events. Performance tip number 3 is use caution when selecting all as the trigger type during workflow execution, as this can cause the workflow to execute in situations, when it may not be appropriate.
+
+The all trigger provides customers with the freedom to initiate workflows in situations, where a standard server trigger is not applicable. NetSuite can't possibly account for all the situations in which a customer may want to initiate a workflow on a record. Customers who want to initiate a workflow during any interaction with a record can certainly use the all trigger.
+
+However, as a best practice, we recommend always selecting the most appropriate server trigger either before record load, before record submit or after record submit to prevent unnecessary and potentially undesirable workflow execution. As we have already discussed, conditions play a huge role in the efficient processing of workflows, actions, and transitions.
+
+Poorly constructed conditions can have an enormous impact on workflow processing. Here are some performance tips associated with the proper configuration of conditions. First-- limit the use of old record from the value field column, when evaluating the persisted value in the database with the value updated in memory by the user.
+
+Whenever referencing old record in the value field in a condition, the old records stored in the database is reloaded on the server during condition evaluation, which can impact workflow processing performance. Performance tip number 2 is limit the use of saved search conditions whenever possible for event based workflow, action, and transition execution.
+
+Evaluating saved search criteria can impact performance, when specified on individual action and transition conditions. As an alternative, consider using standard conditions or formulas. If you absolutely must use a saved search condition, configure it as early in the workflow execution cycle as possible, such as during initial workflow execution rather than on individual workflow actions. This way the saved search is only evaluated once rather than multiple times for each action.
+
+Performance tip number 3 is limit the use of conditions that contain joins unrelated record fields. Conditions created using the Visual Builder are converted into SQL queries during workflow execution. The more related record fields that exist in workflow conditions, the more complex the SQL queries become which can result in reduced workflow processing performance.
+
+When configuring conditions on join records, consider the following alternatives to using the Visual Builder. Consider using SQL formulas. Doing so provides more control over the conditional logic, which can be beneficial when creating complex database queries.
+
+Even though conditions created using the Visual Builder are translated into SQL code during execution, there is no significant noticeable impact on performance. You can also create custom record fields and source in the necessary values from the related record before evaluating the condition rather than doing a straight join on the related record. Doing so can improve workflow performance significantly, especially if there are multiple fields from the related record being evaluated in the condition.
+
+To better understand the tips and best practices associated with the configuration of Workflows and Actions at after Record Submit, you must first understand the default back and behavior of NetSuite when processing workflows on Save events. When processing multiple workflows at after record submit, the records on which each workflow is running are all reloaded on the server as illustrated here.
+
+Based on this default behavior, consider the following tips and best practices. Performance tip number 1-- Execute Set Field Value actions at Before Record Submit rather than After Record Submit whenever possible. This sets field values and performs the necessary data validations while the record is loaded in server memory rather than during the subsequent database commit event.
+
+During record processing a second safe event occurs only if a change was made to the record by one of the running workflows using a Set Field Value action or any associated scripts. For data heavy records, such as sales and purchase orders, the second load and subsequent save event could have a significant impact on workflow processing.
+
+Now let's briefly discuss the default behavior associated with the processing of actions at after Record Submit. In workflows containing multiple Set Field Value actions set to execute during record save, the record is reloaded and subsequently saved only once and not for each instance of the Set Field Value action.
+
+Based on this default behavior, in situations where a workflow sets the initial value of fields using a Set Field Value action that will never change, avoid repeated execution of the Set Field Value action on those fields. To prevent these unnecessary save events, the execution of Set Field Value actions should be guarded by a condition which evaluates whether the value of the field has changed.
+
+If there is no updated value to be set, then no additional save event will be performed. As we discussed previously, you should always configure Set Field Value Actions on before Record Submit whenever possible to prevent the second safe event on records. However, even when configuring Set Field Value on before Record Submit, other workflows and scripts running on the record may require the update of the record, therefore triggering a second save event anyway.
+
+Unnecessary workflow logging can also have an impact on overall workflow processing. To prevent unnecessary logging, set the Release Status and Enable Logging options accordingly. When updating a workflows Release Status to released, it is recommended that you uncheck enable logging to reduce the amount of logging that occurs when processing workflows in a production environment.
+
+When logging is turned off, error logs are still generated but will only display server processing errors and not event based errors. This concludes the Improving Workflow Performance module.

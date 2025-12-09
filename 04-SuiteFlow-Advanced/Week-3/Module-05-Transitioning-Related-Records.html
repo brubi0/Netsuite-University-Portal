@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 5: Transitioning on Related Records - SuiteFlow Advanced Workflows</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #0f0f1a; line-height: 1.6; color: #e0e0e0; }
+        .header { background: linear-gradient(135deg, #e94560 0%, #0f3460 100%); color: white; padding: 40px 20px; }
+        .header-content { max-width: 1200px; margin: 0 auto; }
+        .breadcrumb { font-size: 0.9em; margin-bottom: 15px; opacity: 0.9; }
+        .breadcrumb a { color: white; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.3); }
+        .module-title-section { display: flex; align-items: center; gap: 20px; }
+        .module-number { background: rgba(255,255,255,0.2); width: 80px; height: 80px; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 2em; font-weight: 700; }
+        h1 { font-size: 2.5em; font-weight: 700; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        .objectives-box { background: #1a1a2e; border-radius: 15px; padding: 30px; margin-bottom: 30px; border-left: 5px solid #e94560; }
+        .objectives-box h2 { color: #e94560; margin-bottom: 20px; }
+        .objectives-box ul { list-style: none; padding: 0; }
+        .objectives-box li { padding: 10px 0 10px 30px; position: relative; color: #ccc; }
+        .objectives-box li::before { content: "✓"; position: absolute; left: 0; color: #e94560; font-weight: bold; }
+        .content-section { background: #1a1a2e; border-radius: 15px; padding: 40px; margin-bottom: 30px; }
+        .content-section h2 { color: #fff; font-size: 1.8em; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 3px solid #e94560; }
+        .content-section h3 { color: #e94560; font-size: 1.4em; margin-top: 30px; margin-bottom: 15px; }
+        .content-section p { color: #ccc; line-height: 1.8; margin-bottom: 15px; }
+        .content-section ul, .content-section ol { margin-left: 30px; margin-bottom: 20px; }
+        .content-section li { margin-bottom: 10px; color: #ccc; }
+        .info-box { padding: 20px; border-radius: 8px; margin: 25px 0; border-left: 4px solid; }
+        .info-box.blue { background: rgba(33,150,243,0.1); border-left-color: #2196f3; }
+        .info-box.yellow { background: rgba(255,193,7,0.1); border-left-color: #ffc107; }
+        .info-box.green { background: rgba(76,175,80,0.1); border-left-color: #4caf50; }
+        .info-box.purple { background: rgba(156,39,176,0.1); border-left-color: #9c27b0; }
+        .info-box h4 { margin-bottom: 10px; font-weight: 600; }
+        .info-box.blue h4 { color: #2196f3; }
+        .info-box.yellow h4 { color: #ffc107; }
+        .info-box.green h4 { color: #4caf50; }
+        .info-box.purple h4 { color: #9c27b0; }
+        .comparison-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        .comparison-table th, .comparison-table td { padding: 15px; text-align: left; border-bottom: 1px solid #333; }
+        .comparison-table th { background: linear-gradient(135deg, #e94560 0%, #0f3460 100%); color: white; }
+        .comparison-table tr:hover { background: rgba(233,69,96,0.1); }
+        .key-takeaways { background: linear-gradient(135deg, #e94560 0%, #0f3460 100%); color: white; border-radius: 15px; padding: 30px; margin: 30px 0; }
+        .key-takeaways h3 { color: white; margin-bottom: 20px; font-size: 1.5em; }
+        .key-takeaways ul { list-style: none; padding: 0; }
+        .key-takeaways li { padding: 12px 0 12px 30px; position: relative; opacity: 0.95; }
+        .key-takeaways li::before { content: "★"; position: absolute; left: 0; }
+        .navigation { display: flex; justify-content: space-between; margin-top: 40px; gap: 20px; flex-wrap: wrap; }
+        .nav-btn { display: inline-flex; align-items: center; padding: 15px 30px; border-radius: 25px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; flex: 1; justify-content: center; min-width: 200px; }
+        .nav-btn-primary { background: linear-gradient(135deg, #e94560 0%, #0f3460 100%); color: white; }
+        .nav-btn-secondary { background: rgba(255,255,255,0.1); color: #fff; }
+        .nav-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(233,69,96,0.3); }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="breadcrumb">
+                <a href="../Master-Dashboard.html">← Course Overview</a> / 
+                <a href="week-3-dashboard.html">Week 3</a> / Module 5
+            </div>
+            <div class="module-title-section">
+                <div class="module-number">05</div>
+                <div>
+                    <h1>Transitioning on Related Records</h1>
+                    <p style="margin-top: 10px; opacity: 0.9;">Subscribe to Record and Join Concepts</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="objectives-box">
+            <h2>🎯 Learning Objectives</h2>
+            <p style="color: #999; margin-bottom: 15px;">Upon completion of this module, you will be able to:</p>
+            <ul>
+                <li>Use the Subscribe to Record action to monitor changes to related records</li>
+                <li>Perform automatic transitions based on changes to related record data</li>
+                <li>Understand record joins and how data is shared between workflows</li>
+            </ul>
+        </div>
+
+        <div class="content-section">
+            <h2>Data Sharing Between Workflows</h2>
+            
+            <p>Before diving into related records, let's review which field types can share data between workflows:</p>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Field Type</th>
+                        <th>Can Share?</th>
+                        <th>Reason</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Workflow Instance Fields</td>
+                        <td>❌ No</td>
+                        <td>Private to specific workflow</td>
+                    </tr>
+                    <tr>
+                        <td>Workflow State Fields</td>
+                        <td>❌ No</td>
+                        <td>Private to specific state</td>
+                    </tr>
+                    <tr>
+                        <td>Standard Record Fields</td>
+                        <td>✅ Yes</td>
+                        <td>Record-level, available to all workflows</td>
+                    </tr>
+                    <tr>
+                        <td>Custom Record Fields</td>
+                        <td>✅ Yes</td>
+                        <td>Record-level, available to all workflows</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="info-box yellow">
+                <h4>⚠️ Important for Subscribe to Record</h4>
+                <p>Understanding which fields can pass data between workflows is critical when configuring the Subscribe to Record action.</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Understanding Record Joins</h2>
+
+            <p>A <strong>join</strong> is the ability to access another record type's data in the context of the base record that the workflow is running on.</p>
+
+            <h3>Example: Sales Order Joins</h3>
+            <p>A Sales Order record has its own fields, but also has several <strong>joined (related) records</strong>:</p>
+            <ul>
+                <li>Employee record</li>
+                <li>Item record</li>
+                <li>Customer record</li>
+            </ul>
+
+            <p>Joins are defined at the record level by specifying the list record you want to join to the base record. Once established, these are referred to as <strong>related records</strong>.</p>
+        </div>
+
+        <div class="content-section">
+            <h2>The Subscribe to Record Action</h2>
+
+            <p>The <strong>Subscribe to Record</strong> action allows you to monitor a related record for data changes. When the related record value changes, the workflow "wakes up" and evaluates transition conditions.</p>
+
+            <h3>Fields You Can Monitor</h3>
+            <ul>
+                <li>Workflow instance and state fields (note: cannot pass between workflows)</li>
+                <li>Standard and custom record fields</li>
+                <li>Fields returned by the Create Record action</li>
+                <li>Fields returned by a Workflow Action Script</li>
+            </ul>
+
+            <div class="info-box blue">
+                <h4>📋 Key Concept</h4>
+                <p>Subscribe to Record is used with <strong>transitions</strong>, not actions. Changes to subscribed records do not cause Before/After Record Submit events—the only valid transition trigger is <strong>blank</strong>.</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Configuration Process</h2>
+
+            <h3>Step 1: Execute Subscribe to Record Action</h3>
+            <p>Configure the action to subscribe to the related record you want to monitor.</p>
+
+            <h3>Step 2: Evaluate Changes in Transition Condition</h3>
+            <p>Configure a transition that evaluates the subscribed record's data for changes.</p>
+
+            <h3>Using with Create Record Action</h3>
+            <p>When using Subscribe to Record with Create Record:</p>
+            <ol>
+                <li><strong>Create Record</strong> action creates the related record</li>
+                <li>Store results in a <strong>custom record field</strong> (Store Results In dropdown)</li>
+                <li><strong>Subscribe to Record</strong> action references that custom field</li>
+                <li>Transition condition evaluates the subscribed record's data</li>
+            </ol>
+
+            <div class="info-box green">
+                <h4>✅ Execution Order</h4>
+                <p>Subscribe to Record must execute <strong>after</strong> Create Record (when subscribing to the created record's fields) but <strong>before</strong> the transition condition evaluates the data.</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Practical Example</h2>
+
+            <h3>Customer Record + Task Record</h3>
+            <p>A workflow running on a Customer record monitors a related Task record:</p>
+
+            <ol>
+                <li><strong>Step 1:</strong> Workflow creates a Task record using Create Record action</li>
+                <li><strong>Step 2:</strong> Task record stored in custom field on Customer record</li>
+                <li><strong>Step 3:</strong> Subscribe to Record action monitors the Task record</li>
+                <li><strong>Step 4:</strong> User updates Task status from "Not Started" to "Completed"</li>
+                <li><strong>Step 5:</strong> Workflow wakes up, evaluates transition condition</li>
+                <li><strong>Step 6:</strong> Transition executes based on Task status change</li>
+            </ol>
+
+            <div class="info-box purple">
+                <h4>💡 Use Case</h4>
+                <p>Perfect for approval workflows where a task completion should trigger the next step in the parent record's workflow.</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Implementation Summary</h2>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Step</th>
+                        <th>Action</th>
+                        <th>Purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Create Record (optional)</td>
+                        <td>Create related record, store in custom field</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Subscribe to Record</td>
+                        <td>Monitor related record for changes</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Configure Transition</td>
+                        <td>Set TRANSITION ON = blank, add condition</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Related Record Updated</td>
+                        <td>Workflow wakes up automatically</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>Transition Evaluates</td>
+                        <td>Executes if condition is true</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="key-takeaways">
+            <h3>🌟 Key Takeaways</h3>
+            <ul>
+                <li><strong>Joins</strong> allow access to related record data from the base record</li>
+                <li><strong>Subscribe to Record</strong> monitors related records for changes</li>
+                <li>Use with <strong>transitions only</strong>—TRANSITION ON must be blank</li>
+                <li>Share data between workflows using <strong>record fields</strong>, not workflow fields</li>
+                <li>When using with Create Record, ensure proper <strong>execution order</strong></li>
+                <li>Store created record reference in a <strong>custom field</strong> for subscription</li>
+            </ul>
+        </div>
+
+        <div class="navigation">
+            <a href="../Week-2/Module-04-Working-Sub-Workflows.html" class="nav-btn nav-btn-secondary">← Previous: Module 4</a>
+            <a href="Module-06-Working-Formulas.html" class="nav-btn nav-btn-primary">Next: Module 6 →</a>
+        </div>
+    </div>
+</body>
+</html>

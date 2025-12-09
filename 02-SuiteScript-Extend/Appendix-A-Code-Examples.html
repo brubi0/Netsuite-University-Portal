@@ -1,0 +1,180 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Appendix A: Code Examples - SuiteScript Learning Hub</title><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"><style>:root{--primary-gradient:linear-gradient(135deg,#667eea 0%,#764ba2 100%);--dark-bg:#1a1a2e;--card-bg:#16213e;--text-primary:#ffffff;--text-secondary:#a0aec0;--border-color:rgba(255,255,255,0.1);--purple:#9f7aea;--success:#48bb78;--code-bg:#0d1117}*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Inter',sans-serif;background:var(--dark-bg);color:var(--text-primary);min-height:100vh;line-height:1.7}.nav-bar{background:var(--card-bg);padding:15px 20px;border-bottom:1px solid var(--border-color);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100}.nav-bar a{color:var(--purple);text-decoration:none}.header{background:var(--primary-gradient);padding:50px 20px}.header-content{max-width:900px;margin:0 auto}.header h1{font-size:2.2rem;margin-bottom:10px}.header p{font-size:1.1rem;opacity:0.9}.container{max-width:900px;margin:0 auto;padding:40px 20px}.content-section{margin-bottom:50px}.content-section h2{font-size:1.5rem;margin-bottom:20px;padding-bottom:10px;border-bottom:2px solid var(--border-color)}.content-section h3{font-size:1.2rem;margin:25px 0 15px 0;color:var(--purple)}.content-section p{margin-bottom:15px;color:var(--text-secondary)}pre{background:var(--code-bg);border-radius:10px;padding:20px;overflow-x:auto;margin:20px 0;border:1px solid var(--border-color)}code{font-family:'JetBrains Mono',monospace;font-size:0.85rem;line-height:1.6}.nav-footer{display:flex;justify-content:space-between;margin-top:50px;padding-top:30px;border-top:1px solid var(--border-color)}.nav-footer a{color:var(--purple);text-decoration:none}</style></head><body><nav class="nav-bar"><a href="Master-Dashboard.html">← Back to Dashboard</a><div style="display:flex;gap:15px"><a href="Appendix-B-Exercises.html">Appendix B →</a></div></nav><header class="header"><div class="header-content"><h1>📚 Appendix A: Code Examples</h1><p>Annotated script templates and reusable patterns</p></div></header><main class="container"><section class="content-section"><h2>User Event Script Template</h2><pre><code>/**
+ * @NApiVersion 2.1
+ * @NScriptType UserEventScript
+ * @NModuleScope SameAccount
+ */
+define(['N/record', 'N/log'], (record, log) => {
+
+    const beforeLoad = (context) => {
+        // Runs before the record is displayed
+        // context.type: create, edit, view, copy, print, email
+        // context.form: the form object
+        // context.newRecord: the record being loaded
+    };
+
+    const beforeSubmit = (context) => {
+        // Runs after Save clicked, before database write
+        // context.type: create, edit, delete, xedit (inline edit)
+        // context.newRecord: record with new values
+        // context.oldRecord: record with previous values (edit only)
+    };
+
+    const afterSubmit = (context) => {
+        // Runs after database save
+        // Good for: sending emails, updating related records
+        const recordId = context.newRecord.id;
+        log.audit('Record Saved', recordId);
+    };
+
+    return { beforeLoad, beforeSubmit, afterSubmit };
+});</code></pre></section><section class="content-section"><h2>Client Script Template</h2><pre><code>/**
+ * @NApiVersion 2.1
+ * @NScriptType ClientScript
+ * @NModuleScope SameAccount
+ */
+define(['N/currentRecord', 'N/log'], (currentRecord, log) => {
+
+    const pageInit = (context) => {
+        // Runs when page loads
+        // context.mode: create, copy, edit
+        const rec = context.currentRecord;
+    };
+
+    const fieldChanged = (context) => {
+        // Runs when a field value changes
+        const fieldId = context.fieldId;
+        const rec = context.currentRecord;
+        
+        if (fieldId === 'quantity') {
+            const qty = rec.getValue('quantity');
+            const rate = rec.getValue('rate');
+            rec.setValue('amount', qty * rate);
+        }
+    };
+
+    const saveRecord = (context) => {
+        // Runs when Save is clicked
+        // Return true to allow save, false to block
+        const rec = context.currentRecord;
+        
+        if (!rec.getValue('email')) {
+            alert('Email is required');
+            return false;
+        }
+        return true;
+    };
+
+    return { pageInit, fieldChanged, saveRecord };
+});</code></pre></section><section class="content-section"><h2>Map/Reduce Template</h2><pre><code>/**
+ * @NApiVersion 2.1
+ * @NScriptType MapReduceScript
+ * @NModuleScope SameAccount
+ */
+define(['N/search', 'N/record', 'N/log'], (search, record, log) => {
+
+    const getInputData = () => {
+        // Return: Search, Array, or Object
+        return search.create({
+            type: 'customer',
+            filters: [['isinactive', 'is', 'F']],
+            columns: ['entityid', 'email']
+        });
+    };
+
+    const map = (context) => {
+        // Process each result from getInputData
+        const data = JSON.parse(context.value);
+        const customerId = data.id;
+        
+        // Write to reduce stage
+        context.write({
+            key: customerId,
+            value: data.values.email
+        });
+    };
+
+    const reduce = (context) => {
+        // Aggregate by key
+        const customerId = context.key;
+        const emails = context.values;
+        
+        log.audit('Customer', customerId + ': ' + emails.join(', '));
+    };
+
+    const summarize = (context) => {
+        // Log errors and summary
+        context.mapSummary.errors.iterator().each((key, error) => {
+            log.error('Map Error', error);
+            return true;
+        });
+        
+        log.audit('Complete', 'Processed ' + context.inputSummary.recordCount + ' records');
+    };
+
+    return { getInputData, map, reduce, summarize };
+});</code></pre></section><section class="content-section"><h2>Suitelet Template</h2><pre><code>/**
+ * @NApiVersion 2.1
+ * @NScriptType Suitelet
+ * @NModuleScope SameAccount
+ */
+define(['N/ui/serverWidget', 'N/record', 'N/log'], (serverWidget, record, log) => {
+
+    const onRequest = (context) => {
+        if (context.request.method === 'GET') {
+            // Display form
+            const form = serverWidget.createForm({ title: 'Custom Form' });
+            
+            form.addField({
+                id: 'custpage_name',
+                type: serverWidget.FieldType.TEXT,
+                label: 'Name'
+            });
+            
+            form.addSubmitButton({ label: 'Submit' });
+            context.response.writePage(form);
+            
+        } else {
+            // Handle POST
+            const name = context.request.parameters.custpage_name;
+            log.audit('Submitted', name);
+            
+            // Redirect or show confirmation
+            context.response.write('Submitted: ' + name);
+        }
+    };
+
+    return { onRequest };
+});</code></pre></section><section class="content-section"><h2>RESTlet Template</h2><pre><code>/**
+ * @NApiVersion 2.1
+ * @NScriptType Restlet
+ * @NModuleScope SameAccount
+ */
+define(['N/record', 'N/log'], (record, log) => {
+
+    const get = (requestParams) => {
+        // Handle GET requests
+        const customerId = requestParams.id;
+        const customer = record.load({
+            type: 'customer',
+            id: customerId
+        });
+        
+        return {
+            id: customer.id,
+            name: customer.getValue('companyname'),
+            email: customer.getValue('email')
+        };
+    };
+
+    const post = (requestBody) => {
+        // Handle POST requests
+        const customer = record.create({ type: 'customer' });
+        customer.setValue('companyname', requestBody.name);
+        customer.setValue('email', requestBody.email);
+        
+        const customerId = customer.save();
+        return { success: true, id: customerId };
+    };
+
+    return { get, post };
+});</code></pre></section><nav class="nav-footer"><a href="Week-8/Module-16-Practical-Scheduler.html">← Module 16</a><a href="Appendix-B-Exercises.html">Appendix B: Exercises →</a></nav></main></body></html>

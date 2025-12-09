@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appendix D: Glossary - SuiteFlow Advanced Workflows</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #0f0f1a; line-height: 1.6; color: #e0e0e0; }
+        .header { background: linear-gradient(135deg, #e94560 0%, #0f3460 100%); color: white; padding: 40px 20px; }
+        .header-content { max-width: 1200px; margin: 0 auto; }
+        .breadcrumb { font-size: 0.9em; margin-bottom: 15px; opacity: 0.9; }
+        .breadcrumb a { color: white; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.3); }
+        h1 { font-size: 2.5em; font-weight: 700; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        .content-section { background: #1a1a2e; border-radius: 15px; padding: 40px; margin-bottom: 30px; }
+        .content-section h2 { color: #fff; font-size: 1.8em; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 3px solid #e94560; }
+        .glossary-item { margin-bottom: 25px; padding-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .glossary-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .glossary-term { color: #e94560; font-size: 1.2em; font-weight: 600; margin-bottom: 8px; }
+        .glossary-def { color: #ccc; line-height: 1.7; }
+        .nav-btn { display: inline-block; padding: 15px 30px; border-radius: 25px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; background: rgba(255,255,255,0.1); color: #fff; margin-top: 30px; }
+        .nav-btn:hover { transform: translateY(-2px); background: rgba(255,255,255,0.2); }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="breadcrumb"><a href="../Master-Dashboard.html">← Course Overview</a> / Appendix D</div>
+            <h1>📖 Appendix D: Glossary</h1>
+            <p style="margin-top: 10px; opacity: 0.9;">Key Terms and Definitions</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="content-section">
+            <h2>A - C</h2>
+            
+            <div class="glossary-item">
+                <div class="glossary-term">After Record Submit</div>
+                <div class="glossary-def">Server trigger that fires after a record is saved to the database. Used for creating related records, sending emails, and integrations.</div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">Before Record Submit</div>
+                <div class="glossary-def">Server trigger that fires after validation but before saving to the database. Preferred for Set Field Value actions to avoid additional save events.</div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">Client Trigger</div>
+                <div class="glossary-def">Events occurring in the user's browser during record create/edit. Includes Before User Edit, Before User Submit, and field-level triggers.</div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">Context</div>
+                <div class="glossary-def">The NetSuite function or feature used to create, view, or update a record (e.g., User Interface, CSV Import, User Event Script, Suitelet).</div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>D - J</h2>
+            
+            <div class="glossary-item">
+                <div class="glossary-term">Execution Context</div>
+                <div class="glossary-def">Restricts workflow processing to specific methods of record manipulation. Configured using the CONTEXTS multi-select field.</div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">Formula</div>
+                <div class="glossary-def">Calculations performed on record fields. SQL formulas work with server triggers; SuiteScript formulas work with client triggers.</div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">Initiate Workflow Action</div>
+                <div class="glossary-def">Action that starts a sub-workflow from a parent workflow, enabling parallel processing on the same record.</div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">Join</div>
+                <div class="glossary-def">The ability to access another record type's data in the context of the base record. Creates a relationship between records.</div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>L - P</h2>
+            
+            <div class="glossary-item">
+                <div class="glossary-term">Loose Coupling</div>
+                <div class="glossary-def">Sub-workflow design where child workflows process independently from parent and each other, without dependencies.</div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">Mass Update</div>
+                <div class="glossary-def">Batch processing of multiple records with running workflow instances. Types: Initiate, Process, Cancel, Transition.</div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">Parallel Processing</div>
+                <div class="glossary-def">Multiple workflows running simultaneously on the same record, often used for parallel approvals.</div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>S - T</h2>
+            
+            <div class="glossary-item">
+                <div class="glossary-term">Scheduled Trigger</div>
+                <div class="glossary-def">Special trigger for time-based execution. The workflow scheduler runs every 30 minutes to evaluate scheduled items.</div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">Server Trigger</div>
+                <div class="glossary-def">Events occurring on NetSuite server. Includes Before Record Load, Before Record Submit, After Record Submit, and Scheduled.</div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">Sub-Workflow</div>
+                <div class="glossary-def">Child business process initiated by a parent workflow using the Initiate Workflow action. Must be on the same base record type.</div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">Subscribe to Record</div>
+                <div class="glossary-def">Action that monitors a related record for changes and triggers transitions when the related record is updated.</div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">Suitelet</div>
+                <div class="glossary-def">Server-side SuiteScript that builds custom NetSuite pages. Can initiate or trigger workflows using workflow.initiate() or workflow.trigger().</div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">Tight Coupling</div>
+                <div class="glossary-def">Sub-workflow design where parent workflow waits for child completion before continuing, creating processing dependencies.</div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>U - W</h2>
+            
+            <div class="glossary-item">
+                <div class="glossary-term">User Event Script</div>
+                <div class="glossary-def">Context for externally triggered server-side actions. Allows workflows to be initiated by scripts rather than user interface events.</div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">Workflow Action Script</div>
+                <div class="glossary-def">Custom SuiteScript that runs within a workflow context, extending SuiteFlow capabilities beyond standard actions.</div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">Workflow Instance Field</div>
+                <div class="glossary-def">Field private to a specific workflow. Cannot be shared between workflows—use record fields instead.</div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">Workflow Scheduler</div>
+                <div class="glossary-def">Background process running every 30 minutes to evaluate and execute scheduled workflows, actions, and transitions.</div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">Workflow State Field</div>
+                <div class="glossary-def">Field private to a specific workflow state. Cannot be shared between states or workflows.</div>
+            </div>
+        </div>
+		
+		<div class="content-section">
+            <h2>🔧 SuiteFlow Actions Reference</h2>
+            <p style="color: #999; margin-bottom: 25px;">Complete list of all workflow actions with descriptions and documentation links.</p>
+            
+            <div class="glossary-item">
+                <div class="glossary-term">Add Button</div>
+                <div class="glossary-def">Add a custom button to a record form. Use Before Record Load trigger. Button disappears if record reloads without re-executing action. <a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_N2740335.html" target="_blank" style="color:#e94560;">📖 Docs</a></div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">Confirm</div>
+                <div class="glossary-def">Display a popup message with OK and Cancel buttons. User must respond before continuing. Use for approval confirmations. <a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_N2744159.html" target="_blank" style="color:#e94560;">📖 Docs</a></div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">Create Record</div>
+                <div class="glossary-def">Create a new record from within a workflow. Can populate fields using current record values. Use After Record Submit trigger. <a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_N2741165.html" target="_blank" style="color:#e94560;">📖 Docs</a></div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">Custom Action</div>
+                <div class="glossary-def">Execute a Workflow Action Script for custom logic beyond standard actions. Extends SuiteFlow with SuiteScript capabilities. <a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_N2752089.html" target="_blank" style="color:#e94560;">📖 Docs</a></div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">Go To Page</div>
+                <div class="glossary-def">Redirect users from a record to a specified NetSuite page. Use for navigation after workflow completion. <a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_N2742608.html" target="_blank" style="color:#e94560;">📖 Docs</a></div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">Go To Record</div>
+                <div class="glossary-def">Redirect users to view or edit a specific record. Can create new records and populate fields from current record. <a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_N2742767.html" target="_blank" style="color:#e94560;">📖 Docs</a></div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">Initiate Workflow</div>
+                <div class="glossary-def">Start a child workflow from within a parent workflow. Enables sub-workflows and parallel processing on the same record. <a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_N2743465.html" target="_blank" style="color:#e94560;">📖 Docs</a></div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">Lock Record</div>
+                <div class="glossary-def">Prevent users from editing the record while in a specific workflow state. Use for approval processes. <a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_N2743672.html" target="_blank" style="color:#e94560;">📖 Docs</a></div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">Remove Button</div>
+                <div class="glossary-def">Remove a button from a record form. Use Before Record Load trigger to ensure consistent removal. <a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_N2740901.html" target="_blank" style="color:#e94560;">📖 Docs</a></div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">Return User Error</div>
+                <div class="glossary-def">Display an error message and prevent record from saving. Use for validation on Before Record Submit trigger. <a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_N2745741.html" target="_blank" style="color:#e94560;">📖 Docs</a></div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">Send Campaign Email</div>
+                <div class="glossary-def">Send an email as part of a marketing campaign. Tracks email metrics and uses campaign templates. <a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_N2746219.html" target="_blank" style="color:#e94560;">📖 Docs</a></div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">Send Email</div>
+                <div class="glossary-def">Send an email notification. Can use templates, attach files, and include record field values. Use After Record Submit trigger. <a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_N2746447.html" target="_blank" style="color:#e94560;">📖 Docs</a></div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">Set Field Display Label</div>
+                <div class="glossary-def">Change the UI label of a field dynamically. Useful for context-specific field naming. <a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_N2750428.html" target="_blank" style="color:#e94560;">📖 Docs</a></div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">Set Field Display Type</div>
+                <div class="glossary-def">Change field display type: Normal, Hidden, Disabled, Inline Text. Control field visibility and editability. <a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_N2750629.html" target="_blank" style="color:#e94560;">📖 Docs</a></div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">Set Field Mandatory</div>
+                <div class="glossary-def">Make a field required or optional based on workflow state. Dynamic field validation. <a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_N2750923.html" target="_blank" style="color:#e94560;">📖 Docs</a></div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">Set Field Value</div>
+                <div class="glossary-def">Set or calculate a field value. Use Before Record Submit for data changes. Supports formulas and joined field values. <a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_N2751166.html" target="_blank" style="color:#e94560;">📖 Docs</a></div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">Show Message</div>
+                <div class="glossary-def">Display an informational message to the user. Non-blocking notification. <a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_N2743889.html" target="_blank" style="color:#e94560;">📖 Docs</a></div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">Subscribe To Record</div>
+                <div class="glossary-def">Monitor a related record for changes. Triggers transitions when the subscribed record is updated. <a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_N2751816.html" target="_blank" style="color:#e94560;">📖 Docs</a></div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">Transform Record</div>
+                <div class="glossary-def">Transform a transaction into another type (e.g., Quote → Sales Order → Invoice). Maintains data relationships. <a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_N2743016.html" target="_blank" style="color:#e94560;">📖 Docs</a></div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>⚡ Server Triggers Reference</h2>
+            <p style="color: #999; margin-bottom: 25px;">Server-side triggers execute on the NetSuite server during record processing.</p>
+            
+            <div class="glossary-item">
+                <div class="glossary-term">Before Record Load</div>
+                <div class="glossary-def">Fires before a record loads into the browser. Use for: setting default values, hiding fields, adding/removing buttons, locking records. <a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_4103735193.html" target="_blank" style="color:#e94560;">📖 Docs</a></div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">Before Record Submit</div>
+                <div class="glossary-def">Fires after user clicks Save but before data commits to database. Use for: validation, calculations, Set Field Value actions. Preferred trigger for data changes. <a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_4103738686.html" target="_blank" style="color:#e94560;">📖 Docs</a></div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">After Record Submit</div>
+                <div class="glossary-def">Fires after record is saved to database. Use for: creating related records, sending emails, external integrations. Record ID is available. <a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_4103741507.html" target="_blank" style="color:#e94560;">📖 Docs</a></div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">Entry (On Entry)</div>
+                <div class="glossary-def">Fires when a record enters a workflow state. Workflow-based trigger. Only executes once per state entry, not on record reload. <a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_4103744436.html" target="_blank" style="color:#e94560;">📖 Docs</a></div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">Exit (On Exit)</div>
+                <div class="glossary-def">Fires when a record exits a workflow state via transition. Workflow-based trigger. Use for cleanup actions before moving to next state. <a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_4103747008.html" target="_blank" style="color:#e94560;">📖 Docs</a></div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">Scheduled</div>
+                <div class="glossary-def">Time-based trigger. Workflow scheduler runs every 30 minutes to evaluate scheduled items. Use for: delayed emails, time-based transitions, recurring checks. <a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_4103749494.html" target="_blank" style="color:#e94560;">📖 Docs</a></div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>🖱️ Client Triggers Reference</h2>
+            <p style="color: #999; margin-bottom: 25px;">Client-side triggers execute in the user's browser during record editing.</p>
+            
+            <div class="glossary-item">
+                <div class="glossary-term">Before User Edit</div>
+                <div class="glossary-def">Fires when record loads into browser, before any user changes. Use for initial UI setup and field display changes.</div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">Before Field Edit</div>
+                <div class="glossary-def">Fires before a user completes changes to a specific field. Use for pre-validation or field-level warnings.</div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">After Field Edit</div>
+                <div class="glossary-def">Fires after a user changes a field value. Use for: dependent field updates, real-time calculations, conditional logic. Caution: can cause infinite loops.</div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">After Field Sourcing</div>
+                <div class="glossary-def">Fires after all dependent field values are populated (sourced). Use when you need all related values before processing.</div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">Before User Submit</div>
+                <div class="glossary-def">Fires after user clicks Save, before Before Record Submit server trigger. Client-side validation before server processing.</div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>📋 Context Types Reference</h2>
+            <p style="color: #999; margin-bottom: 25px;">Restrict workflow execution to specific record manipulation methods.</p>
+            
+            <div class="glossary-item">
+                <div class="glossary-term">User Interface</div>
+                <div class="glossary-def">Record created/edited through NetSuite UI. Default context for most workflows. <a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_157960743044.html" target="_blank" style="color:#e94560;">📖 Docs</a></div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">CSV Import</div>
+                <div class="glossary-def">Record created/updated via CSV import. Control whether bulk imports trigger workflows.</div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">SOAP Web Services</div>
+                <div class="glossary-def">Record modified via SuiteTalk SOAP API. External integrations using web services.</div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">REST Web Services</div>
+                <div class="glossary-def">Record modified via REST API. Modern API integrations.</div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">Suitelet</div>
+                <div class="glossary-def">Record modified by a Suitelet script. Custom UI applications.</div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">User Event Script</div>
+                <div class="glossary-def">Record modified by a User Event script. Script-driven record changes.</div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">Scheduled Script</div>
+                <div class="glossary-def">Record modified by a Scheduled script. Background batch processing.</div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">Map/Reduce Script</div>
+                <div class="glossary-def">Record modified by a Map/Reduce script. High-volume data processing.</div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">Workflow</div>
+                <div class="glossary-def">Record modified by another workflow. Prevents recursive workflow triggers.</div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>📅 Event Types Reference</h2>
+            <p style="color: #999; margin-bottom: 25px;">Specify which record events trigger actions and transitions.</p>
+            
+            <div class="glossary-item">
+                <div class="glossary-term">Create</div>
+                <div class="glossary-def">New record is being created. Use with On Create trigger setting.</div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">Edit</div>
+                <div class="glossary-def">Existing record is being modified. Use with On Update trigger setting.</div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">View</div>
+                <div class="glossary-def">Record is being viewed (read-only). Limited actions available. Use for display-only customizations.</div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">Copy</div>
+                <div class="glossary-def">Record is created by copying another record. Inherits values from source record.</div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">Approve</div>
+                <div class="glossary-def">Record approval action. Available on transaction records with approval routing.</div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">Reject</div>
+                <div class="glossary-def">Record rejection action. Available on transaction records with approval routing.</div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">Cancel</div>
+                <div class="glossary-def">Record cancellation action. Transaction-specific event.</div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">Pack</div>
+                <div class="glossary-def">Fulfillment packing action. Item Fulfillment specific.</div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">Ship</div>
+                <div class="glossary-def">Fulfillment shipping action. Item Fulfillment specific.</div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">Drop Ship</div>
+                <div class="glossary-def">Drop shipment creation. Purchase Order / Sales Order specific.</div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">Special Order</div>
+                <div class="glossary-def">Special order creation. Sales Order specific.</div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>📚 Additional SuiteFlow Resources</h2>
+            
+            <div class="glossary-item">
+                <div class="glossary-term">SuiteFlow Overview</div>
+                <div class="glossary-def">Main documentation hub for all SuiteFlow concepts and features. <a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/chapter_4068260113.html" target="_blank" style="color:#e94560;">📖 Docs</a></div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">Workflow Actions Overview</div>
+                <div class="glossary-def">Complete reference for all workflow action types and parameters. <a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_4103695593.html" target="_blank" style="color:#e94560;">📖 Docs</a></div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">Trigger Execution Model</div>
+                <div class="glossary-def">Understanding the order and timing of trigger execution. <a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_4077993199.html" target="_blank" style="color:#e94560;">📖 Docs</a></div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">FAQ: SuiteFlow</div>
+                <div class="glossary-def">Common questions and troubleshooting for workflow issues. <a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_1554318378.html" target="_blank" style="color:#e94560;">📖 Docs</a></div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-term">Execution Contexts</div>
+                <div class="glossary-def">Control which contexts trigger your workflows. <a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_157960743044.html" target="_blank" style="color:#e94560;">📖 Docs</a></div>
+            </div>
+        </div>
+
+        <a href="../Master-Dashboard.html" class="nav-btn">← Back to Course Overview</a>
+    </div>
+</body>
+</html>

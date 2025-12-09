@@ -1,0 +1,263 @@
+Executing Workflows in Different Contexts. Up to this point in the course, all workflows have been configured to execute during user-based events, such as creating new records and performing other functions using various button clicks in the user interface. In this module, we will discuss how workflows can be initiated in context other than user-based events by specifying a processing context in the CONTEXTS multi-select field on the workflow's definition.
+
+This allows you to restrict workflow processing to select contexts only, such as CSV import, user event script, and Suitelet. We will also discuss workflow mass updates and have multiple records with running workflow instances can be processed simultaneously and on-demand. In this module, we will discuss the following topics-- understanding Workflow Execution Context, processing workflows in the CSV Import Context, processing workflows in the User Event Script Context, processing workflows in the Suitelet Context, and working with workflow mass updates.
+
+Upon the completion of this module, you will be able to describe the purpose of the CONTEXTS field on the Workflow Definition page. Initiate a workflow during record creation in the CSV Import and User Event Script contexts. Perform on demand processing of records in the Suitelet context. Execute a workflow mass update that forces the approval of select records in a Pending Approval Status. And explain when you might use each type of workflow mass update to process multiple records simultaneously.
+
+What do we mean by a workflow's execution context? Workflow execution context refers to the NetSuite function or feature used to create, view, or update a record. Users can access records through the NetSuite user interface. But they can also be created or updated via scripts, web services, user event scripts, mass updates, and CSV imports, as well as other methods.
+
+Each of these different methods is referred to as the context in which the record is manipulated. Configuring workflow, action, and transition execution in specific processing contexts allows you to restrict certain types of record processing to select contexts only. For example, you might limit workflow execution to only when a record is updated by a Suitelet or during a bulk CSV record import but not when updated through the NetSuite user interface.
+
+The context for workflow initiation actions and transitions is configured using the context multi-select field on the Workflow Action or Transition Definition pages. In this module, we will focus our discussion on the following three workflow execution contexts, CSV Import, User Event Script, and Suitelet. We will also examine some of the workflow mass updates available.
+
+The process of importing large numbers of records via CSV import is a common practice by many NetSuite customers. Regardless of whether the data being imported is customer data or transactional data, there are often situations where you want to initiate a workflow on these new records being created via the CSV import only. The ability to isolate workflow processing in the CSV import context is enabled by the RUN SERVER SUITESCRIPT AND TRIGGER WORKFLOWS setting in your CSV Import Global Preferences.
+
+Disabling this Global CSV Import Preference, prevents server side SuiteScript and workflows from being executed during CSV imports. This global preference can be overridden on a per import basis by enabling the same RUN SERVER SUITESCRIPT AND TRIGGER WORKFLOWS checkbox in the CSV Import Assistant. Once enabled, you can then configure workflows to execute during CSV import only by selecting CSV IMPORT from the context multi-select field on the Workflows definition page. As a best practice, it is recommended that the global SERVER SUITESCRIPT AND TRIGGER WORKFLOWS setting in the CSV Import Preferences be disabled and the SERVER SUITESCRIPT AND TRIGGER WORKFLOWS setting in the CSV Import Assistant be enabled on a per import basis.
+
+In this walkthrough demonstration, we will show you how to isolate the execution of a workflow in the CSV Import context only. All right, the first thing that we're going to do in this demonstration is analyze the actual CSV import file itself. And I'm going to do that by coming up here to our File Cabinet in our demo account. And right out here in the SuiteScripts folder, inside of that SuiteFlow Advanced Workflows folder that we looked at earlier, you can see that there actually is a csv-import-customers.csv file out here. If I just click on that-- and download that.
+
+Go ahead and open it up. You will see that this is really a very simple, simple file. All it's really doing is creating 10 customer records, Test Company 1 through 10. And it's associating them with a status, in this case, CUSTOMER-Closed Won. It's also entering them into the US West subsidiary and associating a sales rep.
+
+And then, of course, if I just bring these down a little bit so you can see the last field, it also enters a company email address. So it's really just populating the basic fields that are required for a customer record. So very simple. But it'll illustrate processing workflows in a specific context, in this case CSV Imports. Let me go ahead and close that. We don't need to save it.
+
+And now let's just go ahead and analyze the workflow that we're going to actually initiate during the import. So let me just go up to my list of workflows. And you can see that I'm already filtering here on Record Type, Customers, since that's really what we're talking about here. We're importing customer records so we want the workflows to also run on the customer record. And I have one right down here called CUSTOMER CSV Import.
+
+And if we just look at that real quick, I'll actually edit it. But I'm actually not going to change it in any way. You can see it's a very simple workflow, single state that simply has a set field value action configured in it that sets the value of the Comments field equal to Created via CSV Import.
+
+So it simply enters that text into the Comments field just so we can see that the workflow actually did process these records upon creation during the import. And that is all this thing does. You can see that it is actually configured right down here.
+
+Actually, let me go into the actual details here of the workflow definition. You can see that it is event based. It is being configured on the creation of new customer records. Notice that I do have the Trigger Type set to All here, which is really kind of a no, no in general as far as general workflow best practices are concerned.
+
+But in this case, I'm going to leave that because the context is really a really nice kind of condition or filter already. So as long as I force the context to only the CSV import, this isn't really a huge deal in this particular case. But, normally, you would never select All as the Trigger Type for workflow initiation.
+
+So this is where all the magic is happening right here at the workflow level. I'm going to go out and cancel. Nothing to change there. And I'll go back to my workflow list.
+
+Now, just to show you this, if I actually go out and just create a brand new customer record from scratch, so if I go out here, Customers, New-- all right, and I come down here. And I name this Acme, Inc. I don't worry too much about being super proper with what I enter here. That's not really the point of this demonstration.
+
+But I do want to get the required fields in. Choose US West. And I think that's really all I need. Let me see if I can get away with it here. There we go.
+
+Now, notice when I created that record, notice my Comments field over here is empty. Nothing executed, no workflow executed on this record. If I come down here, I'm looking at my System Information, Workflow History sublist. You can see that nothing happened.
+
+So that's what you would expect because we forced the context to only the import process. So now let's go ahead and run that import. And let's see how this actually works. I think you get the idea where we're headed with this. But it's kind of cool to see nonetheless.
+
+So what I'm going to do is I'll use this tab right here. I'm going to go and show you first of all that preference. So I'm going to go to Setup, Import/Export, and then go to CSV Import Preferences.
+
+And this is these global preferences that we talked about where you can check the RUN SERVER SUITESCRIPT AND TRIGGER WORKFLOWS checkbox. And so that would mean anytime you ran a CSV import, run a workflow or execute a workflow. And that's really not what we want in most cases.
+
+And as I mentioned when we went through the material a little earlier, the general best practice is to leave this disabled and override this option on a per import basis using the Import Assistant, which you will see here shortly. But I did want you to see where that preference was and that we are, in fact, not enabling that here. So I'll go ahead and cancel. And now let's go ahead and do the import.
+
+So I'll go to Setup, Import/Export, Import CSV Records. And this is going to bring me right into the Assistant. And the first thing it's going to ask me to do is to basically define the basics of the import. What kind of record is it? In this case, it's going to be a Relationships record or the import type, I should say. And the record type is going to be Customers Only.
+
+And then down here at the bottom of this window, I simply need to tell that which file I want to import. So I'm going to go out and point it to the one right out on my desktop right there, our csv-import-customers.csv file. And we're good on that first step.
+
+On our Import options, I have three different selections. I can do an add, update, or add or update. Now, if I were just creating this customer records just from scratch and I just wanted to create them, I could just do an add here.
+
+If I were wanting to process existing customer records, change a field, or do some additional processing, I would probably choose update. In this case, we're actually creating the new customer records and then updating them with a workflow. So I'm going to kind of kill two birds with one stone here and do an add or update.
+
+In the Advanced options, this is where you will find that Override checkbox for RUN Server SUITESCRIPT AND TRIGGER WORKFLOWS. So we definitely want to enable that here. Otherwise, the import will happen, but the workflow will not be executed during the import. So real important settings here on the Import options. I'll go ahead and click Next.
+
+Now, pretty much everything is going to map nicely across here. The only thing I have to do is set my type. It's the only one that's not currently mapped. So I'm going to select Type here. And then on that row-- and it's kind of a tricky interface if you have not used this before-- I'm going to come down here and choose Individual, Customer Individual.
+
+That's just to make sure we've mapped everything. And that's really all you have to do there. And then, finally, I'll give this a name. I'll call this Module 10 Import 1. And I'll go ahead and save and run this import. Let's see what happens.
+
+So it said it finished. That was pretty quick. Now, what I can do is I could go to my list of saved imports if I want to rerun something or edit those and run them again. I could do another fresh import if I want to. But I also have an option to go out to the Job Status page.
+
+So if I actually open this up, you can see that we do have an actual entry here. I actually ran one earlier, as you can see, that did, in fact, process successfully. 10 out of 10 records were imported successfully. And so if I go out now and just look for any one of those customer records-- let me just sort by internal ID. That'll jump them right to the top.
+
+There we go. You can see that it did, in fact, create our Test Company 1 through 10 here. And if I select any one of these just to view the record, I should see the results of our workflow right here, Created via CSV Import in the comments field.
+
+And, of course, just to be thorough here, we can also take a look at our workflow history and our workflow execution log where you can clearly see that it did something here. Oh, that's interesting. It didn't even log that. I'm wondering why that's not showing me the entry there. I'm not really sure why that is. But, anyway, that gives you the idea of kind of how restricting workflow at CSV import works.
+
+What is a User Event Script? User Event Scripts represent any script or workflow action that executes on before record load, before records submit, or after record submit. Coincidentally, each of these server triggers are directly related to the SuiteScript events beforeLoad, beforeSubmit, and afterSubmit, which is what you see referenced in the workflow execution log.
+
+When you see User Event Script, think to yourself externally triggered server-side action, where external refers to a script workflow or some other server process and triggered server side action refers to a workflow action executed on the server on a server trigger. Like other context, the User Event Script context allows you to restrict workflow processing to external server events rather than user-based events performed in the NetSuite user interface. User Event Scripts allow you to perform the following functions, custom record validations and form customizations, enforce user-defined data integrity and business rules, user-defined permission checking and record restrictions, real-time data synchronization, and initiating workflows and actions, which is the focus of our discussion in this module.
+
+The diagram shown here illustrates one of the many ways you can process workflows actions and transitions in the User Event Script context. In this example, a user submits an online case form which triggers the execution of workflow A, which creates a new task record in NetSuite. How that task record is created depends on the creation context of the case record. If the context is User Event Script, only the actions in action group 1, where the context is equal to User Event Script, will be executed. If the task record is created by a user in the NetSuite user interface, only the actions in action group 2, where the context equals user interface, will be executed.
+
+In this walkthrough demonstration, we will show you how to isolate the execution of a workflow in the User Event Script context. All right, let's begin. What we're going to be doing here in this particular demonstration is creating a new rejection processing workflow that will be initiated in the User Event Script context based on a condition that evaluates whether the performance review record has an approval status of rejected or not.
+
+And based on whether that approval status is rejected, we're going to initiate another workflow as a result of that. And from the rejection processing workflow's perspective, the set field value action that we're going to create in the approval workflow that sets the approval status to rejected is what actually triggers the rejected processing workflow's condition to evaluate true. And that's what's going to ultimately result in the execution of that rejection processing workflow in the UES context. So I just wanted to set that up so you kind of knew what we were going to do here in this demonstration.
+
+So let's go ahead and create the workflow. Here I am. I'm looking at my list of performance review workflows.
+
+So let's just go ahead and create a brand new one. And what I'm going to do is enter in a name of rejection processing 10. It's almost like I've done this before. The ID is going to be sdr_perf_rev_rej_process.
+
+The record type is obviously going to be Performance Review. And over here in my Release Status, I'm going to go out and set that immediately to Release. Normally, you wouldn't do that. But in this case, I am going to go ahead and do that. Enable Logging, definitely want to turn that on.
+
+And in the Initiation Event Definitions section, here's what we're going to do. We're going to select On View or Update as the event definition. The trigger is going to be After Record Submit, so after the creation of a new performance review record. And the context, as we've already indicated, is going to be User Event Script, right there.
+
+And what I'm going to do is put a condition on the initiation as well in this context. So I'm going to use the Visual Builder and simply come over here and say, I only want this to happen when the approval status is rejected. And I'll save that. And so now I've got really two kind of conditions. I've got the context, which is kind of like a filter condition, of course, and a Visual Builder condition. Both of which will be executed here.
+
+So I'm going to go out and save that. And I'm simply going to rename this default state that it creates. Just in the interest of making things descriptive, I'm going to put in here Process Rejections. There we go.
+
+And let's go ahead and add a create record action. In this case, it's going to be a task record. Process continues here. And so what I'm going to do is create a create record action. There it is right there.
+
+And the record that I'm going to create is going to be a task record. And let's pass some required fields. And the first one is going to be Title. And all I'm going to put in there-- just going to copy and paste some text in here in the interest of time, which is basically going to say one of your subordinates performance reviews has been rejected. We're going to go ahead and assign this to the subordinate's supervisor.
+
+So I'm going to use my join and my value field here to assign that to the subordinate supervisor. The due date is going to be 30 days from now, 30 days from now. There we go. And, finally, we'll put a message in there in the Message column that simply says, please reach out to the subordinate to ensure proper approval of their performance review. All right, I'm going to go out and save that.
+
+And I could certainly come in here and configure a send email action too. So let me just do that just so we have, again, something to see when all this happens. So if I click Send Email, we're going to go ahead and send this from the user who's entering the record, whoever that is. And recipient will be our subordinate. And the subject of the email is basically going to just let them know that their performance review was, in fact, rejected and that their manager will be reaching out to them to discuss potential resolutions.
+
+One last thing is putting those-- actually, no, I'm not going to do that in the interest of time. I think I know that my emails are going to work here. I'm not going to put that in.
+
+Normally, I would add those conditions on my email addresses. But in this case, we'll just go ahead and save that. So there we go. Let's go ahead and create a new performance review record, performance review record and watch all this good stuff happen.
+
+So I'm going to come up here to Lists, Custom, Performance Review, New. And we'll open that up in a new tab. I'll call this M10 Test number 1.
+
+I'll go ahead and choose good old Willheim Schueler. There we go, just to get something in there. And we'll go ahead and save that record.
+
+Now let me go back to our list of records here and just open that up so we can look at our workflow history. Go into to View and come down here. You can see that it is in fact waiting for task completion. So I do need to come out here once again and change that. And I will do that here in just a second. Let me go ahead and bring that up.
+
+There's the record right there. So let's just go ahead and edit that and update the status accordingly. We go. And now if I just jump back to that performance review record and do nothing more than click Refresh, I should see this go to state one, waiting for approval. And sure enough, we see that happen.
+
+So now we're going to go ahead and reject this record because we're talking about rejection processing. So what I'm going to do is simply refresh the record. Notice I don't see my buttons because when you click Refresh here in active workflows, it doesn't reload the record. It simply refreshes the sublist.
+
+So in order to see my buttons, I simply need to reload the record. And I can facilitate that here on the client just by doing a Control-F5 on my keyboard. And then you see my buttons display on load.
+
+So let's go ahead and reject it. There we go. Notice that the approval status is now rejected. I can see that the workflow did, in fact, transition to State 3, Rejected as you would expect. But if I go in and look in workflow history, notice what we see.
+
+We actually see the execution of our rejection processing 10 workflow right here. And if I look at the log file, we can actually see and hopefully see that it did in fact execute its own actions as well. So it created another task record, assigned it to the subordinate's supervisor, and sent an email to the subordinate.
+
+So it did everything we asked it to do. Only it did it without us having to do anything in the user interface short of just submitting a new performance review and rejecting it. So that's a really basic example of processing workflows in the user event script context.
+
+Suitelets are server-side suite scripts that can be used to build custom NetSuite pages and other backend logic. Suitelets are an extension of the SuiteScript API that operate in a request response model invoked by HTTP GET or POST requests to system-generated URLs. Suitelets cannot be executed in the browser like other scripts because Suitelets are comprised of custom code written in JavaScript or SuiteScript, they can be leveraged by SuiteFlow to perform just about any record or form manipulation function you may need to support in NetSuite. In this module, we will focus on two SuiteScript 2.0 API functions used to initiate and trigger a workflow in the Suitelet context, workflow.initiate and workflow.trigger.
+
+Coincidentally, each of these functions are available in the SuiteScript 1.0 API using the nlapiInitiateWorkflow and nlapiTriggerWorkflow functions respectively. The specific options that can be set on the workflow.initiate function and an example of its usage is provided here. This function initiates a workflow on demand and is the programmatic equivalent of the initiate workflow action in SuiteFlow. The workflow.initiate function returns the internal ID of the workflow instance used to track the workflow against the record.
+
+The specific properties that can be set on the workflow.trigger function and an example of its usage is provided here. In this example, the workflow.trigger function wakes up an already running workflow on a record and triggers the approval of that record using a virtual button click. Note the action ID, which represents the ID of the custom approved review button displayed on the form. Like the workflow.initiate function, the workflow.trigger function returns the internal ID of the workflow instance used to track the workflow against the record.
+
+In this final walkthrough demonstration of this module, we will show you how to process SuiteScript code executing in the Suitelet context to perform performance review rejection processing. Let's begin by analyzing the trigger workflow Suitelet script. And it just so happens that I have that ready to go right here.
+
+And as you can see by looking at the JSDoc's tag up here at the top of the script, you can see that this is in fact a Suitelet script. And one of the things that I do want to point out is if I scroll down a little bit, you can see that the function that is actually being called because this is a Suitelet and because it's based on HTTP GET and POST requests, notice that the function that's being is called onRequest, as opposed to onAction, which we saw when we were configuring our workflow action scripts.
+
+Now, this particular script generates a custom page in NetSuite with a single record ID field that allows the user to reject any performance reviews that are currently in State 1, Waiting for Approval in our approval workflow. The script first references the script record to retrieve the necessary script parameters, which not only define the fields to display on the form but the record type, workflow, and buttons that must be invoked to process performance review rejections using the script. If I scroll down to the bottom, you can see the presence of the workflow.trigger function, which is actually waking up the existing approval workflow in order to process rejections in the background on the server.
+
+Now, let's go ahead and take a look at the script record and the associated script deployment records associated with our Suitelet. So let me go ahead and close that. And once again, I'll navigate out to Customization, Scripting, Scripts. And the one I'm looking for here is called Trigger Workflow. And you can see that we already have the script record created right here.
+
+And let me just go ahead and open that up. And what I want to focus on is the parameters themselves. And you can see that there are several different parameters listed here, all of which are free-form text type fields.
+
+Notice we have a form title, a field label, a submit button label, record type, workflow ID, and button ID. And each one of these has a custscript prefix assigned to their various IDs. And each one of these is referenced in the script file we just looked at.
+
+So if I bring that script file back up here, you can see if I scroll back up, each one of these individual IDs, for example, the script file itself, the button labels, the record types-- each one of these different IDs is referenced right here in the script record parameters. If I click on the Deployments subtab, you can see that we also have a deployment here. And if I click on Trigger Workflow to open up the actual script deployment record itself, you can see that it has, in fact, been deployed.
+
+And if I come down here to the Parameters section in the Script Deployment, you can see all the various parameters that have been assigned various values. Some of them have been hard-coded with text-based values, such as form title, field label, and button label, while other parameters have been assigned actual component IDs, so the record type. Which record type are we talking about? In this case, it's our performance review custom record. The workflow ID that we want to trigger with the Suitelet is our approval workflow. And the button that we want to invoke using the script in order to process our rejections is noted right here.
+
+Finally, if I click on the Links subtab on the deployment record, this allows you to see where the actual Suitelet can be accessed from the NetSuite UI. So what this is showing me is that if I navigate out to the Setup menu, I should be able to come down to a custom option and see an option called Reject Performance Reviews. And sure enough, if I come up here and do just that, you can see that I, in fact, do have that option right here, which will invoke the Suitelet.
+
+So let's go ahead and invoke this Suitelet. What I'm going to do is create another performance review. But I'm not going to approve or reject the record. We're going to use our Suitelet to process some auto rejections.
+
+So let's go ahead and enter a new performance review record. I'll call this Suitelet Test number 1. And I'll go ahead and choose as always my Willheim Schueler.
+
+Once again, I'll give him a different rating code, maybe C this time. And we'll go ahead and-- actually, I'll make this different. We'll change it up a little bit, so no salary change, rating code C. I'll click Save. There we go.
+
+If I jump back to my list of performance review records. I just want to note the record that I just created. And then ID is 132. That is the record ID, as I can see.
+
+I'm going to need that in order to process my rejections. Now before I can get this into the actual state where the rejections can be processed, remember that the record needs to get to state one, waiting for approval. And if I look at this record currently, you can see that it's currently waiting in the approval workflow in state 0 for that task record to be auto-completed. So let me go ahead and quickly complete that task record.
+
+So we'll set that to completed, and save it. Then we'll jump back, select workflow history. And notice, simply by refreshing that, the record is now waiting in state 1, waiting for approval. At this point, I can now invoke the Suitelet to process the rejection of that record that I just entered.
+
+So what I'm going to do is I'm going to navigate to Setup, Custom, Reject Performance Reviews, and here is the Suitelet being invoked. You can see that it's generating a custom page here in NetSuite, has the page title which is Reject Performance Review. I can see that also in the tab in my browser.
+
+You could see I have a record ID field with the label called record ID. And I have a button with a label of continue. So all it's saying is, go ahead and enter the record ID of the performance review record you want to reject. In this case, it's 132.
+
+And I click continue, and the Suitelet is now being processed. And if I look in my workflow history now, you can see that Suitelet did, in fact, process the record accordingly. It actually rejected it and transitioned the record to state 3, rejected.
+
+If I look at the log file in state 1, waiting for approval-- let me shrink that down a little bit so you can see it-- you can see that we actually did have a workflow triggered to process transitions by click on button reject review. You can actually see the instance of the actual Suitelet being invoked directly in the log file.
+
+In this walkthrough, we will demonstrate how to configure a workflow to support on-demand processing of select performance review records using a Suitelet executing in the Suitelet context. Let's begin by analyzing a pre-built script, workflow, and a couple saved searches which are all part of the Suitelets functionality.
+
+I just happen to have the script right here, and it's called SuiteDreams Suitelet PerfReview dot js. And as you can see, this particular script is a Suitelet script as identified in our docs tag at the top of the script. And if I scroll down, you can also see the call to the onRequest function, which is typical of Suitelet execution.
+
+If I scroll down a little bit more, in this first top section, which is quite long-- I'm going to try to make it fit the best I can here. This first section of the script defines the layout of the Suitelet form that is displayed in NetSuite. And basically, what that form is going to allow users to do is to process performance review records in a couple of different ways.
+
+It's going to allow you to bulk approve outstanding performance reviews that are still waiting for approval in state one of the approval workflow, and it's also going to allow the user to increase select employee's salary increase amount by 5% for eligible reviews. And those are going to be defined in a couple saved searches, which we'll take a look at in just a moment.
+
+But this whole top section is really doing nothing more than outputting the various sections of the UI. If I scroll down a little bit more, we get to this section right here which configures a multi-select field that lists performance reviews eligible for a 5% bonus. The records listed are returned in the search results of the saved search invoked by the search load function, as you can see right here. You'll also notice the call to the actual saved search itself as its ID has also been provided.
+
+If I scroll down a little bit more, you'll see a very similar section to what we were just looking at, and this configures a multi-select field that lists performance review records still waiting to be approved. Like the previous example, a saved search is being used to return performance review records currently waiting for approval in state one of the approval workflow, and you can see that right here. The search is being referenced by its ID.
+
+The last portion of the script-- if I scroll down a little bit further here-- controls the processing of the records based on the user's selections from the Suitelet UI. If they choose to apply a 5% bonus on eligible performance reviews, action one is initiated which is shown right here, which calls a performance review on-demand workflow using the workflow dot initiate function, which you can see right in this section.
+
+If the user chooses to perform auto-approval of select performance review records, action two is performed, which calls the workflow dot trigger function right down here to wake up at the currently running approval workflow, initiate a virtual button click on the approve review button, and process the record accordingly. Now let's take a look at the pre-built performance review on-demand workflow, which is doing nothing more than applying the 5% bonus to eligible performance reviews.
+
+Let me just jump back to NetSuite here, and you can see that we do have a pre-built workflow called performance review on-demand. I'm just going to go ahead and edit that. And it's a very, very simple workflow.
+
+And all this is doing is it's going to get initiated, as we just saw from our Suitelet script. And all this is going to do is come in, and it has a single set field value action configured to take the current salary increase amount field and multiply it by 1.05 to get-- to apply a 5% salary increase.
+
+And notice that it's only doing that if the actual review type is salary change. And also remember that it's only doing this for the records that are returned in the associated saved search, which we're going to take a look at here in just a moment. And that is all that this workflow is doing.
+
+Let me navigate to our list of saved searches at Lists, Search, Saved Searches. And there's two saved searches we want to look at. One that returns records eligible for a bonus, and one that returns records waiting for approval.
+
+The first one we'll look at is our outstanding approvals saved search, which is down here a little ways if I scroll down. There it is right there-- performance reviews with outstanding approvals. And if I edit that, what you're going to see is a couple bits of criteria here.
+
+Now we have to go ahead and configure it. It's not currently configured by virtue of the fact that this was pre-built in our training account. So we do need to come in here and modify each of our criteria filters. The first filter we need to fix is going to be what's the name of the workflow we want to actually initiate to approve the records.
+
+Well, it's going to be our performance review approval workflow right there. And what's the name of the button that we want to actually go out and click to auto-approve the records returned in this search? Well, that's going to be the approval button, or what is called the approve review button right there.
+
+Notice it only shows me the two buttons that are in that state-- configured in that state of the workflow. Let's set, and now let's go ahead and save, and run our search and see if we get some records returned. Notice that I do. I have actually two records that we can take a look at when we test this that we can actually auto-approve-- that are still waiting for approval.
+
+Let me return to my list of saved searches, and let's take a look at the employee is eligible for bonus saved search. Oops, let me go back there. And that one's going to be right here at the top-- employees eligible for bonus. And let's just take a look at this one real quick.
+
+There's really nothing to change here. This one's already configured and ready to go, and the criteria is very simple. Simply go out and find all performance review records that currently have a rating code equal to "A." So that is our bonus eligibility criteria, is if they get an A performance review, you get the 5% bonus.
+
+So let's go ahead and save and run this, and see if we get some records returned. You notice we get several records that we've been entering over the course of this training course that all have a rating code of A. So we're in really good shape, and now we can go ahead and test this.
+
+To test this, let's go ahead and initiate our process performance reviews Suitelet by going to Setup, Custom, Process Performance Reviews. I'll actually just go ahead and select it. And notice I get the Suitelet UI.
+
+So it's giving me an action dropdown list, which allows me to either approve selected reviews or add a 5% bonus. It's giving me my two multi-select fields, once again listing reviews eligible for a bonus and reviews that are ready to be approved. And it gives me a select action button.
+
+So whatever I have selected here, when I click this button, it's going to execute that action. So let's go ahead and process our outstanding approvals first. So what I'm going to do is I'm going to select approve selected reviews from the Action dropdown.
+
+I'm going to come over here to the Reviews to Approve list, and I'm just going to go ahead and select both of those records. Now notice that each of these records are our subscribe test 1 and test 2 records. So we're going to want to note those here in just a moment.
+
+Let me go ahead and click Take Selected Action. Notice I had a bit of processing that was occurring there. Notice that once those records have been approved-- or at leas we hope they've been approved-- notice that those records are now removed from the reviews to approve multi-select field.
+
+Let's go and see what happened. If I navigate out to our list of performance reviews, and I look for each of those two records, which are right here-- subscribe test 1 and 2-- notice that both of those are now approved. And they both have a status of approved, so that's working very nicely.
+
+Let's go back to our Suitelet, and let's go ahead and test action 1, which is applying a 5% bonus to eligible reviews. So what I'm going to do is let's go ahead and do it on-- I don't know-- I'll just choose this one right here as an example.
+
+The Willheim Schuelers review, which is the test number 1 record. We'll go ahead and apply a 5% bonus for him by clicking take selected action. There we go.
+
+Now notice that that particular record was not removed from the list. It's still eligible for review. The rating code has not changed. It's still A, so it's going to be returned here in my eligible reviews list.
+
+But if I jump out to my list of performance reviews now, and bring out test 1 right down here at the bottom-- that that has been updated to $5,250. And I know that because I have not entered a value of that kind. It was $5,000 that I had there previously. So that's another great example of how you can use Suitelets to create custom application functionality that can be invoked from workflow to process records in a variety of different ways.
+
+Now one last thing that I want to do is take a look at our workflow execution log. So let me jump back to our list of records here, and let's take a look at the execution log for our 5% bonus first. So our test number 1 record right down here at the bottom, we'll go ahead and view that.
+
+I'm going to select Workflow History. And if I scroll down, you can see that there's a lot of processing that occurred on this record, as we would expect. Entry, load, save, approval, of course, to state 2, approved. And then notice we actually had the initiation of our performance review on-demand workflow right here.
+
+So if I look at the log file for that. I'm going to make that fit in the window a little bit better. You can see that when this workflow was initiated, it came in under event process with a context of Suitelet, which is very telling here. And it went ahead and set the value of the salary increase amount field with a 5% bonus. And then it transitioned to state 2 accordingly, and nothing else happened.
+
+So that's just one really basic example of how it manifests itself in the log file for a very simple initiation of a workflow from a Suitelet. Let's look at the other record-- one of our subscribe records that we auto-approved, which is right here. There we go.
+
+And if you recall, this was initiated in state 1, waiting for approval. So we had this particular record waiting for approval, and we used our Suitelet to auto-approve it. So the entry should be in this particular state log.
+
+And once again, you can clearly see right down here that we had a workflow triggered to process transition by click on button approve review. And then it shows the transition from state 1A where it actually looked for more approvers, realized there weren't any, and then went ahead and initiated the button click to approve that record. So it kind of manifests itself a little bit different in this particular case based on the workflow initiate function versus the workflow trigger function called from the Suitelet.
+
+Unlike many of the workflow processing contexts we have been discussing, there is one additional context in which you can process workflows, but it is not defined in the same manner as the context selected from the context multi-select field. Workflow mass updates allow you to simultaneously process multiple records that currently have running workflow instances.
+
+Using mass updates, you can initiate instances of a workflow on select records, trigger the processing of an active workflow on select records, cancel workflow instances on select records, and forced the transition of an active workflow to any state in that workflow. To view the mass updates available for all workflows in your account, navigate to Lists, Mass Update, Mass Updates, then select the workflows node. All workflow mass updates will be listed by base record type, and each workflow will have an associated initiate, process, cancel, and transition mass update.
+
+The records processed by a workflow mass update is determined by search criteria you specify. Defining the mass updates search criteria is identical to creating a standard NetSuite saved search. Records that meet the specified search criteria will have the selected workflow initiated, triggered, canceled, or transitioned accordingly.
+
+When configuring a workflow mass update, best practices state that you should enter a custom name for the mass update, which creates a saved mass update that can be later reviewed and modified. Workflow mass updates can also be scheduled by specifying event criteria on the scheduled subtab. This can be useful when the mass update returns a large number of records requiring additional processing, allowing you to process the records during less busy times of the day.
+
+Let's review each workflow mass update, and when you might use each type. The initiate workflow mass update provides a more efficient way to initiate workflows on multiple records simultaneously without having to view or edit each record individually to initiate the workflow on those records. For example, after importing customer records from a third-party system, you may want to process those records via workflow to set a default sales rep for each imported customer record.
+
+You can also cancel instances of a specific workflow running on select records by using the cancel mass update. Workflow instances will be canceled for all records returned in the search results. It's important to note that only users with an administrator role can cancel workflow instances currently running on records.
+
+For records that have currently running workflow instances running on them, the process mass update can be used to re-evaluate transitions or execute a specific transition that would normally only execute on a button click from the user interface. For example, you may want to process batch approvals for select records in the system that are waiting for approval.
+
+In state 1, there is an Approve button added with the Add Button action. Rather than opening each record and approving each record using the Approve button, you can simulate the click of the Approve button to auto-approve, and transition to records from state 1 to state 2, approved. This type of capability could also be performed programmatically using a workflow action script and the workflow trigger function, as we discussed earlier.
+
+Using the transition mass updates, you can transition a record with an active workflow instance to another state outside of the defined workflow execution path. The difference between this mass update and the process mass update is that transition mass updates allow you to transition records with running workflows to any state in that workflow, and not just the next state in the workflow's normal processing path.
+
+The transition mass updates can be particularly beneficial in the following situations. When a record ends up in the wrong workflow end state. For example, suppose a record is accidentally rejected by an approver, and you want to send it back to state 1 for re-approval. When a record gets stuck in a specific workflow state, or when a workflow is out of sync with the record on which the workflow is running, meaning there are actions that should have been executed on the record, but were not processed for some reason.
+
+Here are some things to keep in mind when initiating workflows in different processing contexts. Limit workflow initiation using the event types and contexts multi-select fields on the workflows definition page. User event scripts cannot be executed by other user event scripts in a chained fashion.
+
+Stated more simply, a workflow running in the user event script context cannot execute another user event script. However, you can execute a user event script from a NetSuite scheduled script, portlet, or a Suitelet. To initiate a workflow in the user event script context, the workflow must have execute as admin enabled, and the workflow status must be released. And finally, workflow mass updates allow you to perform batch processing of select records with running workflow instances based on search criteria that you specify.
+
+It is now time for you to complete the required hands-on exercises associated with the topics discussed in this module. To complete the required exercises, refer to your student workbook. When you have finished, you may continue with the next module.
+
+This concludes the executing workflows in different contexts module.

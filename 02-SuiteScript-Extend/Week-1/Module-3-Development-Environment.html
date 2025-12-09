@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 3: Development Environment - SuiteScript Learning Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --dark-bg: #1a1a2e;
+            --card-bg: #16213e;
+            --text-primary: #ffffff;
+            --text-secondary: #a0aec0;
+            --border-color: rgba(255,255,255,0.1);
+            --purple: #9f7aea;
+            --success: #48bb78;
+            --warning: #ecc94b;
+            --info: #4299e1;
+            --code-bg: #0d1117;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.7;
+        }
+
+        .nav-bar {
+            background: var(--card-bg);
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-bar a { color: var(--purple); text-decoration: none; font-size: 0.95rem; }
+        .nav-bar a:hover { text-decoration: underline; }
+
+        .header {
+            background: var(--primary-gradient);
+            padding: 50px 20px;
+        }
+
+        .header-content { max-width: 900px; margin: 0 auto; }
+
+        .header .module-tag {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-bottom: 15px;
+        }
+
+        .header h1 { font-size: 2.2rem; margin-bottom: 10px; }
+        .header p { font-size: 1.1rem; opacity: 0.9; }
+
+        .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+
+        .content-section { margin-bottom: 40px; }
+
+        .content-section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .content-section h3 {
+            font-size: 1.2rem;
+            margin: 25px 0 15px 0;
+            color: var(--purple);
+        }
+
+        .content-section p { margin-bottom: 15px; color: var(--text-secondary); }
+
+        .info-box {
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .info-box.blue { background: rgba(66, 153, 225, 0.15); border: 1px solid rgba(66, 153, 225, 0.3); }
+        .info-box.green { background: rgba(72, 187, 120, 0.15); border: 1px solid rgba(72, 187, 120, 0.3); }
+        .info-box.yellow { background: rgba(236, 201, 75, 0.15); border: 1px solid rgba(236, 201, 75, 0.3); }
+        .info-box.purple { background: rgba(159, 122, 234, 0.15); border: 1px solid rgba(159, 122, 234, 0.3); }
+
+        .info-box h4 { margin-bottom: 10px; font-size: 1rem; }
+        .info-box p { margin-bottom: 0; font-size: 0.95rem; }
+
+        pre {
+            background: var(--code-bg);
+            border-radius: 10px;
+            padding: 20px;
+            overflow-x: auto;
+            margin: 20px 0;
+            border: 1px solid var(--border-color);
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .inline-code {
+            background: var(--code-bg);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--purple);
+        }
+
+        .tool-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 20px;
+            align-items: start;
+        }
+
+        .tool-card .icon {
+            font-size: 2.5rem;
+        }
+
+        .tool-card h3 { font-size: 1.2rem; margin-bottom: 8px; color: var(--text-primary); }
+        .tool-card p { margin: 0; color: var(--text-secondary); font-size: 0.95rem; }
+
+        .tool-card .links {
+            margin-top: 12px;
+        }
+
+        .tool-card .links a {
+            color: var(--purple);
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-right: 15px;
+        }
+
+        .tool-card .links a:hover { text-decoration: underline; }
+
+        .step-list {
+            list-style: none;
+            counter-reset: step;
+        }
+
+        .step-list li {
+            counter-increment: step;
+            padding: 15px 15px 15px 60px;
+            position: relative;
+            margin-bottom: 10px;
+            background: var(--card-bg);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+
+        .step-list li::before {
+            content: counter(step);
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 30px;
+            height: 30px;
+            background: var(--primary-gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: white;
+        }
+
+        .key-takeaways {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 40px;
+            border: 1px solid var(--border-color);
+        }
+
+        .key-takeaways h3 { margin-bottom: 15px; }
+
+        .key-takeaways ul { list-style: none; }
+
+        .key-takeaways li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            color: var(--text-secondary);
+        }
+
+        .key-takeaways li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--success);
+        }
+
+        .nav-footer {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .nav-footer a { color: var(--purple); text-decoration: none; }
+        .nav-footer a:hover { text-decoration: underline; }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .feature-item {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+        }
+
+        .feature-item h4 {
+            font-size: 0.95rem;
+            margin-bottom: 5px;
+            color: var(--purple);
+        }
+
+        .feature-item p {
+            font-size: 0.85rem;
+            margin: 0;
+        }
+
+        @media (max-width: 768px) {
+            .tool-card { grid-template-columns: 1fr; text-align: center; }
+            .nav-footer { flex-direction: column; gap: 15px; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav-bar">
+        <a href="week-1-dashboard.html">← Week 1 Dashboard</a>
+        <div style="display: flex; gap: 15px;">
+            <a href="Module-2-Script-Types.html">← Module 2</a>
+            <a href="../Week-2/week-2-dashboard.html">Week 2 →</a>
+        </div>
+    </nav>
+
+    <header class="header">
+        <div class="header-content">
+            <span class="module-tag">Week 1 • Module 3</span>
+            <h1>Development Environment</h1>
+            <p>Setting up your IDE, file templates, and type declarations for efficient SuiteScript development</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="content-section">
+            <h2>🛠️ Choosing an IDE</h2>
+            <p>An Integrated Development Environment (IDE) is your most critical tool as a developer. It provides code completion, error detection, syntax highlighting, and productivity features that accelerate development.</p>
+
+            <div class="tool-card">
+                <div class="icon">💻</div>
+                <div>
+                    <h3>WebStorm (Recommended)</h3>
+                    <p>JetBrains' professional JavaScript IDE. Paid license required, but offers superior code intelligence, refactoring tools, and Git integration. This course uses WebStorm.</p>
+                    <div class="links">
+                        <a href="https://www.jetbrains.com/webstorm/" target="_blank">Download WebStorm →</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tool-card">
+                <div class="icon">🆓</div>
+                <div>
+                    <h3>VS Code (Free Alternative)</h3>
+                    <p>Microsoft's free, open-source editor. Highly extensible with plugins. Works well for SuiteScript development with proper configuration.</p>
+                    <div class="links">
+                        <a href="https://code.visualstudio.com/" target="_blank">Download VS Code →</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-box blue">
+                <h4>💡 Either Works</h4>
+                <p>Both IDEs support file templates and type declarations. Choose based on your preference and budget. The concepts in this course apply to both.</p>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>📄 File Templates</h2>
+            <p>File templates provide boilerplate code for each script type, saving you from writing the same setup code repeatedly. They include proper JSDoc annotations, module imports, and entry point functions.</p>
+
+            <h3>Why Use Templates?</h3>
+            <ul style="list-style: disc; margin-left: 25px; color: var(--text-secondary); margin-bottom: 20px;">
+                <li>Consistent code structure across all scripts</li>
+                <li>Correct <span class="inline-code">@NApiVersion</span> and <span class="inline-code">@NScriptType</span> tags</li>
+                <li>Pre-configured entry points (beforeLoad, pageInit, etc.)</li>
+                <li>Proper module dependency setup</li>
+            </ul>
+
+            <h3>BurkyBang Templates (Recommended)</h3>
+            <p>Adam Smith (BurkyBang) maintains excellent SuiteScript templates for WebStorm:</p>
+
+            <ol class="step-list">
+                <li>Visit <a href="https://github.com/AustinBurkyBang" style="color: var(--purple);">github.com/BurkyBang</a></li>
+                <li>Find the WebStorm File Templates repository</li>
+                <li>Clone or download the SuiteScript 2.1 templates</li>
+                <li>Follow the installation instructions in the README</li>
+                <li>Restart your IDE to activate the templates</li>
+            </ol>
+
+            <div class="info-box green">
+                <h4>✅ After Installation</h4>
+                <p>Right-click any folder → New → You'll see options for User Event Script, Client Script, Suitelet, Map/Reduce, and more.</p>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>📝 Type Declarations</h2>
+            <p>Type declarations teach your IDE about SuiteScript modules. Without them, your editor doesn't know that <span class="inline-code">record.load()</span> returns a <span class="inline-code">Record</span> object or what methods are available.</p>
+
+            <h3>What Type Declarations Provide</h3>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <h4>Autocomplete</h4>
+                    <p>Type <code>record.</code> and see all available methods</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Parameter Hints</h4>
+                    <p>See required and optional parameters as you type</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Return Types</h4>
+                    <p>Know what each function returns</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Error Detection</h4>
+                    <p>Catch typos and incorrect usage before uploading</p>
+                </div>
+            </div>
+
+            <h3>Installation</h3>
+            <ol class="step-list">
+                <li>Download type declarations from BurkyBang's repository (SuiteScript 2.0 folder)</li>
+                <li>Place the <span class="inline-code">.d.ts</span> files in your project or a shared location</li>
+                <li>Configure your IDE to recognize the type definitions</li>
+                <li>WebStorm: Settings → Languages & Frameworks → JavaScript → Libraries</li>
+            </ol>
+
+            <div class="info-box purple">
+                <h4>📚 Example: Type Declaration in Action</h4>
+                <p>Open the <span class="inline-code">N_record.d.ts</span> file and search for <span class="inline-code">copy</span>. You'll see documentation for all parameters, return types, and usage notes—exactly what your IDE uses for autocomplete.</p>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>🎨 IDE Features in Action</h2>
+            
+            <h3>Syntax Highlighting</h3>
+            <p>Your IDE colorizes code by type—strings, functions, keywords, comments—making it easier to scan and understand:</p>
+
+            <pre><code><span style="color: #6a9955;">// Green: Comments</span>
+<span style="color: #569cd6;">const</span> <span style="color: #9cdcfe;">fieldValue</span> = record.<span style="color: #dcdcaa;">getValue</span>({
+    fieldId: <span style="color: #ce9178;">'entity'</span>  <span style="color: #6a9955;">// Orange: Strings</span>
+});</code></pre>
+
+            <h3>Autocomplete</h3>
+            <p>After typing <span class="inline-code">form.</span>, your IDE shows all available methods. Press Tab to insert the selected option:</p>
+
+            <pre><code>form.addField({
+    id: <span style="color: #ce9178;">'custpage_myfield'</span>,
+    type: serverWidget.FieldType.TEXT,
+    label: <span style="color: #ce9178;">'My Custom Field'</span>
+});</code></pre>
+
+            <h3>Error Detection</h3>
+            <p>Red underlines indicate syntax errors before you even upload to NetSuite. Hover to see the error message:</p>
+
+            <pre><code><span style="color: #6a9955;">// Missing closing parenthesis - IDE will flag this</span>
+record.load({
+    type: <span style="color: #ce9178;">'customer'</span>,
+    id: 123
+<span style="text-decoration: wavy underline red;">// ← Expected ')'</span></code></pre>
+        </section>
+
+        <section class="content-section">
+            <h2>📁 Project Structure</h2>
+            <p>Organize your local development folder to mirror NetSuite's File Cabinet:</p>
+
+            <pre><code>C:\Users\{username}\Documents\GitHub\
+└── {project-name}/
+    ├── src/
+    │   ├── FileCabinet/
+    │   │   └── SuiteScripts/
+    │   │       └── {your-folder}/
+    │   │           ├── project_ue_main.js
+    │   │           ├── project_cs_validation.js
+    │   │           └── project_lib_config.js
+    │   └── Objects/
+    │       └── (saved searches, custom records, etc.)
+    ├── .gitignore
+    └── README.md</code></pre>
+
+            <div class="info-box yellow">
+                <h4>⚠️ Version Control</h4>
+                <p>Always use Git to track changes. Even for solo projects, version history lets you roll back mistakes and understand when/why changes were made.</p>
+            </div>
+        </section>
+
+        <section class="content-section" style="background: rgba(66, 153, 225, 0.1); border: 1px solid rgba(66, 153, 225, 0.2); border-radius: 12px; padding: 25px; margin: 30px 0;">
+            <h2 style="border: none; padding: 0; margin-bottom: 15px;">📖 Finding This in the Docs</h2>
+            <p>Development environment topics in NetSuite Help:</p>
+            <ol style="margin-left: 20px; color: var(--text-secondary);">
+                <li style="margin-bottom: 8px;">Search "SuiteScript 2.x Developer Guide" for conceptual information</li>
+                <li style="margin-bottom: 8px;">Search "SuiteCloud IDE" for the official Eclipse-based IDE (alternative to WebStorm/VS Code)</li>
+                <li style="margin-bottom: 8px;">For type declarations, visit <strong>github.com/AustinBurkyBang</strong> (community resource)</li>
+            </ol>
+            <p style="margin-top: 15px;"><strong>Key external resources:</strong></p>
+            <ul style="margin-left: 20px; color: var(--text-secondary);">
+                <li>BurkyBang GitHub → File templates and TypeScript definitions</li>
+                <li>SuiteCloud IDE Plug-in for WebStorm → Official plugin docs</li>
+                <li>SuiteScript 2.x API Reference → Module list for autocomplete setup</li>
+            </ul>
+        </section>
+
+        <div class="key-takeaways">
+            <h3>🎯 Key Takeaways</h3>
+            <ul>
+                <li>WebStorm (paid) or VS Code (free) both work well for SuiteScript development</li>
+                <li>File templates eliminate boilerplate and ensure consistent script structure</li>
+                <li>Type declarations enable autocomplete, parameter hints, and error detection</li>
+                <li>BurkyBang's GitHub repository has templates and type declarations for SuiteScript 2.1</li>
+                <li>Proper IDE setup dramatically increases development speed and reduces errors</li>
+                <li>Mirror NetSuite's File Cabinet structure in your local project</li>
+            </ul>
+        </div>
+
+        <nav class="nav-footer">
+            <a href="Module-2-Script-Types.html">← Module 2: SuiteScript Types</a>
+            <a href="../Week-2/week-2-dashboard.html">Week 2: Script Architecture →</a>
+        </nav>
+    </main>
+</body>
+</html>

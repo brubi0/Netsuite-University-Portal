@@ -1,0 +1,123 @@
+Scheduling, actions, and transitions. The workflows currently executing on the Furniture Request record have been configured for event-based workflow initiation such as creating, updating, and saving records from the NetSuite user interface. Each of these events requires the user to perform some action, such as clicking the New, Edit, View, or Save buttons. In this module, we will discuss how to schedule actions and transitions using the workflow scheduler.
+
+In this module, we will discuss the following topics. The workflow scheduler, scheduling actions, and scheduling transitions. Upon the completion of this module, you will be able to explain the purpose of the scheduled trigger when scheduling workflows, actions, and transitions, and the unique settings of each type of schedule, and configure scheduled actions and transitions to support a basic Service Level-Agreement.
+
+What is the workflow scheduler? The workflow scheduler is a continuously running background process on the NetSuite server that wakes up every 30 minutes to evaluate whether there are scheduled workflows, actions, and/or transitions to execute on records. The workflow scheduler can be used for a variety of things, such as supporting service-level agreements, automating email notifications in coordination with marketing campaigns, and scheduling batch record processing during off-peak business hours.
+
+Depending on the processing load of the NetSuite server at the time of scheduled workflow initiation and/or action execution, workflow processing may be delayed slightly. As a result, a task scheduled for execution at a specific time may not execute at exactly the specified time. The execution may occur at a later point in time, but workflow actions and transitions will never execute before their scheduled time.
+
+The manner in which a scheduled task is executed depends on the type of schedule you create. When scheduling workflow initiation, you must set its release status to Released, or the scheduler will not initiate the workflow. You must also specify a saved search that returns the records you wish to process during workflow initiation.
+
+Every 30 minutes, the scheduler analyzes the workflow's schedule criteria, the save search criteria, and any other conditions configured for workflow initiation. If all of these conditions evaluate to true, the workflow is initiated per the schedule.
+
+Scheduled actions are considered for execution when a record enters a state that contains a scheduled action. Every 30 minutes, the scheduler analyzes the action's schedule criteria as well as any other conditions configured for action execution. If each of these conditions evaluates to true, the action is executed per the schedule.
+
+Scheduled transitions are considered for execution when a record enters a state that contains a scheduled transition. Every 30 minutes, the scheduler analyzes the transition schedule criteria and any other conditions configured for transition execution. If all conditions evaluate to true, the transition is executed per the schedule.
+
+Workflows, actions, and transitions can be scheduled using the workflow scheduler in a special scheduled trigger. To schedule the initiation of a workflow, select Scheduled from the Initiation section of the Workflow Definition page, and then specify the necessary schedule and/or condition requirements.
+
+When scheduling workflow initiation, the workflow scheduler will initiate the workflow during the next scheduler event, which occurs every 30 minutes. The saved search selected from the Saved Search filter dropdown list provides the workflow with records to process when it's initiated. If you only want the workflow to run once, select the Saved Search and disable the Repeat option, and then specify the execution date and execution time as shown here. If you want the workflow to run more than once, select the Saved Search, enable the Repeat option, and set the desired options.
+
+When you specify a date and time for a scheduled workflow, action, or transition, the workflow, action, or transition will be executed in the time zone of the NetSuite user that created the schedule. Whenever a user defines a new schedule or edits an existing schedule, the date and time specified are saved in the NetSuite database in the time zone of the user. Even if the user changes their time zone preference at some point in the future without changing the original schedule, the schedule maintains the original date and time.
+
+Before scheduling workflow initiation, you must create a saved search which will be used as the criteria by which to execute the scheduled workflow. The specified saved search must be configured on the same base record type as the workflow, and it must include at least one filter on the criteria subtab Standard sublist to ensure at least one record is returned in the search results.
+
+At the scheduled time, NetSuite runs the saved search and initiates a workflow instance to run on each of the records returned in the search results. So for example, if the saved search returns 10 records, NetSuite initiates 10 instances of the workflow, one on each record.
+
+One final note regarding specifying saved search criteria for workflow initiation. There is no inherent order in which scheduled workflows start and finish. For example, if you have three scheduled workflows, workflows A, B, and C, and each workflow is scheduled to initiate on the same schedule, NetSuite initiates each workflow's saved search and an instance of each workflow on every record returned in the search results.
+
+Depending on the workflow and the number of records returned by each saved search, any one of the workflows may complete its processing before the other two. This is important to consider when building your saved searches for workflow initiation.
+
+Workflow actions can be scheduled by selecting Scheduled from the Trigger On dropdown list as shown here. Scheduled actions only execute after the record enters the state containing the scheduled action.
+
+When scheduling an action, you can configure the details of the schedule by specifying delayed execution or execution at a specific time of the day. You can use the Delay option to wait a specified number of hours or days before executing the configured action. The delay is based on the time the record enters the state with the scheduled action.
+
+Unit represents the unit time for the delay time of day options, either hour or day. For example, if you set the unit equal to Hour and the delay equal to 1, the action will be executed a single time, approximately one hour after the record enters the state.
+
+Use the Recurrence option to specify the amount of time to wait based on the selected unit until the action executes again. For example, if you set the unit equal to Hour, delay equal to 1, and recurrence equal to 3, the action will be executed approximately one hour after entering the state and every three hours after that.
+
+Now consider the following examples of setting delay and recurrence. If you set delay to 1, recurrence to 0, and the unit to Hour, the action executes one hour after entering the state. If you set the delay to 1, the recurrence to 2, and the unit to Day, the action executes one day after entering the state and every two days after the initial execution.
+
+If you set the delay to 0, the recurrence to blank, and the unit to Hour, action will execute once the next time the scheduler runs, which could be up to 30 minutes. And finally, if you set the delay to 0, the recurrence to 0, and the unit to hour, the action will execute continuously every 30 minutes when the scheduler wakes up and runs.
+
+In cases where an action needs to be executed at a specific time of the day, the Time of Day schedule can be used. For example, if you want to send a limited time only marketing campaign email at 9:00 AM every other day for two weeks, you might configure it as follows. You would set the start time to 9:00 AM, the recurrence to 2, and the unit to Day. However, keep in mind that this type of schedule would require a counter that is incremented up to a value of 7. So 7 times 2 would be 14, which is your two-week duration for this particular use case.
+
+The scheduled trigger can also be used to configure scheduled transitions. Like actions, you can schedule a transition to execute after a certain number of hours or days have passed after the record enters the state containing the scheduled transition. To schedule a transition, simply select Scheduled from the TRANSITION ON dropdown list and define the scheduled properties.
+
+While it is possible to select a specific server trigger from the TRANSITION ON dropdown list, the scheduled trigger allows for more control over when a transition executes. For example, if you specify a delay of one hour and select the After Record Submit trigger from the TRANSITION ON dropdown list, the transition executes approximately one hour after the After Record Submit trigger has occurred. If you use the scheduled trigger, the transition executes approximately one hour after entering the state with the scheduled transition, and it is not tied to a specific server event.
+
+When configuring scheduled transitions using a saved search, remember that all specified transition conditions will be AND'd together. When scheduling a transition to execute on a server trigger and a saved search, NetSuite runs the saved search based on the selected server trigger and executes the transition only when the criteria specified in the saved search evaluates to true, meaning one or more records are returned in the saved search results.
+
+If TRANSITION ON is set to blank, NetSuite executes the transition when the criteria specified in the saved search evaluates to true. If you set the TRANSITION ON equal to scheduled, NetSuite waits until the settings in the Delay and Unit fields have been met, and executes the transition only when the criteria specified in the saved search also evaluates to true.
+
+When scheduling workflows, actions, and transitions, here are some important things to remember. First, scheduled actions and transitions run based on the time zone of the user who created the schedule. Create appropriate saved search conditions that initiate scheduled workflows only on records that will be processed by the workflow. This prevents workflow instances from being initiated on records that don't require updating.
+
+Avoid unnecessary reprocessing of records during future scheduled events. Once a record has been processed by a scheduled workflow, record data should be updated in such a way that it no longer meets the saved search criteria that initiated it. Make sure workflows containing scheduled actions and transitions have a RELEASE STATUS of Released.
+
+Limit the use of scheduled actions when a large number of records will be processed. And finally, scheduled actions in exiting end states will not execute if the record exits the workflow before the scheduled action can be executed.
+
+In this walkthrough demonstration, we will show you how to configure scheduled actions and transitions to support a very simple service-level agreement as part of the performance review approval process. We will configure reminder emails to the current approver, schedule email notifications to the selected subordinate, and then automatically reject after three days if the record has not been approved.
+
+The individual tasks to be demonstrated are as follows. First, we'll add a new performance review status called Auto-Rejected. Then we'll modify our performance review approval workflow accordingly. Finally, we'll execute the workflow and test our scheduled actions and transitions utilizing Workflow History and the workflow execution log.
+
+We'll begin this demonstration by creating a custom status in our performance review list. And to do that, I'm going to come up here to Customization, I'm going to come down to Lists, Records, and Fields, and then come over to Lists.
+
+And when I get there, you will see that we do, in fact, have a performance review status list here, and I'm simply going to add a value to that. And I'll do that simply by scrolling down here. And the label or value for this value is going to be called Auto-Rejected. And we'll associate that with our Auto-Rejected state in a little bit. I'll simply add that and click Save.
+
+Now let's go and take a look at our approval workflow. So I'm going to navigate to my list of workflows from Customization, Workflow, Workflows. And I'm going to go ahead and edit my performance review approval workflow.
+
+And the focus of our initial configuration here for this scheduled transition and email is going to be in State 1, waiting for approval. So I'm going to go ahead and select that.
+
+And let's go ahead and add a Scheduled Send Email action here. So I'm simply going to click New Action from the State Context panel there. I'll scroll down and choose Send Email. And instead of choosing a typical trigger, of course, on the TRIGGER ON dropdown list here, I'm going to go ahead and choose Scheduled rather than After Record Submit, which would be the only logical-- the only other logical choice there.
+
+Now in our schedule properties over here on the right-hand side, I'm going to go ahead and choose delayed-- a delayed schedule. And I'm going to go ahead and enter in 0 here. And the reason I'm doing that is because keep in mind, the scheduler's going to wake up every 30 minutes. So if I go in there and put in a value of 1, 2, 3, so on and so forth, I'm going to have to wait upwards of one to two, three or more hours, depending on the unit that you select, or days in order to test this. So we certainly don't want to waste that kind of time as we're working through our course material.
+
+So what I would recommend as you're going through the exercises is set the delay and any recurrence values and any units as low as possible so you can at least go in and only wait about 30 minutes or so for the next schedule to run to test these things. It'll just really help test as you go through the exercises.
+
+And that's precisely what I'm going to do. So I'm going to go ahead and set this to 0 as my delay, and I'm going to go ahead and leave the recurrence blank. We don't want to work with that. We just want this email sent once. And I'm going to go ahead and choose Hour.
+
+So immediately send the email after coming into the state the next time the scheduler runs, basically, is what this is going to say. It's about as low as we can go in terms of a schedule.
+
+Now let's configure the rest of our Send Email action. So who are we sending this from? Well, it's going to be coming from the subordinate. OK. Whoops. Wrong field there. I'm going to choose from field current record Subordinate. And the recipient is going to be the current approver, OK? So it's simply going to look like it's coming from the manager's subordinate. OK. But it's going to be going to whoever the current approver is for this particular performance review record.
+
+And the subject of this particular email notification is going to be Performance Review Reminder. And I'll just go ahead and quickly enter some text in here into the body of the message as well. OK. Just a reminder that you have a performance review to approve.
+
+Now, a good best practice whenever configuring a Send Email action in SuiteFlow is to set up a very basic set of conditions that simply verify that the email address of the recipient and sender is not empty. So I'm simply going to come in here and say, record Subordinate, field Email, not empty. There we go. Now do the same thing on the current approver. OK, so the current approver email, also not empty.
+
+Now, what this does not do is this does not verify that the format of the email address on each of their employee records is valid. If it's an invalid email address syntax-wise, the email's still going to fail. But this at least verifies that there is something in the email field on their employee record. So just keep that in mind.
+
+There we go. I'm going to go ahead and save that scheduled sent email action. And again, that could take 30 minutes or more for me to test. And what we'll do is we'll go ahead and execute this here shortly, and then we'll come back and I'll show you the results of that using the workflow execution log.
+
+So in the meantime, let's go ahead and add a new state. So I'm going to click the new state here. And I'm going to drag this right down next to this State 3. And I'm simply going to rename this to State 3A Auto-Rejected right there.
+
+And I'm going to go ahead and check the Do Not Exit Workflow checkbox. This will be an end state of the workflow where I will keep the record for perpetuity. And I'll click Save. All right. There we go.
+
+And now let's go ahead and just wire up our scheduled transition. So I'm simply going to drag a transition from State 1 to my new State 3A Auto-Rejected. And I only want that to occur based on a schedule. So I'm going to edit the transition by clicking on the little pencil icon here, and I'm simply going to say that I want to set this up for a delay or a scheduled transition. Sorry, there we go.
+
+And the delay parameters are going to be as follows. I want to delay one hour after entering the state, OK? So if there's been no approval within one hour after entering State 1, the waiting for approval state, I want to go ahead and transition to auto-rejected. And that is basically how we're going to configure that. So I'll go ahead and save that.
+
+All right. And now let's just come and kind of finish up this basic configuration. I'm going to select our new State 3A here and just go ahead and add a set field value action that sets the value of our approval status accordingly, because we just added that custom status. Let's go ahead and set that up to Auto-Rejected. And I think that took. Yeah, there it is. OK. Auto-Rejected will be the approval status.
+
+And I could certainly configure additional send email actions in this state to notify the approver or the subordinate that that particular performance review has been auto-rejected, maybe provide them a reason. I'm not going to do that. I think you get the general idea. I think it's more important that we see the results of our scheduled email in State 1, OK? Which, again, is right down here. This actually will show you under Scheduled. And then our scheduled transition, as you can see here, between State 1 and our new State 3A.
+
+Now let's go ahead and just do a quick execution of our workflow. I'm going to go ahead and click Done Editing here. And I'm going to create a new performance review record by going to Lists, Custom, Performance Review, New, and I'll open that up in a new tab. There we go.
+
+And I'm going to go ahead and just call this M03 Test #1 for Module 3, Test Number 1. I'll go ahead and choose John Rittman as my subordinate. We'll go ahead and give him a rating code of B, and we'll just go ahead and put $3,000 in there. And I'll just do a quick save here.
+
+All right. There we go. If I go back to my list of records, OK, here is my new-- I'm going to start this by internal ID descending so I can see the order of records here by name. I'm going to go ahead and view that record that I just entered, and let's take a look at our workflow history, just for a moment. And you can clearly see just in the active workflows that the record is definitely sitting in State 1, waiting for approval.
+
+And if I go into Workflow History and we look at the log file for that particular state, OK? State 1 waiting for approval. You will see that there's really nothing that's happened yet, OK? There's been no actions, no scheduled actions that have executed, because it's waiting based on the criteria that we set in our delay. So as soon as that executes, we will come back. I'll refresh this log file, and we should see the results of not only the Scheduled Send Email action here in our log files, but also the scheduled transition as well. So stay tuned for that, and we'll be right back.
+
+OK. So you can see that the scheduled actions have happened. You can see my scheduled transition from State 1 to State 3A. We'll get to that in just a moment. But let's first take a look at the scheduled email that should have been sent within one hour upon not being approved in State 1.
+
+So if I look at this State 1 log right here, you will see that we do, in fact, have a scheduled trigger action being processed here. And you can see that's our Send Email action. It's showing me the-- of course the condition, as well as the sender and the recipient of the email. In this case, the subordinate to the current approver, in this case, which is me, Larry Nelson.
+
+And you can also see the scheduled transition which happened shortly after. Now interestingly, let me just back up just for a moment, or just show you here. Notice that the start time of this particular log file, when it entered State 1, was at 16:44, OK? Basically at 4:44 PM local time.
+
+And notice down here that the Send Email action was actually done processing at 17:03. So that means that from the time that this workflow was initiated on this record at around 4:44 PM, it was processed at 5:03 PM. So about 19 minutes later it was picked up in State 1 and processed in terms of that email.
+
+Now in terms of the transition, you'll notice that the transition took a little bit longer to occur because of the nature of the delay that we put on there. We put a one-hour delay. So you can see here that it actually finished processing at 18:03, which just happens to be 6:03, which is exactly one hour from the last scheduler run in this workflow, which was, again, 5:03. So you can kind of use these time stamps in here to get a good idea of how your actions are processing on the schedules.
+
+Now the other thing that I'll point out is if we go into our State 3A where our transition occurred, we had a Set Field Value action in there which simply set the approval status to that Auto-Rejected status that we created in our custom list. And you can see that represented-- there's value 4 here in the log file.
+
+So that's just a really quick example of configuring actions and transitions using the scheduled trigger. It is now time for you to complete the required hands-on exercises associated with the topics discussed in this module. To complete the required exercises, refer to your student workbook. When you have finished, you may continue with the next module. This concludes the Scheduling Actions and Transitions module.

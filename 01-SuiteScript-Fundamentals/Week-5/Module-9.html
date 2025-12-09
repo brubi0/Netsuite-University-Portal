@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 9: Map/Reduce Scripts</title>
+    <style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.8;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:40px 20px}.container{max-width:900px;margin:0 auto}.header{background:white;padding:30px 40px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.2);margin-bottom:30px}.header h1{color:#2563eb;font-size:2rem;margin-bottom:10px}.header .meta{color:#6b7280;font-size:0.9rem}.content{background:white;padding:40px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.2)}.content h2{color:#1e40af;margin:35px 0 20px 0;font-size:1.6rem;padding-bottom:10px;border-bottom:3px solid #dbeafe}.content h2:first-of-type{margin-top:0}.content h3{color:#374151;margin:25px 0 15px 0;font-size:1.3rem}.content p{margin:15px 0;color:#374151}.content ul,.content ol{margin:15px 0 15px 30px;color:#374151}.content li{margin:10px 0}.info-box{padding:20px 25px;border-radius:8px;margin:25px 0;border-left:5px solid}.info-box.blue{background:#dbeafe;border-color:#2563eb}.info-box.yellow{background:#fef3c7;border-color:#f59e0b}.info-box.green{background:#dcfce7;border-color:#10b981}.info-box.red{background:#fee2e2;border-color:#ef4444}.info-box strong{color:#1e40af;display:block;margin-bottom:10px;font-size:1.1rem}code{background:#f3f4f6;padding:3px 8px;border-radius:4px;font-family:monospace;font-size:0.9em;color:#ef4444}pre{background:#1e293b;color:#e2e8f0;padding:25px;border-radius:8px;overflow-x:auto;margin:25px 0;border-left:5px solid #667eea}pre code{background:none;padding:0;color:inherit}.takeaway{background:#f0f9ff;border:2px solid #0ea5e9;border-radius:10px;padding:25px;margin:30px 0}.takeaway h3{color:#0369a1;margin:0 0 15px 0}.takeaway ul{margin:10px 0 10px 25px}.takeaway li{color:#0c4a6e;font-weight:500}.nav-buttons{display:flex;justify-content:space-between;margin-top:40px;gap:20px}.back-btn,.next-btn{padding:14px 28px;border-radius:8px;text-decoration:none;font-weight:600;transition:all 0.3s}.back-btn{background:#6b7280;color:white}.next-btn{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:white}table{width:100%;border-collapse:collapse;margin:20px 0}table th,table td{padding:12px;text-align:left;border-bottom:1px solid #e5e7eb}table th{background:#f3f4f6;color:#1e40af;font-weight:600}.toc{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:20px;margin-bottom:30px}.toc h3{color:#1e40af;margin-bottom:15px}.toc ul{list-style:none;margin:0;padding:0}.toc li{margin:8px 0}.toc a{color:#2563eb;text-decoration:none}</style>
+</head>
+<body>
+<div class="container">
+<div class="header">
+    <h1>Module 9: Map/Reduce Scripts</h1>
+    <p class="meta">Week 5 • NetSuite SuiteScript 2.0 Training • ~90 minutes</p>
+</div>
+<div class="content">
+
+<div class="toc">
+    <h3>📑 In This Module</h3>
+    <ul>
+        <li><a href="#objectives">Learning Objectives</a></li>
+        <li><a href="#overview">1. Map/Reduce Overview</a></li>
+        <li><a href="#stages">2. The Four Stages</a></li>
+        <li><a href="#distributed">3. Distributed Processing</a></li>
+        <li><a href="#example">4. Complete Example</a></li>
+        <li><a href="#vs-scheduled">5. Map/Reduce vs Scheduled</a></li>
+        <li><a href="#practice">Practice Exercises</a></li>
+    </ul>
+</div>
+
+<h2 id="objectives">🎯 Learning Objectives</h2>
+<ul>
+    <li>Understand Map/Reduce architecture</li>
+    <li>Implement the four stages: getInputData, map, reduce, summarize</li>
+    <li>Leverage distributed processing for massive datasets</li>
+    <li>Handle errors with the summarize stage</li>
+    <li>Choose between Map/Reduce and Scheduled scripts</li>
+</ul>
+
+<h2 id="overview">1. Map/Reduce Overview</h2>
+
+<p>Map/Reduce is the most powerful script type for processing <strong>thousands of records</strong>. It breaks work into stages that can run in parallel across multiple queues.</p>
+
+<div class="info-box blue">
+    <strong>💡 Key Advantages</strong>
+    <ul>
+        <li><strong>Automatic Governance</strong> - System handles checkpoints</li>
+        <li><strong>Distributed Processing</strong> - Uses all available queues</li>
+        <li><strong>Built-in Error Handling</strong> - Errors don't stop the whole script</li>
+        <li><strong>Yield Control</strong> - Can pause to let other scripts run</li>
+    </ul>
+</div>
+
+<h2 id="stages">2. The Four Stages</h2>
+
+<pre><code>getInputData → map → reduce → summarize
+     ↓           ↓       ↓          ↓
+   Get data   Process  Aggregate  Report
+   to work    each     by key     results
+   with       record</code></pre>
+
+<h3>Stage 1: getInputData</h3>
+<p>Returns the data to process. Can return a search, array, or object.</p>
+
+<pre><code>function getInputData() {
+    // Return a search - most common
+    return search.create({
+        type: search.Type.CUSTOMER,
+        filters: [['email', 'isnotempty', '']],
+        columns: ['entityid', 'email']
+    });
+    
+    // Or return an array
+    // return [1, 2, 3, 4, 5];
+    
+    // Or return an object
+    // return { key1: 'value1', key2: 'value2' };
+}</code></pre>
+
+<h3>Stage 2: map</h3>
+<p>Called once per input. Process individual items here.</p>
+
+<pre><code>function map(context) {
+    // context.key = index or key
+    // context.value = the data (JSON string if from search)
+    
+    var data = JSON.parse(context.value);
+    var customerId = data.id;
+    var email = data.values.email;
+    
+    // Do processing...
+    
+    // Optionally write to reduce stage
+    context.write({
+        key: 'processed',
+        value: customerId
+    });
+}</code></pre>
+
+<h3>Stage 3: reduce</h3>
+<p>Groups values by key from map stage. Use for aggregations.</p>
+
+<pre><code>function reduce(context) {
+    // context.key = the key written in map
+    // context.values = array of all values with that key
+    
+    var count = context.values.length;
+    log.debug('Reduce', 'Key: ' + context.key + ', Count: ' + count);
+    
+    // Write to summarize
+    context.write({
+        key: context.key,
+        value: count
+    });
+}</code></pre>
+
+<h3>Stage 4: summarize</h3>
+<p>Final stage for reporting and error handling.</p>
+
+<pre><code>function summarize(summary) {
+    // Log any errors
+    summary.mapSummary.errors.iterator().each(function(key, error) {
+        log.error('Map Error', 'Key: ' + key + ', Error: ' + error);
+        return true;
+    });
+    
+    // Log results
+    var totalProcessed = 0;
+    summary.output.iterator().each(function(key, value) {
+        totalProcessed += parseInt(value);
+        return true;
+    });
+    
+    log.audit('Complete', 'Total processed: ' + totalProcessed);
+    log.audit('Usage', 'Units used: ' + summary.usage);
+}</code></pre>
+
+<h2 id="distributed">3. Distributed Processing</h2>
+
+<p>Map/Reduce automatically distributes work across available queues:</p>
+
+<div class="info-box yellow">
+    <strong>⚠️ How It Works</strong>
+    <ul>
+        <li><strong>getInputData</strong>: Runs once on one queue</li>
+        <li><strong>map</strong>: Each record can run on ANY available queue in parallel</li>
+        <li><strong>reduce</strong>: Each key group runs on any available queue</li>
+        <li><strong>summarize</strong>: Runs once after all map/reduce complete</li>
+    </ul>
+</div>
+
+<p>With 5 queues and 1000 records, up to 5 map executions run simultaneously!</p>
+
+<h2 id="example">4. Complete Example</h2>
+
+<pre><code>/**
+ * @NApiVersion 2.1
+ * @NScriptType MapReduceScript
+ */
+define(['N/search', 'N/record', 'N/runtime'], function(search, record, runtime) {
+    
+    function getInputData() {
+        return search.create({
+            type: search.Type.SALES_ORDER,
+            filters: [
+                ['status', 'anyof', 'SalesOrd:B'], // Pending Fulfillment
+                ['mainline', 'is', 'T']
+            ],
+            columns: ['entity', 'total']
+        });
+    }
+    
+    function map(context) {
+        var searchResult = JSON.parse(context.value);
+        var orderId = searchResult.id;
+        var customerId = searchResult.values.entity.value;
+        var total = parseFloat(searchResult.values.total);
+        
+        // Write customer ID as key for grouping
+        context.write({
+            key: customerId,
+            value: total
+        });
+    }
+    
+    function reduce(context) {
+        // context.values = array of order totals for this customer
+        var customerId = context.key;
+        var totalAmount = 0;
+        
+        context.values.forEach(function(value) {
+            totalAmount += parseFloat(value);
+        });
+        
+        log.debug('Customer Total', 
+            'Customer: ' + customerId + ', Total: $' + totalAmount);
+        
+        context.write({
+            key: customerId,
+            value: totalAmount
+        });
+    }
+    
+    function summarize(summary) {
+        // Handle errors
+        if (summary.mapSummary.errors) {
+            summary.mapSummary.errors.iterator().each(function(key, error) {
+                log.error('Map Error', error);
+                return true;
+            });
+        }
+        
+        // Count results
+        var customerCount = 0;
+        summary.output.iterator().each(function(key, value) {
+            customerCount++;
+            return true;
+        });
+        
+        log.audit('Script Complete', 
+            customerCount + ' customers processed. Units: ' + summary.usage);
+    }
+    
+    return {
+        getInputData: getInputData,
+        map: map,
+        reduce: reduce,
+        summarize: summarize
+    };
+});</code></pre>
+
+<h2 id="vs-scheduled">5. Map/Reduce vs Scheduled</h2>
+
+<table>
+    <tr><th>Feature</th><th>Scheduled</th><th>Map/Reduce</th></tr>
+    <tr><td>Governance</td><td>10,000 units, manual checkpoints</td><td>Automatic handling</td></tr>
+    <tr><td>Parallelism</td><td>Single queue</td><td>Multiple queues simultaneously</td></tr>
+    <tr><td>Error handling</td><td>One error stops script</td><td>Errors isolated per record</td></tr>
+    <tr><td>Best for</td><td>Simple batch jobs</td><td>Massive data processing</td></tr>
+    <tr><td>Complexity</td><td>Simple</td><td>More stages to manage</td></tr>
+</table>
+
+<div class="info-box green">
+    <strong>✅ Use Map/Reduce When:</strong>
+    <ul>
+        <li>Processing thousands of records</li>
+        <li>Need parallel processing</li>
+        <li>Individual record errors shouldn't stop everything</li>
+        <li>Need automatic governance handling</li>
+    </ul>
+</div>
+
+<h2 id="practice">🏋️ Practice Exercises</h2>
+
+<div class="info-box green">
+    <strong>Exercise 1: Basic Map/Reduce</strong>
+    <p>Create a Map/Reduce script that finds all Invoices and logs each invoice number in the map stage.</p>
+</div>
+
+<div class="info-box green">
+    <strong>Exercise 2: Aggregation</strong>
+    <p>Modify the script to group invoices by customer (reduce) and calculate total amount owed per customer.</p>
+</div>
+
+<div class="takeaway">
+    <h3>🎯 Key Takeaways</h3>
+    <ul>
+        <li>Map/Reduce has 4 stages: getInputData, map, reduce, summarize</li>
+        <li>getInputData provides data; map processes each item; reduce aggregates; summarize reports</li>
+        <li>Automatic governance handling - no manual checkpoints needed</li>
+        <li>Distributed processing uses all available queues in parallel</li>
+        <li>Errors are isolated - one failure doesn't stop other records</li>
+        <li>Use for massive datasets (thousands of records)</li>
+    </ul>
+</div>
+
+<div class="nav-buttons">
+    <a href="week-5-dashboard.html" class="back-btn">← Back to Week 5</a>
+    <a href="../Week-6/Module-10.html" class="next-btn">Next: Module 10 →</a>
+</div>
+
+</div>
+</div>
+</body>
+</html>

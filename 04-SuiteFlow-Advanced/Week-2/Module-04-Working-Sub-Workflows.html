@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 4: Working with Sub-Workflows - SuiteFlow Advanced Workflows</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #0f0f1a; line-height: 1.6; color: #e0e0e0; }
+        .header { background: linear-gradient(135deg, #e94560 0%, #0f3460 100%); color: white; padding: 40px 20px; }
+        .header-content { max-width: 1200px; margin: 0 auto; }
+        .breadcrumb { font-size: 0.9em; margin-bottom: 15px; opacity: 0.9; }
+        .breadcrumb a { color: white; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.3); }
+        .module-title-section { display: flex; align-items: center; gap: 20px; }
+        .module-number { background: rgba(255,255,255,0.2); width: 80px; height: 80px; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 2em; font-weight: 700; }
+        h1 { font-size: 2.5em; font-weight: 700; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        .objectives-box { background: #1a1a2e; border-radius: 15px; padding: 30px; margin-bottom: 30px; border-left: 5px solid #e94560; }
+        .objectives-box h2 { color: #e94560; margin-bottom: 20px; }
+        .objectives-box ul { list-style: none; padding: 0; }
+        .objectives-box li { padding: 10px 0 10px 30px; position: relative; color: #ccc; }
+        .objectives-box li::before { content: "✓"; position: absolute; left: 0; color: #e94560; font-weight: bold; }
+        .content-section { background: #1a1a2e; border-radius: 15px; padding: 40px; margin-bottom: 30px; }
+        .content-section h2 { color: #fff; font-size: 1.8em; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 3px solid #e94560; }
+        .content-section h3 { color: #e94560; font-size: 1.4em; margin-top: 30px; margin-bottom: 15px; }
+        .content-section p { color: #ccc; line-height: 1.8; margin-bottom: 15px; }
+        .content-section ul, .content-section ol { margin-left: 30px; margin-bottom: 20px; }
+        .content-section li { margin-bottom: 10px; color: #ccc; }
+        .info-box { padding: 20px; border-radius: 8px; margin: 25px 0; border-left: 4px solid; }
+        .info-box.blue { background: rgba(33,150,243,0.1); border-left-color: #2196f3; }
+        .info-box.yellow { background: rgba(255,193,7,0.1); border-left-color: #ffc107; }
+        .info-box.green { background: rgba(76,175,80,0.1); border-left-color: #4caf50; }
+        .info-box.purple { background: rgba(156,39,176,0.1); border-left-color: #9c27b0; }
+        .info-box h4 { margin-bottom: 10px; font-weight: 600; }
+        .info-box.blue h4 { color: #2196f3; }
+        .info-box.yellow h4 { color: #ffc107; }
+        .info-box.green h4 { color: #4caf50; }
+        .info-box.purple h4 { color: #9c27b0; }
+        .comparison-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        .comparison-table th, .comparison-table td { padding: 15px; text-align: left; border-bottom: 1px solid #333; }
+        .comparison-table th { background: linear-gradient(135deg, #e94560 0%, #0f3460 100%); color: white; }
+        .comparison-table tr:hover { background: rgba(233,69,96,0.1); }
+        .diagram-box { background: #0a0a12; border-radius: 10px; padding: 30px; margin: 25px 0; font-family: monospace; text-align: center; }
+        .key-takeaways { background: linear-gradient(135deg, #e94560 0%, #0f3460 100%); color: white; border-radius: 15px; padding: 30px; margin: 30px 0; }
+        .key-takeaways h3 { color: white; margin-bottom: 20px; font-size: 1.5em; }
+        .key-takeaways ul { list-style: none; padding: 0; }
+        .key-takeaways li { padding: 12px 0 12px 30px; position: relative; opacity: 0.95; }
+        .key-takeaways li::before { content: "★"; position: absolute; left: 0; }
+        .navigation { display: flex; justify-content: space-between; margin-top: 40px; gap: 20px; flex-wrap: wrap; }
+        .nav-btn { display: inline-flex; align-items: center; padding: 15px 30px; border-radius: 25px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; flex: 1; justify-content: center; min-width: 200px; }
+        .nav-btn-primary { background: linear-gradient(135deg, #e94560 0%, #0f3460 100%); color: white; }
+        .nav-btn-secondary { background: rgba(255,255,255,0.1); color: #fff; }
+        .nav-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(233,69,96,0.3); }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="breadcrumb">
+                <a href="../Master-Dashboard.html">← Course Overview</a> / 
+                <a href="week-2-dashboard.html">Week 2</a> / Module 4
+            </div>
+            <div class="module-title-section">
+                <div class="module-number">04</div>
+                <div>
+                    <h1>Working with Sub-Workflows</h1>
+                    <p style="margin-top: 10px; opacity: 0.9;">Modular Design with Parent-Child Relationships</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="objectives-box">
+            <h2>🎯 Learning Objectives</h2>
+            <p style="color: #999; margin-bottom: 15px;">Upon completion of this module, you will be able to:</p>
+            <ul>
+                <li>Explain how sub-workflows can reduce workflow complexity</li>
+                <li>Use modular design techniques to sequence execution order of multiple sub-workflows</li>
+                <li>Implement sub-workflows supporting parallel approvals</li>
+            </ul>
+        </div>
+
+        <div class="content-section">
+            <h2>Understanding Sub-Workflows</h2>
+            
+            <p>A sub-workflow is a <strong>child business process</strong> initiated by a parent workflow. Sub-workflows help meet complex business requirements without adding unnecessary complexity to existing workflows.</p>
+
+            <h3>Sub-Workflow Relationships</h3>
+            <ul>
+                <li><strong>Dependent:</strong> Parent waits for or reacts to values returned by child</li>
+                <li><strong>Independent:</strong> Child has no direct impact on parent workflow processing</li>
+            </ul>
+
+            <div class="info-box blue">
+                <h4>📋 Key Requirement</h4>
+                <p>Sub-workflows must be configured on the <strong>same base record type</strong> as the initiating parent workflow. For example, if parent runs on Purchase Order, sub-workflow must also run on Purchase Order.</p>
+            </div>
+
+            <h3>The Initiate Workflow Action</h3>
+            <p>Use the <strong>Initiate Workflow</strong> action to start a sub-workflow from a parent workflow. This allows multiple workflows to process in parallel on the same record.</p>
+        </div>
+
+        <div class="content-section">
+            <h2>Design Approaches</h2>
+
+            <h3>Reasons to Split Workflows</h3>
+            <ul>
+                <li>Multiple workflows performing <strong>distinct processing</strong> need specific execution order</li>
+                <li>Portions of a business process need to run <strong>in parallel</strong></li>
+                <li><strong>Reduce complexity</strong> for easier maintenance</li>
+            </ul>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Approach</th>
+                        <th>Description</th>
+                        <th>Use Case</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Loose Coupling</strong></td>
+                        <td>Workflows process independently</td>
+                        <td>Sequential processing without dependencies</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Tight Coupling</strong></td>
+                        <td>Workflows have processing dependencies</td>
+                        <td>Sequential processing with dependencies</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Parallel Processing</strong></td>
+                        <td>Multiple workflows run simultaneously</td>
+                        <td>Parallel approvals, concurrent tasks</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="content-section">
+            <h2>Loose Coupling</h2>
+
+            <p><strong>Loose coupling</strong> is when one component is not dependent on any other component. Each workflow processes independently and asynchronously.</p>
+
+            <div class="diagram-box">
+                <p style="color: #e94560; font-size: 1.1em; margin-bottom: 15px;">LOOSE COUPLING PATTERN</p>
+                <p style="color: #ccc;">┌─────────────┐</p>
+                <p style="color: #ccc;">│ Workflow X  │ ← Parent (orchestrator)</p>
+                <p style="color: #ccc;">│   State 1   │</p>
+                <p style="color: #ccc;">│ [Initiate A]│</p>
+                <p style="color: #ccc;">│   State 2   │</p>
+                <p style="color: #ccc;">│ [Initiate B]│</p>
+                <p style="color: #ccc;">└─────────────┘</p>
+                <p style="color: #ccc; margin-top: 10px;">      ↓           ↓</p>
+                <p style="color: #4caf50;">┌──────────┐ ┌──────────┐</p>
+                <p style="color: #4caf50;">│Workflow A│ │Workflow B│</p>
+                <p style="color: #4caf50;">│(processes│ │(processes│</p>
+                <p style="color: #4caf50;">│ alone)   │ │ alone)   │</p>
+                <p style="color: #4caf50;">└──────────┘ └──────────┘</p>
+            </div>
+
+            <p>Workflow X is the orchestrator with minimal business logic—its purpose is to initiate sub-workflows A and B in sequence.</p>
+        </div>
+
+        <div class="content-section">
+            <h2>Tight Coupling</h2>
+
+            <p><strong>Tight coupling</strong> creates processing dependencies between workflows while still allowing sequenced execution.</p>
+
+            <div class="diagram-box">
+                <p style="color: #e94560; font-size: 1.1em; margin-bottom: 15px;">TIGHT COUPLING PATTERN</p>
+                <p style="color: #ccc;">┌─────────────┐</p>
+                <p style="color: #ccc;">│ Workflow X  │</p>
+                <p style="color: #ccc;">│   State 1   │</p>
+                <p style="color: #ccc;">│ [Initiate A]│───→ Workflow A completes</p>
+                <p style="color: #ccc;">│             │         │</p>
+                <p style="color: #ccc;">│   State 2   │←────────┘ (waits for A)</p>
+                <p style="color: #ccc;">│ [Initiate B]│───→ Workflow B completes</p>
+                <p style="color: #ccc;">│             │         │</p>
+                <p style="color: #ccc;">│   State 3   │←────────┘ (waits for B)</p>
+                <p style="color: #ccc;">└─────────────┘</p>
+            </div>
+
+            <p>Parent workflow X waits for child workflow A to complete before transitioning to State 2 and initiating workflow B.</p>
+
+            <div class="info-box green">
+                <h4>✅ Implementation</h4>
+                <p>Use <strong>workflow fields</strong> or <strong>record fields</strong> to communicate completion status between parent and child workflows. Configure transition conditions to wait for specific field values.</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Parallel Processing</h2>
+
+            <p><strong>Parallel processing</strong> runs multiple workflows simultaneously on the same record.</p>
+
+            <div class="diagram-box">
+                <p style="color: #e94560; font-size: 1.1em; margin-bottom: 15px;">PARALLEL PROCESSING PATTERN</p>
+                <p style="color: #ccc;">       ┌─────────────┐</p>
+                <p style="color: #ccc;">       │ Workflow X  │</p>
+                <p style="color: #ccc;">       │   State 1   │</p>
+                <p style="color: #ccc;">       │[Init A & B] │</p>
+                <p style="color: #ccc;">       └──────┬──────┘</p>
+                <p style="color: #ccc;">         ┌────┴────┐</p>
+                <p style="color: #ccc;">         ↓         ↓</p>
+                <p style="color: #4caf50;">   ┌──────────┐ ┌──────────┐</p>
+                <p style="color: #4caf50;">   │Workflow A│ │Workflow B│</p>
+                <p style="color: #4caf50;">   │(parallel)│ │(parallel)│</p>
+                <p style="color: #4caf50;">   └──────────┘ └──────────┘</p>
+                <p style="color: #ccc;">         ↓         ↓</p>
+                <p style="color: #ccc;">       ┌──────┴──────┐</p>
+                <p style="color: #ccc;">       │ Workflow X  │</p>
+                <p style="color: #ccc;">       │   State 2   │</p>
+                <p style="color: #ccc;">       │(waits both) │</p>
+                <p style="color: #ccc;">       └─────────────┘</p>
+            </div>
+
+            <h3>Parallel Approvals</h3>
+            <p>A common use case where <strong>all approvals</strong> in both parent and child workflows must be completed before final approval is granted.</p>
+        </div>
+
+        <div class="content-section">
+            <h2>Synchronous vs. Asynchronous Processing</h2>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Behavior</th>
+                        <th>Use Case</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Synchronous</strong></td>
+                        <td>Parent waits for child to complete before continuing</td>
+                        <td>Tight coupling, sequential dependencies</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Asynchronous</strong></td>
+                        <td>Parent continues processing immediately after initiating child</td>
+                        <td>Loose coupling, parallel processing</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="info-box purple">
+                <h4>💡 Design Principle</h4>
+                <p>Componentization—breaking complex workflows into smaller components—reduces complexity of any single workflow and results in <strong>easier maintenance</strong>.</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Implementation Considerations</h2>
+
+            <h3>Data Sharing Between Workflows</h3>
+            <ul>
+                <li><strong>Workflow Instance Fields:</strong> Private to specific workflow—cannot share</li>
+                <li><strong>Workflow State Fields:</strong> Private to specific state—cannot share</li>
+                <li><strong>Standard Record Fields:</strong> Available to all workflows on the record ✓</li>
+                <li><strong>Custom Record Fields:</strong> Available to all workflows on the record ✓</li>
+            </ul>
+
+            <div class="info-box yellow">
+                <h4>⚠️ Important</h4>
+                <p>To pass data between parent and child workflows, use <strong>standard or custom record fields</strong>—not workflow instance or state fields.</p>
+            </div>
+
+            <h3>Best Practices</h3>
+            <ul>
+                <li>Keep parent orchestrator workflows <strong>simple and focused</strong></li>
+                <li>Document workflow relationships and dependencies</li>
+                <li>Use meaningful names that indicate parent-child relationships</li>
+                <li>Test sub-workflows independently before integration</li>
+            </ul>
+        </div>
+
+        <div class="key-takeaways">
+            <h3>🌟 Key Takeaways</h3>
+            <ul>
+                <li>Sub-workflows enable <strong>modular design</strong> for complex business processes</li>
+                <li>Use <strong>Initiate Workflow</strong> action to start child workflows</li>
+                <li>Sub-workflows must be on <strong>same base record type</strong> as parent</li>
+                <li><strong>Loose coupling:</strong> Independent, asynchronous processing</li>
+                <li><strong>Tight coupling:</strong> Dependent, sequential processing</li>
+                <li><strong>Parallel processing:</strong> Multiple workflows run simultaneously</li>
+                <li>Share data between workflows using <strong>record fields</strong>, not workflow fields</li>
+            </ul>
+        </div>
+
+        <div class="navigation">
+            <a href="Module-03-Saved-Searches-Conditions.html" class="nav-btn nav-btn-secondary">← Previous: Module 3</a>
+            <a href="../Week-3/Module-05-Transitioning-Related-Records.html" class="nav-btn nav-btn-primary">Next: Module 5 →</a>
+        </div>
+    </div>
+</body>
+</html>

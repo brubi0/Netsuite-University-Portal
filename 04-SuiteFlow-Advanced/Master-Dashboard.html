@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SuiteFlow Advanced Workflows - Learning Hub 2025</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); min-height: 100vh; color: #fff; }
+        .header { background: linear-gradient(135deg, #e94560 0%, #0f3460 100%); padding: 60px 20px; text-align: center; }
+        .header h1 { font-size: 3em; font-weight: 700; margin-bottom: 15px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+        .header p { font-size: 1.3em; opacity: 0.95; max-width: 800px; margin: 0 auto; }
+        .badge { display: inline-block; background: rgba(255,255,255,0.2); padding: 8px 20px; border-radius: 20px; margin-top: 20px; font-weight: 600; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 40px 20px; }
+        .prereq-banner { background: linear-gradient(135deg, #ff9966 0%, #ff5e62 100%); border-radius: 15px; padding: 25px; margin-bottom: 40px; text-align: center; }
+        .prereq-banner h3 { margin-bottom: 10px; }
+        .prereq-banner a { color: white; text-decoration: underline; }
+        .week-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; margin-bottom: 40px; }
+        .week-card { background: rgba(255,255,255,0.05); border-radius: 20px; overflow: hidden; transition: all 0.3s ease; border: 1px solid rgba(255,255,255,0.1); }
+        .week-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.3); border-color: #e94560; }
+        .week-header { padding: 25px; background: linear-gradient(135deg, #e94560 0%, #0f3460 100%); }
+        .week-header h2 { font-size: 1.5em; margin-bottom: 5px; }
+        .week-header p { opacity: 0.9; font-size: 0.95em; }
+        .week-content { padding: 25px; }
+        .module-list { list-style: none; }
+        .module-list li { padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 10px; }
+        .module-list li:last-child { border-bottom: none; }
+        .module-num { background: #e94560; color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.85em; font-weight: 600; }
+        .week-link { display: block; text-align: center; padding: 15px; background: linear-gradient(135deg, #e94560 0%, #0f3460 100%); color: white; text-decoration: none; font-weight: 600; margin-top: 15px; border-radius: 10px; transition: all 0.3s ease; }
+        .week-link:hover { transform: scale(1.02); box-shadow: 0 5px 20px rgba(233,69,96,0.4); }
+        .appendices { background: rgba(255,255,255,0.05); border-radius: 20px; padding: 30px; margin-top: 40px; border: 1px solid rgba(255,255,255,0.1); }
+        .appendices h2 { margin-bottom: 20px; color: #e94560; }
+        .appendix-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; }
+        .appendix-link { display: block; padding: 20px; background: rgba(233,69,96,0.1); border-radius: 10px; color: white; text-decoration: none; transition: all 0.3s ease; border: 1px solid transparent; }
+        .appendix-link:hover { background: rgba(233,69,96,0.2); border-color: #e94560; }
+        .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 40px; }
+        .stat-card { background: rgba(255,255,255,0.05); border-radius: 15px; padding: 25px; text-align: center; border: 1px solid rgba(255,255,255,0.1); }
+        .stat-num { font-size: 2.5em; font-weight: 700; color: #e94560; }
+        .stat-label { opacity: 0.8; margin-top: 5px; }
+        @media (max-width: 768px) { .stats { grid-template-columns: repeat(2, 1fr); } .header h1 { font-size: 2em; } }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🚀 SuiteFlow Advanced Workflows</h1>
+        <p>Master scheduling, sub-workflows, formulas, SuiteScript integration, and performance optimization</p>
+        <div class="badge">Advanced Level • 2025 Edition</div>
+    </div>
+
+    <div class="container">
+        <div class="prereq-banner">
+            <h3>⚡ Prerequisites Required</h3>
+            <p>This course requires completion of <strong>SuiteFlow Workflow Fundamentals</strong> or equivalent experience with basic workflow development, triggers, states, actions, and transitions.</p>
+        </div>
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-num">11</div>
+                <div class="stat-label">Modules</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num">4</div>
+                <div class="stat-label">Weeks</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num">10+</div>
+                <div class="stat-label">Advanced Topics</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num">∞</div>
+                <div class="stat-label">Possibilities</div>
+            </div>
+        </div>
+
+        <div class="week-grid">
+            <div class="week-card">
+                <div class="week-header">
+                    <h2>Week 1: Foundation Review</h2>
+                    <p>Course setup & trigger concepts review</p>
+                </div>
+                <div class="week-content">
+                    <ul class="module-list">
+                        <li><span class="module-num">0</span> Course Introduction</li>
+                        <li><span class="module-num">1</span> Workflow Triggers Review</li>
+                    </ul>
+                    <a href="Week-1/week-1-dashboard.html" class="week-link">Start Week 1 →</a>
+                </div>
+            </div>
+
+            <div class="week-card">
+                <div class="week-header">
+                    <h2>Week 2: Scheduling & Sub-Workflows</h2>
+                    <p>Time-based automation & modular design</p>
+                </div>
+                <div class="week-content">
+                    <ul class="module-list">
+                        <li><span class="module-num">2</span> Scheduling Actions & Transitions</li>
+                        <li><span class="module-num">3</span> Using Saved Searches in Conditions</li>
+                        <li><span class="module-num">4</span> Working with Sub-Workflows</li>
+                    </ul>
+                    <a href="Week-2/week-2-dashboard.html" class="week-link">Start Week 2 →</a>
+                </div>
+            </div>
+
+            <div class="week-card">
+                <div class="week-header">
+                    <h2>Week 3: Formulas & SuiteScript</h2>
+                    <p>Related records, SQL formulas & custom actions</p>
+                </div>
+                <div class="week-content">
+                    <ul class="module-list">
+                        <li><span class="module-num">5</span> Transitioning on Related Records</li>
+                        <li><span class="module-num">6</span> Working with Formulas</li>
+                        <li><span class="module-num">7</span> Using SuiteScript in Workflows</li>
+                    </ul>
+                    <a href="Week-3/week-3-dashboard.html" class="week-link">Start Week 3 →</a>
+                </div>
+            </div>
+
+            <div class="week-card">
+                <div class="week-header">
+                    <h2>Week 4: Contexts & Performance</h2>
+                    <p>Execution contexts, mass updates & optimization</p>
+                </div>
+                <div class="week-content">
+                    <ul class="module-list">
+                        <li><span class="module-num">8</span> Executing in Different Contexts</li>
+                        <li><span class="module-num">9</span> Improving Workflow Performance</li>
+                        <li><span class="module-num">10</span> Course Wrap-Up</li>
+                    </ul>
+                    <a href="Week-4/week-4-dashboard.html" class="week-link">Start Week 4 →</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="appendices">
+            <h2>📚 Appendices & Resources</h2>
+            <div class="appendix-grid">
+                <a href="Appendices/Appendix-A-Scheduling-Reference.html" class="appendix-link">📅 Appendix A: Scheduling Reference</a>
+                <a href="Appendices/Appendix-B-Formula-Reference.html" class="appendix-link">🔢 Appendix B: Formula Reference</a>
+                <a href="Appendices/Appendix-C-SuiteScript-Reference.html" class="appendix-link">💻 Appendix C: SuiteScript Reference</a>
+                <a href="Appendices/Appendix-D-Glossary.html" class="appendix-link">📖 Appendix D: Glossary</a>
+				<a href="Appendices/Appendix-E-Workflow-Examples.html" class="appendix-link">🗺️ Appendix E: Workflow-Examples</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

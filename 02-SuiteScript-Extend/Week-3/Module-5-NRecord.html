@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 5: N/record Module - SuiteScript Learning Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%); --dark-bg: #1a1a2e; --card-bg: #16213e; --text-primary: #ffffff; --text-secondary: #a0aec0; --border-color: rgba(255,255,255,0.1); --purple: #9f7aea; --success: #48bb78; --warning: #ecc94b; --info: #4299e1; --code-bg: #0d1117; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--dark-bg); color: var(--text-primary); min-height: 100vh; line-height: 1.7; }
+        .nav-bar { background: var(--card-bg); padding: 15px 20px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+        .nav-bar a { color: var(--purple); text-decoration: none; }
+        .header { background: var(--primary-gradient); padding: 50px 20px; }
+        .header-content { max-width: 900px; margin: 0 auto; }
+        .header .module-tag { display: inline-block; background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 20px; font-size: 0.85rem; margin-bottom: 15px; }
+        .header h1 { font-size: 2.2rem; margin-bottom: 10px; }
+        .header p { font-size: 1.1rem; opacity: 0.9; }
+        .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+        .content-section { margin-bottom: 40px; }
+        .content-section h2 { font-size: 1.5rem; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid var(--border-color); }
+        .content-section h3 { font-size: 1.2rem; margin: 25px 0 15px 0; color: var(--purple); }
+        .content-section p { margin-bottom: 15px; color: var(--text-secondary); }
+        .info-box { border-radius: 10px; padding: 20px; margin: 20px 0; }
+        .info-box.blue { background: rgba(66, 153, 225, 0.15); border: 1px solid rgba(66, 153, 225, 0.3); }
+        .info-box.green { background: rgba(72, 187, 120, 0.15); border: 1px solid rgba(72, 187, 120, 0.3); }
+        .info-box.yellow { background: rgba(236, 201, 75, 0.15); border: 1px solid rgba(236, 201, 75, 0.3); }
+        .info-box.purple { background: rgba(159, 122, 234, 0.15); border: 1px solid rgba(159, 122, 234, 0.3); }
+        .info-box h4 { margin-bottom: 10px; }
+        .info-box p { margin-bottom: 0; font-size: 0.95rem; }
+        pre { background: var(--code-bg); border-radius: 10px; padding: 20px; overflow-x: auto; margin: 20px 0; border: 1px solid var(--border-color); }
+        code { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; line-height: 1.6; }
+        .inline-code { background: var(--code-bg); padding: 2px 8px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--purple); }
+        .comment { color: #6a9955; }
+        .keyword { color: #569cd6; }
+        .string { color: #ce9178; }
+        .function { color: #dcdcaa; }
+        .property { color: #9cdcfe; }
+        .concept-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        .concept-table th, .concept-table td { padding: 12px 15px; text-align: left; border: 1px solid var(--border-color); }
+        .concept-table th { background: var(--card-bg); font-weight: 600; color: var(--purple); }
+        .concept-table td { color: var(--text-secondary); }
+        .key-takeaways { background: var(--card-bg); border-radius: 12px; padding: 25px; margin-top: 40px; border: 1px solid var(--border-color); }
+        .key-takeaways h3 { margin-bottom: 15px; }
+        .key-takeaways ul { list-style: none; }
+        .key-takeaways li { padding: 8px 0; padding-left: 25px; position: relative; color: var(--text-secondary); }
+        .key-takeaways li::before { content: '✓'; position: absolute; left: 0; color: var(--success); }
+        .nav-footer { display: flex; justify-content: space-between; margin-top: 50px; padding-top: 30px; border-top: 1px solid var(--border-color); flex-wrap: wrap; gap: 10px; }
+        .nav-footer a { color: var(--purple); text-decoration: none; }
+    </style>
+</head>
+<body>
+    <nav class="nav-bar">
+        <a href="week-3-dashboard.html">← Week 3 Dashboard</a>
+        <div style="display: flex; gap: 15px;">
+            <a href="../Week-2/Module-4-Script-Anatomy.html">← Module 4</a>
+            <a href="Module-6-NCurrentRecord.html">Module 6 →</a>
+        </div>
+    </nav>
+
+    <header class="header">
+        <div class="header-content">
+            <span class="module-tag">Week 3 • Module 5</span>
+            <h1>N/record Module</h1>
+            <p>Server-side record creation, loading, updating, and sublist manipulation</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="content-section">
+            <h2>📚 What is a Record?</h2>
+            <p>In NetSuite, a <strong>record</strong> is any entity stored in the database that can be retrieved as key-value pairs. Sales Orders, Customers, Items, and Custom Records are all examples of records.</p>
+
+            <h3>Viewing Raw Record Data</h3>
+            <p>Add <span class="inline-code">&xml=T</span> to any record URL to see the raw XML data. This reveals all field IDs and their current values—invaluable for development.</p>
+
+            <div class="info-box blue">
+                <h4>💡 Show Internal IDs</h4>
+                <p>Enable "Show Internal IDs" in your preferences (Home → Set Preferences → Defaults) to see field IDs when hovering over fields in the UI.</p>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>🔧 Core Record Operations</h2>
+            
+            <h3>record.create()</h3>
+            <p>Creates a new record in memory. The record must be saved with <span class="inline-code">.save()</span> to persist to the database.</p>
+            <pre><code><span class="keyword">const</span> <span class="property">newCustomer</span> = record.<span class="function">create</span>({
+    type: record.Type.CUSTOMER,
+    isDynamic: <span class="keyword">true</span>
+});
+newCustomer.<span class="function">setValue</span>({ fieldId: <span class="string">'companyname'</span>, value: <span class="string">'Acme Corp'</span> });
+<span class="keyword">const</span> <span class="property">customerId</span> = newCustomer.<span class="function">save</span>();</code></pre>
+
+            <h3>record.load()</h3>
+            <p>Loads an existing record from the database for reading or modification.</p>
+            <pre><code><span class="keyword">const</span> <span class="property">salesOrder</span> = record.<span class="function">load</span>({
+    type: record.Type.SALES_ORDER,
+    id: 12345,
+    isDynamic: <span class="keyword">false</span>
+});
+<span class="keyword">const</span> <span class="property">customer</span> = salesOrder.<span class="function">getValue</span>({ fieldId: <span class="string">'entity'</span> });</code></pre>
+
+            <h3>record.copy()</h3>
+            <p>Creates a copy of an existing record—same as the "Make Copy" action in the UI.</p>
+            <pre><code><span class="keyword">const</span> <span class="property">copiedOrder</span> = record.<span class="function">copy</span>({
+    type: record.Type.SALES_ORDER,
+    id: 12345
+});</code></pre>
+
+            <h3>record.transform()</h3>
+            <p>Converts one record type to another (e.g., Sales Order → Item Fulfillment).</p>
+            <pre><code><span class="keyword">const</span> <span class="property">fulfillment</span> = record.<span class="function">transform</span>({
+    fromType: record.Type.SALES_ORDER,
+    fromId: 12345,
+    toType: record.Type.ITEM_FULFILLMENT
+});</code></pre>
+
+            <h3>record.delete()</h3>
+            <p>Permanently removes a record from the database.</p>
+            <pre><code>record.<span class="function">delete</span>({
+    type: record.Type.CUSTOMER,
+    id: 99999
+});</code></pre>
+        </section>
+
+        <section class="content-section">
+            <h2>📝 getValue() vs getText()</h2>
+            <p>NetSuite fields often have two representations:</p>
+
+            <table class="concept-table">
+                <thead>
+                    <tr>
+                        <th>Method</th>
+                        <th>Returns</th>
+                        <th>Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="inline-code">getValue()</span></td>
+                        <td>Internal ID (number/string)</td>
+                        <td><code>227</code></td>
+                    </tr>
+                    <tr>
+                        <td><span class="inline-code">getText()</span></td>
+                        <td>Display value (human-readable)</td>
+                        <td><code>"Zenith and Acme Installation"</code></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <pre><code><span class="comment">// Get the internal ID of the customer</span>
+<span class="keyword">const</span> <span class="property">customerId</span> = salesOrder.<span class="function">getValue</span>({ fieldId: <span class="string">'entity'</span> }); <span class="comment">// 227</span>
+
+<span class="comment">// Get the display name of the customer</span>
+<span class="keyword">const</span> <span class="property">customerName</span> = salesOrder.<span class="function">getText</span>({ fieldId: <span class="string">'entity'</span> }); <span class="comment">// "Zenith and Acme"</span></code></pre>
+
+            <div class="info-box yellow">
+                <h4>⚠️ When to Use Each</h4>
+                <p>Use <span class="inline-code">getValue()</span> for logic and comparisons. Use <span class="inline-code">getText()</span> for display purposes (emails, reports, logs).</p>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>📊 Working with Sublists</h2>
+            <p>Sublists are the line-item sections on records (Items on Sales Orders, Addresses on Customers). They require special methods:</p>
+
+            <h3>Getting Line Count</h3>
+            <pre><code><span class="keyword">const</span> <span class="property">lineCount</span> = salesOrder.<span class="function">getLineCount</span>({ sublistId: <span class="string">'item'</span> });</code></pre>
+
+            <h3>Reading Sublist Values</h3>
+            <pre><code><span class="keyword">for</span> (<span class="keyword">let</span> <span class="property">line</span> = 0; line < lineCount; line++) {
+    <span class="keyword">const</span> <span class="property">item</span> = salesOrder.<span class="function">getSublistValue</span>({
+        sublistId: <span class="string">'item'</span>,
+        fieldId: <span class="string">'item'</span>,
+        line: line
+    });
+    <span class="keyword">const</span> <span class="property">quantity</span> = salesOrder.<span class="function">getSublistValue</span>({
+        sublistId: <span class="string">'item'</span>,
+        fieldId: <span class="string">'quantity'</span>,
+        line: line
+    });
+}</code></pre>
+
+            <h3>Setting Sublist Values</h3>
+            <pre><code>salesOrder.<span class="function">setSublistValue</span>({
+    sublistId: <span class="string">'item'</span>,
+    fieldId: <span class="string">'quantity'</span>,
+    line: 0,
+    value: 10
+});</code></pre>
+
+            <div class="info-box purple">
+                <h4>📚 Finding Sublist IDs</h4>
+                <p>Use the <span class="inline-code">&xml=T</span> trick to find sublist IDs. Look for <span class="inline-code">&lt;machine name="item"&gt;</span> elements in the XML output.</p>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>⚡ submitFields() for Efficiency</h2>
+            <p>When you only need to update a few fields, <span class="inline-code">submitFields()</span> is more efficient than load/save:</p>
+
+            <pre><code><span class="comment">// Less efficient: 4 governance for load + 20 for save = 24 units</span>
+<span class="keyword">const</span> <span class="property">rec</span> = record.<span class="function">load</span>({ type: <span class="string">'salesorder'</span>, id: 123 });
+rec.<span class="function">setValue</span>({ fieldId: <span class="string">'memo'</span>, value: <span class="string">'Updated'</span> });
+rec.<span class="function">save</span>();
+
+<span class="comment">// More efficient: Only 4 governance units</span>
+record.<span class="function">submitFields</span>({
+    type: <span class="string">'salesorder'</span>,
+    id: 123,
+    values: {
+        memo: <span class="string">'Updated'</span>
+    }
+});</code></pre>
+
+            <div class="info-box green">
+                <h4>✅ Best Practice</h4>
+                <p>Use <span class="inline-code">submitFields()</span> when updating 1-3 fields. Use <span class="inline-code">load()/save()</span> when you need to read values, work with sublists, or make many changes.</p>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>🔗 UI Equivalents</h2>
+            <p>SuiteScript record operations mirror actions users take in the UI:</p>
+
+            <table class="concept-table">
+                <thead>
+                    <tr>
+                        <th>SuiteScript</th>
+                        <th>UI Equivalent</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="inline-code">record.create()</span></td>
+                        <td>Click "New" button</td>
+                    </tr>
+                    <tr>
+                        <td><span class="inline-code">record.load()</span></td>
+                        <td>Open existing record</td>
+                    </tr>
+                    <tr>
+                        <td><span class="inline-code">record.copy()</span></td>
+                        <td>Actions → Make Copy</td>
+                    </tr>
+                    <tr>
+                        <td><span class="inline-code">record.transform()</span></td>
+                        <td>Click "Fulfill" on Sales Order</td>
+                    </tr>
+                    <tr>
+                        <td><span class="inline-code">record.save()</span></td>
+                        <td>Click "Save" button</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="content-section" style="background: rgba(66, 153, 225, 0.1); border: 1px solid rgba(66, 153, 225, 0.2); border-radius: 12px; padding: 25px; margin: 30px 0;">
+            <h2 style="border: none; padding: 0; margin-bottom: 15px;">📖 Finding This in the Docs</h2>
+            <p>To look up N/record methods:</p>
+            <ol style="margin-left: 20px; color: var(--text-secondary);">
+                <li style="margin-bottom: 8px;">Go to <strong>docs.oracle.com</strong> → SuiteScript 2.x Modules</li>
+                <li style="margin-bottom: 8px;">Click on <strong>N/record Module</strong></li>
+                <li style="margin-bottom: 8px;">Browse Methods (load, create, copy, delete, submitFields) and Record Object properties</li>
+            </ol>
+            <p style="margin-top: 15px;"><strong>Key pages to bookmark:</strong></p>
+            <ul style="margin-left: 20px; color: var(--text-secondary);">
+                <li>record.load(options) → parameters: type, id, isDynamic</li>
+                <li>record.create(options) → parameters: type, isDynamic, defaultValues</li>
+                <li>record.submitFields(options) → efficient field updates</li>
+                <li>Record.getValue / Record.setText → reading and writing fields</li>
+                <li>Records Browser → find field IDs for any record type</li>
+            </ul>
+        </section>
+
+        <div class="key-takeaways">
+            <h3>🎯 Key Takeaways</h3>
+            <ul>
+                <li><span class="inline-code">record.create()</span>, <span class="inline-code">load()</span>, <span class="inline-code">copy()</span>, <span class="inline-code">transform()</span>, <span class="inline-code">delete()</span> are the core operations</li>
+                <li><span class="inline-code">getValue()</span> returns internal IDs; <span class="inline-code">getText()</span> returns display values</li>
+                <li>Sublists require <span class="inline-code">getLineCount()</span>, <span class="inline-code">getSublistValue()</span>, <span class="inline-code">setSublistValue()</span></li>
+                <li>Use <span class="inline-code">submitFields()</span> for efficient partial updates (4 governance units)</li>
+                <li>Add <span class="inline-code">&xml=T</span> to record URLs to discover field IDs</li>
+                <li>All SuiteScript operations have UI equivalents—you're automating what users can do manually</li>
+            </ul>
+        </div>
+
+        <nav class="nav-footer">
+            <a href="../Week-2/Module-4-Script-Anatomy.html">← Module 4: Script Anatomy</a>
+            <a href="Module-6-NCurrentRecord.html">Module 6: N/currentRecord →</a>
+        </nav>
+    </main>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Appendix D: Glossary - SuiteFlow Fundamentals</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f5f7fa; padding: 20px; }
+        .container { max-width: 1400px; margin: 0 auto; background: white; border-radius: 15px; padding: 40px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+        h1 { color: #667eea; font-size: 2.5em; margin-bottom: 30px; }
+        .term { background: #f8f9fa; padding: 20px; margin: 15px 0; border-radius: 8px; border-left: 4px solid #667eea; }
+        .term h3 { color: #2d3748; margin-bottom: 10px; }
+        .term p { color: #666; }
+        #search-box { width: 100%; padding: 15px; border: 2px solid #667eea; border-radius: 8px; font-size: 1.1em; margin-bottom: 30px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📖 Appendix D: SuiteFlow Glossary</h1>
+        <input type="text" id="search-box" placeholder="Search terms..." onkeyup="filterTerms()">
+        
+        <div id="terms-list">
+            <div class="term">
+                <h3>Action</h3>
+                <p>A task or operation performed at a specific point in a workflow. Examples: Set Field Value, Send Email, Create Record. Actions answer the question "What should be done?"</p>
+            </div>
+            
+            <div class="term">
+                <h3>After Field Edit</h3>
+                <p>Client trigger that occurs when a field's value changes and user leaves the field. Used to update dependent fields dynamically.</p>
+            </div>
+            
+            <div class="term">
+                <h3>After Record Submit</h3>
+                <p>Server trigger that occurs after a record is committed to the database. Used for creating related records, sending emails, and navigation.</p>
+            </div>
+            
+            <div class="term">
+                <h3>Before Record Load</h3>
+                <p>Server trigger that occurs before record form is returned to user's browser. Preferred trigger for setting field defaults and display characteristics.</p>
+            </div>
+            
+            <div class="term">
+                <h3>Client Trigger</h3>
+                <p>Event that occurs on the user's computer within their web browser. Examples: Before User Edit, Before Field Edit, Before User Submit.</p>
+            </div>
+            
+            <div class="term">
+                <h3>Condition</h3>
+                <p>Criteria that must evaluate to TRUE for a workflow, action, or transition to execute. Created using the Visual Builder.</p>
+            </div>
+            
+            <div class="term">
+                <h3>Display Persistence</h3>
+                <p>The concept that certain form-level actions (like Set Field Display Type) are not stored in the database and must re-execute each time a record loads to maintain their effect.</p>
+            </div>
+            
+            <div class="term">
+                <h3>Entry Trigger</h3>
+                <p>State-level server trigger that occurs the first time a record enters a specific state. Actions execute only once when entering the state.</p>
+            </div>
+            
+            <div class="term">
+                <h3>Event Type</h3>
+                <p>Filter that controls when workflows, actions, and transitions execute based on specific user events (Create, Edit, View, Copy, Print). Only available for server triggers.</p>
+            </div>
+            
+            <div class="term">
+                <h3>Join</h3>
+                <p>The ability to access related record field data in workflow conditions. Example: Access customer fields from a sales order workflow.</p>
+            </div>
+            
+            <div class="term">
+                <h3>Modular Design</h3>
+                <p>Best practice of breaking workflow processing into multiple focused workflows rather than one monolithic workflow. Improves maintenance and troubleshooting.</p>
+            </div>
+            
+            <div class="term">
+                <h3>Server Trigger</h3>
+                <p>Event that occurs on the NetSuite server rather than in the user's browser. Examples: Before Record Load, Before Record Submit, After Record Submit.</p>
+            </div>
+            
+            <div class="term">
+                <h3>State</h3>
+                <p>Represents a specific point in the workflow where the record "lives." States contain actions and transitions. Answer the question "Where is the record in the business process?"</p>
+            </div>
+            
+            <div class="term">
+                <h3>Transition</h3>
+                <p>Defines the path between states in a workflow. Can contain conditions that determine if the transition should occur. Answers the question "Which state should the workflow move to next?"</p>
+            </div>
+            
+            <div class="term">
+                <h3>Trigger</h3>
+                <p>Specific event that controls when workflows initiate, actions execute, or transitions occur. Two types: client triggers (browser) and server triggers (NetSuite server).</p>
+            </div>
+            
+            <div class="term">
+                <h3>Visual Builder</h3>
+                <p>NetSuite tool for creating conditions without coding. Allows you to define left side (field to compare), operator (comparison type), and right side (value to compare against).</p>
+            </div>
+            
+            <div class="term">
+                <h3>Workflow Manager</h3>
+                <p>Visual interface for creating and managing workflows in NetSuite. Contains workspace (center), context panel (right), and toolbar (top).</p>
+            </div>
+        </div>
+        
+        <script>
+        function filterTerms() {
+            var input = document.getElementById('search-box');
+            var filter = input.value.toUpperCase();
+            var terms = document.getElementsByClassName('term');
+            
+            for (var i = 0; i < terms.length; i++) {
+                var term = terms[i];
+                var text = term.textContent || term.innerText;
+                if (text.toUpperCase().indexOf(filter) > -1) {
+                    term.style.display = "";
+                } else {
+                    term.style.display = "none";
+                }
+            }
+        }
+        </script>
+        
+        <div style="margin-top: 40px; padding-top: 30px; border-top: 2px solid #e2e8f0;">
+            <a href="../Master-Dashboard.html" style="display: inline-block; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 12px 30px; border-radius: 25px; text-decoration: none; font-weight: 600;">← Back to Course Overview</a>
+        </div>
+    </div>
+</body>
+</html>

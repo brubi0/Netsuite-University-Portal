@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 14: Best Practices & Considerations</title>
+    <style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.8;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:40px 20px}.container{max-width:900px;margin:0 auto}.header{background:white;padding:30px 40px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.2);margin-bottom:30px}.header h1{color:#2563eb;font-size:2rem;margin-bottom:10px}.header .meta{color:#6b7280;font-size:0.9rem}.content{background:white;padding:40px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.2)}.content h2{color:#1e40af;margin:35px 0 20px 0;font-size:1.6rem;padding-bottom:10px;border-bottom:3px solid #dbeafe}.content h2:first-of-type{margin-top:0}.content h3{color:#374151;margin:25px 0 15px 0;font-size:1.3rem}.content p{margin:15px 0;color:#374151}.content ul,.content ol{margin:15px 0 15px 30px;color:#374151}.content li{margin:10px 0}.info-box{padding:20px 25px;border-radius:8px;margin:25px 0;border-left:5px solid}.info-box.blue{background:#dbeafe;border-color:#2563eb}.info-box.yellow{background:#fef3c7;border-color:#f59e0b}.info-box.green{background:#dcfce7;border-color:#10b981}.info-box.red{background:#fee2e2;border-color:#ef4444}.info-box strong{color:#1e40af;display:block;margin-bottom:10px;font-size:1.1rem}code{background:#f3f4f6;padding:3px 8px;border-radius:4px;font-family:monospace;font-size:0.9em;color:#ef4444}pre{background:#1e293b;color:#e2e8f0;padding:25px;border-radius:8px;overflow-x:auto;margin:25px 0;border-left:5px solid #667eea}pre code{background:none;padding:0;color:inherit}.takeaway{background:#f0f9ff;border:2px solid #0ea5e9;border-radius:10px;padding:25px;margin:30px 0}.takeaway h3{color:#0369a1;margin:0 0 15px 0}.takeaway ul{margin:10px 0 10px 25px}.takeaway li{color:#0c4a6e;font-weight:500}.nav-buttons{display:flex;justify-content:space-between;margin-top:40px;gap:20px}.back-btn,.next-btn{padding:14px 28px;border-radius:8px;text-decoration:none;font-weight:600;transition:all 0.3s}.back-btn{background:#6b7280;color:white}.next-btn{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:white}table{width:100%;border-collapse:collapse;margin:20px 0}table th,table td{padding:12px;text-align:left;border-bottom:1px solid #e5e7eb}table th{background:#f3f4f6;color:#1e40af;font-weight:600}.toc{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:20px;margin-bottom:30px}.toc h3{color:#1e40af;margin-bottom:15px}.toc ul{list-style:none;margin:0;padding:0}.toc li{margin:8px 0}.toc a{color:#2563eb;text-decoration:none}.comparison{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:20px 0}.comparison>div{padding:20px;border-radius:8px}.do-this{background:#dcfce7;border:2px solid #10b981}.not-this{background:#fee2e2;border:2px solid #ef4444}@media(max-width:600px){.comparison{grid-template-columns:1fr}}</style>
+</head>
+<body>
+<div class="container">
+<div class="header">
+    <h1>Module 14: Best Practices & Considerations</h1>
+    <p class="meta">Week 7 • NetSuite SuiteScript 2.0 Training • ~60 minutes</p>
+</div>
+<div class="content">
+
+<div class="toc">
+    <h3>📑 In This Module</h3>
+    <ul>
+        <li><a href="#objectives">Learning Objectives</a></li>
+        <li><a href="#governance">1. Governance Management</a></li>
+        <li><a href="#performance">2. Performance Optimization</a></li>
+        <li><a href="#error">3. Error Handling</a></li>
+        <li><a href="#testing">4. Testing & Debugging</a></li>
+        <li><a href="#coding">5. Coding Standards</a></li>
+    </ul>
+</div>
+
+<h2 id="objectives">🎯 Learning Objectives</h2>
+<ul>
+    <li>Manage governance effectively</li>
+    <li>Optimize script performance</li>
+    <li>Implement proper error handling</li>
+    <li>Apply debugging best practices</li>
+    <li>Follow coding standards</li>
+</ul>
+
+<h2 id="governance">1. Governance Management</h2>
+
+<p>Every script has governance limits. Running out means your script stops!</p>
+
+<table>
+    <tr><th>Script Type</th><th>Governance Limit</th></tr>
+    <tr><td>Client Script</td><td>1,000 units</td></tr>
+    <tr><td>User Event</td><td>1,000 units</td></tr>
+    <tr><td>Scheduled</td><td>10,000 units</td></tr>
+    <tr><td>Map/Reduce</td><td>Automatic (per stage)</td></tr>
+    <tr><td>Suitelet</td><td>1,000 units</td></tr>
+    <tr><td>RESTlet</td><td>5,000 units</td></tr>
+</table>
+
+<h3>Common Operation Costs</h3>
+<table>
+    <tr><th>Operation</th><th>Units</th></tr>
+    <tr><td>record.load()</td><td>10</td></tr>
+    <tr><td>record.save()</td><td>20</td></tr>
+    <tr><td>search.create()</td><td>5</td></tr>
+    <tr><td>search.lookupFields()</td><td>1</td></tr>
+    <tr><td>email.send()</td><td>20</td></tr>
+    <tr><td>http.get/post()</td><td>10</td></tr>
+</table>
+
+<div class="info-box green">
+    <strong>✅ Governance Tips</strong>
+    <ul>
+        <li>Use <code>search.lookupFields()</code> instead of <code>record.load()</code> when only reading</li>
+        <li>Monitor with <code>runtime.getCurrentScript().getRemainingUsage()</code></li>
+        <li>Offload heavy processing to Scheduled/Map Reduce scripts</li>
+        <li>Use Map/Reduce for bulk operations (automatic governance)</li>
+    </ul>
+</div>
+
+<h2 id="performance">2. Performance Optimization</h2>
+
+<div class="comparison">
+    <div class="do-this">
+        <h4>✅ Do This</h4>
+        <pre><code>// Lookup specific fields
+search.lookupFields({
+    type: 'customer',
+    id: 123,
+    columns: ['email']
+});</code></pre>
+    </div>
+    <div class="not-this">
+        <h4>🚫 Not This</h4>
+        <pre><code>// Load entire record
+var rec = record.load({
+    type: 'customer',
+    id: 123
+});
+var email = rec.getValue('email');</code></pre>
+    </div>
+</div>
+
+<div class="comparison">
+    <div class="do-this">
+        <h4>✅ Do This</h4>
+        <pre><code>// Run search ONCE, process results
+var results = [];
+mySearch.run().each(function(r) {
+    results.push(r.getValue('name'));
+    return true;
+});</code></pre>
+    </div>
+    <div class="not-this">
+        <h4>🚫 Not This</h4>
+        <pre><code>// Running search inside a loop
+for (var i = 0; i < ids.length; i++) {
+    var search = search.create({...});
+    // Creates new search each iteration!
+}</code></pre>
+    </div>
+</div>
+
+<h2 id="error">3. Error Handling</h2>
+
+<pre><code>try {
+    var rec = record.load({
+        type: record.Type.CUSTOMER,
+        id: customerId
+    });
+    rec.setValue('email', newEmail);
+    rec.save();
+    
+} catch (e) {
+    // Log the error
+    log.error({
+        title: 'Error updating customer',
+        details: e.message + ' | Stack: ' + e.stack
+    });
+    
+    // Determine error type
+    if (e.name === 'RCRD_DSNT_EXIST') {
+        // Record doesn't exist
+    } else if (e.name === 'INSUFFICIENT_PERMISSION') {
+        // Permission issue
+    }
+    
+    // Re-throw if needed
+    throw e;
+}</code></pre>
+
+<div class="info-box yellow">
+    <strong>⚠️ Always Log Errors</strong>
+    <p>Include: error message, stack trace, record ID, user context. Future you will thank present you!</p>
+</div>
+
+<h2 id="testing">4. Testing & Debugging</h2>
+
+<h3>Testing Checklist</h3>
+<ul>
+    <li>Test with different user roles</li>
+    <li>Test create, edit, view, copy, delete scenarios</li>
+    <li>Test with empty/null field values</li>
+    <li>Test edge cases (max values, special characters)</li>
+    <li>Test in Sandbox before Production</li>
+</ul>
+
+<h3>Debugging Tools</h3>
+<ul>
+    <li><strong>Execution Log</strong>: View log.debug/audit/error output</li>
+    <li><strong>Script Debugger</strong>: Step through server-side code</li>
+    <li><strong>Browser DevTools</strong>: Debug client scripts (F12)</li>
+    <li><strong>Governance Monitoring</strong>: Log remaining units</li>
+</ul>
+
+<h2 id="coding">5. Coding Standards</h2>
+
+<h3>Script File Headers</h3>
+<pre><code>/**
+ * @NApiVersion 2.1
+ * @NScriptType UserEventScript
+ * @NModuleScope SameAccount
+ * 
+ * @description Sets default values on Sales Orders
+ * @author Your Name
+ * @since 2024.1
+ */</code></pre>
+
+<h3>Naming Conventions</h3>
+<table>
+    <tr><th>Element</th><th>Convention</th><th>Example</th></tr>
+    <tr><td>Script Files</td><td>type_record_purpose.js</td><td>ue_salesorder_validation.js</td></tr>
+    <tr><td>Script IDs</td><td>customscript_company_purpose</td><td>customscript_acme_so_validation</td></tr>
+    <tr><td>Functions</td><td>camelCase</td><td>calculateDiscount()</td></tr>
+    <tr><td>Constants</td><td>UPPER_SNAKE</td><td>MAX_DISCOUNT_PCT</td></tr>
+</table>
+
+<div class="takeaway">
+    <h3>🎯 Key Takeaways</h3>
+    <ul>
+        <li>Monitor governance - use getRemainingUsage()</li>
+        <li>Use lookupFields() over load() when just reading</li>
+        <li>Never run searches inside loops</li>
+        <li>Always implement try/catch with detailed logging</li>
+        <li>Test all scenarios including edge cases</li>
+        <li>Follow consistent naming conventions</li>
+        <li>Test in Sandbox before deploying to Production</li>
+    </ul>
+</div>
+
+<div class="nav-buttons">
+    <a href="week-7-dashboard.html" class="back-btn">← Back to Week 7</a>
+    <a href="Module-15.html" class="next-btn">Next: Module 15 →</a>
+</div>
+
+</div>
+</div>
+</body>
+</html>

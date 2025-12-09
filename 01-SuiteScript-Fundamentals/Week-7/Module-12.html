@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 12: Suitelets (Custom Pages)</title>
+    <style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.8;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:40px 20px}.container{max-width:900px;margin:0 auto}.header{background:white;padding:30px 40px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.2);margin-bottom:30px}.header h1{color:#2563eb;font-size:2rem;margin-bottom:10px}.header .meta{color:#6b7280;font-size:0.9rem}.content{background:white;padding:40px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.2)}.content h2{color:#1e40af;margin:35px 0 20px 0;font-size:1.6rem;padding-bottom:10px;border-bottom:3px solid #dbeafe}.content h2:first-of-type{margin-top:0}.content h3{color:#374151;margin:25px 0 15px 0;font-size:1.3rem}.content p{margin:15px 0;color:#374151}.content ul,.content ol{margin:15px 0 15px 30px;color:#374151}.content li{margin:10px 0}.info-box{padding:20px 25px;border-radius:8px;margin:25px 0;border-left:5px solid}.info-box.blue{background:#dbeafe;border-color:#2563eb}.info-box.yellow{background:#fef3c7;border-color:#f59e0b}.info-box.green{background:#dcfce7;border-color:#10b981}.info-box strong{color:#1e40af;display:block;margin-bottom:10px;font-size:1.1rem}code{background:#f3f4f6;padding:3px 8px;border-radius:4px;font-family:monospace;font-size:0.9em;color:#ef4444}pre{background:#1e293b;color:#e2e8f0;padding:25px;border-radius:8px;overflow-x:auto;margin:25px 0;border-left:5px solid #667eea}pre code{background:none;padding:0;color:inherit}.takeaway{background:#f0f9ff;border:2px solid #0ea5e9;border-radius:10px;padding:25px;margin:30px 0}.takeaway h3{color:#0369a1;margin:0 0 15px 0}.takeaway ul{margin:10px 0 10px 25px}.takeaway li{color:#0c4a6e;font-weight:500}.nav-buttons{display:flex;justify-content:space-between;margin-top:40px;gap:20px}.back-btn,.next-btn{padding:14px 28px;border-radius:8px;text-decoration:none;font-weight:600;transition:all 0.3s}.back-btn{background:#6b7280;color:white}.next-btn{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:white}table{width:100%;border-collapse:collapse;margin:20px 0}table th,table td{padding:12px;text-align:left;border-bottom:1px solid #e5e7eb}table th{background:#f3f4f6;color:#1e40af;font-weight:600}.toc{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:20px;margin-bottom:30px}.toc h3{color:#1e40af;margin-bottom:15px}.toc ul{list-style:none;margin:0;padding:0}.toc li{margin:8px 0}.toc a{color:#2563eb;text-decoration:none}</style>
+</head>
+<body>
+<div class="container">
+<div class="header">
+    <h1>Module 12: Suitelets (Custom Pages)</h1>
+    <p class="meta">Week 7 • NetSuite SuiteScript 2.0 Training • ~75 minutes</p>
+</div>
+<div class="content">
+
+<div class="toc">
+    <h3>📑 In This Module</h3>
+    <ul>
+        <li><a href="#objectives">Learning Objectives</a></li>
+        <li><a href="#what-are">1. What Are Suitelets?</a></li>
+        <li><a href="#request">2. Request/Response Cycle</a></li>
+        <li><a href="#forms">3. Building Forms</a></li>
+        <li><a href="#processing">4. Processing Submissions</a></li>
+        <li><a href="#practice">Practice Exercises</a></li>
+    </ul>
+</div>
+
+<h2 id="objectives">🎯 Learning Objectives</h2>
+<ul>
+    <li>Understand what Suitelets are and when to use them</li>
+    <li>Handle GET and POST requests</li>
+    <li>Build custom forms using N/ui/serverWidget</li>
+    <li>Process form submissions</li>
+</ul>
+
+<h2 id="what-are">1. What Are Suitelets?</h2>
+
+<p>Suitelets are <strong>custom pages</strong> you build from scratch. Unlike User Event scripts that modify existing records, Suitelets create entirely new user interfaces.</p>
+
+<div class="info-box blue">
+    <strong>💡 Use Cases</strong>
+    <ul>
+        <li>Custom data entry forms</li>
+        <li>Dashboard pages combining multiple records</li>
+        <li>Configuration interfaces</li>
+        <li>Custom reports</li>
+        <li>Web services (return JSON/XML)</li>
+    </ul>
+</div>
+
+<h2 id="request">2. Request/Response Cycle</h2>
+
+<pre><code>/**
+ * @NApiVersion 2.1
+ * @NScriptType Suitelet
+ */
+define(['N/ui/serverWidget'], function(serverWidget) {
+    
+    function onRequest(context) {
+        // context.request.method = 'GET' or 'POST'
+        // context.request.parameters = URL parameters
+        // context.response = what to send back
+        
+        if (context.request.method === 'GET') {
+            // Display a form
+            var form = serverWidget.createForm({ title: 'My Custom Page' });
+            context.response.writePage(form);
+        } else {
+            // Process form submission
+            var name = context.request.parameters.custpage_name;
+            context.response.write('You submitted: ' + name);
+        }
+    }
+    
+    return { onRequest: onRequest };
+});</code></pre>
+
+<h2 id="forms">3. Building Forms</h2>
+
+<pre><code>function onRequest(context) {
+    if (context.request.method === 'GET') {
+        var form = serverWidget.createForm({
+            title: 'Customer Feedback Form'
+        });
+        
+        // Add fields
+        form.addField({
+            id: 'custpage_name',
+            type: serverWidget.FieldType.TEXT,
+            label: 'Your Name'
+        });
+        
+        form.addField({
+            id: 'custpage_email',
+            type: serverWidget.FieldType.EMAIL,
+            label: 'Email Address'
+        });
+        
+        form.addField({
+            id: 'custpage_comments',
+            type: serverWidget.FieldType.TEXTAREA,
+            label: 'Comments'
+        });
+        
+        // Add submit button
+        form.addSubmitButton({ label: 'Submit Feedback' });
+        
+        context.response.writePage(form);
+    }
+}</code></pre>
+
+<h3>Field Types</h3>
+<table>
+    <tr><th>Type</th><th>Use For</th></tr>
+    <tr><td><code>TEXT</code></td><td>Short text input</td></tr>
+    <tr><td><code>TEXTAREA</code></td><td>Multi-line text</td></tr>
+    <tr><td><code>EMAIL</code></td><td>Email addresses</td></tr>
+    <tr><td><code>DATE</code></td><td>Date picker</td></tr>
+    <tr><td><code>SELECT</code></td><td>Dropdown list</td></tr>
+    <tr><td><code>CHECKBOX</code></td><td>Yes/No toggle</td></tr>
+    <tr><td><code>INTEGER</code></td><td>Whole numbers</td></tr>
+    <tr><td><code>CURRENCY</code></td><td>Money amounts</td></tr>
+</table>
+
+<h2 id="processing">4. Processing Submissions</h2>
+
+<pre><code>function onRequest(context) {
+    if (context.request.method === 'POST') {
+        // Get submitted values
+        var name = context.request.parameters.custpage_name;
+        var email = context.request.parameters.custpage_email;
+        var comments = context.request.parameters.custpage_comments;
+        
+        // Create a record
+        var feedback = record.create({ type: 'customrecord_feedback' });
+        feedback.setValue({ fieldId: 'name', value: name });
+        feedback.setValue({ fieldId: 'custrecord_email', value: email });
+        feedback.setValue({ fieldId: 'custrecord_comments', value: comments });
+        var feedbackId = feedback.save();
+        
+        // Show confirmation
+        var form = serverWidget.createForm({ title: 'Thank You!' });
+        form.addField({
+            id: 'custpage_message',
+            type: serverWidget.FieldType.INLINEHTML,
+            label: ' '
+        }).defaultValue = '<h2>Feedback submitted successfully!</h2><p>ID: ' + feedbackId + '</p>';
+        
+        context.response.writePage(form);
+    }
+}</code></pre>
+
+<div class="info-box yellow">
+    <strong>⚠️ Suitelet URLs</strong>
+    <p>Access your Suitelet via: <code>/app/site/hosting/scriptlet.nl?script=123&deploy=1</code><br>
+    Or generate URLs with <code>N/url.resolveScript()</code></p>
+</div>
+
+<h2 id="practice">🏋️ Practice Exercises</h2>
+
+<div class="info-box green">
+    <strong>Exercise 1: Simple Form</strong>
+    <p>Create a Suitelet with a form that collects customer name and phone, then displays the values on POST.</p>
+</div>
+
+<div class="info-box green">
+    <strong>Exercise 2: Lookup Page</strong>
+    <p>Create a Suitelet where users enter a Customer ID, and it displays that customer's details.</p>
+</div>
+
+<div class="takeaway">
+    <h3>🎯 Key Takeaways</h3>
+    <ul>
+        <li>Suitelets create custom standalone pages</li>
+        <li>Handle GET (display form) and POST (process submission)</li>
+        <li>Use N/ui/serverWidget to build forms</li>
+        <li>Field IDs must start with <code>custpage_</code></li>
+        <li>Access submitted values via <code>context.request.parameters</code></li>
+    </ul>
+</div>
+
+<div class="nav-buttons">
+    <a href="week-7-dashboard.html" class="back-btn">← Back to Week 7</a>
+    <a href="Module-13.html" class="next-btn">Next: Module 13 →</a>
+</div>
+
+</div>
+</div>
+</body>
+</html>

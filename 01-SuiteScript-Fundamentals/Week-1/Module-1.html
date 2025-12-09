@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 1: Introduction to SuiteScript</title>
+    <style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.8;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:40px 20px}.container{max-width:900px;margin:0 auto}.header{background:white;padding:30px 40px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.2);margin-bottom:30px}.header h1{color:#2563eb;font-size:2rem;margin-bottom:10px}.header .meta{color:#6b7280;font-size:0.9rem}.content{background:white;padding:40px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.2)}.content h2{color:#1e40af;margin:35px 0 20px 0;font-size:1.6rem;padding-bottom:10px;border-bottom:3px solid #dbeafe}.content h2:first-of-type{margin-top:0}.content h3{color:#374151;margin:25px 0 15px 0;font-size:1.3rem}.content p{margin:15px 0;color:#374151}.content ul,.content ol{margin:15px 0 15px 30px;color:#374151}.content li{margin:10px 0}.info-box{padding:20px 25px;border-radius:8px;margin:25px 0;border-left:5px solid}.info-box.blue{background:#dbeafe;border-color:#2563eb}.info-box.yellow{background:#fef3c7;border-color:#f59e0b}.info-box.green{background:#dcfce7;border-color:#10b981}.info-box.red{background:#fee2e2;border-color:#ef4444}.info-box.purple{background:#f3e8ff;border-color:#9333ea}.info-box strong{color:#1e40af;display:block;margin-bottom:10px;font-size:1.1rem}code{background:#f3f4f6;padding:3px 8px;border-radius:4px;font-family:monospace;font-size:0.9em;color:#ef4444}pre{background:#1e293b;color:#e2e8f0;padding:25px;border-radius:8px;overflow-x:auto;margin:25px 0;border-left:5px solid #667eea}pre code{background:none;padding:0;color:inherit}.takeaway{background:#f0f9ff;border:2px solid #0ea5e9;border-radius:10px;padding:25px;margin:30px 0}.takeaway h3{color:#0369a1;margin:0 0 15px 0}.takeaway ul{margin:10px 0 10px 25px}.takeaway li{color:#0c4a6e;font-weight:500}.nav-buttons{display:flex;justify-content:space-between;margin-top:40px;gap:20px}.back-btn,.next-btn{padding:14px 28px;border-radius:8px;text-decoration:none;font-weight:600;transition:all 0.3s}.back-btn{background:#6b7280;color:white}.next-btn{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:white}table{width:100%;border-collapse:collapse;margin:20px 0}table th,table td{padding:12px;text-align:left;border-bottom:1px solid #e5e7eb}table th{background:#f3f4f6;color:#1e40af;font-weight:600}.toc{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:20px;margin-bottom:30px}.toc h3{color:#1e40af;margin-bottom:15px}.toc ul{list-style:none;margin:0;padding:0}.toc li{margin:8px 0}.toc a{color:#2563eb;text-decoration:none}</style>
+</head>
+<body>
+<div class="container">
+<div class="header">
+    <h1>Module 1: Introduction to SuiteScript</h1>
+    <p class="meta">Week 1 • NetSuite SuiteScript 2.0 Training • ~45 minutes</p>
+</div>
+<div class="content">
+
+<div class="toc">
+    <h3>📑 In This Module</h3>
+    <ul>
+        <li><a href="#objectives">Learning Objectives</a></li>
+        <li><a href="#platform">1. The 6 SuiteCloud Platform Tools</a></li>
+        <li><a href="#datamodel">2. NetSuite Data Model</a></li>
+        <li><a href="#architecture">3. Web Architecture</a></li>
+        <li><a href="#scripttypes">4. The 10 Script Types</a></li>
+        <li><a href="#practice">Practice Exercises</a></li>
+    </ul>
+</div>
+
+<h2 id="objectives">🎯 Learning Objectives</h2>
+<ul>
+    <li>Understand the 6 SuiteCloud Platform Tools</li>
+    <li>Learn NetSuite's data model (no SQL!)</li>
+    <li>Explore NetSuite's web architecture (client vs server)</li>
+    <li>Overview of 10 SuiteScript types</li>
+</ul>
+
+<h2 id="platform">1. The 6 SuiteCloud Platform Tools</h2>
+
+<p>NetSuite provides six powerful tools for customization, collectively called the <strong>SuiteCloud Platform</strong>:</p>
+
+<table>
+    <tr><th>Tool</th><th>Purpose</th><th>Requires Code?</th></tr>
+    <tr><td><strong>SuiteBuilder</strong></td><td>Point-and-click UI customization (fields, forms, records)</td><td>No</td></tr>
+    <tr><td><strong>SuiteFlow</strong></td><td>Visual workflow automation with diagrams</td><td>No</td></tr>
+    <tr><td><strong>SuiteScript</strong></td><td>Extend NetSuite with JavaScript code</td><td>Yes</td></tr>
+    <tr><td><strong>SuiteTalk</strong></td><td>SOAP/REST APIs for external integration</td><td>Yes</td></tr>
+    <tr><td><strong>SuiteAnalytics</strong></td><td>Reports, dashboards, and saved searches</td><td>No</td></tr>
+    <tr><td><strong>SuiteBundler</strong></td><td>Package customizations for deployment</td><td>No</td></tr>
+</table>
+
+<div class="info-box purple">
+    <strong>🎯 When to Use SuiteScript</strong>
+    <p>Use SuiteScript when you need to:</p>
+    <ul>
+        <li>Build features not available in NetSuite</li>
+        <li>Create complex automation beyond SuiteFlow's capabilities</li>
+        <li>Integrate third-party services</li>
+        <li>Customize behavior programmatically</li>
+    </ul>
+</div>
+
+<div class="info-box blue">
+    <strong>💡 Real-World Example: Box.com Integration</strong>
+    <p>A company needed online collaboration for expense reports. Solution: SuiteScript uploads attachments to Box.com automatically, then stores the Box URL back on the NetSuite record. Users edit files online without downloading.</p>
+</div>
+
+<h2 id="datamodel">2. NetSuite Data Model</h2>
+
+<div class="info-box red">
+    <strong>🚫 Important Difference</strong>
+    <p>NetSuite does NOT give you direct SQL database access! Data access works differently than traditional database programming.</p>
+</div>
+
+<p>Instead of SQL tables, NetSuite organizes data into <strong>Records</strong> grouped into <strong>5 categories</strong>:</p>
+
+<h3>The 5 Record Categories</h3>
+
+<table>
+    <tr><th>Category</th><th>What It Stores</th><th>Examples</th></tr>
+    <tr><td><strong>Entity</strong></td><td>People & organizations</td><td>Customers, Vendors, Employees, Partners</td></tr>
+    <tr><td><strong>Transaction</strong></td><td>Money movement</td><td>Sales Orders, Invoices, Purchase Orders, Bills</td></tr>
+    <tr><td><strong>CRM</strong></td><td>Business activities</td><td>Events, Tasks, Phone Calls, Cases</td></tr>
+    <tr><td><strong>Item</strong></td><td>Products & services</td><td>Inventory Items, Service Items, Discounts</td></tr>
+    <tr><td><strong>Custom</strong></td><td>Your custom data</td><td>Anything you create</td></tr>
+</table>
+
+<div class="info-box green">
+    <strong>✅ Why Categories Matter</strong>
+    <p><strong>Same Category = Similar Structure</strong></p>
+    <p>Scripts written for one record type easily adapt to others in the same category. A Customer script can become a Vendor script with minimal changes (both are Entity Records).</p>
+    <p><strong>Different Category = Major Changes</strong></p>
+    <p>Moving a Customer script (Entity) to Sales Order (Transaction) requires significant modifications.</p>
+</div>
+
+<h2 id="architecture">3. Web Architecture</h2>
+
+<p>Understanding where code runs is crucial for SuiteScript development:</p>
+
+<table>
+    <tr><th>Aspect</th><th>Client-Side (Browser)</th><th>Server-Side (NetSuite)</th></tr>
+    <tr><td>Runs In</td><td>User's browser</td><td>NetSuite servers</td></tr>
+    <tr><td>Response Time</td><td>Immediate feedback</td><td>Requires server round-trip</td></tr>
+    <tr><td>Governance</td><td>No units consumed</td><td>Consumes governance units</td></tr>
+    <tr><td>Use Cases</td><td>Field validation, UI interactions</td><td>Data processing, record creation</td></tr>
+    <tr><td>Script Types</td><td>Client Script</td><td>User Event, Scheduled, Map/Reduce, etc.</td></tr>
+</table>
+
+<h2 id="scripttypes">4. The 10 Script Types</h2>
+
+<p>Here's an overview of all script types — we'll cover each in detail later:</p>
+
+<table>
+    <tr><th>Script Type</th><th>When to Use</th><th>Location</th></tr>
+    <tr><td><strong>Client Script</strong></td><td>User interactions on forms (validation, defaults)</td><td>Client</td></tr>
+    <tr><td><strong>User Event</strong></td><td>Before/after record operations (load, submit)</td><td>Server</td></tr>
+    <tr><td><strong>Workflow Action</strong></td><td>Extend SuiteFlow workflow capabilities</td><td>Server</td></tr>
+    <tr><td><strong>Scheduled</strong></td><td>Run scripts on a schedule (nightly, weekly)</td><td>Server</td></tr>
+    <tr><td><strong>Map/Reduce</strong></td><td>Process thousands of records efficiently</td><td>Server</td></tr>
+    <tr><td><strong>Suitelet</strong></td><td>Custom UI pages</td><td>Server</td></tr>
+    <tr><td><strong>RESTlet</strong></td><td>REST API endpoints for integration</td><td>Server</td></tr>
+    <tr><td><strong>Portlet</strong></td><td>Dashboard components</td><td>Server</td></tr>
+    <tr><td><strong>Mass Update</strong></td><td>Bulk update records via UI</td><td>Server</td></tr>
+    <tr><td><strong>Bundle Installation</strong></td><td>Custom installation logic for bundles</td><td>Server</td></tr>
+</table>
+
+<h2 id="practice">🏋️ Practice Exercises</h2>
+
+<div class="info-box green">
+    <strong>Exercise 1: Identify the Tool</strong>
+    <p>For each scenario, identify which SuiteCloud tool would be best:</p>
+    <ol>
+        <li>Adding a "Priority" dropdown field to Customers</li>
+        <li>Automatically sending an email when a Sales Order is approved</li>
+        <li>Connecting to a shipping provider's API to get tracking numbers</li>
+    </ol>
+</div>
+
+<div class="info-box green">
+    <strong>Exercise 2: Categorize Records</strong>
+    <p>Classify these records into their categories: Invoice, Contact, Task, Assembly Item, Support Case</p>
+</div>
+
+<div class="takeaway">
+    <h3>🎯 Key Takeaways</h3>
+    <ul>
+        <li><strong>6 SuiteCloud Tools:</strong> SuiteBuilder (UI), SuiteFlow (workflows), SuiteScript (code), SuiteTalk (integration), SuiteAnalytics (reports), SuiteBundler (deployment)</li>
+        <li><strong>No SQL Access:</strong> NetSuite uses Records, not direct database access</li>
+        <li><strong>5 Record Categories:</strong> Entity, Transaction, CRM, Item, Custom</li>
+        <li><strong>Records in Same Category:</strong> Share similar structure, scripts easily cross-apply</li>
+        <li><strong>10 Script Types:</strong> Each designed for specific use cases</li>
+        <li><strong>Client vs Server:</strong> Understand where your code runs</li>
+    </ul>
+</div>
+
+<div class="nav-buttons">
+    <a href="week-1-dashboard.html" class="back-btn">← Back to Week 1</a>
+    <a href="Module-2.html" class="next-btn">Next: Module 2 →</a>
+</div>
+
+</div>
+</div>
+</body>
+</html>

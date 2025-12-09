@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 1: Foundation - SuiteFlow Fundamentals</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 50px 40px;
+            position: relative;
+        }
+
+        .breadcrumb {
+            font-size: 0.9em;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+
+        .breadcrumb a {
+            color: white;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .breadcrumb a:hover {
+            border-bottom-color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .header .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .week-intro {
+            background: #f8f9fa;
+            padding: 40px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .week-intro h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .week-intro p {
+            color: #555;
+            font-size: 1.1em;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .objectives {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border-left: 4px solid #667eea;
+        }
+
+        .objectives h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .objectives ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .objectives li {
+            padding-left: 30px;
+            position: relative;
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        .objectives li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .module-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-left: 5px solid #667eea;
+        }
+
+        .module-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.15);
+        }
+
+        .module-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .module-number {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            font-weight: 700;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+
+        .module-header h3 {
+            color: #2d3748;
+            font-size: 1.5em;
+            margin: 0;
+        }
+
+        .module-description {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .topics {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .topics h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .topics ul {
+            list-style: none;
+            padding: 0;
+            color: #555;
+        }
+
+        .topics li {
+            padding: 8px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .topics li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .module-link {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .module-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid #e2e8f0;
+        }
+
+        .nav-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 12px 25px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .nav-btn-secondary {
+            background: #e2e8f0;
+            color: #2d3748;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .module-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .module-number {
+                margin-bottom: 15px;
+            }
+            
+            .nav-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="breadcrumb">
+                <a href="../Master-Dashboard.html">← Back to Course Overview</a>
+            </div>
+            <h1>Week 1: Foundation</h1>
+            <p class="subtitle">Building Blocks of SuiteFlow Automation</p>
+        </div>
+
+        <div class="week-intro">
+            <h2>Welcome to Week 1!</h2>
+            <p>
+                This week lays the groundwork for your SuiteFlow journey. You'll start by understanding the fundamental concepts that underpin all workflow automation in NetSuite, then dive into the Workflow Manager to create your first workflow.
+            </p>
+            <p>
+                By the end of Week 1, you'll understand how workflows are structured, how triggers control action execution, and how the visual workflow development tool transforms business processes into automated solutions.
+            </p>
+
+            <div class="objectives">
+                <h3>🎯 Week 1 Learning Objectives</h3>
+                <ul>
+                    <li>Describe the foundational components of a business process and their representation in SuiteFlow</li>
+                    <li>Navigate the Workflow Manager and understand its key components</li>
+                    <li>Define workflow triggers and explain their role in controlling action execution</li>
+                    <li>List the building blocks of workflows (states, actions, transitions, triggers)</li>
+                    <li>Create a simple workflow and test it in your NetSuite training account</li>
+                    <li>Explain the benefits of modular workflow design</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="content">
+            <h2 style="color: #2d3748; margin-bottom: 30px; border-bottom: 3px solid #667eea; padding-bottom: 10px;">📚 Week 1 Modules</h2>
+
+            <!-- Module 0 -->
+            <div class="module-card">
+                <div class="module-header">
+                    <div class="module-number">00</div>
+                    <h3>Course Introduction</h3>
+                </div>
+                <p class="module-description">
+                    Get oriented with the course structure, set up your training account, and configure essential user preferences. Learn about the course case study and understand what you'll build throughout the training.
+                </p>
+
+                <div class="topics">
+                    <h4>Topics Covered:</h4>
+                    <ul>
+                        <li>Course overview and target audience</li>
+                        <li>Prerequisites and learning outcomes</li>
+                        <li>Enabling SuiteFlow in your training account</li>
+                        <li>Setting critical user preferences (Show Internal IDs, time zone, date format)</li>
+                        <li>Accessing NetSuite Help Center and SuiteAnswers</li>
+                        <li>Understanding the Furniture Request case study</li>
+                    </ul>
+                </div>
+
+                <a href="Module-00-Course-Introduction.html" class="module-link">Start Module 0 →</a>
+            </div>
+
+            <!-- Module 1 -->
+            <div class="module-card">
+                <div class="module-header">
+                    <div class="module-number">01</div>
+                    <h3>SuiteFlow Overview</h3>
+                </div>
+                <p class="module-description">
+                    Discover the power of SuiteFlow as a point-and-click workflow development tool. Learn about business process components, workflow building blocks, and how workflows relate to NetSuite record types. Build your first workflow!
+                </p>
+
+                <div class="topics">
+                    <h4>Topics Covered:</h4>
+                    <ul>
+                        <li>Business process fundamentals (initiation, action, decision, subprocess, end states)</li>
+                        <li>What is SuiteFlow and what can it do?</li>
+                        <li>Workflow building blocks: States, Actions, Transitions, Triggers</li>
+                        <li>Understanding the Workflow Manager interface</li>
+                        <li>Workflow relationship to NetSuite record types (one-to-one mapping)</li>
+                        <li>Modular workflow design principles</li>
+                        <li>Using workflow templates vs. building from scratch</li>
+                        <li>Walkthrough: Creating your first simple workflow</li>
+                    </ul>
+                </div>
+
+                <a href="Module-01-SuiteFlow-Overview.html" class="module-link">Start Module 1 →</a>
+            </div>
+
+            <div class="nav-buttons">
+                <a href="../Master-Dashboard.html" class="nav-btn nav-btn-secondary">
+                    ← Back to Course Overview
+                </a>
+                <a href="../Week-2/week-2-dashboard.html" class="nav-btn nav-btn-primary">
+                    Continue to Week 2 →
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

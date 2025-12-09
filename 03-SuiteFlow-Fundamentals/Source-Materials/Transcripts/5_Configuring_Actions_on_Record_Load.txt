@@ -1,0 +1,155 @@
+Configuring actions on record load. In this module, we will discuss the creation of a single-state workflow to manage actions on record load using server triggers and event types. We will also discuss the concept of record joins, which allows you to configure actions and transitions based on data values stored in related records.
+
+In this module, we will discuss the following topics-- common actions configured on record load, actions and display persistence, understanding event types, and joins on related records. Upon the completion of this module, you will be able to configure actions to execute on server triggers when requesting a record from the server, explain the importance of display persistence when configuring actions on client triggers versus server triggers, filter action execution using event types, and explain the concept of a record join and how the Visual Builder can be used to create conditions that evaluate fields from related records.
+
+As we discussed earlier, there are several actions that can be configured on client triggers that are executed when a record form is loaded into the browser and as the user interacts with the form. Many of these actions are also configurable on server triggers. This table shows the actions that can be configured on the Before Record Load server trigger and its client trigger counterpart, Before User Edit. As you can see, the set field display type, set field mandatory, and set field display label actions are all supported at Before Record Load and Before User Edit.
+
+However, set field value is only supported on Before Record Load during the creation of new records. The nature of the alerts displayed when configuring the return user error action is also a bit different, as we discussed earlier. Given the fact that each of these actions are supported by both a client trigger and a server trigger, how do we determine which trigger to use in a particular situation?
+
+To answer this question, let's quickly review the difference between Before Record Load and Before User Edit. The Before Record Load server trigger occurs as the record is retrieved from the server database and before the form is returned to the user's browser. The Before User Edit client trigger occurs as the form is being loaded into the user's browser but just before the user is able to interact with the form itself.
+
+In this example, let's assume that a user is creating a new record and a new record entry form is being displayed in the browser. Even though no existing record is being retrieved from the database since the record has not been saved yet, the Before Record Load server trigger still occurs. The same thing would happen when requesting existing records when viewing or editing the record.
+
+As a best practice, the Before Record Load server trigger should be considered the preferred trigger for the set field display type, set field mandatory, and set field display label actions based on the general reliability of server execution versus client execution due to the variations in processing between various browsers. In addition to the three set field actions we just listed, the following actions can also be configured on the Before Record Load server trigger-- Add button, which adds a button to the record form, and Remove button, which removes a standard NetSuite button from a record form.
+
+It's important to note that you cannot use the Remove button action to remove a button added with the Add button action. To remove the button simply delete it or inactivate it. And finally, the Lock Record action, which makes the record read only by removing the Edit button from the record form.
+
+A special note about configuring the set field value action on the Before Record Load server trigger, you can set the value of a field during the creation of a new record as the entry form is loaded into the browser. However, you cannot set the value of a field when editing or viewing an existing record. The Add and Remove button and Lock Record actions will be discussed in more detail a little bit later in this course.
+
+For the purpose of this module, you will be working with the same actions configured in the data entry module. Only you will be configuring them using server triggers rather than client triggers.
+
+The processing results of some form level actions, such as set field display type, set field display label, set field mandatory, Add/Remove button, and Lock Record are not persisted or stored in the database when a record is saved. Meaning, these actions must be re-executed every time a record is loaded into the browser to ensure the results of those actions are retained.
+
+Any actions that perform field level validations or field manipulation while a user is interacting with a form must be re-executed every time the record is loaded into the browser to ensure display persistence of those actions. Consider the effect of three actions configured on the Before User Edit client trigger during the creation of a new performance review record.
+
+Upon loading the new entry form into the browser, you will see the following. The set field mandatory action A is executed and the subordinate field is designated as a required field. The set field display type action B is also executed and the approval status field is displayed as in-line text. The set field display label action C shows the review name field label change to review period.
+
+Now let's examine how those same actions behave when editing or viewing an existing record. Here you can see that each action is executed as you would expect when editing the record. The subordinate field is displayed as mandatory. The approval status field is displayed as in-line text.
+
+However, notice that when viewing the record, the set field display label action C is not re-executed and still shows review name, not review period. To ensure that the set field display label action is executed appropriately when viewing the record, the action must be configured on the Before Record Load server trigger in addition to Before User Edit.
+
+Event types allow you to configure action execution during specific user events triggered from the NetSuite user interface, such as creating, editing, copying, viewing, and printing records. Event types can be thought of as just another type of workflow condition. It can be used to further limit when workflows initiate or when actions and transitions execute.
+
+For example, when creating a new record, you may want to set default field values. When viewing a record, you may want to hide certain fields. When editing a record, you may want to make certain fields read-only. When printing a record, you may want to change a field's display label. And when saving a record, you may want to validate form data and/or send an email notification.
+
+Event types are dictated by both the record and trigger defined in a workflow, action, or transition configuration. For example, the Before Record Load server trigger in the view event type are compatible since the only way to view a record is to load a record into the browser. If you change the server trigger to After Record Submit, the view event type will not be available.
+
+This is because you cannot view a record until the record has been saved to the database. As a result, only event supported in an After Record Submit context, such as approve, cancel, create, and edit, will be displayed in the event type multi-select field. Finally, event types can only be selected when configuring workflow, action, and transition execution on server triggers.
+
+This table lists the event types supported by the Before Record Load server trigger and are some of the most common in SuiteFlow. Copy represents a user bringing up a new form by making a copy of an existing record. Create represents a user bringing up a new form by clicking New.
+
+Edit represents a user opening an existing record in edit mode. Email represents the automatic sending of an email notification. Print represents a user opening up a record in print mode. And view represents a user opening an existing record in view mode.
+
+SuiteFlow does a good job of filtering out unsupported event types and other configuration fields based on the selected execution trigger. But there are other situations when event type filtering will not be available-- when configuring actions on client triggers; when All is selected as the trigger type for workflow initiation; when scheduling workflows, actions, and transitions, since event types are based on a specific user interaction, such as clicking a new Edit or Saved button; and when using Transition On equals blank for button configurations.
+
+Finally, specifying an event type is an optional filter used to control workflow initiation and action transition execution during specific server events. Event type will be ignored if there are no selections in the multi-select event types field. A record join is the ability to access a related records field data in the context of a parent or base record on which the workflow is running.
+
+For example, most transaction records in NetSuite have a join relationship with the item and customer records, among others. Additional examples of records with join relationships include task records, which have a join relationship with the employee record; an employee record has a join relationship with the custom performance review record. And in our course case study, both the employee and customer records have a join relationship with the parent furniture request custom record.
+
+In the context of workflows created in SuiteFlow, the ability to access a joined records field is beneficial in a couple of key ways. It allows you to compare a field's value in one record to a field value from another related record. And it allows you to view field data from multiple related record types for display on a single record entry form.
+
+Fields from joined records can be evaluated when defining conditions using the record columns on the left and right side of the Visual Builder. The record column on the left side lists all List/Records that can be joined with the base record that the workflow is running on. Use the field column if you want to include fields from the join record in the condition or leave the record column blank and specify a field in the field column from the base record.
+
+The record column on the right side lists the related list/records that contain the field values you want to compare to the base records field column. Use the Value field column to select the field from the related record that you want to use in the condition, or leave the Related Record column Blank and specify a field in the Value Field column from the base record.
+
+In this example, we are comparing the sales rep in the current record to the sales rep associated with the related customer record. Based on the result of the condition, you might choose to execute additional actions. For example, if the sales reps are the same, you might send that sales rep an email notification.
+
+SuiteFlow enforces all user permissions in NetSuite. Depending on a particular user's permissions, they may not have access to the joined record fields they require to effectively work with a record that has an actively running workflow. The Execute As Admin checkbox on the Workflow Definition page can be used in situations where a workflow is initiated on a record but the user may not have sufficient access to the underlying data in the joined record due to permissions assigned on their user role.
+
+When a workflow contains actions that reference a joined record field, enabling the Execute As Admin option ensures that a user's permissions do not interfere with their ability to work with the record. Here are some key things to remember when configuring actions on record load. The Before Record Load server trigger should be considered the preferred trigger for the set field display type, set field mandatory, and set field display label actions based on the general reliability of server execution versus client execution due to variations in processing between browsers.
+
+Be sure to configure Set Field actions on Before Record Load in addition to Before User Edit to ensure display persistence of client-side actions when viewing existing records. Here are some key things to remember when working with event types. Event types can be thought of as just another type of workflow condition.
+
+When evaluating whether to restrict execution of a workflow or action to one or more event types, event type will be added together with any other conditions specified. The Event Type field is not available for actions that execute on a client trigger or when initiating a workflow using scheduled initiation. Available event types for a specific workflow, action, or transition configuration is determined by the selected execution trigger.
+
+And a brief note about the Create event type. The Create event type is only valid as a new record is being saved. Create no longer applies once a new record has been saved and is reloaded into the browser. Onetime set field value actions, such as setting a default value on a new form, could be performed on the entry trigger as the new form is loaded.
+
+However, it is recommended to use Before Record Load with an event type of Create. This ensures that the value is only set during the initial creation of the record and not every time the record is loaded into the browser.
+
+And finally, here are some key things to remember when creating conditions that evaluate fields from joined records. A join is the ability to access a different record type's field data in the context of the parent record on which the workflow is running. Joins can be used to view field data from multiple record types for display on a single record form or to compare a field from one record to a field from another record.
+
+Limit the use of conditions that contain joins on related record fields. Consider using SQL formulas instead. Create custom record fields and source in the necessary values from the related record before evaluating the condition rather than creating a direct join on the related record in the Visual Builder.
+
+In this walkthrough, we will shift our focus from actions configured on client triggers to actions configured on server triggers. We will also demonstrate display persistence and the importance of duplicating actions on server triggers to ensure field display characteristics are preserved when viewing and editing records.
+
+Now let's create a workflow with configured actions on record load. We're going to do a few different things with this particular workflow. It is going to be a single-state workflow. But it will also have very similar actions to our entry workflow, except they'll be configured on server triggers. And this will allow us to achieve display persistence of certain actions executing on our record form.
+
+We'll also be taking a look at event types and how they can be used to filter when certain actions are actually executed. So let's go ahead and create this workflow. I'm just going to click New workflow here. And the name of this particular workflow is going to be similar to our entry workflow, except we're going to call it Performance Review Load.
+
+And keeping with our best practices on IDs, I'm going to go ahead and enter in my SDR prefix and simply enter the ID that you see here. The record type, once again, is going to be performance review. And I'm going to go ahead and enter at least a basic description of this workflow.
+
+The release status, I'm going to leave it testing. I do want to keep instance and history only when testing. And of course, I always want to enable logging when I'm testing my workflows. Once again, this is going to be event-based. And I only want this to occur on create but also on view or update.
+
+This is what's going to allow us to achieve display persistence. So yes, there are certain actions that I can execute when I create a new record, which you'll see. But there's also actions that are going to re-execute when I view or update a particular record or an existing record. And that's where display persistence comes in.
+
+Again, we're talking about server triggers in this particular demonstration. So what is our workflow's initiating trigger going to be? Well, I'm going to go ahead and set this to Before Record Load again. So once again, just before the record form is loaded into the browser on the client.
+
+I'm going to go ahead and click Save on the workflow configuration. And of course, we get our default state 1 listed in the workspace here. I'm going to go ahead and rename that state, just like we did in the previous workflow.
+
+I'm going to call this State 1 Record Load. And once again, I'm going to make this a single-state workflow that continues to run on any records that it initiates on. Now, we have several actions that we're going to go ahead and configure-- set field value action, set field display type, set field display label, and set field mandatory, many of which are going to be designed to ensure display persistence of some of those actions.
+
+The others that we'll configure will be relying on event types. So let's go ahead and configure these and test them as we go. So the first action we're going to configure is going to be a set field value action here. That's going to set the value of the review type field.
+
+OK, so the field that I want to change is going to be review type. And what I want to set it to is a value. So I want to set the review type field to salary change when the record is loaded. So I want to default a selection from this dropdown list onto the record form. And I want that value to be salary change.
+
+Notice I just typed it in again. But you certainly can use the dropdown and list, and go and select it if you so choose, OK, either way you want to do that. And that's all I'm going to do. I don't even need to put a condition on that. I'm simply defaulting a value on the new record form.
+
+I'm going to go ahead and save that action, and let's test it. Up here to Lists, Custom, Performance Review, New. And notice that when the record form loads, I not only get my review date, but I also get my defaulted value of salary change in the review type field. And notice all my other actions are currently working.
+
+So if I change this to no salary change, notice that rating code becomes optional and the increase amount field goes away. So everything else is still working great. We're just adding more actions to control when things happen.
+
+Let's go back to the workflow and let's create a set field display type action. We're actually going to create two of them. So let's go ahead and create new action. I'll choose set field display type. And this time we're going to manipulate the subordinate field.
+
+Maybe we want the subordinate field to be displayed as inline. Meaning, you can see it, but you can't change it. But we only want that to happen when editing a record. We don't mind if it's available and changeable when you're creating a new record, OK, only when editing a record. So how are we going to do that? Well, we're going to use event types.
+
+So first of all, what's the field that I want to set the display type for? In this case, it's going to be our subordinate field. And I'm going to go ahead and display that inline when some condition has been met. Well, what's the condition?
+
+Well, the condition is not going to be a traditional condition. OK, it's not going to be like when the subordinate is equal to a certain value. It's going to be just when the user is editing a record, set the subordinate field to inline. In all other cases, make it display normal, OK, which we'll do here in just a second.
+
+So that's all I'm going to do. I'm going to leave my trigger to Before Record Load, because I want this to occur right before the record is loaded into the browser. So I'm just going to go ahead and save that.
+
+So let's create another set field display type action on Before Record Load. I'm going to go ahead and select the one we have here. And I'm just going to go ahead and make a copy of that, just like we did before. And all I'm going to do is change the field that I want to manipulate. And in this case, what we're going to do is change the field from subordinate to salary increase amount.
+
+So I want to make this field hidden when a couple of things happen. I want to hide the salary increase amount field when the review type condition here is equal to no salary change. OK, so let me go ahead and I'll use the dropdown list here so you can see that window instead.
+
+So no salary change. But I also want to make that field hidden when a couple different event types occur. It's not going to be an edit anymore. I only wanted to it when the user prints or views the record, is the only time I want that field hidden, OK. Let me go ahead and save this action configuration.
+
+Notice I got my two set field display types. And let's go ahead and test it. So I'm going to come up here to Performance Review. I'm just going to refresh the record form. Now, in this case, I'm going to go ahead and enter in a record. I'm going to call this-- let's call this Q2 Performance Review.
+
+If I spell things right, that'd be great. Q2 Performance Review. I'll just select one of my subordinates here. And I'll go ahead and enter a rating code of B. And I'll put a salary increase amount in there.
+
+OK, I'm going to go ahead and save this record. There we go. Let me go to Lists here. There is my new record. Now, watch what happens if I click Edit for this record. Notice that the Subordinate field is being displayed inline.
+
+I can click on the link to go out of his employee record. But I can't change it here when I'm editing the record. Also notice, if I come over here and change review type to no salary change, OK, and I save the record, and then I come in and view that record, notice that salary increase amount is hidden.
+
+It would be displayed right here underneath the rating code. But because the review type is no salary change now, because I just modified it, and I'm viewing the record, the field has been hidden. The same thing should be true if I print the record.
+
+So notice this little print icon up here. If I click on it, it gives me a preview of that particular set of records. But notice that right up here, if you can see it, there is no salary increase amount printed under the rating code, just like in our actual record form.
+
+So those event types can be used to really specify when certain actions will actually occur based on specific user events in the NetSuite user interface. Now, there's a couple of other things that's going on here. Notice that when I'm viewing this record, notice that review period is reverting back to review name.
+
+So what we're seeing here is a lack of display persistence. Meaning, we have actions executing when we're creating records. But those same actions are not persisting when we view or edit these records. So let's go ahead and fix that.
+
+All right, so what I'm going to do is I'm going to go back to our workflow. And let's reedit and add a set field display label action as follows. I'm going to choose set field display label. And before, you remember, we set it on Before User Edit, which is the client trigger. In this case, we're going to set it at Before Record Load, which is the default server trigger in this case.
+
+And I'm simply going to duplicate that action configuration. I simply want to make the name field display as review period, OK, when the record is loaded into the browser. But again, because Before Record Load effects editing and viewing records, we should see display persistence on this action.
+
+So let's go ahead and save that. Let me go back to the record here in view mode. And really, all I have to do is refresh this record in the browser. And I should see Review Name change to Review Period. Let's see what happens.
+
+And there you go. You just saw it flip right over to review period. Now let's configure another set field mandatory action that ensures display persistence of that action that we configured on Before User Edit. So what I'm going to do here, let me show you what the issue is.
+
+If I come back here to our list of performance review records and I click New Performance Review right from here, notice that the review type is salary change. And by virtue of that logic, notice that rating code should be mandatory, right? We set that up before. So watch what happens.
+
+If I come and toggle that to no salary change, it's optional. If I now make it salary change, it makes it mandatory. However, when I create a new record, it is not setting the rating code mandatory option accordingly based on the value of review type.
+
+Let's set display persistence for that. I'm going to come back to the workflow, create another set field mandatory action. Once again, the trigger is going to be Before Record Load, just like the last one that we did, and the field is going to be rating code.
+
+I want to make the rating code field mandatory. But I only want to do that when, obviously, review type is salary change, which is going to be because we're setting that as the default value when the record is created. So this is going to be-- whoops, I'm getting confused with my fields. It's going to be review type. This is salary change. All right, there we go.
+
+And let me save this action configuration. And now let's go ahead and verify our display persistence. So once again, if I just refresh this new record, watch what happens to the rating code field when the new record form loads into the browser.
+
+Notice that it's automatically set to mandatory because of the value that's been pre-populated in the review type field. And now everything else works as expected.
+
+It is now time for you to complete the required hands-on exercises associated with the topics discussed in this module. To complete the required exercises, refer to your student workbook. When you have finished, you may continue with the next module.
+
+This concludes the configuring actions on record load module.

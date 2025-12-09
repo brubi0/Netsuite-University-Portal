@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 3: Configuring Actions on Data Entry - SuiteFlow Fundamentals</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f5f7fa; line-height: 1.6; color: #2d3748; }
+        .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 40px 20px; }
+        .header-content { max-width: 1200px; margin: 0 auto; }
+        .breadcrumb { font-size: 0.9em; margin-bottom: 15px; opacity: 0.9; }
+        .breadcrumb a { color: white; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.3); }
+        .breadcrumb a:hover { border-bottom-color: white; }
+        .module-title-section { display: flex; align-items: center; gap: 20px; }
+        .module-number { background: rgba(255,255,255,0.2); width: 80px; height: 80px; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 2em; font-weight: 700; }
+        h1 { font-size: 2.5em; font-weight: 700; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        .objectives-box { background: white; border-radius: 15px; padding: 30px; margin-bottom: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); border-left: 5px solid #667eea; }
+        .objectives-box h2 { color: #667eea; margin-bottom: 20px; }
+        .objectives-box ul { list-style: none; padding: 0; }
+        .objectives-box li { padding: 10px 0 10px 30px; position: relative; color: #555; }
+        .objectives-box li::before { content: "✓"; position: absolute; left: 0; color: #667eea; font-weight: bold; font-size: 1.3em; }
+        .content-section { background: white; border-radius: 15px; padding: 40px; margin-bottom: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
+        .content-section h2 { color: #2d3748; font-size: 1.8em; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 3px solid #667eea; }
+        .content-section h3 { color: #667eea; font-size: 1.4em; margin-top: 30px; margin-bottom: 15px; }
+        .content-section p { color: #555; line-height: 1.8; margin-bottom: 15px; }
+        .content-section ul, .content-section ol { margin-left: 30px; margin-bottom: 20px; }
+        .content-section li { margin-bottom: 10px; color: #555; }
+        .info-box { padding: 20px; border-radius: 8px; margin: 25px 0; border-left: 4px solid; }
+        .info-box.blue { background: #e3f2fd; border-left-color: #2196f3; }
+        .info-box.yellow { background: #fff9c4; border-left-color: #fbc02d; }
+        .info-box.green { background: #e8f5e9; border-left-color: #4caf50; }
+        .info-box.purple { background: #f3e5f5; border-left-color: #9c27b0; }
+        .info-box.red { background: #ffebee; border-left-color: #f44336; }
+        .info-box h4 { margin-bottom: 10px; font-weight: 600; }
+        .info-box.blue h4 { color: #1976d2; }
+        .info-box.yellow h4 { color: #f57f17; }
+        .info-box.green h4 { color: #2e7d32; }
+        .info-box.purple h4 { color: #6a1b9a; }
+        .info-box.red h4 { color: #c62828; }
+        .action-card { background: #f8f9fa; border-radius: 10px; padding: 20px; margin: 15px 0; border-left: 4px solid #667eea; }
+        .action-card h4 { color: #667eea; margin-bottom: 10px; }
+        .comparison-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        .comparison-table th, .comparison-table td { padding: 15px; text-align: left; border-bottom: 1px solid #e0e0e0; }
+        .comparison-table th { background: #667eea; color: white; }
+        .comparison-table tr:hover { background: #f5f5f5; }
+        .key-takeaways { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 15px; padding: 30px; margin: 30px 0; }
+        .key-takeaways h3 { color: white; margin-bottom: 20px; font-size: 1.5em; }
+        .key-takeaways ul { list-style: none; padding: 0; }
+        .key-takeaways li { padding: 12px 0 12px 30px; position: relative; color: white; opacity: 0.95; }
+        .key-takeaways li::before { content: "★"; position: absolute; left: 0; font-size: 1.2em; }
+        .exercise-section { background: #fff3e0; border-radius: 15px; padding: 30px; margin: 30px 0; border-left: 5px solid #ff9800; }
+        .exercise-section h3 { color: #e65100; margin-bottom: 15px; }
+        .exercise-link { display: inline-block; margin-top: 15px; padding: 12px 25px; background: #ff9800; color: white; text-decoration: none; border-radius: 25px; font-weight: 600; }
+        .navigation { display: flex; justify-content: space-between; margin-top: 40px; gap: 20px; flex-wrap: wrap; }
+        .nav-btn { display: inline-flex; align-items: center; padding: 15px 30px; border-radius: 25px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; flex: 1; justify-content: center; min-width: 200px; }
+        .nav-btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .nav-btn-secondary { background: #e2e8f0; color: #2d3748; }
+        .nav-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.15); }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="breadcrumb">
+                <a href="../Master-Dashboard.html">← Course Overview</a> / 
+                <a href="week-2-dashboard.html">Week 2</a> / Module 3
+            </div>
+            <div class="module-title-section">
+                <div class="module-number">03</div>
+                <div>
+                    <h1>Configuring Actions on Data Entry</h1>
+                    <p style="margin-top: 10px; opacity: 0.9;">Building Single-State Workflows with Client Trigger Actions</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="objectives-box">
+            <h2>🎯 Learning Objectives</h2>
+            <p style="color: #666; margin-bottom: 15px;">Upon completion of this module, you will be able to:</p>
+            <ul>
+                <li>Create a single-state workflow with actions configured on client triggers</li>
+                <li>Configure actions that manipulate fields on record entry forms</li>
+                <li>Use the Visual Builder to configure conditions that limit action execution</li>
+                <li>Apply conditional logic using Boolean expressions</li>
+            </ul>
+        </div>
+
+        <div class="content-section">
+            <h2>Common Data Entry Actions</h2>
+            
+            <p>The following actions are commonly configured on client triggers to support data entry tasks. This module represents the first of several modularized workflows you'll create.</p>
+
+            <div class="action-card">
+                <h4>Set Field Display Type</h4>
+                <p>Configures whether a field can be edited. Properties include: <strong>hidden</strong>, <strong>inline</strong>, <strong>disabled</strong>, and <strong>normal</strong>.</p>
+                <p><em>Triggers: Before User Edit, Before/After Field Edit, After Field Sourcing</em></p>
+            </div>
+
+            <div class="action-card">
+                <h4>Set Field Mandatory</h4>
+                <p>Dynamically sets a field as mandatory (orange asterisk) or optional based on conditions.</p>
+                <p><em>Triggers: Before User Edit, Before/After Field Edit, After Field Sourcing</em></p>
+            </div>
+
+            <div class="action-card">
+                <h4>Set Field Value</h4>
+                <p>The <strong>most used action</strong> in SuiteFlow. Sets values for dropdown lists, multi-select fields, dates, custom records, and workflow/state fields.</p>
+                <p><em>Triggers: All client triggers (value committed only when record is saved)</em></p>
+            </div>
+
+            <div class="action-card">
+                <h4>Return User Error</h4>
+                <p>Displays error messages during validations. At Before User Submit, it cancels form submission.</p>
+                <p><em>Triggers: All client triggers (popup on client, full error page on server)</em></p>
+            </div>
+
+            <div class="action-card">
+                <h4>Show Message</h4>
+                <p>Displays an alert with OK button. Does NOT prevent form submission—purely informational.</p>
+                <p><em>Triggers: All client triggers (client-side only, not on server)</em></p>
+            </div>
+
+            <div class="action-card">
+                <h4>Confirm</h4>
+                <p>Displays a popup with OK and Cancel buttons. User can acknowledge or abort the action.</p>
+                <p><em>Triggers: Before Field Edit, Before User Submit</em></p>
+            </div>
+
+            <div class="info-box yellow">
+                <h4>⚠️ Custom Field Limitation</h4>
+                <p>Custom fields that are <strong>hidden on the record by default</strong> cannot be displayed using Set Field Display Type in a workflow. The field must be visible by default to be manipulated.</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Understanding Workflow Conditions</h2>
+
+            <p>Conditions allow you to limit when workflows initiate or when actions/transitions execute. They use <strong>Boolean logic</strong>—if something evaluates to true, then perform an action.</p>
+
+            <h3>Condition Components</h3>
+
+            <p>Each condition in the Visual Builder has three components:</p>
+            <ol>
+                <li><strong>Left Side:</strong> The value to be compared (required)</li>
+                <li><strong>Operator (Compare Type):</strong> The comparison criteria (required)</li>
+                <li><strong>Right Side:</strong> The value to compare against (required except for empty/checked operators)</li>
+            </ol>
+
+            <div class="info-box blue">
+                <h4>📋 Example Condition</h4>
+                <p><code>IF Estimated Project Cost IS GREATER THAN $10,000</code></p>
+                <p>Left Side: Estimated Project Cost | Operator: Greater Than | Right Side: 10000</p>
+            </div>
+
+            <h3>Common Compare Types</h3>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Compare Type</th>
+                        <th>Usage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Equal / Not Equal</td><td>Exact match comparisons</td></tr>
+                    <tr><td>Greater Than / Less Than</td><td>Numeric comparisons</td></tr>
+                    <tr><td>Empty / Not Empty</td><td>Check if field has value</td></tr>
+                    <tr><td>Checked / Not Checked</td><td>Checkbox fields</td></tr>
+                    <tr><td>Any Of</td><td>Match ANY selected values in a list</td></tr>
+                    <tr><td>None Of</td><td>Match NONE of the selected values</td></tr>
+                    <tr><td>Contains / Does Not Contain</td><td>Partial text matching</td></tr>
+                </tbody>
+            </table>
+
+            <div class="info-box purple">
+                <h4>💡 Any Of vs. None Of</h4>
+                <p><strong>Any Of:</strong> Perform action if ANY selected value matches (OR logic)</p>
+                <p><strong>None Of:</strong> Perform action only if NONE of the selected values match</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Using Expressions for Complex Conditions</h2>
+
+            <p>When you need to compare multiple values with AND/OR logic, use <strong>expressions</strong> in the Visual Builder.</p>
+
+            <div class="info-box green">
+                <h4>✅ Expression Operators</h4>
+                <ul style="margin-left: 20px;">
+                    <li><strong>AND:</strong> Both conditions must be true</li>
+                    <li><strong>OR:</strong> Either condition can be true</li>
+                    <li><strong>NOT:</strong> Inverts the condition result</li>
+                    <li><strong>Parentheses:</strong> Group conditions for complex logic</li>
+                </ul>
+            </div>
+
+            <p>Multiple conditions without expressions are automatically ANDed together. Use expressions when you need OR logic or complex groupings.</p>
+        </div>
+
+        <div class="content-section">
+            <h2>Practical Examples</h2>
+
+            <h3>Example 1: Dynamic Mandatory Field</h3>
+            <p>Make "Rating Code" mandatory when "Review Type" = Salary Change:</p>
+            <ol>
+                <li>Create Set Field Mandatory action on After Field Edit trigger</li>
+                <li>Set triggering field to "Review Type"</li>
+                <li>Add condition: Review Type = Salary Change</li>
+                <li>Set Rating Code to Mandatory = True</li>
+                <li><strong>Important:</strong> Create a second action for the opposite—make optional when Review Type = No Salary Change</li>
+            </ol>
+
+            <div class="info-box yellow">
+                <h4>⚠️ Always Create Both Conditions</h4>
+                <p>When making a field mandatory based on a condition, you MUST also create the action to make it optional under the opposite condition!</p>
+            </div>
+
+            <h3>Example 2: Show/Hide Fields</h3>
+            <p>Hide "Salary Increase Amount" when Review Type = No Salary Change:</p>
+            <ol>
+                <li>Create Set Field Display Type action on After Field Edit</li>
+                <li>Triggering field: Review Type</li>
+                <li>Condition: Review Type = No Salary Change</li>
+                <li>Set Salary Increase Amount display type to Hidden</li>
+                <li>Create second action: Show field (Normal) when Review Type = Salary Change</li>
+            </ol>
+
+            <h3>Example 3: Validation Error</h3>
+            <p>Prevent salary increases greater than $10,000:</p>
+            <ol>
+                <li>Create Return User Error action</li>
+                <li>Message: "Salary increase amount cannot be greater than $10,000"</li>
+                <li>Condition: Salary Increase Amount > 10000</li>
+            </ol>
+
+            <div class="info-box green">
+                <h4>✅ User-Friendly Errors</h4>
+                <p>When Return User Error fires on a client trigger, users see a popup they can acknowledge and then correct their data—much friendlier than server-side errors!</p>
+            </div>
+        </div>
+
+        <div class="exercise-section">
+            <h3>🎯 Hands-On Exercises</h3>
+            <p>Build your first data entry workflow in your Student Workbook:</p>
+            <ul style="margin-left: 30px; margin-bottom: 20px;">
+                <li>Exercise 1: Create a single-state entry workflow</li>
+                <li>Exercise 2: Configure Set Field Mandatory with conditions</li>
+                <li>Exercise 3: Build Show/Hide field logic</li>
+                <li>Exercise 4: Add validation with Return User Error</li>
+            </ul>
+            <a href="../Appendices/Appendix-B-Hands-On-Exercises.html#module-3" class="exercise-link">Go to Module 3 Exercises →</a>
+        </div>
+
+        <div class="key-takeaways">
+            <h3>🌟 Key Takeaways</h3>
+            <ul>
+                <li><strong>Set Field Value</strong> is the most used action in SuiteFlow</li>
+                <li>Always create <strong>both conditions</strong> for mandatory/display toggling (on AND off)</li>
+                <li>Conditions use Boolean logic—if true, execute the action</li>
+                <li>Use <strong>expressions</strong> for complex AND/OR logic</li>
+                <li><strong>Any Of</strong> = match any selected value; <strong>None Of</strong> = match none</li>
+                <li>Return User Error on client triggers shows friendly popup messages</li>
+                <li>Show Message does NOT prevent form submission—it's purely informational</li>
+            </ul>
+        </div>
+
+        <div class="navigation">
+            <a href="Module-02-Understanding-Client-Triggers.html" class="nav-btn nav-btn-secondary">← Previous: Module 2</a>
+            <a href="../Week-3/Module-04-Understanding-Server-Triggers.html" class="nav-btn nav-btn-primary">Next: Module 4 →</a>
+        </div>
+    </div>
+</body>
+</html>

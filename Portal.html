@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NetSuite University Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #0f0f1a 100%);
+            min-height: 100vh; 
+            color: #e0e0e0;
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 80px 20px 60px;
+            background: radial-gradient(ellipse at top, rgba(233, 69, 96, 0.15) 0%, transparent 50%);
+        }
+        .logo { font-size: 4rem; margin-bottom: 20px; }
+        .hero h1 { 
+            font-size: 3rem; 
+            font-weight: 800; 
+            background: linear-gradient(135deg, #e94560, #f39c12, #3498db);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+        }
+        .hero p { 
+            font-size: 1.2rem; 
+            color: #888; 
+            max-width: 600px; 
+            margin: 0 auto;
+        }
+        
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            padding: 40px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .stat { text-align: center; }
+        .stat-value { 
+            font-size: 2.5rem; 
+            font-weight: 700; 
+            color: #e94560;
+        }
+        .stat-label { 
+            font-size: 0.9rem; 
+            color: #666; 
+            text-transform: uppercase; 
+            letter-spacing: 1px;
+            margin-top: 5px;
+        }
+        
+        .container { 
+            max-width: 1400px; 
+            margin: 0 auto; 
+            padding: 60px 20px 80px;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .section-title h2 {
+            font-size: 2rem;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+        .section-title p {
+            color: #666;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 30px;
+        }
+        
+        .course-card {
+            background: linear-gradient(145deg, #1e1e2e, #16161f);
+            border-radius: 20px;
+            padding: 35px;
+            text-decoration: none;
+            color: inherit;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .course-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--accent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .course-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 40px var(--glow);
+        }
+        .course-card:hover::before { opacity: 1; }
+        
+        .course-card.suitescript-fund { --accent: #3498db; --glow: rgba(52, 152, 219, 0.2); }
+        .course-card.suitescript-ext { --accent: #9b59b6; --glow: rgba(155, 89, 182, 0.2); }
+        .course-card.suiteflow-fund { --accent: #e94560; --glow: rgba(233, 69, 96, 0.2); }
+        .course-card.suiteflow-adv { --accent: #e67e22; --glow: rgba(230, 126, 34, 0.2); }
+        .course-card.analytics { --accent: #1abc9c; --glow: rgba(26, 188, 156, 0.2); }
+        
+        .course-number {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+        }
+        .course-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 12px;
+        }
+        .course-desc {
+            color: #888;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+        
+        .course-meta {
+            display: flex;
+            gap: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: #666;
+        }
+        .meta-icon { font-size: 1rem; }
+        
+        .course-arrow {
+            position: absolute;
+            bottom: 35px;
+            right: 35px;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+        .course-card:hover .course-arrow {
+            background: var(--accent);
+            color: #fff;
+        }
+        
+        .learning-path {
+            margin-top: 80px;
+            background: linear-gradient(145deg, #1e1e2e, #16161f);
+            border-radius: 20px;
+            padding: 50px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .learning-path h3 {
+            font-size: 1.5rem;
+            color: #fff;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .path-steps {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .path-step {
+            flex: 1;
+            min-width: 150px;
+            text-align: center;
+            position: relative;
+        }
+        .path-step:not(:last-child)::after {
+            content: '→';
+            position: absolute;
+            right: -15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #333;
+            font-size: 1.5rem;
+        }
+        .step-num {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #e94560, #0f3460);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin: 0 auto 15px;
+        }
+        .step-title {
+            font-size: 0.85rem;
+            color: #888;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #444;
+            font-size: 0.85rem;
+        }
+        .footer a { color: #666; }
+        
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .stats-bar { gap: 30px; flex-wrap: wrap; }
+            .courses-grid { grid-template-columns: 1fr; }
+            .path-step:not(:last-child)::after { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="logo">🎓</div>
+        <h1>NetSuite University</h1>
+        <p>Master NetSuite development with comprehensive courses covering SuiteScript, SuiteFlow, and Analytics</p>
+    </div>
+    
+    <div class="stats-bar">
+        <div class="stat">
+            <div class="stat-value">5</div>
+            <div class="stat-label">Courses</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">34</div>
+            <div class="stat-label">Weeks</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">150+</div>
+            <div class="stat-label">Modules</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">∞</div>
+            <div class="stat-label">Knowledge</div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="section-title">
+            <h2>Available Courses</h2>
+            <p>Click any course to access its learning hub</p>
+        </div>
+        
+        <div class="courses-grid">
+            <a href="01-SuiteScript-Fundamentals/Master-Dashboard.html" class="course-card suitescript-fund">
+                <div class="course-number">Course 01</div>
+                <div class="course-title">SuiteScript Fundamentals</div>
+                <div class="course-desc">Complete foundation in SuiteScript 2.x development. Learn script types, record operations, searches, and best practices.</div>
+                <div class="course-meta">
+                    <div class="meta-item"><span class="meta-icon">📅</span> 12 Weeks</div>
+                    <div class="meta-item"><span class="meta-icon">📚</span> 4 Appendices</div>
+                    <div class="meta-item"><span class="meta-icon">💡</span> Beginner</div>
+                </div>
+                <div class="course-arrow">→</div>
+            </a>
+            
+            <a href="02-SuiteScript-Extend/Master-Dashboard.html" class="course-card suitescript-ext">
+                <div class="course-number">Course 02</div>
+                <div class="course-title">SuiteScript Extend</div>
+                <div class="course-desc">Extend NetSuite with JavaScript. Advanced patterns, integrations, custom modules, and production-ready solutions.</div>
+                <div class="course-meta">
+                    <div class="meta-item"><span class="meta-icon">📅</span> 8 Weeks</div>
+                    <div class="meta-item"><span class="meta-icon">📚</span> 4 Appendices</div>
+                    <div class="meta-item"><span class="meta-icon">💡</span> Intermediate</div>
+                </div>
+                <div class="course-arrow">→</div>
+            </a>
+            
+            <a href="03-SuiteFlow-Fundamentals/Master-Dashboard.html" class="course-card suiteflow-fund">
+                <div class="course-number">Course 03</div>
+                <div class="course-title">SuiteFlow Fundamentals</div>
+                <div class="course-desc">Master workflow automation without code. States, transitions, actions, triggers, and approval processes.</div>
+                <div class="course-meta">
+                    <div class="meta-item"><span class="meta-icon">📅</span> 6 Weeks</div>
+                    <div class="meta-item"><span class="meta-icon">📚</span> Appendices</div>
+                    <div class="meta-item"><span class="meta-icon">💡</span> Beginner</div>
+                </div>
+                <div class="course-arrow">→</div>
+            </a>
+            
+            <a href="04-SuiteFlow-Advanced/Master-Dashboard.html" class="course-card suiteflow-adv">
+                <div class="course-number">Course 04</div>
+                <div class="course-title">SuiteFlow Advanced</div>
+                <div class="course-desc">Advanced workflow techniques. Sub-workflows, parallel processing, custom actions, and SuiteScript integration.</div>
+                <div class="course-meta">
+                    <div class="meta-item"><span class="meta-icon">📅</span> 4 Weeks</div>
+                    <div class="meta-item"><span class="meta-icon">📚</span> Appendices</div>
+                    <div class="meta-item"><span class="meta-icon">💡</span> Advanced</div>
+                </div>
+                <div class="course-arrow">→</div>
+            </a>
+            
+            <a href="05-Suite-Analytics-Reporting/Master-Dashboard.html" class="course-card analytics">
+                <div class="course-number">Course 05</div>
+                <div class="course-title">Suite Analytics & Reporting</div>
+                <div class="course-desc">Master saved searches, KPIs, SuiteAnalytics Workbook, and data visualization for business intelligence.</div>
+                <div class="course-meta">
+                    <div class="meta-item"><span class="meta-icon">📅</span> 4 Weeks</div>
+                    <div class="meta-item"><span class="meta-icon">📚</span> 5 Appendices</div>
+                    <div class="meta-item"><span class="meta-icon">💡</span> Intermediate</div>
+                </div>
+                <div class="course-arrow">→</div>
+            </a>
+        </div>
+        
+        <div class="learning-path">
+            <h3>📍 Recommended Learning Path</h3>
+            <div class="path-steps">
+                <div class="path-step">
+                    <div class="step-num">1</div>
+                    <div class="step-title">SuiteScript<br>Fundamentals</div>
+                </div>
+                <div class="path-step">
+                    <div class="step-num">2</div>
+                    <div class="step-title">SuiteScript<br>Extend</div>
+                </div>
+                <div class="path-step">
+                    <div class="step-num">3</div>
+                    <div class="step-title">SuiteFlow<br>Fundamentals</div>
+                </div>
+                <div class="path-step">
+                    <div class="step-num">4</div>
+                    <div class="step-title">SuiteFlow<br>Advanced</div>
+                </div>
+                <div class="path-step">
+                    <div class="step-num">5</div>
+                    <div class="step-title">Analytics &<br>Reporting</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>NetSuite University Portal • Built by Bruno @ Urku Consulting</p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 15: Course Review & Next Steps</title>
+    <style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.8;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:40px 20px}.container{max-width:900px;margin:0 auto}.header{background:white;padding:30px 40px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.2);margin-bottom:30px}.header h1{color:#2563eb;font-size:2rem;margin-bottom:10px}.header .meta{color:#6b7280;font-size:0.9rem}.content{background:white;padding:40px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.2)}.content h2{color:#1e40af;margin:35px 0 20px 0;font-size:1.6rem;padding-bottom:10px;border-bottom:3px solid #dbeafe}.content h2:first-of-type{margin-top:0}.content h3{color:#374151;margin:25px 0 15px 0;font-size:1.3rem}.content p{margin:15px 0;color:#374151}.content ul,.content ol{margin:15px 0 15px 30px;color:#374151}.content li{margin:10px 0}.info-box{padding:20px 25px;border-radius:8px;margin:25px 0;border-left:5px solid}.info-box.blue{background:#dbeafe;border-color:#2563eb}.info-box.yellow{background:#fef3c7;border-color:#f59e0b}.info-box.green{background:#dcfce7;border-color:#10b981}.info-box.purple{background:#f3e8ff;border-color:#9333ea}.info-box strong{color:#1e40af;display:block;margin-bottom:10px;font-size:1.1rem}code{background:#f3f4f6;padding:3px 8px;border-radius:4px;font-family:monospace;font-size:0.9em;color:#ef4444}.takeaway{background:#f0f9ff;border:2px solid #0ea5e9;border-radius:10px;padding:25px;margin:30px 0}.takeaway h3{color:#0369a1;margin:0 0 15px 0}.takeaway ul{margin:10px 0 10px 25px}.takeaway li{color:#0c4a6e;font-weight:500}.nav-buttons{display:flex;justify-content:space-between;margin-top:40px;gap:20px}.back-btn,.next-btn{padding:14px 28px;border-radius:8px;text-decoration:none;font-weight:600;transition:all 0.3s}.back-btn{background:#6b7280;color:white}.next-btn{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:white}table{width:100%;border-collapse:collapse;margin:20px 0}table th,table td{padding:12px;text-align:left;border-bottom:1px solid #e5e7eb}table th{background:#f3f4f6;color:#1e40af;font-weight:600}.congrats{text-align:center;padding:40px;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);border-radius:12px;color:white;margin:30px 0}.congrats h2{font-size:2.5rem;margin-bottom:15px}.congrats p{font-size:1.2rem;opacity:0.9}</style>
+</head>
+<body>
+<div class="container">
+<div class="header">
+    <h1>Module 15: Course Review & Next Steps</h1>
+    <p class="meta">Week 12 • NetSuite SuiteScript 2.0 Training • ~30 minutes</p>
+</div>
+<div class="content">
+
+<div class="congrats">
+    <h2>🎉 Congratulations!</h2>
+    <p>You've completed the SuiteScript 2.0 Training Program!</p>
+</div>
+
+<h2>📚 What You've Learned</h2>
+
+<h3>Foundation (Weeks 1-2)</h3>
+<ul>
+    <li>SuiteCloud platform and development tools</li>
+    <li>NetSuite data model and record types</li>
+    <li>Script records and deployments</li>
+    <li>Context objects and getValue/setValue methods</li>
+    <li>Logging and debugging basics</li>
+</ul>
+
+<h3>Core Scripting (Weeks 3-4)</h3>
+<ul>
+    <li>Entry points and execution lifecycle</li>
+    <li>Client-side vs server-side scripts</li>
+    <li>Loading SuiteScript modules (N/record, N/search, etc.)</li>
+    <li>Working with sublists and line items</li>
+    <li>Creating and running searches</li>
+</ul>
+
+<h3>Bulk Processing (Weeks 5-6)</h3>
+<ul>
+    <li>Scheduled scripts and queue management</li>
+    <li>Map/Reduce for massive datasets</li>
+    <li>Script parameters for configuration</li>
+    <li>Workflow Action Scripts</li>
+</ul>
+
+<h3>Advanced Topics (Week 12)</h3>
+<ul>
+    <li>Suitelets for custom pages</li>
+    <li>RESTlets for web services</li>
+    <li>Governance management</li>
+    <li>Performance optimization</li>
+    <li>Error handling and testing</li>
+</ul>
+
+<h2>🔧 Script Types Summary</h2>
+
+<table>
+    <tr><th>Script Type</th><th>Purpose</th><th>Entry Points</th></tr>
+    <tr><td>Client Script</td><td>Browser interactions</td><td>pageInit, fieldChanged, saveRecord, etc.</td></tr>
+    <tr><td>User Event</td><td>Record operations</td><td>beforeLoad, beforeSubmit, afterSubmit</td></tr>
+    <tr><td>Scheduled</td><td>Timed batch jobs</td><td>execute</td></tr>
+    <tr><td>Map/Reduce</td><td>Massive data processing</td><td>getInputData, map, reduce, summarize</td></tr>
+    <tr><td>Suitelet</td><td>Custom UI pages</td><td>onRequest</td></tr>
+    <tr><td>RESTlet</td><td>Web services</td><td>get, post, put, delete</td></tr>
+    <tr><td>Workflow Action</td><td>Extend workflows</td><td>onAction</td></tr>
+</table>
+
+<h2>🚀 Next Steps</h2>
+
+<div class="info-box blue">
+    <strong>💡 Continue Learning</strong>
+    <ul>
+        <li><strong>Help Center</strong>: Official SuiteScript documentation</li>
+        <li><strong>Records Browser</strong>: Find field and sublist IDs</li>
+        <li><strong>SuiteAnswers</strong>: Knowledge base and solutions</li>
+        <li><strong>NetSuite Community</strong>: Forums and discussions</li>
+    </ul>
+</div>
+
+<div class="info-box green">
+    <strong>✅ Certification Path</strong>
+    <ul>
+        <li>SuiteFoundation Certification</li>
+        <li>SuiteCloud Developer I Certification</li>
+        <li>SuiteCloud Developer II Certification</li>
+    </ul>
+</div>
+
+<div class="info-box purple">
+    <strong>🎯 Practice Projects</strong>
+    <ul>
+        <li>Build a custom approval workflow with scripts</li>
+        <li>Create a dashboard Suitelet showing KPIs</li>
+        <li>Develop a RESTlet for external integration</li>
+        <li>Write a Map/Reduce for data migration</li>
+    </ul>
+</div>
+
+<h2>📖 Quick Reference</h2>
+
+<h3>Essential Modules</h3>
+<pre><code>N/record    - Load, create, save records
+N/search    - Query data
+N/runtime   - Script/user context
+N/email     - Send emails
+N/url       - Generate URLs
+N/format    - Date/number formatting
+N/ui/serverWidget - Build forms (Suitelets)</code></pre>
+
+<h3>Key Patterns</h3>
+<pre><code>// Load a record
+var rec = record.load({ type: 'customer', id: 123 });
+
+// Create a search
+var search = search.create({
+    type: 'salesorder',
+    filters: [['status', 'anyof', 'SalesOrd:B']],
+    columns: ['tranid', 'total']
+});
+
+// Process results
+search.run().each(function(result) {
+    log.debug('Order', result.getValue('tranid'));
+    return true;
+});</code></pre>
+
+<div class="takeaway">
+    <h3>🎯 Remember These Principles</h3>
+    <ul>
+        <li>Always check governance with getRemainingUsage()</li>
+        <li>Use the right script type for the job</li>
+        <li>Test in Sandbox before Production</li>
+        <li>Log everything - your future self will thank you</li>
+        <li>Use lookupFields() when just reading data</li>
+        <li>Implement proper error handling with try/catch</li>
+        <li>Follow naming conventions consistently</li>
+        <li>Read the Help Center documentation</li>
+    </ul>
+</div>
+
+<div class="nav-buttons">
+    <a href="week-12-dashboard.html" class="back-btn">← Back to Week 12</a>
+    <a href="../Master-Dashboard.html" class="next-btn">🏠 Return to Dashboard</a>
+</div>
+
+</div>
+</div>
+</body>
+</html>

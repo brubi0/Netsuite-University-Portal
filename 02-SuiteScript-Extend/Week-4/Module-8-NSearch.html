@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 8: N/search Module - SuiteScript Learning Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%); --dark-bg: #1a1a2e; --card-bg: #16213e; --text-primary: #ffffff; --text-secondary: #a0aec0; --border-color: rgba(255,255,255,0.1); --purple: #9f7aea; --success: #48bb78; --warning: #ecc94b; --info: #4299e1; --code-bg: #0d1117; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--dark-bg); color: var(--text-primary); min-height: 100vh; line-height: 1.7; }
+        .nav-bar { background: var(--card-bg); padding: 15px 20px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+        .nav-bar a { color: var(--purple); text-decoration: none; }
+        .header { background: var(--primary-gradient); padding: 50px 20px; }
+        .header-content { max-width: 900px; margin: 0 auto; }
+        .header .module-tag { display: inline-block; background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 20px; font-size: 0.85rem; margin-bottom: 15px; }
+        .header h1 { font-size: 2.2rem; margin-bottom: 10px; }
+        .header p { font-size: 1.1rem; opacity: 0.9; }
+        .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+        .content-section { margin-bottom: 40px; }
+        .content-section h2 { font-size: 1.5rem; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid var(--border-color); }
+        .content-section h3 { font-size: 1.2rem; margin: 25px 0 15px 0; color: var(--purple); }
+        .content-section p { margin-bottom: 15px; color: var(--text-secondary); }
+        .info-box { border-radius: 10px; padding: 20px; margin: 20px 0; }
+        .info-box.blue { background: rgba(66, 153, 225, 0.15); border: 1px solid rgba(66, 153, 225, 0.3); }
+        .info-box.green { background: rgba(72, 187, 120, 0.15); border: 1px solid rgba(72, 187, 120, 0.3); }
+        .info-box.yellow { background: rgba(236, 201, 75, 0.15); border: 1px solid rgba(236, 201, 75, 0.3); }
+        .info-box.purple { background: rgba(159, 122, 234, 0.15); border: 1px solid rgba(159, 122, 234, 0.3); }
+        .info-box h4 { margin-bottom: 10px; }
+        .info-box p { margin-bottom: 0; font-size: 0.95rem; }
+        pre { background: var(--code-bg); border-radius: 10px; padding: 20px; overflow-x: auto; margin: 20px 0; border: 1px solid var(--border-color); }
+        code { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; line-height: 1.6; }
+        .inline-code { background: var(--code-bg); padding: 2px 8px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--purple); }
+        .concept-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        .concept-table th, .concept-table td { padding: 12px 15px; text-align: left; border: 1px solid var(--border-color); }
+        .concept-table th { background: var(--card-bg); font-weight: 600; color: var(--purple); }
+        .concept-table td { color: var(--text-secondary); }
+        .key-takeaways { background: var(--card-bg); border-radius: 12px; padding: 25px; margin-top: 40px; border: 1px solid var(--border-color); }
+        .key-takeaways h3 { margin-bottom: 15px; }
+        .key-takeaways ul { list-style: none; }
+        .key-takeaways li { padding: 8px 0; padding-left: 25px; position: relative; color: var(--text-secondary); }
+        .key-takeaways li::before { content: '✓'; position: absolute; left: 0; color: var(--success); }
+        .nav-footer { display: flex; justify-content: space-between; margin-top: 50px; padding-top: 30px; border-top: 1px solid var(--border-color); flex-wrap: wrap; gap: 10px; }
+        .nav-footer a { color: var(--purple); text-decoration: none; }
+    </style>
+</head>
+<body>
+    <nav class="nav-bar">
+        <a href="week-4-dashboard.html">← Week 4 Dashboard</a>
+        <div style="display: flex; gap: 15px;">
+            <a href="Module-7-NQuery.html">← Module 7</a>
+            <a href="../Week-5/week-5-dashboard.html">Week 5 →</a>
+        </div>
+    </nav>
+
+    <header class="header">
+        <div class="header-content">
+            <span class="module-tag">Week 4 • Module 8</span>
+            <h1>N/search Module</h1>
+            <p>NetSuite's native search API for programmatic data retrieval</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="content-section">
+            <h2>🔍 search.create() vs Saved Searches</h2>
+            <p>N/search offers two approaches: create dynamic searches in code, or load existing saved searches from the UI.</p>
+
+            <table class="concept-table">
+                <thead>
+                    <tr>
+                        <th>Approach</th>
+                        <th>Pros</th>
+                        <th>Cons</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="inline-code">search.create()</span></td>
+                        <td>Version controlled, dynamic filters</td>
+                        <td>More code, can't preview in UI</td>
+                    </tr>
+                    <tr>
+                        <td><span class="inline-code">search.load()</span></td>
+                        <td>Testable in UI, non-dev can modify</td>
+                        <td>External dependency, migration needed</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="content-section">
+            <h2>🔧 Creating a Search</h2>
+            <pre><code>const search = require('N/search');
+
+const customerSearch = search.create({
+    type: search.Type.CUSTOMER,
+    filters: [
+        ['isinactive', 'is', 'F'],
+        'AND',
+        ['balance', 'greaterthan', 0]
+    ],
+    columns: [
+        search.createColumn({ name: 'entityid' }),
+        search.createColumn({ name: 'companyname' }),
+        search.createColumn({ name: 'email' }),
+        search.createColumn({ name: 'balance', sort: search.Sort.DESC })
+    ]
+});
+
+// Execute and iterate
+customerSearch.run().each(result => {
+    const name = result.getValue({ name: 'companyname' });
+    const balance = result.getValue({ name: 'balance' });
+    log.audit('Customer', `${name}: $${balance}`);
+    return true; // Continue to next result
+});</code></pre>
+        </section>
+
+        <section class="content-section">
+            <h2>🎯 Filters</h2>
+            <p>Filters use a three-part array: <span class="inline-code">[fieldId, operator, value]</span></p>
+            <pre><code>// Simple filter
+['isinactive', 'is', 'F']
+
+// Multiple filters with AND/OR
+[
+    ['isinactive', 'is', 'F'],
+    'AND',
+    ['subsidiary', 'anyof', [1, 2, 3]],
+    'AND',
+    [
+        ['email', 'isnotempty', ''],
+        'OR',
+        ['phone', 'isnotempty', '']
+    ]
+]</code></pre>
+
+            <h3>Common Operators</h3>
+            <table class="concept-table">
+                <thead>
+                    <tr><th>Operator</th><th>Use Case</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><span class="inline-code">is</span></td><td>Exact match</td></tr>
+                    <tr><td><span class="inline-code">anyof</span></td><td>Match any in list</td></tr>
+                    <tr><td><span class="inline-code">contains</span></td><td>Text contains</td></tr>
+                    <tr><td><span class="inline-code">greaterthan</span> / <span class="inline-code">lessthan</span></td><td>Numeric comparison</td></tr>
+                    <tr><td><span class="inline-code">within</span></td><td>Date ranges</td></tr>
+                    <tr><td><span class="inline-code">isnotempty</span></td><td>Has a value</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="content-section">
+            <h2>📊 Columns</h2>
+            <pre><code>// Basic column
+search.createColumn({ name: 'companyname' })
+
+// With sorting
+search.createColumn({ name: 'balance', sort: search.Sort.DESC })
+
+// Join column (related record)
+search.createColumn({ name: 'city', join: 'billingaddress' })
+
+// Summary/aggregate
+search.createColumn({ name: 'amount', summary: search.Summary.SUM })</code></pre>
+        </section>
+
+        <section class="content-section">
+            <h2>🔗 Joins</h2>
+            <p>Access fields from related records using the <span class="inline-code">join</span> parameter:</p>
+            <pre><code>// Get customer's primary contact email
+const customerSearch = search.create({
+    type: search.Type.CUSTOMER,
+    columns: [
+        search.createColumn({ name: 'companyname' }),
+        search.createColumn({ name: 'email', join: 'contact' })
+    ]
+});</code></pre>
+
+            <div class="info-box yellow">
+                <h4>⚠️ Finding Join Names</h4>
+                <p>Use the Records Browser or existing saved searches to discover valid join names. Common joins: entity, customer, item, transaction, contact, billingaddress.</p>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>📖 Loading Saved Searches</h2>
+            <pre><code>// Load by internal ID
+const savedSearch = search.load({ id: 'customsearch_active_customers' });
+
+// Modify filters dynamically
+savedSearch.filters.push(
+    search.createFilter({
+        name: 'datecreated',
+        operator: search.Operator.ONORAFTER,
+        values: ['1/1/2024']
+    })
+);
+
+// Execute
+savedSearch.run().each(result => {
+    // Process results
+    return true;
+});</code></pre>
+        </section>
+
+        <section class="content-section">
+            <h2>🔄 Iterating Results</h2>
+            <h3>run().each() Pattern</h3>
+            <pre><code>// Return true to continue, false to stop
+search.run().each(result => {
+    const id = result.id;
+    const value = result.getValue({ name: 'companyname' });
+    return true; // Process up to 4000 results
+});</code></pre>
+
+            <h3>runPaged() for Large Results</h3>
+            <pre><code>const pagedData = customerSearch.runPaged({ pageSize: 1000 });
+
+pagedData.pageRanges.forEach(pageRange => {
+    const page = pagedData.fetch({ index: pageRange.index });
+    page.data.forEach(result => {
+        // Process each result
+    });
+});</code></pre>
+        </section>
+
+        <section class="content-section" style="background: rgba(66, 153, 225, 0.1); border: 1px solid rgba(66, 153, 225, 0.2); border-radius: 12px; padding: 25px; margin: 30px 0;">
+            <h2 style="border: none; padding: 0; margin-bottom: 15px;">📖 Finding This in the Docs</h2>
+            <p>To look up N/search methods:</p>
+            <ol style="margin-left: 20px; color: var(--text-secondary);">
+                <li style="margin-bottom: 8px;">Go to <strong>docs.oracle.com</strong> → SuiteScript 2.x Modules</li>
+                <li style="margin-bottom: 8px;">Click on <strong>N/search Module</strong></li>
+                <li style="margin-bottom: 8px;">Review search.create(), search.load(), Filter, and Column objects</li>
+            </ol>
+            <p style="margin-top: 15px;"><strong>Key pages to bookmark:</strong></p>
+            <ul style="margin-left: 20px; color: var(--text-secondary);">
+                <li>search.create(options) → type, filters, columns parameters</li>
+                <li>search.load(options) → loading saved searches</li>
+                <li>Search.run() / Search.runPaged() → executing searches</li>
+                <li>search.createFilter() → filter operators (is, anyof, contains, within)</li>
+                <li>search.createColumn() → join, summary, sort options</li>
+                <li>Result.getValue() vs Result.getText() → internal ID vs display value</li>
+            </ul>
+        </section>
+
+        <div class="key-takeaways">
+            <h3>🎯 Key Takeaways</h3>
+            <ul>
+                <li><span class="inline-code">search.create()</span> builds dynamic searches; <span class="inline-code">search.load()</span> uses saved searches</li>
+                <li>Filters use <span class="inline-code">[field, operator, value]</span> syntax with AND/OR logic</li>
+                <li>Columns can include joins to related records and summary functions</li>
+                <li><span class="inline-code">run().each()</span> returns up to 4,000 results</li>
+                <li><span class="inline-code">runPaged()</span> handles unlimited results with pagination</li>
+                <li><span class="inline-code">getValue()</span> returns internal IDs; <span class="inline-code">getText()</span> returns display values</li>
+            </ul>
+        </div>
+
+        <nav class="nav-footer">
+            <a href="Module-7-NQuery.html">← Module 7: N/query</a>
+            <a href="../Week-5/week-5-dashboard.html">Week 5: Communication & Performance →</a>
+        </nav>
+    </main>
+</body>
+</html>

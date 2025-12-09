@@ -1,0 +1,85 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Module 15: CSV Export Map/Reduce - SuiteScript Learning Hub</title><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"><style>:root{--primary-gradient:linear-gradient(135deg,#667eea 0%,#764ba2 100%);--dark-bg:#1a1a2e;--card-bg:#16213e;--text-primary:#ffffff;--text-secondary:#a0aec0;--border-color:rgba(255,255,255,0.1);--purple:#9f7aea;--success:#48bb78;--code-bg:#0d1117}*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Inter',sans-serif;background:var(--dark-bg);color:var(--text-primary);min-height:100vh;line-height:1.7}.nav-bar{background:var(--card-bg);padding:15px 20px;border-bottom:1px solid var(--border-color);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100}.nav-bar a{color:var(--purple);text-decoration:none}.header{background:var(--primary-gradient);padding:50px 20px}.header-content{max-width:900px;margin:0 auto}.header .module-tag{display:inline-block;background:rgba(255,255,255,0.2);padding:5px 12px;border-radius:20px;font-size:0.85rem;margin-bottom:15px}.header h1{font-size:2.2rem;margin-bottom:10px}.header p{font-size:1.1rem;opacity:0.9}.container{max-width:900px;margin:0 auto;padding:40px 20px}.content-section{margin-bottom:40px}.content-section h2{font-size:1.5rem;margin-bottom:20px;padding-bottom:10px;border-bottom:2px solid var(--border-color)}.content-section h3{font-size:1.2rem;margin:25px 0 15px 0;color:var(--purple)}.content-section p{margin-bottom:15px;color:var(--text-secondary)}.info-box{border-radius:10px;padding:20px;margin:20px 0;background:rgba(66,153,225,0.15);border:1px solid rgba(66,153,225,0.3)}.info-box h4{margin-bottom:10px}.info-box p{margin-bottom:0;font-size:0.95rem}pre{background:var(--code-bg);border-radius:10px;padding:20px;overflow-x:auto;margin:20px 0;border:1px solid var(--border-color)}code{font-family:'JetBrains Mono',monospace;font-size:0.85rem;line-height:1.6}.inline-code{background:var(--code-bg);padding:2px 8px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:0.85rem;color:var(--purple)}.key-takeaways{background:var(--card-bg);border-radius:12px;padding:25px;margin-top:40px;border:1px solid var(--border-color)}.key-takeaways h3{margin-bottom:15px}.key-takeaways ul{list-style:none}.key-takeaways li{padding:8px 0;padding-left:25px;position:relative;color:var(--text-secondary)}.key-takeaways li::before{content:'✓';position:absolute;left:0;color:var(--success)}.nav-footer{display:flex;justify-content:space-between;margin-top:50px;padding-top:30px;border-top:1px solid var(--border-color);flex-wrap:wrap;gap:10px}.nav-footer a{color:var(--purple);text-decoration:none}</style></head><body><nav class="nav-bar"><a href="week-8-dashboard.html">← Week 8 Dashboard</a><div style="display:flex;gap:15px"><a href="../Week-7/Module-14-NTask.html">← Module 14</a><a href="Module-16-Practical-Scheduler.html">Module 16 →</a></div></nav><header class="header"><div class="header-content"><span class="module-tag">Week 8 • Module 15</span><h1>Practical Example: CSV Export</h1><p>Map/Reduce script that generates CSV files and emails them</p></div></header><main class="container"><section class="content-section"><h2>🎯 Project Overview</h2><p>Build a Map/Reduce script that:</p><ul style="list-style:disc;margin-left:25px;color:var(--text-secondary);margin-bottom:20px"><li>Loads customers from a saved search (script parameter)</li><li>Queries each customer's transactions</li><li>Formats data as CSV lines</li><li>Creates a CSV file in the File Cabinet</li><li>Emails the file as an attachment</li></ul></section><section class="content-section"><h2>📋 Stage 1: getInputData</h2><pre><code>function getInputData(context) {
+    const runtime = require('N/runtime');
+    
+    // Load saved search from script parameter
+    const searchId = runtime.getCurrentScript().getParameter({
+        name: 'custscript_customer_search'
+    });
+    
+    return search.load({ id: searchId });
+}</code></pre><div class="info-box"><h4>💡 Script Parameters</h4><p>Using a script parameter for the saved search ID makes the script flexible—administrators can change which customers are processed without modifying code.</p></div></section><section class="content-section"><h2>🔄 Stage 2: map</h2><pre><code>function map(context) {
+    const query = require('N/query');
+    const customerId = context.value;
+    
+    // Query transactions for this customer
+    const results = query.runSuiteQL({
+        query: `
+            SELECT tranid, trandate, total
+            FROM transaction
+            WHERE entity = ?
+            AND type = 'SalesOrd'
+        `,
+        params: [customerId]
+    }).asMappedResults();
+    
+    // Format as CSV line and write to reduce
+    results.forEach(txn => {
+        const csvLine = [customerId, txn.tranid, txn.trandate, txn.total].join(',');
+        context.write({
+            key: 'csv',
+            value: csvLine
+        });
+    });
+}</code></pre></section><section class="content-section"><h2>📊 Stage 3: reduce</h2><pre><code>function reduce(context) {
+    const file = require('N/file');
+    const email = require('N/email');
+    
+    // Collect all CSV lines
+    const header = 'Customer ID,Order Number,Date,Total';
+    const lines = context.values;
+    const csvContent = header + '\n' + lines.join('\n');
+    
+    // Create CSV file
+    const csvFile = file.create({
+        name: 'customer_transactions.csv',
+        fileType: file.Type.CSV,
+        contents: csvContent,
+        folder: 12345  // File Cabinet folder ID
+    });
+    csvFile.save();
+    
+    // Email with attachment
+    email.send({
+        author: 207,
+        recipients: 'admin@company.com',
+        subject: 'Daily Transaction Report',
+        body: 'Please find the attached report.',
+        attachments: [csvFile]
+    });
+}</code></pre></section><section class="content-section"><h2>📝 Stage 4: summarize</h2><pre><code>function summarize(context) {
+    // Log any errors
+    context.mapSummary.errors.iterator().each((key, error) => {
+        log.error('Map Error', error);
+        return true;
+    });
+    
+    log.audit('Complete', 'CSV export finished');
+}</code></pre></section><section class="content-section" style="background: rgba(66, 153, 225, 0.1); border: 1px solid rgba(66, 153, 225, 0.2); border-radius: 12px; padding: 25px; margin: 30px 0;">
+            <h2 style="border: none; padding: 0; margin-bottom: 15px;">📖 Finding This in the Docs</h2>
+            <p>This capstone combines multiple modules. Key references:</p>
+            <ol style="margin-left: 20px; color: var(--text-secondary);">
+                <li style="margin-bottom: 8px;"><strong>Map/Reduce Script Type</strong> → getInputData, map, reduce, summarize stages</li>
+                <li style="margin-bottom: 8px;"><strong>N/query Module</strong> → runSuiteQL() for transaction queries</li>
+                <li style="margin-bottom: 8px;"><strong>N/file Module</strong> → file.create() for CSV generation</li>
+                <li style="margin-bottom: 8px;"><strong>N/email Module</strong> → email.send() with attachments</li>
+            </ol>
+            <p style="margin-top: 15px;"><strong>Key pages to bookmark:</strong></p>
+            <ul style="margin-left: 20px; color: var(--text-secondary);">
+                <li>Map/Reduce Script Type → context.write() for passing data between stages</li>
+                <li>file.create(options) → name, fileType, contents, folder</li>
+                <li>file.Type enum → CSV, PLAINTEXT, PDF options</li>
+                <li>N/runtime Module → Script.getParameter() for script parameters</li>
+            </ul>
+        </section>
+
+        <div class="key-takeaways"><h3>🎯 Key Takeaways</h3><ul><li>getInputData returns a search object; NetSuite iterates it automatically</li><li>map processes each customer, writes CSV lines to reduce</li><li>reduce consolidates all data, creates file, sends email</li><li>summarize logs errors and completion status</li><li>Script parameters make solutions configurable without code changes</li><li>Combine N/query, N/file, and N/email in Map/Reduce stages</li></ul></div><nav class="nav-footer"><a href="../Week-7/Module-14-NTask.html">← Module 14: N/task</a><a href="Module-16-Practical-Scheduler.html">Module 16: Scheduler UI →</a></nav></main></body></html>

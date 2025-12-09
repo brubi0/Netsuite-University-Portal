@@ -1,0 +1,319 @@
+Updating Record Sublist Lines. In this module, we will discuss how to access record Sublist data via workflow using Sublist Action Groups. Sublist Action Groups allow you to configure actions that are executed sublist line fields in select record sublists in NetSuite.
+
+In this module, we will discuss the following topics, supported records and sublists, identifying sublist fields, and working with Sublist Action Groups. Upon the completion of this module, you will be able to configure workflow actions within Sublist Action Groups to access the items and expenses sublist line fields on transaction records, list the workflow actions that can be configured within Sublist Action Groups, and explain how workflow actions are executed on transaction records with multiple sublist lines, and explain the relationship between Sublist Action Group level conditions and action level conditions and their effect on list line processing.
+
+As of the 20.1 release of NetSuite, the ability to process record sublist lines is limited to the following records and sublists. The Items sublist on the transaction record and the Expenses sublist on the expense report record subtype. Please note that support for record sublist and the actions that can process sublist data is expanding with every new NetSuite release. For the latest information about supported sublists and actions, refer to the SuiteFlow documentation or the release notes in the NetSuite Help Center.
+
+The Items sublist can be found on the following transaction record subtypes. When creating a new workflow, the transaction record and it's supported record subtypes can be selected from the record type and subtypes fields on the workflow definition page, as shown here.
+
+The Expenses sublist can be found on the transaction expense report record subtype. While it is certainly possible to create a workflow that accesses record subtypes with both an Items and Expenses sublist, there are currently no identified use cases in which he would do so. In most cases, you will create a workflow to process the Item sublist or the expenses sublist, but not both in a single workflow.
+
+In addition to each supported transaction record subtype, only a select number of transaction fields, both body and sublist, are currently accessible via workflow. These can be easily identified when configuring various workflow components in SuiteFlow. Sublist fields are identified by a line suffix in SuiteFlow dropdown lists.
+
+It's important to note that just because a sublist field is displayed in the sublist on the record form does not mean it is accessible via SuiteFlow. If a sublist field is not listed in various SuiteFlow dropdown lists, it is not a currently supported field. As we just discussed, sublist fields are identified by a line suffix.
+
+For example, on transaction records, the location sublist field will be displayed as Location, Line. Fields displayed in the transaction body and a supported sublist will have two entries, one for the transaction body field, such as Location, Main, and one for the sublist field, Location, Line. Sublist line fields can also be referenced in formulas and conditions using the line period prefix.
+
+For example, to calculate a 25% discount on a transaction line item, you might create the following formula, line.rate equals line.rate times 0.25. The line field stores a system generated ID that represents each unique line within a supported sublist. It is assigned to the line when it is added to the sublist, but is not visible in the list itself when viewing the record form.
+
+Each sublist line will be assigned a unique ID, which will not change even if the number of sublist lines changes. For example, if you create a new order record and enter three lines in the Items sublist, the first line will have a line item equal to 1, the second line will have a line ID equal to 2, and so on.
+
+However, the line field is not a sequential number. So if the second line, line ID equals 2, is removed from the order, the third line does not become line ID 2, it remains line ID 3. When troubleshooting action execution against sublist lines using the workflow execution log, individual sublist lines will be logged as line 1, line 2, et cetera. When configuring an action to process a sublist line field a line line field can be used to reference a specific line using a condition.
+
+For example, execute this action on any sublist line where line ID equals 3. Finally, line ID values will only be available at after record submit, after the transaction record has been successfully committed to the database. Sublist Action Groups allow you to configure select workflow actions that process record sublist lines. This capability allows you to configure actions and transitions based on sublist field values, such as processing sublist line approvals, transaction record cleanup automation processing, and the creation of related records.
+
+The only way to execute workflow actions on sublist fields is to add them to a Sublist Action Group. However, the actions added to Sublist Action Groups can also be configured to process transaction body, as well as workflow and state fields. In this way, Sublist Action Groups work in much the same way as standard Workflow Action Groups, with one important exception.
+
+Conditions can be specified at the Sublist Action Group level and on individual actions in the group, which is not possible in standard Workflow Action Groups. To create a Sublist Action Group, the workflow must be configured on the transaction record type. And the selected record subtypes must contain a supported sublist. Workflows configured on records that do not contain a supported sublist will not display a New Sublist Group button on the workflow state form.
+
+Let's examine the process of creating a Sublist Action Group and adding actions to the group. First, edit the workflow state you wish to add the Sublist Action Group. Next, click New Sublist Group to create a new Sublist Action Group. Select the desired sublist from the sublist dropdown list in the Parameters section, edit the Sublist Action Group you just created, and then click New Action, select a supported sublist action from the list, and configure it accordingly.
+
+In addition to sublist line fields, the actions configured within Sublist Action Groups can be used to process transaction body and workflow and state level fields. Ultimately, the actions available for configuration within a Sublist Action Group will vary depending on whether you want to process sublist line fields or the entire sublist itself.
+
+As we discussed earlier, the only way to process sublist line fields is to configure actions in Sublist Action Groups. However, Sublist Action Groups do not support all SuiteFlow actions. The following actions can be configured within Sublist Action Groups, Create Record, Set Field Value, Send Email, and Return User Error.
+
+When configuring each of these actions within a Sublist Action Group, they must be configured on a server trigger. In addition, there are special considerations when configuring the Set Field Value action on Before Record Load.
+
+When configuring the Set Field Value action in a Sublist Action Group on the Before Record Load trigger, you can retrieve sublist field values on new and existing records. This might be useful if you want to compare an existing sublist field value in a condition. You can set transaction body, sublist, and workflow state field values on new and copied records, since copying a record is the same thing as creating a new record.
+
+This might be useful if you want to default values on the record form during data entry. You can also set workflow and state field values on existing records. However, you cannot set transaction body or list field values on existing records.
+
+Some actions can be configured to manipulate an entire sublist itself, and therefore, are not supported by Sublist Action Groups. The following actions can be configured at the state level to manipulate the entire sublist, Create Line, Set Field Display Label, Set Field Display Type, and Set Field Mandatory.
+
+These actions allow you to manipulate the display of sublist fields, make sublist fields mandatory or optional, change sublist field labels, and even create new sublist lines. Because these actions are used to manipulate the display of the fields in the sublist itself, they cannot be configured within a Sublist Action Group. And state level actions cannot be triggered by actions configured within a Sublist Action Group.
+
+In addition, the following two actions can be configured to dynamically process active transaction body and sublist line fields when configured on the After Field Edit and After Fields Sourcing client triggers within a Sublist Action Group, Set Field Value and Return User Error. Configuring these actions on After Field Edit or After Field Sourcing allows you to perform sublist level field validations during data entry, much like you would on a transaction body, workflow, and state field.
+
+The results of those validations can then be used to manipulate other field values. For example, adding a transaction line item to an order and entering a rate of $0 might trigger a Set Field Value action configured on After Field Edit to autoapprove the line item in a transaction line approval workflow. While there are several workflow actions that can be configured to process individual sublist line fields, or the entire sublist itself, there is one additional action that could be configured to create new sublist lines.
+
+The Create Line action is used to create a new sublist line, rather than process an existing sublist line. It is similar to the Create Record action used to create new records in NetSuite. Like the Set Field actions discussed earlier, the Create Line action cannot be executed within a Sublist Action Group. Therefore, before you can process sublist line fields, you must make sure the sublist line you want to process has already been created.
+
+When configuring the Create Line action, you must specify the type of line you want to create, either an Items or Expenses sublist line and whether the new line should be added as the first line or last line in the sublist. The parameters required to configure the Create Line action will vary depending on the type of sublist line you are creating. You can even dynamically generate sublist field values using formulas. The Create Line action is supported by all server triggers. And it can be scheduled.
+
+When configuring the Create Line action, the order of execution of actions configured in the state is important. Consider the following, in this example, a new sublist line for a promotional item is created when an eligible item has been added to an order. In step 1, the presence of the promotional item in the order is determined using a workflow field whose value is set to false upon entry to the workflow.
+
+This Set Field Value action is configured independently from any Sublist Action Group and is the first action to execute when entering the state. In step 2, a Sublist Action Group has been created on the Items sublist. The only way to determine when an eligible item has been added to the order is by monitoring the item sublist with actions configured in the Sublist Action Group.
+
+In step 3, a single Set Field Value action is configured within the Sublist Action Group. When the eligible item is added to the order, the value of the workflow field is set to true by the Set Field Value action in the Sublist Action Group. Notice the subtle indentation under the Sublist Action Group. This is a visual indication that the action is configured within the Sublist Action Group itself.
+
+In step 4, the Create Line action is then executed to create a new transaction line item for the promotional item. The new line is only created when the value of the workflow field is true. How the new line is created is configured with the Create Line action itself, much like the configuration of the Create Record action.
+
+Now imagine if you attempt to execute the Create Line action before evaluating the Items sublist. The Create Line action will not execute, since the value of the workflow field that determines the eligible items presence in the order will never be set to true. The key takeaway here is that you must be aware of action execution order in all states that contain Sublist Action Groups. The order of action execution is determined by the order of the actions listed in the State tab in the context panel, which is the same order listed when viewing the workflow state definition.
+
+Like standard Workflow Action Groups, you can specify conditions at the Sublist Action Group level. Unlike standard Workflow Action Groups, however, you can also specify action level conditions for individual actions in the Sublist Action Group. When configuring conditions at the Sublist Action Group level, only transaction body fields will be available. Action level conditions can be configured using both transaction body and sublist line fields.
+
+During workflow processing, conditions configured at the Sublist Action Group level determine whether the actions configured within the group will be evaluated for execution. The conditions defined at the action level are then evaluated to determine whether each action will be executed on each sublist line. The actions configured within a Sublist Action Group will only be executed when the group level and action level conditions both evaluate true.
+
+As a best practice, you should configure conditions at the Sublist Action Group level whenever possible, to limit when the actions will be evaluated for execution on individual sublist lines. It's important to note that when configuring conditions at the Sublist Action Group level, you will not have access to any sublist line fields. As a result, multiple custom workflow fields and Sublist Action Groups are often required to establish default field values in the workflows entry state. These values can be subsequently evaluated in other Sublist Action Group and/or action conditions configured in other states.
+
+As we just discussed, actions configured within Sublist Action Groups will only execute when the defined sublist. action Group conditions and each individual action condition evaluates true. This ensures that each action is evaluated for execution on every sublist line in the transaction. If all conditions evaluate true, actions configured within each Sublist Action Group will be processed iteratively on each sublist line, as illustrated here.
+
+Here are some key things to remember when updating record sublist lines using Sublist Action Groups. To manipulate sublist fields, a workflow must be configured on transaction record subtypes that contain a supported sublist. Transaction body fields and a subset of sublist fields are accessible.
+
+Sublist Action Groups have conditions independent from the actions in the group. When both the Sublist Action Group and its actions have defined conditions, all conditions must evaluate true in order for the actions to execute. Sublist actions can only be configured on server triggers. However, the Set Field Value and Return User Error actions can be configured on the After Field Edit and After Field Sourcing client triggers to dynamically update sublist fields during data entry.
+
+And finally, the Create Line action can be configured independently from a Sublist Action Group to create new sublist lines. The sublist line can be created during Record Load when creating new records or during Record Save for both new and existing records.
+
+In this walkthrough, we will demonstrate how to perform a simple update of a sublist line using Sublist Action Groups, Set Field Value actions, and conditions. Specifically, we will update the quantity list field based on the presence of a specific item in the order.
+
+Let's go ahead and create a new workflow to update Items sublist lines. So I'm going to click the New Workflow button here. And let's go ahead and enter the name of the workflow as follows. We'll call it Update Sublist Lines, fairly generic. And I'll go in and enter an ID, again, following our naming conventions.
+
+And in this case, I need to be very specific with my record type selection for the workflow. Because we're dealing with Items sublist lines, we have to make sure we choose the transaction base record. There is no other option to select there.
+
+When you choose the transaction base record type, you need to also specify which supported subtype you want to run the workflow on. And as you can see, there are numerous subtypes off the transaction record. In our case, we're just going to focus on sales orders. So I'm just going to go ahead and select Order. But I certainly could include purchase order as well, if I wanted to. In this case, like I said, we're just going to work with orders.
+
+I'm going to go ahead and enter in a description. And I'm going to set my release information accordingly, setting the release status to Testing, keeping instance and history only when testing. And we'll enable logging.
+
+Like many of our other workflows, this is also going to be initiated on the creation of new sales order records. And as such, we're going to go ahead and set the trigger type to Before Record Submit. And that's really all we're going to do. I'm going to go ahead and save that.
+
+And I'm going to rename state 1, very simply, to Update Quantities. There we go. Now, notice that I am not checking the Do Not Exit Workflow box in this case. And this will be a single state workflow. But the rationale here is that we want the record to come in to this state of the workflow, on the creation of a new order, we want all the actions to process in that state.
+
+And then we want the workflow to exit and stop processing. There is no further processing necessary. So that's why we don't need to check the Do Not Exit Workflow option here.
+
+Now, let's configure the necessary Sublist Action Groups actions and conditions. So I'm going to go ahead and edit state 1 here, just for a second. And you'll notice right over here, in the Actions sublist, I do have a button that says New Sublist Group. Notice I can also create a standard Workflow Action Group by clicking New Group. But this is very specific to sublist line processing, as we discussed. So I'm going to go ahead and click New Sublist Group.
+
+And in the Parameters section down here, notice it's prompting me to select the supported sublist. And I only have one option. And the reason is because I selected the transaction record and the order subtype record. And it knows there's only one supported sublist on those record selections. And its Items. So I'm going to go ahead and select that.
+
+And now what I'm going to do is establish some group level conditions that say that we only want the actions to be evaluated for execution when the customer added to the order is Aperture. OK, so let's go ahead and set that up. So we only want this to occur when the customer is any of Aperture. OK, I'll go in and save that. And we'll save that condition.
+
+So only evaluate the actions that I add to the sublist group in the event that the customer added to the order is Aperture. OK, so there is my group configuration. And you can see the Sublist Action Group right there. Now, if I want to add an action to that group, I select the group itself. So I'm inside of the group, if you will. And now, I can go ahead and scroll down and click the New Action button down here in the Parameters section.
+
+So when I click New Action, notice that I'm only given the option of configuring the four actions supported at the Sublist Action Group level. And in this case, we're going to go ahead and choose Set Field Value. And we are going to set the value of the Quantity line field, notice I'm choosing Quantity-- I'm choosing the Quantity field in the item sublist line itself.
+
+I want to update that field to a static value of 6, but only when the item added to the order is the mesh chair. OK, so if I scroll up here, I'm going to set a condition that says only do this when the Item line is any of-- I'll just go ahead and type it in again here, mesh chair. OK, so we're actually saying, if a line item is added to the order that is the mesh chair, go ahead and update the quantity of that line item from 1 to 6.
+
+That's all we're basically saying here. So let's go back up. We'll save the workflow action. Notice that when I do that and I scroll down into the Sublist Action Group, I can see the one Set Field Value action listed down at the bottom. And if I save the Sublist Action Group-- well, didn't have to save it. But when I do that, I can see the nesting of the action underneath the group right here at the state level.
+
+It's a very simple example. But it shows you the relationship between a Sublist Action Group and its associated actions. So let's go ahead and save that state configuration. I never know when to save and when not to there. And now, we can go ahead and test the simple workflow.
+
+All right, so to test this workflow, let's go ahead and create a new sales order record. I'm going to navigate up here to Transactions, going to come down to Sales. I want to go to Enter Orders. And I'm going to go ahead and actually do that in a new browser tab.
+
+And the first thing I'm going to do here is select the customer. Now, I know that we configured the workflow to only execute actions if the customer selected in the order is Aperture. But we're going to test the sad path, as well. So we're going to make sure that this functions properly when the wrong customer is selected. So I'm going to go ahead and put an ABC Marketing to test this first go of the workflow.
+
+I'm going to go ahead and select the location down here, to US West Coast Warehouse. All right, and I'm going to go ahead and just enter a very quick order here with one line item that has the mesh chair in it. There it is, right there. And I'll go ahead, and notice the quantity is one, currently, I'm going to go in and add that line item. And that's really all I'm going to do, very, very simple. I'm going to scroll up and just save that order.
+
+OK, there we go. The order is saved. If I scroll down and look at the Items sublist now, you will notice that that mesh chair item still has a quantity of 1, simply because the Sublist Action Group condition, which was specified for customer Aperture, is evaluating false.
+
+So let's go ahead and create a new sales order. Only, let's go ahead and select Aperture as the customer. So once again, Transactions, Sales, Enter Orders. The customer is going to be Aperture. Once again, I'll select a fulfillment location for this item, just my US West Coast warehouse. And I'll add the mesh chair item to the order.
+
+And let's save that sales order. Now, if I scroll down and look at the Items sublist, notice that that line item has automatically been updated to a quantity of 6, based on the evaluation of the group condition, which evaluated true for Aperture as the customer and the presence of the mesh chair line item.
+
+One last thing that we can take a look at is if we come over here to the system information subtab on this order, notice that we do, in fact, have access to our workflow history. And if I click on Workflow History, I can clearly see that that Update Sublist Lines workflow actually did execute on this record in state 1, if we can look at the log file here.
+
+We will see that it did, in fact, come in under the Before Records Submit server trigger during the creation of a new record from the user interface. And the first thing it did was it evaluated the Sublist Action Group and the condition. And because it actually evaluated true in this case for Aperture as the company, it then processed each line that met each individual action condition.
+
+So as you can see, there was only one line in the order. Now, if there were multiple lines in the sales order, you would see each line that had actions either skipped, or considered, or even executed as it evaluated each condition on the actions. In this case, we only had one.
+
+But it did, in fact, evaluate true for the mesh chair. And therefore, the Set Field Value action executed and updated the quantity accordingly. So very simple log entries, but very telling. And you can look at this on a per line basis when you have multiple line items.
+
+In this walkthrough, we will configure a Sublist Action Group and the necessary actions and conditions to apply line item discounts to a specific item when A, the item has been added to the order, and B, a specific quantity of a second line item has also been added to the order.
+
+Now what I'm going to do is configure a Sublist Action Group that discounts a specific line item. We'll call that item 1. And we're going to set that as the Parsons desk. So if the customer purchases the Parsons desk and the specific quantity of that mesh chair has been met, which we'll say will be six, we want to be able to provide the customer with a discount on the Parsons desk, but only if the quantity of six has been met, and only when the mesh chair is purchased.
+
+So we're going to be doing a little bit more in terms of Sublist Action Groups and conditions, as well as working with a lot of workflow instance fields. So let's get right into this. Let me just quit and close that tab. And back in my list of workflows, I'm going to go ahead and re-edit our Update Sublist Lines 08 workflow.
+
+And I've done some work kind of in the backend already, just to kind of save some time in this walkthrough demonstration. And you can see that I've gone and created the six workflow fields that we actually need in order to support this particular use case. And I just want to quickly review these with you.
+
+And the first workflow field that we have is a field called Discount Quantity. And this is just a decimal number field, a numeric field, basically, that is going to store that discount quantity. In this case, it's going to be 6 when we set that with a Set Field Value action.
+
+And we have a Discount Rate field, which is also a decimal number field, which is going to store the rate of the discount. In this case, it's going to be 15%, or 0.85 is actually what we're going to store in there when we create our Set Field Value action here in a little bit. OK, so two decimal number fields, one for discount quantity, one for discount rate.
+
+Then I have two item workflow fields. I have an Item 1 and an Item 2. And if I just click on one of those to show you the detail, they're both exactly the same, except for the name. OK, item 1 is simply going out to the list record and to the item record itself. So it's basically a way for us to capture whatever the item name is that was added to the order.
+
+So if the customer adds an item, that's Item 1. If they then add a second item, that becomes Item 2. All right, so we need to track which items are in the order. And this is the workflow field that allows us to do that.
+
+And then, finally, we have two checkbox fields, one to detect whether item 1 is actually present in the order, and it's just a checkbox. So if it is present, we check the box. If it's not, we leave it unchecked. And the same thing is true for item number 2. Is it in the order, yes or no? And we're just going to toggle this checkbox on and off in various conditions when we configure the remaining pieces of our workflow.
+
+So these are really fundamental in terms of how we're going to be able to control these line item discounts based on, not only the quantity of certain items in the order, but the items that are in the order specifically. Let me go back to my Summary tab here. And let's continue with the configuration.
+
+So what I'm going to do is, right in this state right here, I'm just going to go ahead and add a few Set Field Value actions to set the value of some of these workflow fields that I just showed you. All right, and there's going to be four of them.
+
+So I'm going to go ahead and create them. And then when I come back, I will show you what I have created. I don't want you to have to see me go through this laborious process. But I'll come back and show you exactly what I've created.
+
+OK, so I've just completed creating these four Set Field Value actions, as you can see here. And let me just quickly review what I have gone and done here. So based on four of our workflow fields, OK, Item 1, Item 2, Discount Quantity, and Discount Rate, I simply set some initial values for those workflow fields.
+
+So Item 1 has been hardcoded to Parsons desk. Item 2 has been hardcoded to mesh chair. And again, you could probably use some saved searches, some very strategically created saved searches to maybe make this a little less structured and hardcoded, a little more flexible. But again, just for the simplicity of what we're trying to demonstrate, I think this will allow you to kind of see the different components work together a little bit easier.
+
+We also have a third Set Field Value action that, again, sets that discount quantity to 6. That's going to be evaluated in a condition for our mesh chair. And I've got a fourth regular Set Field Value action that sets our discount rate, as I mentioned, to 0.85.
+
+And once again, I want to reiterate that notice here, these are normal Set Field Value actions that I've created. These are not within a Sublist Action Group of any kind right now. OK, we're going to be doing that, actually, right now.
+
+So let's go in here and create a new state for our workflow, now that we've set our initial values. So I'm just to click New State. And I'll create a transition from state 1 to state 2 by dragging my transition arrow. And I'm just going to go ahead and rename the state to state 2, Apply Discounts. I'll click Save.
+
+Doesn't need to be an endstate or anything. And now, let's go ahead and configure some Sublist Action Groups to update our order accordingly, as well as some individual actions and conditions. So with state 2 selected, I'm going to go into the state definition and create a new sublist group.
+
+It's going to be on the Items sublist, of course. Click Save. I'm not going to put a condition on that group. It doesn't need one at this point. We will be doing that in the next group that we create, however. And now, let's go ahead and create our Set Field Value actions inside of this initial group here.
+
+So let's create two Set Field Value actions. The first one is simply going to set the value of that checkbox field for our Item 1 present in the order, Item 2 present in the order. If they are, we're simply going to enable those checkboxes. OK, so I'm going to choose Set Field Value.
+
+The field that I'm going to set is going to be Item 1 Present workflow. And I simply want to make sure that it is enabled, or checked, but only when-- here, I'm going to put a condition on this, only when the Item field in the sublist line is equal to the value field, in this case, of Item 1 workflow.
+
+So if it's equal to Parson desk, is basically what we're saying here. If the item is equal to Parson desk, set the Item 1 Present flag to true. And I'll save that. I'm going to do the exact same thing for item number 2. So when I come down here, create a new Set Field Value action, set the value of Item 2 Present workflow to enabled. But I only want that to happen when the Item line is equal to Item 2 workflow.
+
+And actually, I need to use an expression here. And actually, no I don't need to use expression, but I also need to tell it, not only that item 2 is in the order, but also that the quantity of that line-- because Item 2 is the mesh chair, remember that, Item 2 is mesh chair. It's been hardcoded.
+
+So I would also want to verify that the quantity has been met. So Quantity line is equal to my Discount Quantity workflow field. All right, this gets a little involved. Go ahead and click Save.
+
+And now, I've got my two Set Field Value actions. Let me actually save that. There we go. Now, I've got my two Set Field Value actions and their associated conditions right here.
+
+Let's go ahead and create another Sublist Action Group. All right, and this time, I'm actually going to put a condition on it. So in this particular group, this is where we're going to actually apply the discount itself. So we did some checks, in that first group, to see kind of what was in the order. Now, we're going to evaluate those fields and apply the discounts accordingly.
+
+So what I want to do here is, in the condition for the Sublist Action Group itself, this is what I want to do, I'm going to create a condition that says only execute this group when Item 1 Present workflow, meaning if item 1 is in the order, is equal to-- I'm sorry, item is checked, sorry, if it's true, right? So if Item 1 is checked or true and Item 2 Present is true. Here we go.
+
+Only if both items are present in the order do I want to execute the actions in this group. Save that. And I'll save the Sublist Action Group.
+
+So here, you can see what I'm building. I've got my first one there, with my two Set Field Value actions. And here's my new one, that I just configured with the appropriate condition. Let's go ahead and create our action. It's going to be a single Set Field Value action in this group that'll set the discount.
+
+So I'm going to come down here, create our Set Field Value action. And we're going to affect the line field called Rate. OK, so Rate line is going to be updated to the following. And we're actually going to use a formula for this. So I'm going to come all the way down here to the Formula field, OK, in the Values section.
+
+And I'm going to paste in the following. Expand that out a little bit. line.rate, referencing the subject line field accordingly, in curly braces, take the line Rate field and multiply that by the custom value of the custom workflow field, Discount Rate, which we know is 0.85. So take the current cost or rate of the item, multiply it by 0.85. And that's going to be the new rate of this item.
+
+But I only want this to happen, I only want that discount applied when Item 1, right there, when Item 1 is actually-- is equal to the item line. Only for that item, the Parsons desk. Do you see the logic there? It gets tricky. OK, so this also really gets to the whole-- the importance of workflow and state fields. To be able to evaluate some of these fields at various points in workflow processing, you almost have to use workflow fields. They become incredibly important when you're configuring these.
+
+All right, so that's what will set there. I'll go ahead and save that workflow action. And you can see down here, we have our action. If I save that, we'll go back to the group level-- or I'm sorry, the state level. And you can see pretty much everything that I've just built here.
+
+So now that we've got that all set up, let's go ahead and test this. Going to save that real quick, make sure I back out of everything. I click Done Editing here. And now I'm simply going to go up and test it. So we'll go to Transactions, Sales, Enter Orders, right there. Make sure my view's right there.
+
+I'm going to go ahead and select Aperture. Now keep in mind, we still have the condition on that initial state that runs this only for Aperture. It's still on the condition. So I need to make sure I select them. Or it won't work. All right, so let me go ahead and select Aperture.
+
+I'll scroll down here. And let's go ahead and just add our two items in here. So the first one I'm going to add is going to be the Parsons desk, which is right here. Whoops, actually that's the Parsons dining table. Let me make sure I get the right one. There it is right there.
+
+Now, I'll add the mesh chair. There we go. So I've got both of my eligible items in there. Again, they've been hardcoded, just for the sake of this demonstration, you can see my current quantities. OK, so let me go ahead and save this order.
+
+All right, let's scroll down here. And what you will see are a couple of things. Now first off, you will see that, in fact, our initial action group that sets the quantity, based on the fact that mesh chair is in the order did, in fact, run. You can see that it did update my quantity to 6.
+
+And if I scroll over, this is really what we want to see. Did it update the Rate field accordingly based on the cost of the Parsons desk. And I believe it did. Let's have a look and see what the-- my math is not very good. Let's have a look at our workflow history and see exactly what happened in there.
+
+So if I go into Workflow History, we can see everything that it did here. We can see the value of all of our workflow fields as they were set. OK, so I can come in here. Notice that everything was executed accordingly upon initial entry. We saw our quantity get updated, as I showed you before. So everything so far looking good.
+
+If I go into our State 2 log file, let's see what happened in here. So it looked like it did, in fact, process the enabling of the presence of Item 1. It looks like it also successfully processed the enablement of the presence of Item 2. Did it apply the discount?
+
+And it certainly looks like it did. I guess I didn't get my math on there. But just by going by the logic here, it looks like the rate, most certainly, was updated accordingly. We can clearly see that. So that just gives you an idea of how you can use, not only formulas in the Set Field Value actions and whatnot, but also work with group level conditions, individual action conditions, and multiple Sublist Action Groups within a single workflow.
+
+In this walkthrough, we will demonstrate how to create a new related Phone Call record and assign it to the sales rep associated with a specific customer selected on the transaction based on the value of select sublist fields. All right, the last part of this walkthrough demonstration, we're going to show you how to create a new related record, in this case, a Phone Call record that will be assigned to the customer's sales rep based on the value of specific sublist fields.
+
+So let me just go ahead and close this tab down first. And heading back here to our Update Sublist Lines 08 workflow, I'm going to go ahead and edit that. And we're going to go ahead and work with this one. And so the first thing I'm going to do is add a new state to our workflow, call it State 3.
+
+And I'll go ahead and drag a transition from State 2 to State 3. And I'll also rename the state to be State 3, Notify Sales Rep. We'll go ahead and save that. There we go. And now, let's just go ahead and set up the logic for this sublist action.
+
+So the first thing I'm going to do is modify the state, go into the State Properties here, and create our new Sublist Action Group. Again, I'm not going to put anything on the-- no conditions or anything on the group in this particular case. And my Items sublist is all I have to choose from. So we'll go ahead and just click Save there.
+
+And now, I'm going to go ahead and select the group and add our Create Record action. And this is going to be, instead of Set Field Value, so we'll click New Action, Create Record. And as I mentioned in the introduction, the record that we're going to create is going to be a Phone Call record. So I'll choose a Phone Call here.
+
+And now I need to pass some values to this action so the record can actually be created and committed to the database. And to do that, I need to make sure that I pass all of the required fields for that record via workflow. So the first one I'm going to go out and set is the Title field. And I'm going to, basically, just copy and paste some text in here for the title, keep it real simple.
+
+It simply says Customer to Exceed Credit Limit. So we're going to notify the sales rep that their customer has put items in an order that's going to cause them to exceed their available credit. And we want to have the sales rep follow up with that customer accordingly.
+
+I'm going to set the status of the Phone Call record simply to scheduled. There we go. I'm going to assign it to the customer's sales rep. So the join is going to be on the Customer record. And the field that I want to pull in is going to be whoever that customer's sales rep happens to be. That's who I want to assign this Phone Call record to.
+
+And I'll just enter a start date of today, using my date options here. There we go. Getting a little low on the form. There we are, start date.
+
+And then finally, what I'm going to go ahead and do is this, just to kind of take this a little, just one step farther, I'm going to go ahead and enter in a message in the Message field. OK, there's actually a Message field that we can send, obviously, with this Phone Call record.
+
+And over here in the Formula column, I'm going to go ahead and open up the Formula Builder. And I'm going to go ahead and paste in the following text. So this is what the sales rep will see. It'll say one of your customers recently placed an order containing a line item. And then we're going to print the name of the actual line item, OK, and we're going to concatenate that within a string here, whose line amount is greater than whoever the customers-- whoever the customer is, and then their overdue balance of.
+
+And we're going to do a calculation to determine what their overdue balance is. And we're going to print that in the message, to give the sales rep a little bit more information. OK, so let's go ahead and set that. And that's really all I'm going to do. That is more than enough for our Create Record action.
+
+But I do need to create a formulaic condition now, that will restrict the creation of this Phone Call record to only when any line item amount is greater than the customer's available credit. OK, so I'm going to go ahead on this action. We're going to set up a formulaic condition as follows. I'm going to say that I only want this action, this Create Record action to execute when the line amount is greater than or equal to the customer's credit limit, that's the field name, minus the customer's overdue balance.
+
+OK, so using a formulaic condition here, referencing, in this case, just the line Amount field and then a couple normal customer-based fields. We'll click Set. And then I'll go ahead and click Save. All right, so let's go ahead and create a sales order. Actually, let me save all of this other stuff first, to make sure we get everything locked and loaded. There we go.
+
+But there's one more thing that I definitely want to do here. And let's think about the trigger that this workflow is currently being initiated on. If I click off on that to look at the general workflow summary over here, you can see that it is being triggered on Before Record Submit. And normally, that would be perfectly fine, for just a straight Create Record action.
+
+But because we're dealing with joins here, because we're dealing with related records, specifically Customer, Items, so on, and so forth, we need to make sure that we're executing this Create Record action that we configured in State 3 on After Record Submit. So how are we going to do that? Well, I'm just going to change the transition context here between State 2 and State 3 to occur on After Record Submit.
+
+OK, so I'm simply going to change that. Click save. And now, when it's processing, we click Save. It'll come in here. It'll automatically transition during save to After Record Submit. And that will tee up the Create Record action as we need. OK, so can't forget that trigger context, particularly when you're doing a lot of different things inside of a workflow, where some actions may execute based on the initiation trigger, while others may need to be set in their context before they'll execute.
+
+So I'm going to click Done Editing here. And let's go ahead and test this out and see how this works. So I'm going to go ahead and create a new order record. So I'll just go Transactions, Sales, Enter Orders. And I'm going to go ahead and choose Best Buy Software.
+
+And the reason I'm choosing Best Buy Software specifically is I just happen to know that this customer has a credit limit that is $1,500. And let me show you why that matters here. I'm going to edit Best Buy Software's customer record here.
+
+And if I scroll down to the Financials subtab, you can see that they do have a credit limit of $1,500. That's merely been set in order to facilitate this particular walkthrough demonstration, just because of the dollars involved, so just to keep it nice and low. OK, but you'll also notice that their overdue balance is $864. So by virtue of our conditions that we have set in our Sublist Action Groups, we're saying that if any line item total exceeds the overdue balance, we're going to go ahead and send this email to the sales rep on the order.
+
+And in this case, it's going to be, where's the sales rep here, Aubrey Pober, as you can see there. OK, so I just wanted to show you that, because that's kind of where that logic is coming from. So I'm going to scroll down. And let's add some items to the order, handcrafted queen bed.
+
+And I'm going to go ahead and choose the textured armchair. There we go. Now, if you just look at the prices over here, this one is obviously greater than the customer's overdue balance. Yet this item, right here, is not. OK, so keep that in mind. I'm going to go ahead and save this record.
+
+There we go. And before we look at the log files, I'm just going to go out here and just do a quick verification that the Phone Call record did, in fact, get created. So I'm just going to refresh this particular page. And sure enough, there it is. And if I open that up to view it, you can see that it has been, in fact, scheduled. It has been assigned Aubrey Pober, who happens to be the sales rep on the order.
+
+And you can see our message has printed down here. One of your customers recently placed an order containing a line item, in this case, only the handcrafted queen bed, whose line item amount is greater than their overdue balance of, hey, lo and behold, $864, blah, blah, blah.
+
+OK, so that worked really nice. And if we go back and look at the order, and just dive into our workflow history, and the log file for our State 3, Notify Sales Rep, you will clearly see that we do, in fact, have that Create Record action processing on line 1, which was the handcrafted queen bed. Yet it did not process on line 2. And for the simple reason, as I mentioned before, that the condition on the action did not evaluate to true.
+
+OK, line item 2 was less than their overdue balance. So that just gives you an idea how you can use it in conjunction with a Create Record action. Just keep in mind the initiation context of the workflow in relation to where that Create Record action is configured in your workflow. And make sure it's executing at After Record Submit in situations where you have a Create Record action where there are joined related records involved as well.
+
+In this walkthrough, we will demonstrate how to configure the Create Line action to create a new item sublist line based on existing items in the order. Specifically, we will add a promotional item to the order when specific criteria has been met.
+
+So let's go ahead and create a workflow that creates a promotional item when a specific line item has been added to an order. And to do that, we're going to use the Create Line action. So let's go ahead and create the workflow.
+
+I'm going to create the workflow a little differently. I'm going to come up here to the More link. And I'm going to go ahead and select New. Brings me into my New Workflow page. And I'm going to go ahead and call this workflow Create Promotional Line Item. I'll go ahead and enter in an ID.
+
+Of course, my selected record type is going to be the transaction based record. And in this case, just like we did with our previous sublist workflows, we're going to go ahead and put this on sales order records. Again, if you want to choose multiple subtypes, you're more than welcome to. We'll go ahead and enter a description.
+
+We'll just go ahead and enter in add promotional item to order. And we'll set the release status and our logging accordingly. And once again, we're going to initiate this workflow on the creation of new orders at Before Record Submit. Go ahead and save that.
+
+And let's go ahead and rename our default state to State 1, Create Promo Item Lines. There we go. Again, I'm going to leave Do Not Exit Workflow disabled. We do want this to process and then end processing on the record.
+
+And now, we need to create two new workflow fields. We're going to create one called Loft Promotion and another called Chair Promotion. And each one of those is going to be associated with a specific item that we're going to check for in the order and apply the promotional items accordingly.
+
+So let's go ahead and create those workflow fields. I'm going to click off the state, go to my Fields tab here, and click New Workflow Field. The first one's going to be called Loft Promotion. And that's a type of table that we have, or a brand, if you will. We'll call it Loft Promotion.
+
+We're going to change the type of field to a checkbox. And we're going to leave the default as disabled. I'll go ahead and save that first workflow field.
+
+We're going to create a second one. And this is going to be called Chair Promotion. So maybe you have a table and chair promotions going on here. I'll make this a checkbox as well. And I will leave its default value as disabled, as well, or false. And we'll save that.
+
+So now that I've got my two workflow fields, we can go ahead and configure the appropriate sublist action groups, actions, and conditions, in order to leverage the values on those workflow fields. So I'm going to go ahead and select State 1 here. And let's create a new Sublist Action Group. So I'm going to come over here to Edit State. I'm to click New Sublist Action Group.
+
+And we're going to go ahead and select our Items sublist, in this case. And we're going to set up our conditions on this Sublist Action Group to only evaluate the actions configured in the group when either of the promotion workflow fields are false. So here's what we're going to do, I'm going to create the formula. In this case, I'm going to use an expression.
+
+So I'm going to say when Loft Promotion workflow is not checked, or false, or Chair Promotion workflow not checked, or false, so again, I need to use the expressions in order to use the OR operator here. Otherwise, they're ANDed together. And that's not what I'm looking for.
+
+So if either of these are false, OK, go ahead and evaluate each of the actions that I'm now going to configure in this Sublist Action Group. So let me first save the group itself. There's the group right there. I can see my condition.
+
+And now, let's go ahead and add a Set Field Value action to the group. I'm going to scroll all the way down. I'm going to click New Action. The first action is going to be Set Field Value. And the field that we're going to go ahead and populate first is going to be our Loft Promotion workflow field. We're going to say that we want to enable that when the order contains the Loft dining table.
+
+So the Loft Promotion workflow field, we're going to go ahead and enable that, or set it to true, when the order contains the Loft dining table. So how are we going to do that? Well, we're going to use that Item line field again, just like we did earlier. So I'm going to say, when the Item line is any of Loft dining table, go ahead and enable the associated workflow field. I'm going to go ahead and save that action configuration.
+
+And let's go ahead and create another Set Field Value for the other workflow field and the other promotional item. Click New Action, Set Field Value. This is going to be the Chair Promotional workflow field. We'll set that to enabled when the following item is in the order, it's going to be Item line any of what is called the teak dining table.
+
+There we go. And we're actually going to use another expression here and apply another OR condition here. So the line item can either be the teak dining table or the Parsons dining table. We're offering that on a couple different tables. Going to go ahead and save those conditions.
+
+Save the Set Field Value action configuration. And now you can see both Set Field Value actions listed at the bottom of the Sublist Action Group and their associated conditions. OK, go back to the state. And I can see that here as well, Sublist Action Group and the two actions nested beneath it.
+
+To test this workflow, I'm just going to jump right back over here to my Open Order tab. And I'm just going to go up and create a new sales order record here, by clicking New Order from my list of orders. And I'm going to go ahead and select a customer from the customer dropdown list. In this case, I'm just going to enter ABC Marketing, Incorporated.
+
+I'm going to go ahead and select a warehouse location from the Location field. And let's go ahead and add an item to this sales order. And in this case, I'm going to go ahead and add the Parsons, if I can actually type that in correctly, the Parsons dining table, right there. I could also add the teak dining table, if you recall from our conditions that we specified.
+
+But in this case, we're just going to add the Parsons table. And I'm going to click Save on the order. And that's really all I have to do to initiate our workflow for the promotional item. And let's see what happens. It saves the order. If I scroll down, you can clearly see that by adding the Parsons table, it automatically went in and added the Chair Promotion and added two armless dining chairs to the order automatically.
+
+Let's create another order. I'm going to go back to my list of orders here. And let's check our Loft promotion. So I'll create a new order. In this case, I'll choose Aperture that we looked at a little earlier. I'll change by fulfillment location to East Coast warehouse. And let's go ahead and add the Loft dining table, which is right there.
+
+I'll Click Add. And I'll save the order. All right, scrolling down to the Items sublist, you can see that because the dining table, the Loft dining table, was added to the order, it has automatically added an extended warranty for one year to that order, obviously at no cost. And you can also see the other field entries that were updated accordingly, such as Quantity, Description, and the Rate field, in this case, is $0.
+
+Now, if I go and look at the workflow history entries, I can clearly see that we had both of our sublist workflows running on this record. So I can see that it went in and executed, or evaluated, the conditions and actions in the Update Quantities workflow. But the one we're concerned with is right here, Create Promotional Item line.
+
+And notice what it has right over here. It's actually showing you the value, once again, of our two workflow fields. It's showing us, in this particular record, that the Loft Promotion workflow field was enabled, because of the existence of the Loft dining table in the order. Whereas, the Chair Promotion for the armless dining chair, was not added to the order.
+
+And we can evaluate further by taking a look at the execution log itself and see exactly how everything processed. You can see that it came in, evaluated the condition on the Sublist Action Group. In this case, it evaluated true for the presence of at least one of our promotional items. And then it went in and set the value of the workflow field accordingly. And then it created the necessary line item. And you can see that it is, in fact, creating that item with the various fields that we specified in the configuration of the Create Line action.
+
+It is now time for you to complete the required hands-on exercises associated with the topics discussed in this module. To complete the required exercises, refer to your student workbook. When you have finished, you may continue with the next module. This concludes the Updating Record Sublist Lines module.

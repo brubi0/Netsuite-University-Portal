@@ -1,0 +1,99 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Module 11: N/ui/serverWidget - SuiteScript Learning Hub</title><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"><style>:root{--primary-gradient:linear-gradient(135deg,#667eea 0%,#764ba2 100%);--dark-bg:#1a1a2e;--card-bg:#16213e;--text-primary:#ffffff;--text-secondary:#a0aec0;--border-color:rgba(255,255,255,0.1);--purple:#9f7aea;--success:#48bb78;--warning:#ecc94b;--info:#4299e1;--code-bg:#0d1117}*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Inter',sans-serif;background:var(--dark-bg);color:var(--text-primary);min-height:100vh;line-height:1.7}.nav-bar{background:var(--card-bg);padding:15px 20px;border-bottom:1px solid var(--border-color);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100}.nav-bar a{color:var(--purple);text-decoration:none}.header{background:var(--primary-gradient);padding:50px 20px}.header-content{max-width:900px;margin:0 auto}.header .module-tag{display:inline-block;background:rgba(255,255,255,0.2);padding:5px 12px;border-radius:20px;font-size:0.85rem;margin-bottom:15px}.header h1{font-size:2.2rem;margin-bottom:10px}.header p{font-size:1.1rem;opacity:0.9}.container{max-width:900px;margin:0 auto;padding:40px 20px}.content-section{margin-bottom:40px}.content-section h2{font-size:1.5rem;margin-bottom:20px;padding-bottom:10px;border-bottom:2px solid var(--border-color)}.content-section h3{font-size:1.2rem;margin:25px 0 15px 0;color:var(--purple)}.content-section p{margin-bottom:15px;color:var(--text-secondary)}.info-box{border-radius:10px;padding:20px;margin:20px 0}.info-box.blue{background:rgba(66,153,225,0.15);border:1px solid rgba(66,153,225,0.3)}.info-box.green{background:rgba(72,187,120,0.15);border:1px solid rgba(72,187,120,0.3)}.info-box.yellow{background:rgba(236,201,75,0.15);border:1px solid rgba(236,201,75,0.3)}.info-box h4{margin-bottom:10px}.info-box p{margin-bottom:0;font-size:0.95rem}pre{background:var(--code-bg);border-radius:10px;padding:20px;overflow-x:auto;margin:20px 0;border:1px solid var(--border-color)}code{font-family:'JetBrains Mono',monospace;font-size:0.85rem;line-height:1.6}.inline-code{background:var(--code-bg);padding:2px 8px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:0.85rem;color:var(--purple)}.concept-table{width:100%;border-collapse:collapse;margin:20px 0}.concept-table th,.concept-table td{padding:12px 15px;text-align:left;border:1px solid var(--border-color)}.concept-table th{background:var(--card-bg);font-weight:600;color:var(--purple)}.concept-table td{color:var(--text-secondary)}.key-takeaways{background:var(--card-bg);border-radius:12px;padding:25px;margin-top:40px;border:1px solid var(--border-color)}.key-takeaways h3{margin-bottom:15px}.key-takeaways ul{list-style:none}.key-takeaways li{padding:8px 0;padding-left:25px;position:relative;color:var(--text-secondary)}.key-takeaways li::before{content:'✓';position:absolute;left:0;color:var(--success)}.nav-footer{display:flex;justify-content:space-between;margin-top:50px;padding-top:30px;border-top:1px solid var(--border-color);flex-wrap:wrap;gap:10px}.nav-footer a{color:var(--purple);text-decoration:none}</style></head><body><nav class="nav-bar"><a href="week-6-dashboard.html">← Week 6 Dashboard</a><div style="display:flex;gap:15px"><a href="../Week-5/Module-10-Governance.html">← Module 10</a><a href="../Week-7/week-7-dashboard.html">Week 7 →</a></div></nav><header class="header"><div class="header-content"><span class="module-tag">Week 6 • Module 11</span><h1>N/ui/serverWidget Module</h1><p>Building custom forms, fields, sublists, and interactive interfaces</p></div></header><main class="container"><section class="content-section"><h2>🎨 Creating Forms</h2><p>The serverWidget module enables creation of custom pages and forms in Suitelets:</p><pre><code>const serverWidget = require('N/ui/serverWidget');
+
+function onRequest(context) {
+    const form = serverWidget.createForm({
+        title: 'Custom Data Entry'
+    });
+    
+    // Add fields, sublists, buttons...
+    
+    context.response.writePage(form);
+}</code></pre></section><section class="content-section"><h2>📝 Adding Fields</h2><pre><code>// Text field
+form.addField({
+    id: 'custpage_name',
+    type: serverWidget.FieldType.TEXT,
+    label: 'Customer Name'
+});
+
+// Select field with options
+const statusField = form.addField({
+    id: 'custpage_status',
+    type: serverWidget.FieldType.SELECT,
+    label: 'Status'
+});
+statusField.addSelectOption({ value: '', text: '' });
+statusField.addSelectOption({ value: '1', text: 'Active' });
+statusField.addSelectOption({ value: '2', text: 'Inactive' });
+
+// Date field
+form.addField({
+    id: 'custpage_date',
+    type: serverWidget.FieldType.DATE,
+    label: 'Start Date'
+});</code></pre><h3>Common Field Types</h3><table class="concept-table"><thead><tr><th>FieldType</th><th>Use Case</th></tr></thead><tbody><tr><td>TEXT</td><td>Single line text input</td></tr><tr><td>TEXTAREA</td><td>Multi-line text</td></tr><tr><td>SELECT</td><td>Dropdown selection</td></tr><tr><td>DATE</td><td>Date picker</td></tr><tr><td>CHECKBOX</td><td>Boolean toggle</td></tr><tr><td>CURRENCY</td><td>Money amount</td></tr><tr><td>INTEGER</td><td>Whole numbers</td></tr><tr><td>FLOAT</td><td>Decimal numbers</td></tr><tr><td>INLINEHTML</td><td>Custom HTML content</td></tr></tbody></table></section><section class="content-section"><h2>📊 Adding Sublists</h2><pre><code>const itemSublist = form.addSublist({
+    id: 'custpage_items',
+    type: serverWidget.SublistType.INLINEEDITOR,
+    label: 'Line Items'
+});
+
+itemSublist.addField({
+    id: 'custpage_item',
+    type: serverWidget.FieldType.SELECT,
+    label: 'Item',
+    source: 'item'  // Populate from item record
+});
+
+itemSublist.addField({
+    id: 'custpage_qty',
+    type: serverWidget.FieldType.INTEGER,
+    label: 'Quantity'
+});</code></pre><h3>Sublist Types</h3><table class="concept-table"><thead><tr><th>Type</th><th>Description</th></tr></thead><tbody><tr><td>EDITOR</td><td>Full edit mode, one line at a time</td></tr><tr><td>INLINEEDITOR</td><td>Edit directly in grid</td></tr><tr><td>LIST</td><td>Read-only display</td></tr><tr><td>STATICLIST</td><td>Non-interactive display</td></tr></tbody></table></section><section class="content-section"><h2>🔘 Adding Buttons</h2><pre><code>// Submit button (built-in)
+form.addSubmitButton({
+    label: 'Save'
+});
+
+// Custom button (calls client script function)
+form.addButton({
+    id: 'custpage_process',
+    label: 'Process Records',
+    functionName: 'processRecords'
+});</code></pre></section><section class="content-section"><h2>🔗 Attaching Client Scripts</h2><pre><code>// Link a client script to the form
+form.clientScriptModulePath = './my_cs_form.js';</code></pre><div class="info-box green"><h4>✅ Client Script Functions</h4><p>Button functionName values call functions in the attached client script. The client script must export those functions.</p></div></section><section class="content-section"><h2>📥 Handling Form Submission</h2><pre><code>function onRequest(context) {
+    if (context.request.method === 'GET') {
+        // Display the form
+        const form = serverWidget.createForm({ title: 'Data Entry' });
+        // ... add fields
+        context.response.writePage(form);
+    } else {
+        // Process POST submission
+        const name = context.request.parameters.custpage_name;
+        const status = context.request.parameters.custpage_status;
+        
+        // Create record, send email, etc.
+        record.create({
+            type: 'customer',
+            values: { companyname: name }
+        }).save();
+        
+        // Redirect or show confirmation
+    }
+}</code></pre></section><section class="content-section" style="background: rgba(66, 153, 225, 0.1); border: 1px solid rgba(66, 153, 225, 0.2); border-radius: 12px; padding: 25px; margin: 30px 0;">
+            <h2 style="border: none; padding: 0; margin-bottom: 15px;">📖 Finding This in the Docs</h2>
+            <p>To look up serverWidget form building:</p>
+            <ol style="margin-left: 20px; color: var(--text-secondary);">
+                <li style="margin-bottom: 8px;">Go to <strong>docs.oracle.com</strong> → SuiteScript 2.x Modules</li>
+                <li style="margin-bottom: 8px;">Click on <strong>N/ui/serverWidget Module</strong></li>
+                <li style="margin-bottom: 8px;">Review Form, Field, Sublist, and Button objects</li>
+            </ol>
+            <p style="margin-top: 15px;"><strong>Key pages to bookmark:</strong></p>
+            <ul style="margin-left: 20px; color: var(--text-secondary);">
+                <li>serverWidget.createForm(options) → form initialization</li>
+                <li>Form.addField(options) → id, type, label, source parameters</li>
+                <li>serverWidget.FieldType enum → TEXT, SELECT, DATE, CHECKBOX, etc.</li>
+                <li>Form.addSublist(options) → sublist types (EDITOR, INLINEEDITOR, LIST)</li>
+                <li>Form.addButton(options) → custom action buttons</li>
+                <li>Form.clientScriptModulePath → attaching client scripts</li>
+            </ul>
+        </section>
+
+        <div class="key-takeaways"><h3>🎯 Key Takeaways</h3><ul><li><span class="inline-code">serverWidget.createForm()</span> creates a custom form</li><li>Field IDs must start with <span class="inline-code">custpage_</span></li><li>FieldType enum provides TEXT, SELECT, DATE, CHECKBOX, etc.</li><li>SublistType.INLINEEDITOR enables grid editing</li><li>Use <span class="inline-code">clientScriptModulePath</span> to attach client-side logic</li><li>Check <span class="inline-code">context.request.method</span> to handle GET vs POST</li><li>Access submitted values via <span class="inline-code">context.request.parameters</span></li></ul></div><nav class="nav-footer"><a href="../Week-5/Module-10-Governance.html">← Module 10: Governance</a><a href="../Week-7/week-7-dashboard.html">Week 7: Navigation & Feedback →</a></nav></main></body></html>

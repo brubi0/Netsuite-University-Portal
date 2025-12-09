@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 04: Report Tools & Options - Suite Analytics Learning Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #0f0f1a; color: #e0e0e0; line-height: 1.7; }
+        .header { background: linear-gradient(135deg, #0f3460 0%, #533483 100%); padding: 30px 20px; }
+        .header-content { max-width: 900px; margin: 0 auto; }
+        .breadcrumb { font-size: 0.9em; margin-bottom: 10px; opacity: 0.8; }
+        .breadcrumb a { color: #fff; text-decoration: none; }
+        h1 { font-size: 2em; font-weight: 700; color: #fff; }
+        .module-meta { margin-top: 10px; color: rgba(255,255,255,0.8); font-size: 0.9em; }
+        .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+        h2 { color: #e94560; font-size: 1.5em; margin: 40px 0 20px; padding-bottom: 10px; border-bottom: 2px solid #e94560; }
+        h3 { color: #533483; font-size: 1.2em; margin: 30px 0 15px; }
+        p { margin-bottom: 15px; }
+        .concept-box { background: linear-gradient(145deg, #1a1a2e 0%, #1e1e32 100%); border-radius: 15px; padding: 25px; margin: 25px 0; border-left: 4px solid #e94560; }
+        .concept-box h4 { color: #e94560; margin-bottom: 12px; font-size: 1.1em; }
+        .tool-card { background: #1a1a2e; border-radius: 12px; padding: 20px; margin: 15px 0; border: 1px solid rgba(255,255,255,0.1); }
+        .tool-card h4 { color: #2196f3; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+        .tool-card .icon { font-size: 1.3em; }
+        .tool-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin: 20px 0; }
+        .tool-item { background: #12121f; border-radius: 10px; padding: 15px; border: 1px solid #333; }
+        .tool-item h5 { color: #e94560; margin-bottom: 8px; }
+        .tool-item p { font-size: 0.9em; opacity: 0.8; margin: 0; }
+        .example-box { background: linear-gradient(145deg, #1e3a1e 0%, #1a2e1a 100%); border-radius: 12px; padding: 20px; margin: 20px 0; border: 1px solid #4caf50; }
+        .example-box h4 { color: #4caf50; margin-bottom: 12px; }
+        .tip-box { background: rgba(255,193,7,0.1); border-radius: 10px; padding: 20px; margin: 20px 0; border: 1px solid rgba(255,193,7,0.3); }
+        .tip-box h4 { color: #ffc107; margin-bottom: 10px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #333; }
+        th { background: rgba(233,69,96,0.2); color: #e94560; font-weight: 600; }
+        tr:hover { background: rgba(255,255,255,0.03); }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 50px; padding-top: 30px; border-top: 1px solid #333; flex-wrap: wrap; gap: 15px; }
+        .nav-btn { padding: 12px 25px; border-radius: 25px; text-decoration: none; font-weight: 600; font-size: 0.9em; transition: all 0.3s ease; }
+        .nav-btn.secondary { background: rgba(255,255,255,0.1); color: #fff; }
+        .nav-btn.primary { background: linear-gradient(135deg, #e94560 0%, #533483 100%); color: #fff; }
+        .nav-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(0,0,0,0.3); }
+        ul { margin-left: 20px; margin-bottom: 15px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="breadcrumb">
+                <a href="../Master-Dashboard.html">Course Overview</a> / 
+                <a href="week-1-dashboard.html">Week 1</a> / Module 04
+            </div>
+            <h1>🔧 Module 04: Report Tools & Options</h1>
+            <div class="module-meta">Week 1 • Standard Reports • Foundation</div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="concept-box">
+            <h4>Module Overview</h4>
+            <p>Report tools help you navigate and adjust the display of information in NetSuite reports. This module covers the Options menu, graph visualization, and expand/collapse controls for viewing data at different levels of detail.</p>
+        </div>
+
+        <h2>The Options Menu</h2>
+        <p>Click the <strong>Options icon</strong> (wrench/gear icon) to access display settings for the report.</p>
+
+        <div class="tool-card">
+            <h4><span class="icon">⚙️</span> Display Options</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Option</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>View: Report Plane</strong></td>
+                        <td>Standard report view without grid lines</td>
+                    </tr>
+                    <tr>
+                        <td><strong>View: Report Grid</strong></td>
+                        <td>Adds horizontal and vertical grid lines — useful for aligning data in multi-column reports</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Expand Level</strong></td>
+                        <td>Choose the default level to which subgroup details should appear</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Display Title</strong></td>
+                        <td>Show or hide the report title heading</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Show Drill Down Balloons</strong></td>
+                        <td>Show hover indicators that explain what happens when you click (enabled by default)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="example-box">
+            <h4>💡 Example: Enable Grid View</h4>
+            <p>When viewing a report with multiple location columns, the data can be hard to read. Enable <strong>Report Grid</strong> view to add visual guides that help you line up values across columns.</p>
+        </div>
+
+        <h2>Graph Visualization</h2>
+        <p>Click the <strong>Graph icon</strong> (chart icon) to display report data as a visual graph.</p>
+
+        <div class="tool-card">
+            <h4><span class="icon">📊</span> Graph Settings</h4>
+            <ul>
+                <li><strong>Graph Type</strong> — Bar, line, pie, area charts</li>
+                <li><strong>X-Axis</strong> — Select the dimension for horizontal axis</li>
+                <li><strong>Y-Axis</strong> — Select the measure for vertical axis</li>
+                <li><strong>Top Values</strong> — Limit to top N values for cleaner visualization</li>
+            </ul>
+        </div>
+
+        <div class="tip-box">
+            <h4>💡 Pro Tip</h4>
+            <p>Graphs are great for presentations and quick visual analysis. However, for detailed data work, stick with the tabular view where you can drill down into individual transactions.</p>
+        </div>
+
+        <h2>Expand & Collapse Controls</h2>
+        <p>Reports with grouped data include up and down arrows to control the level of detail displayed.</p>
+
+        <div class="tool-grid">
+            <div class="tool-item">
+                <h5>⬆️ Collapse (Up Arrow)</h5>
+                <p>Collapse all groups to see only top-level totals. Makes it easier to see the overall picture and grand totals per group.</p>
+            </div>
+            <div class="tool-item">
+                <h5>⬇️ Expand (Down Arrow)</h5>
+                <p>Expand groups to the next level. Click repeatedly to expand level by level until you see all subgroups and subtotals.</p>
+            </div>
+        </div>
+
+        <div class="example-box">
+            <h4>💡 Example: Quick Overview</h4>
+            <p>On a Sales by Customer report with many customers:</p>
+            <ol style="margin-left: 20px; margin-top: 10px;">
+                <li>Click the <strong>Up Arrow</strong> to collapse all customer groups</li>
+                <li>See only the grand total for each customer</li>
+                <li>Click the <strong>Down Arrow</strong> to expand and see subtotals by item type</li>
+                <li>Continue expanding to see individual line items</li>
+            </ol>
+        </div>
+
+        <div class="concept-box">
+            <h4>🎯 Key Takeaways</h4>
+            <ul>
+                <li><strong>Options menu</strong> (wrench icon) controls display settings like grid view and expand level</li>
+                <li><strong>Report Grid</strong> view adds lines to help align multi-column data</li>
+                <li><strong>Graph icon</strong> converts report data to visual charts</li>
+                <li><strong>Up/Down arrows</strong> collapse or expand grouped data</li>
+                <li><strong>Drill-down balloons</strong> (hover hints) can be toggled on/off in Options</li>
+            </ul>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="Module-03-Filtering-Reports.html" class="nav-btn secondary">← Previous: Filtering Reports</a>
+            <a href="Module-05-Export-Print-Email.html" class="nav-btn primary">Next: Export, Print & Email →</a>
+        </div>
+    </div>
+</body>
+</html>

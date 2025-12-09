@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 20: Suite Analytics Workbook Overview - Suite Analytics Learning Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #0f0f1a; color: #e0e0e0; line-height: 1.7; }
+        .header { background: linear-gradient(135deg, #0f3460 0%, #533483 100%); padding: 30px 20px; }
+        .header-content { max-width: 900px; margin: 0 auto; }
+        .breadcrumb { font-size: 0.9em; margin-bottom: 10px; opacity: 0.8; }
+        .breadcrumb a { color: #fff; text-decoration: none; }
+        h1 { font-size: 2em; font-weight: 700; color: #fff; }
+        .module-meta { margin-top: 10px; color: rgba(255,255,255,0.8); font-size: 0.9em; }
+        .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+        h2 { color: #e94560; font-size: 1.5em; margin: 40px 0 20px; padding-bottom: 10px; border-bottom: 2px solid #e94560; }
+        p { margin-bottom: 15px; }
+        .concept-box { background: linear-gradient(145deg, #1a1a2e 0%, #1e1e32 100%); border-radius: 15px; padding: 25px; margin: 25px 0; border-left: 4px solid #e94560; }
+        .concept-box h4 { color: #e94560; margin-bottom: 12px; font-size: 1.1em; }
+        .benefit-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0; }
+        .benefit-item { background: #1a1a2e; border-radius: 10px; padding: 20px; text-align: center; border: 1px solid #333; }
+        .benefit-item .icon { font-size: 2em; margin-bottom: 10px; }
+        .benefit-item .label { font-weight: 600; color: #fff; }
+        .benefit-item .desc { font-size: 0.85em; opacity: 0.7; margin-top: 5px; }
+        .architecture-box { background: #12121f; border-radius: 12px; padding: 25px; margin: 25px 0; border: 1px solid #e94560; }
+        .architecture-box h4 { color: #e94560; margin-bottom: 20px; text-align: center; }
+        .arch-flow { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 15px; }
+        .arch-item { background: #1e1e32; padding: 15px 25px; border-radius: 10px; text-align: center; border: 2px solid #333; }
+        .arch-item.highlight { border-color: #e94560; }
+        .arch-arrow { font-size: 1.5em; color: #e94560; }
+        .key-point { background: rgba(83,52,131,0.2); border-radius: 10px; padding: 20px; margin: 20px 0; border: 1px solid rgba(83,52,131,0.4); }
+        .key-point h4 { color: #533483; margin-bottom: 10px; }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 50px; padding-top: 30px; border-top: 1px solid #333; flex-wrap: wrap; gap: 15px; }
+        .nav-btn { padding: 12px 25px; border-radius: 25px; text-decoration: none; font-weight: 600; font-size: 0.9em; transition: all 0.3s ease; }
+        .nav-btn.secondary { background: rgba(255,255,255,0.1); color: #fff; }
+        .nav-btn.primary { background: linear-gradient(135deg, #e94560 0%, #533483 100%); color: #fff; }
+        ul { margin-left: 20px; margin-bottom: 15px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="breadcrumb">
+                <a href="../Master-Dashboard.html">Course Overview</a> / 
+                <a href="week-4-dashboard.html">Week 4</a> / Module 20
+            </div>
+            <h1>📊 Module 20: Suite Analytics Workbook Overview</h1>
+            <div class="module-meta">Week 4 • KPIs & Suite Analytics Workbook • Advanced Analytics</div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="concept-box">
+            <h4>What is Suite Analytics Workbook?</h4>
+            <p>Suite Analytics Workbook is NetSuite's built-in business intelligence tool. It combines database queries with visual analytics in a single interface — no coding required. You can build interactive tables, pivot tables, and charts to analyze business data in real time.</p>
+        </div>
+
+        <h2>Key Benefits</h2>
+
+        <div class="benefit-grid">
+            <div class="benefit-item">
+                <div class="icon">⚡</div>
+                <div class="label">Real-Time Data</div>
+                <div class="desc">Always current, no data exports needed</div>
+            </div>
+            <div class="benefit-item">
+                <div class="icon">🎨</div>
+                <div class="label">No Code Required</div>
+                <div class="desc">Point-and-click interface</div>
+            </div>
+            <div class="benefit-item">
+                <div class="icon">📋</div>
+                <div class="label">Pre-Built Templates</div>
+                <div class="desc">Start with ready-made workbooks</div>
+            </div>
+            <div class="benefit-item">
+                <div class="icon">🔍</div>
+                <div class="label">Diagnostic Analytics</div>
+                <div class="desc">Drill down to understand "why"</div>
+            </div>
+        </div>
+
+        <h2>Architecture</h2>
+
+        <div class="architecture-box">
+            <h4>Workbook Components</h4>
+            <div class="arch-flow">
+                <div class="arch-item">
+                    <strong>Analytics Data Source</strong>
+                    <div style="font-size: 0.85em; opacity: 0.7;">Optimized metadata layer</div>
+                </div>
+                <span class="arch-arrow">→</span>
+                <div class="arch-item highlight">
+                    <strong>Dataset</strong>
+                    <div style="font-size: 0.85em; opacity: 0.7;">Query definition</div>
+                </div>
+                <span class="arch-arrow">→</span>
+                <div class="arch-item highlight">
+                    <strong>Workbook</strong>
+                    <div style="font-size: 0.85em; opacity: 0.7;">Visualizations</div>
+                </div>
+                <span class="arch-arrow">→</span>
+                <div class="arch-item">
+                    <strong>Dashboard</strong>
+                    <div style="font-size: 0.85em; opacity: 0.7;">Analytics Portlet</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="key-point">
+            <h4>📍 Two Core Components</h4>
+            <ul>
+                <li><strong>Dataset</strong> — The query that retrieves data (like a saved search)</li>
+                <li><strong>Workbook</strong> — The visualizations that display the data</li>
+            </ul>
+            <p style="margin-top: 10px;">Datasets and workbooks are <strong>decoupled</strong> — multiple workbooks can use the same dataset.</p>
+        </div>
+
+        <h2>Workbook vs. Saved Search</h2>
+
+        <div class="key-point">
+            <h4>🔄 Key Differences</h4>
+            <ul>
+                <li><strong>Workbook:</strong> Visual drag-and-drop, pivot tables, charts, no scheduling</li>
+                <li><strong>Saved Search:</strong> Text-based, formulas, email alerts, workflow integration</li>
+                <li>Use <strong>Workbook</strong> for visual analytics and exploration</li>
+                <li>Use <strong>Saved Search</strong> for automation and integration</li>
+            </ul>
+        </div>
+
+        <div class="concept-box">
+            <h4>🎯 Key Takeaways</h4>
+            <ul>
+                <li>Suite Analytics Workbook = <strong>Datasets + Visualizations</strong></li>
+                <li><strong>Real-time data</strong> from the Analytics Data Source</li>
+                <li><strong>No coding required</strong> — drag-and-drop interface</li>
+                <li>Datasets are <strong>decoupled</strong> from workbooks (reusable)</li>
+                <li>Best for <strong>visual exploration</strong>; use saved searches for automation</li>
+            </ul>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="Module-19-Custom-KPIs.html" class="nav-btn secondary">← Previous: Custom KPIs</a>
+            <a href="Module-21-Datasets.html" class="nav-btn primary">Next: Creating Datasets →</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 7: Using SuiteScript in Workflows - SuiteFlow Advanced Workflows</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #0f0f1a; line-height: 1.6; color: #e0e0e0; }
+        .header { background: linear-gradient(135deg, #e94560 0%, #0f3460 100%); color: white; padding: 40px 20px; }
+        .header-content { max-width: 1200px; margin: 0 auto; }
+        .breadcrumb { font-size: 0.9em; margin-bottom: 15px; opacity: 0.9; }
+        .breadcrumb a { color: white; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.3); }
+        .module-title-section { display: flex; align-items: center; gap: 20px; }
+        .module-number { background: rgba(255,255,255,0.2); width: 80px; height: 80px; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 2em; font-weight: 700; }
+        h1 { font-size: 2.5em; font-weight: 700; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        .objectives-box { background: #1a1a2e; border-radius: 15px; padding: 30px; margin-bottom: 30px; border-left: 5px solid #e94560; }
+        .objectives-box h2 { color: #e94560; margin-bottom: 20px; }
+        .objectives-box ul { list-style: none; padding: 0; }
+        .objectives-box li { padding: 10px 0 10px 30px; position: relative; color: #ccc; }
+        .objectives-box li::before { content: "✓"; position: absolute; left: 0; color: #e94560; font-weight: bold; }
+        .content-section { background: #1a1a2e; border-radius: 15px; padding: 40px; margin-bottom: 30px; }
+        .content-section h2 { color: #fff; font-size: 1.8em; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 3px solid #e94560; }
+        .content-section h3 { color: #e94560; font-size: 1.4em; margin-top: 30px; margin-bottom: 15px; }
+        .content-section p { color: #ccc; line-height: 1.8; margin-bottom: 15px; }
+        .content-section ul, .content-section ol { margin-left: 30px; margin-bottom: 20px; }
+        .content-section li { margin-bottom: 10px; color: #ccc; }
+        .info-box { padding: 20px; border-radius: 8px; margin: 25px 0; border-left: 4px solid; }
+        .info-box.blue { background: rgba(33,150,243,0.1); border-left-color: #2196f3; }
+        .info-box.yellow { background: rgba(255,193,7,0.1); border-left-color: #ffc107; }
+        .info-box.green { background: rgba(76,175,80,0.1); border-left-color: #4caf50; }
+        .info-box.red { background: rgba(244,67,54,0.1); border-left-color: #f44336; }
+        .info-box.purple { background: rgba(156,39,176,0.1); border-left-color: #9c27b0; }
+        .info-box h4 { margin-bottom: 10px; font-weight: 600; }
+        .info-box.blue h4 { color: #2196f3; }
+        .info-box.yellow h4 { color: #ffc107; }
+        .info-box.green h4 { color: #4caf50; }
+        .info-box.red h4 { color: #f44336; }
+        .info-box.purple h4 { color: #9c27b0; }
+        .code-block { background: #0a0a12; border-radius: 8px; padding: 20px; margin: 15px 0; font-family: 'Courier New', monospace; color: #4caf50; overflow-x: auto; font-size: 0.9em; }
+        .comparison-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        .comparison-table th, .comparison-table td { padding: 15px; text-align: left; border-bottom: 1px solid #333; }
+        .comparison-table th { background: linear-gradient(135deg, #e94560 0%, #0f3460 100%); color: white; }
+        .comparison-table tr:hover { background: rgba(233,69,96,0.1); }
+        .key-takeaways { background: linear-gradient(135deg, #e94560 0%, #0f3460 100%); color: white; border-radius: 15px; padding: 30px; margin: 30px 0; }
+        .key-takeaways h3 { color: white; margin-bottom: 20px; font-size: 1.5em; }
+        .key-takeaways ul { list-style: none; padding: 0; }
+        .key-takeaways li { padding: 12px 0 12px 30px; position: relative; opacity: 0.95; }
+        .key-takeaways li::before { content: "★"; position: absolute; left: 0; }
+        .navigation { display: flex; justify-content: space-between; margin-top: 40px; gap: 20px; flex-wrap: wrap; }
+        .nav-btn { display: inline-flex; align-items: center; padding: 15px 30px; border-radius: 25px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; flex: 1; justify-content: center; min-width: 200px; }
+        .nav-btn-primary { background: linear-gradient(135deg, #e94560 0%, #0f3460 100%); color: white; }
+        .nav-btn-secondary { background: rgba(255,255,255,0.1); color: #fff; }
+        .nav-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(233,69,96,0.3); }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="breadcrumb">
+                <a href="../Master-Dashboard.html">← Course Overview</a> / 
+                <a href="week-3-dashboard.html">Week 3</a> / Module 7
+            </div>
+            <div class="module-title-section">
+                <div class="module-number">07</div>
+                <div>
+                    <h1>Using SuiteScript in Workflows</h1>
+                    <p style="margin-top: 10px; opacity: 0.9;">Client Formulas & Workflow Action Scripts</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="objectives-box">
+            <h2>🎯 Learning Objectives</h2>
+            <p style="color: #999; margin-bottom: 15px;">Upon completion of this module, you will be able to:</p>
+            <ul>
+                <li>Configure complex business rules using SuiteScript formulas and client triggers</li>
+                <li>Explain how Workflow Action Scripts extend business processes</li>
+                <li>Describe the process of creating, deploying, and configuring custom actions</li>
+            </ul>
+        </div>
+
+        <div class="content-section">
+            <h2>SuiteScript Formulas</h2>
+            
+            <p>SuiteScript formulas use <strong>JavaScript and SuiteScript API functions</strong> configured on <strong>client triggers</strong>. They complement SQL formulas by enabling client-side processing.</p>
+
+            <div class="info-box red">
+                <h4>⚠️ Version Limitation</h4>
+                <p>Only <strong>SuiteScript 1.0</strong> formulas are supported on client triggers. SuiteScript 2.0 functions are NOT supported except as external scripts (Suitelets, User Event Scripts, Workflow Action Scripts). You cannot invoke 1.0 scripts from 2.0 scripts.</p>
+            </div>
+
+            <h3>Syntax Rules</h3>
+            <ul>
+                <li>Follow general <strong>JavaScript syntax rules</strong></li>
+                <li>Enclose field IDs in <strong>quotes</strong> (single or double—be consistent)</li>
+                <li>Be aware of <strong>case sensitivity</strong> in function names (many are camelCase)</li>
+            </ul>
+        </div>
+
+        <div class="content-section">
+            <h2>Common SuiteScript 1.0 API Functions</h2>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Function</th>
+                        <th>Purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>nlapiGetFieldValue('fieldId')</td>
+                        <td>Get field value</td>
+                    </tr>
+                    <tr>
+                        <td>nlapiSetFieldValue('fieldId', value)</td>
+                        <td>Set field value</td>
+                    </tr>
+                    <tr>
+                        <td>nlapiGetFieldText('fieldId')</td>
+                        <td>Get display text of list field</td>
+                    </tr>
+                    <tr>
+                        <td>nlapiLookupField(type, id, fields)</td>
+                        <td>Look up field value on another record</td>
+                    </tr>
+                    <tr>
+                        <td>nlapiGetUser()</td>
+                        <td>Get current user's internal ID</td>
+                    </tr>
+                    <tr>
+                        <td>nlapiGetRole()</td>
+                        <td>Get current user's role ID</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>SuiteScript Formula Example</h3>
+            <p>Validate rating code is less than 10 characters:</p>
+            <div class="code-block">nlapiGetFieldValue('custrecord_rating_code').length &lt; 10</div>
+
+            <div class="info-box yellow">
+                <h4>⚠️ Server Trigger Warning</h4>
+                <p>If you configure a SuiteScript 1.0 formula on a <strong>server trigger</strong>, it will be ignored and show "ERROR: Invalid expression" in the log. The warning indicates unrecognizable code—the record submit still completes.</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Workflow Action Scripts</h2>
+
+            <p>What happens when you need to perform an action <strong>not supported by standard SuiteFlow actions</strong>? This is where <strong>Workflow Action Scripts</strong> extend SuiteFlow through code.</p>
+
+            <h3>What Are Workflow Action Scripts?</h3>
+            <ul>
+                <li>Custom SuiteScript that runs within the context of a workflow</li>
+                <li>Created by developers, used by workflow designers</li>
+                <li>Can perform virtually <strong>any function</strong> imaginable</li>
+                <li>Appear as <strong>Custom Actions</strong> in the workflow action list</li>
+            </ul>
+
+            <div class="info-box green">
+                <h4>✅ Use Cases</h4>
+                <p>Complex calculations, external integrations, advanced record manipulation, custom notifications, sublist processing beyond standard actions.</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Creating Workflow Action Scripts</h2>
+
+            <h3>Script Structure (SuiteScript 2.0)</h3>
+            <div class="code-block">
+/**<br>
+ * @NApiVersion 2.x<br>
+ * @NScriptType WorkflowActionScript<br>
+ */<br>
+define(['N/record', 'N/log'], function(record, log) {<br>
+<br>
+    function onAction(scriptContext) {<br>
+        var newRecord = scriptContext.newRecord;<br>
+        var workflowId = scriptContext.workflowId;<br>
+        <br>
+        // Your custom logic here<br>
+        <br>
+        return 'SUCCESS'; // Return value to workflow<br>
+    }<br>
+<br>
+    return {<br>
+        onAction: onAction<br>
+    };<br>
+});
+            </div>
+
+            <h3>Script Context Object</h3>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Property</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>scriptContext.newRecord</td>
+                        <td>The record being processed</td>
+                    </tr>
+                    <tr>
+                        <td>scriptContext.oldRecord</td>
+                        <td>Previous version of record (on edit)</td>
+                    </tr>
+                    <tr>
+                        <td>scriptContext.workflowId</td>
+                        <td>Internal ID of the workflow</td>
+                    </tr>
+                    <tr>
+                        <td>scriptContext.type</td>
+                        <td>Event type (create, edit, etc.)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="content-section">
+            <h2>Deployment Process</h2>
+
+            <ol>
+                <li><strong>Create Script Record:</strong> Upload script file, set Script Type = Workflow Action</li>
+                <li><strong>Create Deployment:</strong> Deploy script, set status to Released</li>
+                <li><strong>Configure Parameters:</strong> Define any custom parameters</li>
+                <li><strong>Use in Workflow:</strong> Add Custom Action, select deployed script</li>
+            </ol>
+
+            <h3>Custom Action Configuration</h3>
+            <p>In the workflow designer:</p>
+            <ol>
+                <li>Click <strong>New Action</strong></li>
+                <li>Select <strong>Custom Action</strong> from action list</li>
+                <li>Choose the deployed Workflow Action Script</li>
+                <li>Configure trigger (server triggers only)</li>
+                <li>Set any script parameters</li>
+                <li>Configure conditions as needed</li>
+            </ol>
+
+            <div class="info-box purple">
+                <h4>💡 Return Values</h4>
+                <p>Workflow Action Scripts can return values that are stored in workflow fields or used by transition conditions. Define the return type in the script deployment.</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>SQL vs. SuiteScript Summary</h2>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Aspect</th>
+                        <th>SQL Formulas</th>
+                        <th>SuiteScript Formulas</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Trigger Type</strong></td>
+                        <td>Server triggers</td>
+                        <td>Client triggers</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Execution Location</strong></td>
+                        <td>NetSuite server/database</td>
+                        <td>User's browser</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Field Reference</strong></td>
+                        <td>{field_id}</td>
+                        <td>'field_id' in API calls</td>
+                    </tr>
+                    <tr>
+                        <td><strong>API Version</strong></td>
+                        <td>N/A (SQL)</td>
+                        <td>SuiteScript 1.0 only</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Best For</strong></td>
+                        <td>Database operations, calculations</td>
+                        <td>UI interactions, client validation</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="key-takeaways">
+            <h3>🌟 Key Takeaways</h3>
+            <ul>
+                <li><strong>SuiteScript formulas</strong> use JavaScript on client triggers</li>
+                <li>Only <strong>SuiteScript 1.0</strong> supported in formula conditions</li>
+                <li><strong>Workflow Action Scripts</strong> extend SuiteFlow with custom code</li>
+                <li>Custom actions appear in workflow action list after deployment</li>
+                <li>Scripts can <strong>return values</strong> to workflow for further processing</li>
+                <li>Match <strong>formula type to trigger type</strong>: SQL→Server, SuiteScript→Client</li>
+                <li>SuiteScript 2.0 only available via external scripts (Workflow Action Scripts)</li>
+            </ul>
+        </div>
+
+        <div class="navigation">
+            <a href="Module-06-Working-Formulas.html" class="nav-btn nav-btn-secondary">← Previous: Module 6</a>
+            <a href="../Week-4/Module-08-Executing-Different-Contexts.html" class="nav-btn nav-btn-primary">Next: Module 8 →</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 19: Custom KPIs - Suite Analytics Learning Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #0f0f1a; color: #e0e0e0; line-height: 1.7; }
+        .header { background: linear-gradient(135deg, #0f3460 0%, #533483 100%); padding: 30px 20px; }
+        .header-content { max-width: 900px; margin: 0 auto; }
+        .breadcrumb { font-size: 0.9em; margin-bottom: 10px; opacity: 0.8; }
+        .breadcrumb a { color: #fff; text-decoration: none; }
+        h1 { font-size: 2em; font-weight: 700; color: #fff; }
+        .module-meta { margin-top: 10px; color: rgba(255,255,255,0.8); font-size: 0.9em; }
+        .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+        h2 { color: #e94560; font-size: 1.5em; margin: 40px 0 20px; padding-bottom: 10px; border-bottom: 2px solid #e94560; }
+        p { margin-bottom: 15px; }
+        .concept-box { background: linear-gradient(145deg, #1a1a2e 0%, #1e1e32 100%); border-radius: 15px; padding: 25px; margin: 25px 0; border-left: 4px solid #e94560; }
+        .concept-box h4 { color: #e94560; margin-bottom: 12px; font-size: 1.1em; }
+        .warning-box { background: rgba(244,67,54,0.1); border-radius: 10px; padding: 20px; margin: 20px 0; border: 1px solid rgba(244,67,54,0.3); }
+        .warning-box h4 { color: #f44336; margin-bottom: 10px; }
+        .example-box { background: linear-gradient(145deg, #1e3a1e 0%, #1a2e1a 100%); border-radius: 12px; padding: 20px; margin: 20px 0; border: 1px solid #4caf50; }
+        .example-box h4 { color: #4caf50; margin-bottom: 12px; }
+        .key-point { background: rgba(83,52,131,0.2); border-radius: 10px; padding: 20px; margin: 20px 0; border: 1px solid rgba(83,52,131,0.4); }
+        .key-point h4 { color: #533483; margin-bottom: 10px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #333; }
+        th { background: rgba(233,69,96,0.2); color: #e94560; font-weight: 600; }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 50px; padding-top: 30px; border-top: 1px solid #333; flex-wrap: wrap; gap: 15px; }
+        .nav-btn { padding: 12px 25px; border-radius: 25px; text-decoration: none; font-weight: 600; font-size: 0.9em; transition: all 0.3s ease; }
+        .nav-btn.secondary { background: rgba(255,255,255,0.1); color: #fff; }
+        .nav-btn.primary { background: linear-gradient(135deg, #e94560 0%, #533483 100%); color: #fff; }
+        ul { margin-left: 20px; margin-bottom: 15px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="breadcrumb">
+                <a href="../Master-Dashboard.html">Course Overview</a> / 
+                <a href="week-4-dashboard.html">Week 4</a> / Module 19
+            </div>
+            <h1>🎯 Module 19: Custom KPIs</h1>
+            <div class="module-meta">Week 4 • KPIs & Suite Analytics Workbook • Advanced Analytics</div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="concept-box">
+            <h4>Custom KPIs from Saved Searches</h4>
+            <p>When the 75+ standard KPIs don't meet your needs, you can create <strong>custom KPIs</strong> based on saved searches. This lets you track any metric you can query with a saved search — from custom calculations to specific transaction types.</p>
+        </div>
+
+        <h2>Requirements for Custom KPIs</h2>
+
+        <div class="warning-box">
+            <h4>⚠️ Critical Requirements</h4>
+            <p>A saved search must meet these requirements to work as a KPI:</p>
+            <ul style="margin-top: 10px;">
+                <li><strong>Exactly ONE summary field</strong> in Results (Sum, Count, Average, etc.)</li>
+                <li><strong>Date as Available Filter</strong> — NOT as Criteria filter</li>
+                <li><strong>No date criteria</strong> — the KPI portlet applies date ranges dynamically</li>
+            </ul>
+        </div>
+
+        <h2>Creating a Custom KPI Search</h2>
+
+        <div class="key-point">
+            <h4>📍 Steps</h4>
+            <ol style="margin-left: 20px; margin-top: 10px;">
+                <li>Create a saved search on the desired record type</li>
+                <li>Add criteria filters (EXCEPT date filters)</li>
+                <li>On the Results subtab, add ONE field with a <strong>Summary Type</strong> (Sum, Count, etc.)</li>
+                <li>On the <strong>Available Filters</strong> subtab, add the Date field</li>
+                <li>Save the search</li>
+                <li>Navigate to <strong>Setup → Company → KPIs</strong></li>
+                <li>Add your custom KPI based on the saved search</li>
+            </ol>
+        </div>
+
+        <div class="example-box">
+            <h4>💡 Example: Total Open Invoice Amount</h4>
+            <table>
+                <thead><tr><th>Setting</th><th>Value</th></tr></thead>
+                <tbody>
+                    <tr><td>Search Type</td><td>Transaction</td></tr>
+                    <tr><td>Criteria</td><td>Type = Invoice, Status = Open, Main Line = True</td></tr>
+                    <tr><td>Results Field</td><td>Amount (Summary Type = <strong>Sum</strong>)</td></tr>
+                    <tr><td>Available Filter</td><td>Date</td></tr>
+                </tbody>
+            </table>
+            <p style="margin-top: 15px;"><strong>Result:</strong> KPI shows total dollar value of open invoices for any selected date range.</p>
+        </div>
+
+        <div class="concept-box">
+            <h4>🎯 Key Takeaways</h4>
+            <ul>
+                <li>Custom KPIs are based on <strong>saved searches</strong></li>
+                <li>Must have <strong>exactly one summary field</strong> (Sum, Count, Average, Min, Max)</li>
+                <li><strong>Date must be an Available Filter</strong>, not a Criteria filter</li>
+                <li>KPI portlets apply date ranges dynamically</li>
+                <li>Create KPIs at <strong>Setup → Company → KPIs</strong></li>
+            </ul>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="Module-18-Standard-KPIs.html" class="nav-btn secondary">← Previous: Standard KPIs</a>
+            <a href="Module-20-Workbook-Overview.html" class="nav-btn primary">Next: Workbook Overview →</a>
+        </div>
+    </div>
+</body>
+</html>

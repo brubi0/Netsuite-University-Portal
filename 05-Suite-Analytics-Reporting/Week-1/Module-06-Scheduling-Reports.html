@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 06: Scheduling & Alert Me When Ready - Suite Analytics Learning Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #0f0f1a; color: #e0e0e0; line-height: 1.7; }
+        .header { background: linear-gradient(135deg, #0f3460 0%, #533483 100%); padding: 30px 20px; }
+        .header-content { max-width: 900px; margin: 0 auto; }
+        .breadcrumb { font-size: 0.9em; margin-bottom: 10px; opacity: 0.8; }
+        .breadcrumb a { color: #fff; text-decoration: none; }
+        h1 { font-size: 2em; font-weight: 700; color: #fff; }
+        .module-meta { margin-top: 10px; color: rgba(255,255,255,0.8); font-size: 0.9em; }
+        .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+        h2 { color: #e94560; font-size: 1.5em; margin: 40px 0 20px; padding-bottom: 10px; border-bottom: 2px solid #e94560; }
+        h3 { color: #533483; font-size: 1.2em; margin: 30px 0 15px; }
+        p { margin-bottom: 15px; }
+        .concept-box { background: linear-gradient(145deg, #1a1a2e 0%, #1e1e32 100%); border-radius: 15px; padding: 25px; margin: 25px 0; border-left: 4px solid #e94560; }
+        .concept-box h4 { color: #e94560; margin-bottom: 12px; font-size: 1.1em; }
+        .feature-card { background: #1a1a2e; border-radius: 12px; padding: 20px; margin: 15px 0; border: 1px solid rgba(255,255,255,0.1); }
+        .feature-card h4 { color: #2196f3; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+        .steps { background: #12121f; border-radius: 10px; padding: 20px; margin: 15px 0; }
+        .steps ol { margin-left: 20px; }
+        .steps li { padding: 8px 0; }
+        .example-box { background: linear-gradient(145deg, #1e3a1e 0%, #1a2e1a 100%); border-radius: 12px; padding: 20px; margin: 20px 0; border: 1px solid #4caf50; }
+        .example-box h4 { color: #4caf50; margin-bottom: 12px; }
+        .tip-box { background: rgba(255,193,7,0.1); border-radius: 10px; padding: 20px; margin: 20px 0; border: 1px solid rgba(255,193,7,0.3); }
+        .tip-box h4 { color: #ffc107; margin-bottom: 10px; }
+        .warning-box { background: rgba(244,67,54,0.1); border-radius: 10px; padding: 20px; margin: 20px 0; border: 1px solid rgba(244,67,54,0.3); }
+        .warning-box h4 { color: #f44336; margin-bottom: 10px; }
+        .key-point { background: rgba(83,52,131,0.2); border-radius: 10px; padding: 20px; margin: 20px 0; border: 1px solid rgba(83,52,131,0.4); }
+        .key-point h4 { color: #533483; margin-bottom: 10px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #333; }
+        th { background: rgba(233,69,96,0.2); color: #e94560; font-weight: 600; }
+        .nav-path { background: #1a1a2e; border-radius: 8px; padding: 12px 18px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 0.9em; color: #4caf50; display: inline-block; }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 50px; padding-top: 30px; border-top: 1px solid #333; flex-wrap: wrap; gap: 15px; }
+        .nav-btn { padding: 12px 25px; border-radius: 25px; text-decoration: none; font-weight: 600; font-size: 0.9em; transition: all 0.3s ease; }
+        .nav-btn.secondary { background: rgba(255,255,255,0.1); color: #fff; }
+        .nav-btn.primary { background: linear-gradient(135deg, #e94560 0%, #533483 100%); color: #fff; }
+        .nav-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(0,0,0,0.3); }
+        ul { margin-left: 20px; margin-bottom: 15px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="breadcrumb">
+                <a href="../Master-Dashboard.html">Course Overview</a> / 
+                <a href="week-1-dashboard.html">Week 1</a> / Module 06
+            </div>
+            <h1>⏰ Module 06: Scheduling & Alert Me When Ready</h1>
+            <div class="module-meta">Week 1 • Standard Reports • Foundation</div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="concept-box">
+            <h4>Module Overview</h4>
+            <p>NetSuite allows you to run and distribute reports on a one-time or recurring basis using a schedule you define. This is useful for running large reports during off-peak hours or distributing reports automatically on a regular basis. For long-running reports, use "Alert Me When Ready" to continue working while the report loads in the background.</p>
+        </div>
+
+        <h2>Scheduling Reports</h2>
+        <p>Schedule reports to run automatically and be emailed to recipients at defined intervals.</p>
+
+        <div class="feature-card">
+            <h4><span style="font-size:1.3em">📅</span> Schedule a Report</h4>
+            <div class="steps">
+                <ol>
+                    <li>Open the report you want to schedule</li>
+                    <li>Click the <strong>Calendar icon</strong> in the toolbar</li>
+                    <li>In the Schedule Reports popup, enter the <strong>date</strong> to run the report</li>
+                    <li>Enter a <strong>start time</strong> (preferably off-peak hours)</li>
+                    <li>For recurring schedules, select <strong>"Run Report More Than Once"</strong></li>
+                    <li>Choose a recurrence: Daily, Weekly, Monthly, Yearly</li>
+                    <li>Set a <strong>schedule end date</strong> (or leave blank for indefinite)</li>
+                    <li>Add recipients in the <strong>distribution list</strong></li>
+                    <li>Select the <strong>attachment format</strong> (Excel, PDF, CSV, Word)</li>
+                    <li>On the <strong>Message</strong> subtab, enter the email subject and message</li>
+                    <li>Click <strong>Save</strong></li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="warning-box">
+            <h4>⚠️ Peak Hours Warning</h4>
+            <p>If you select a time during peak hours, NetSuite shows a <strong>warning flag</strong>. Reports that take longer than <strong>3 minutes</strong> to run during peak hours are automatically disabled. If this happens, NetSuite emails the primary recipient that the report timed out. You must either optimize the report or reschedule it for off-peak hours.</p>
+        </div>
+
+        <div class="example-box">
+            <h4>💡 Example: Monthly Sales Report</h4>
+            <p>Distribute the Sales by Customer report to sales managers on the 1st of each month:</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Setting</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Run Report More Than Once</td><td>✓ Yes</td></tr>
+                    <tr><td>Recurrence</td><td>Monthly</td></tr>
+                    <tr><td>Day of Month</td><td>1st</td></tr>
+                    <tr><td>Start Time</td><td>6:00 AM (off-peak)</td></tr>
+                    <tr><td>End Date</td><td>None (runs indefinitely)</td></tr>
+                    <tr><td>Attachment Format</td><td>Excel</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2>Managing Scheduled Reports</h2>
+
+        <div class="key-point">
+            <h4>📋 View All Scheduled Reports</h4>
+            <p>A list of scheduled reports is available on the Reports Dashboard under the <strong>Scheduled Reports</strong> category.</p>
+            <p class="nav-path">Reports → Reports Dashboard → Scheduled Reports</p>
+        </div>
+
+        <div class="feature-card">
+            <h4><span style="font-size:1.3em">✏️</span> Edit or Delete a Schedule</h4>
+            <div class="steps">
+                <ol>
+                    <li>Navigate to the Report Schedules page</li>
+                    <li>View information about owner, report name, and schedule details</li>
+                    <li>Click <strong>Edit</strong> to modify recurrence, recipients, or end date</li>
+                    <li>To delete, navigate to <strong>Actions → Delete</strong></li>
+                </ol>
+            </div>
+        </div>
+
+        <h2>Alert Me When Ready</h2>
+        <p>For reports that take a long time to load, use this feature to continue working while the report processes in the background.</p>
+
+        <div class="feature-card">
+            <h4><span style="font-size:1.3em">🔔</span> How It Works</h4>
+            <div class="steps">
+                <ol>
+                    <li>When you run a lengthy report, NetSuite displays a message that it may take time to load</li>
+                    <li>Click <strong>"Alert Me When Ready"</strong></li>
+                    <li>A <strong>report snapshot</strong> loads in the background</li>
+                    <li>You can continue working in NetSuite on other tasks</li>
+                    <li>When ready, NetSuite sends you an <strong>email with a link</strong> to the snapshot</li>
+                    <li>You can also access the snapshot from the Reports Dashboard under <strong>Scheduled Reports</strong> or in the <strong>Report Results portlet</strong></li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="tip-box">
+            <h4>💡 Snapshot Limitations</h4>
+            <p>Report snapshots display <strong>static information</strong> from the point in time they were created. Date, subsidiary, and column filters are <strong>not available</strong> in snapshots. However, you can still use report tools to view and export the snapshot data.</p>
+        </div>
+
+        <div class="feature-card">
+            <h4><span style="font-size:1.3em">🗑️</span> Delete Report Snapshots</h4>
+            <p>When you're finished viewing a snapshot, delete it to keep your list clean:</p>
+            <ul>
+                <li>From the <strong>Report Results portlet</strong>, click Delete</li>
+                <li>Or from the <strong>Report Results page</strong>, click Delete</li>
+            </ul>
+            <p>NetSuite removes the snapshot from your list.</p>
+        </div>
+
+        <div class="concept-box">
+            <h4>🎯 Key Takeaways</h4>
+            <ul>
+                <li><strong>Schedule reports</strong> to run automatically on a one-time or recurring basis</li>
+                <li>Schedule during <strong>off-peak hours</strong> to avoid timeout issues (3-minute limit during peak)</li>
+                <li>Add both <strong>internal and external recipients</strong> to the distribution list</li>
+                <li>Manage schedules from the <strong>Reports Dashboard → Scheduled Reports</strong></li>
+                <li>Use <strong>"Alert Me When Ready"</strong> to process large reports in the background</li>
+                <li>Report snapshots are <strong>static</strong> — they don't have dynamic filters</li>
+                <li><strong>Delete snapshots</strong> when finished to keep your list organized</li>
+            </ul>
+        </div>
+
+        <div class="concept-box" style="border-left-color: #4caf50;">
+            <h4 style="color: #4caf50;">✅ Week 1 Complete!</h4>
+            <p>Congratulations on completing Week 1! You now know how to access, view, filter, export, and schedule NetSuite standard reports. In Week 2, you'll learn to build custom saved searches for even more powerful data analysis.</p>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="Module-05-Export-Print-Email.html" class="nav-btn secondary">← Previous: Export, Print & Email</a>
+            <a href="../Week-2/week-2-dashboard.html" class="nav-btn primary">Continue to Week 2 →</a>
+        </div>
+    </div>
+</body>
+</html>

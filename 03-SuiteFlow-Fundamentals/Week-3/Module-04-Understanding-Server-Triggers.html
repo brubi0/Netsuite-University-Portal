@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 4: Understanding Server Triggers - SuiteFlow Fundamentals</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f5f7fa; line-height: 1.6; color: #2d3748; }
+        .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 40px 20px; }
+        .header-content { max-width: 1200px; margin: 0 auto; }
+        .breadcrumb { font-size: 0.9em; margin-bottom: 15px; opacity: 0.9; }
+        .breadcrumb a { color: white; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.3); }
+        .module-title-section { display: flex; align-items: center; gap: 20px; }
+        .module-number { background: rgba(255,255,255,0.2); width: 80px; height: 80px; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 2em; font-weight: 700; }
+        h1 { font-size: 2.5em; font-weight: 700; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        .objectives-box { background: white; border-radius: 15px; padding: 30px; margin-bottom: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); border-left: 5px solid #667eea; }
+        .objectives-box h2 { color: #667eea; margin-bottom: 20px; }
+        .objectives-box ul { list-style: none; padding: 0; }
+        .objectives-box li { padding: 10px 0 10px 30px; position: relative; color: #555; }
+        .objectives-box li::before { content: "✓"; position: absolute; left: 0; color: #667eea; font-weight: bold; font-size: 1.3em; }
+        .content-section { background: white; border-radius: 15px; padding: 40px; margin-bottom: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
+        .content-section h2 { color: #2d3748; font-size: 1.8em; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 3px solid #667eea; }
+        .content-section h3 { color: #667eea; font-size: 1.4em; margin-top: 30px; margin-bottom: 15px; }
+        .content-section p { color: #555; line-height: 1.8; margin-bottom: 15px; }
+        .content-section ul, .content-section ol { margin-left: 30px; margin-bottom: 20px; }
+        .content-section li { margin-bottom: 10px; color: #555; }
+        .info-box { padding: 20px; border-radius: 8px; margin: 25px 0; border-left: 4px solid; }
+        .info-box.blue { background: #e3f2fd; border-left-color: #2196f3; }
+        .info-box.yellow { background: #fff9c4; border-left-color: #fbc02d; }
+        .info-box.green { background: #e8f5e9; border-left-color: #4caf50; }
+        .info-box.purple { background: #f3e5f5; border-left-color: #9c27b0; }
+        .info-box.red { background: #ffebee; border-left-color: #f44336; }
+        .info-box h4 { margin-bottom: 10px; font-weight: 600; }
+        .info-box.blue h4 { color: #1976d2; }
+        .info-box.yellow h4 { color: #f57f17; }
+        .info-box.green h4 { color: #2e7d32; }
+        .info-box.purple h4 { color: #6a1b9a; }
+        .info-box.red h4 { color: #c62828; }
+        .trigger-card { background: #f8f9fa; border-radius: 10px; padding: 25px; margin: 15px 0; border-left: 4px solid #2196f3; }
+        .trigger-card h4 { color: #1976d2; margin-bottom: 10px; }
+        .sequence-diagram { background: #f8f9fa; padding: 30px; border-radius: 10px; margin: 25px 0; }
+        .sequence-step { display: flex; align-items: center; margin: 15px 0; }
+        .step-number { background: #667eea; color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 15px; }
+        .comparison-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        .comparison-table th, .comparison-table td { padding: 15px; text-align: left; border-bottom: 1px solid #e0e0e0; }
+        .comparison-table th { background: #667eea; color: white; }
+        .comparison-table tr:hover { background: #f5f5f5; }
+        .key-takeaways { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 15px; padding: 30px; margin: 30px 0; }
+        .key-takeaways h3 { color: white; margin-bottom: 20px; font-size: 1.5em; }
+        .key-takeaways ul { list-style: none; padding: 0; }
+        .key-takeaways li { padding: 12px 0 12px 30px; position: relative; color: white; opacity: 0.95; }
+        .key-takeaways li::before { content: "★"; position: absolute; left: 0; font-size: 1.2em; }
+        .exercise-section { background: #fff3e0; border-radius: 15px; padding: 30px; margin: 30px 0; border-left: 5px solid #ff9800; }
+        .exercise-section h3 { color: #e65100; margin-bottom: 15px; }
+        .exercise-link { display: inline-block; margin-top: 15px; padding: 12px 25px; background: #ff9800; color: white; text-decoration: none; border-radius: 25px; font-weight: 600; }
+        .navigation { display: flex; justify-content: space-between; margin-top: 40px; gap: 20px; flex-wrap: wrap; }
+        .nav-btn { display: inline-flex; align-items: center; padding: 15px 30px; border-radius: 25px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; flex: 1; justify-content: center; min-width: 200px; }
+        .nav-btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .nav-btn-secondary { background: #e2e8f0; color: #2d3748; }
+        .nav-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.15); }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="breadcrumb">
+                <a href="../Master-Dashboard.html">← Course Overview</a> / 
+                <a href="week-3-dashboard.html">Week 3</a> / Module 4
+            </div>
+            <div class="module-title-section">
+                <div class="module-number">04</div>
+                <div>
+                    <h1>Understanding Server Triggers</h1>
+                    <p style="margin-top: 10px; opacity: 0.9;">Mastering Server-Side Workflow Execution</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="objectives-box">
+            <h2>🎯 Learning Objectives</h2>
+            <p style="color: #666; margin-bottom: 15px;">Upon completion of this module, you will be able to:</p>
+            <ul>
+                <li>Describe the primary difference between client-side and server-side triggers</li>
+                <li>List each server trigger and its role in the workflow execution cycle</li>
+                <li>List the sequence of trigger events during record processing</li>
+                <li>Understand the Entry and Exit state-level triggers</li>
+            </ul>
+        </div>
+
+        <div class="content-section">
+            <h2>Server Triggers Overview</h2>
+            
+            <p>Server triggers represent events that occur on the <strong>NetSuite server</strong> rather than in the user's web browser. Unlike client triggers which only occur when creating or editing records, server triggers occur in <strong>all user event contexts</strong>—including when viewing existing records.</p>
+
+            <div class="info-box purple">
+                <h4>💡 Key Distinction</h4>
+                <p><strong>Client triggers</strong> = Browser events (create/edit only)</p>
+                <p><strong>Server triggers</strong> = Server events (create/edit/view) — Can also initiate workflows!</p>
+            </div>
+
+            <h3>The Three Primary Server Triggers</h3>
+
+            <div class="trigger-card">
+                <h4>Before Record Load</h4>
+                <p>Occurs just before record data is displayed in the browser as part of the HTTP response. Allows pre-processing of the form prior to display.</p>
+                <p><strong>Valid Contexts:</strong> Create, Edit, View</p>
+                <p><strong>Common Uses:</strong> Default field values, change display characteristics, make fields mandatory/optional</p>
+            </div>
+
+            <div class="trigger-card">
+                <h4>Before Record Submit</h4>
+                <p>Occurs just before the record is committed to the database. Since no data has been committed yet, you can cancel submission and return an error.</p>
+                <p><strong>Valid Context:</strong> Save only</p>
+                <p><strong>Common Uses:</strong> Form validations, calculations, field updates, business logic</p>
+            </div>
+
+            <div class="trigger-card">
+                <h4>After Record Submit</h4>
+                <p>Occurs after the record has been successfully committed to the database. All saved data is available.</p>
+                <p><strong>Valid Context:</strong> Save only</p>
+                <p><strong>Common Uses:</strong> Create related CRM records (tasks, phone calls), send emails</p>
+            </div>
+
+            <div class="info-box green">
+                <h4>✅ No Database Rollback</h4>
+                <p>NetSuite does NOT have a database rollback feature. A record is either <strong>fully committed</strong> or <strong>not committed at all</strong>. The server commits the record only when all Before Record Submit actions execute without errors.</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>State-Level Server Triggers: Entry & Exit</h2>
+
+            <p>In addition to the three primary triggers, there are two special state-level triggers:</p>
+
+            <div class="trigger-card">
+                <h4>Entry Trigger</h4>
+                <p>Occurs the <strong>first time</strong> a record enters a state. Actions execute only once when entering—not on subsequent visits or browser refreshes.</p>
+            </div>
+
+            <div class="trigger-card">
+                <h4>Exit Trigger</h4>
+                <p>Occurs the <strong>first time</strong> a record exits a state. Actions execute only once when leaving—not if the record returns and exits again.</p>
+            </div>
+
+            <div class="info-box yellow">
+                <h4>⚠️ Important: Entry/Exit vs. Browser Refresh</h4>
+                <p>If users refresh their browser while a record is in a specific state, actions on the <strong>Entry trigger will NOT re-execute</strong>. Refreshing reloads the record in the current state—it doesn't force re-entry.</p>
+            </div>
+
+            <div class="info-box red">
+                <h4>⚠️ Entry Trigger + Unsupported Actions</h4>
+                <p>If a record enters a state on Before Record Load but has a Send Email action on Entry, the email will NOT send. Before Record Load is not a valid trigger for Send Email. The action will be skipped!</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Workflow Trigger Event Sequence</h2>
+
+            <p>Understanding the order of trigger events is critical for effective workflow design:</p>
+
+            <div class="sequence-diagram">
+                <div class="sequence-step">
+                    <div class="step-number">1</div>
+                    <div><strong>User requests record</strong> (new, view, or edit) → <strong>Before Record Load</strong> fires</div>
+                </div>
+                <div class="sequence-step">
+                    <div class="step-number">2</div>
+                    <div>Page pushed to browser → <strong>Before User Edit</strong> fires (client)</div>
+                </div>
+                <div class="sequence-step">
+                    <div class="step-number">3</div>
+                    <div>User interacts with fields → <strong>Field-level client triggers</strong> fire</div>
+                </div>
+                <div class="sequence-step">
+                    <div class="step-number">4</div>
+                    <div>User saves → <strong>Before User Submit</strong> (client) → <strong>Before Record Submit</strong> (server)</div>
+                </div>
+                <div class="sequence-step">
+                    <div class="step-number">5</div>
+                    <div>Record persisted to database → <strong>After Record Submit</strong> fires</div>
+                </div>
+            </div>
+
+            <h3>Order of Action Execution in a State</h3>
+
+            <ol>
+                <li><strong>Entry trigger</strong> actions execute first (only once)</li>
+                <li>Actions on the <strong>same trigger as entry</strong> execute next</li>
+                <li><strong>Client trigger</strong> actions as user interacts</li>
+                <li><strong>Before User Submit</strong> → <strong>Before Record Submit</strong> on save</li>
+                <li><strong>After Record Submit</strong> after database commit</li>
+                <li><strong>Exit trigger</strong> actions before transitioning to next state</li>
+            </ol>
+        </div>
+
+        <div class="content-section">
+            <h2>Client vs. Server Trigger Comparison</h2>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Client Triggers</th>
+                        <th>Server Triggers</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Where executed</td>
+                        <td>User's browser</td>
+                        <td>NetSuite server</td>
+                    </tr>
+                    <tr>
+                        <td>Can initiate workflows</td>
+                        <td>No</td>
+                        <td><strong>Yes</strong></td>
+                    </tr>
+                    <tr>
+                        <td>View context</td>
+                        <td>No</td>
+                        <td><strong>Yes</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Processing consistency</td>
+                        <td>May vary by browser</td>
+                        <td><strong>Consistent</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Best for</td>
+                        <td>Form interaction, validations</td>
+                        <td>Business logic, record operations</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="info-box green">
+                <h4>✅ Best Practice</h4>
+                <p>Use <strong>Before Record Load</strong> (server) instead of <strong>Before User Edit</strong> (client) for display characteristics—server execution provides better processing consistency across browsers!</p>
+            </div>
+        </div>
+
+        <div class="exercise-section">
+            <h3>🎯 Hands-On Exercises</h3>
+            <p>Practice server triggers in your Student Workbook. No hands-on exercises in this module—concepts will be applied in Module 5.</p>
+            <a href="Module-05-Configuring-Actions-on-Record-Load.html" class="exercise-link">Continue to Module 5 →</a>
+        </div>
+
+        <div class="key-takeaways">
+            <h3>🌟 Key Takeaways</h3>
+            <ul>
+                <li><strong>Only server triggers</strong> can initiate workflow execution</li>
+                <li>Server triggers occur in <strong>all contexts</strong> (create, edit, view)—client triggers only in create/edit</li>
+                <li>Use <strong>Before Record Load</strong> over Before User Edit for better consistency</li>
+                <li><strong>Entry/Exit triggers</strong> execute only once per state visit</li>
+                <li>Browser refresh does NOT re-trigger Entry actions</li>
+                <li>No database rollback—record either commits fully or not at all</li>
+                <li>Use <strong>Before Record Submit</strong> for validations and field updates</li>
+                <li>Use <strong>After Record Submit</strong> for creating related records and sending emails</li>
+            </ul>
+        </div>
+
+        <div class="navigation">
+            <a href="../Week-2/Module-03-Configuring-Actions-on-Data-Entry.html" class="nav-btn nav-btn-secondary">← Previous: Module 3</a>
+            <a href="Module-05-Configuring-Actions-on-Record-Load.html" class="nav-btn nav-btn-primary">Next: Module 5 →</a>
+        </div>
+    </div>
+</body>
+</html>

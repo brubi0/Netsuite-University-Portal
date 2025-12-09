@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 13: RESTlets (Web Services)</title>
+    <style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.8;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:40px 20px}.container{max-width:900px;margin:0 auto}.header{background:white;padding:30px 40px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.2);margin-bottom:30px}.header h1{color:#2563eb;font-size:2rem;margin-bottom:10px}.header .meta{color:#6b7280;font-size:0.9rem}.content{background:white;padding:40px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.2)}.content h2{color:#1e40af;margin:35px 0 20px 0;font-size:1.6rem;padding-bottom:10px;border-bottom:3px solid #dbeafe}.content h2:first-of-type{margin-top:0}.content h3{color:#374151;margin:25px 0 15px 0;font-size:1.3rem}.content p{margin:15px 0;color:#374151}.content ul,.content ol{margin:15px 0 15px 30px;color:#374151}.content li{margin:10px 0}.info-box{padding:20px 25px;border-radius:8px;margin:25px 0;border-left:5px solid}.info-box.blue{background:#dbeafe;border-color:#2563eb}.info-box.yellow{background:#fef3c7;border-color:#f59e0b}.info-box.green{background:#dcfce7;border-color:#10b981}.info-box.red{background:#fee2e2;border-color:#ef4444}.info-box strong{color:#1e40af;display:block;margin-bottom:10px;font-size:1.1rem}code{background:#f3f4f6;padding:3px 8px;border-radius:4px;font-family:monospace;font-size:0.9em;color:#ef4444}pre{background:#1e293b;color:#e2e8f0;padding:25px;border-radius:8px;overflow-x:auto;margin:25px 0;border-left:5px solid #667eea}pre code{background:none;padding:0;color:inherit}.takeaway{background:#f0f9ff;border:2px solid #0ea5e9;border-radius:10px;padding:25px;margin:30px 0}.takeaway h3{color:#0369a1;margin:0 0 15px 0}.takeaway ul{margin:10px 0 10px 25px}.takeaway li{color:#0c4a6e;font-weight:500}.nav-buttons{display:flex;justify-content:space-between;margin-top:40px;gap:20px}.back-btn,.next-btn{padding:14px 28px;border-radius:8px;text-decoration:none;font-weight:600;transition:all 0.3s}.back-btn{background:#6b7280;color:white}.next-btn{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:white}table{width:100%;border-collapse:collapse;margin:20px 0}table th,table td{padding:12px;text-align:left;border-bottom:1px solid #e5e7eb}table th{background:#f3f4f6;color:#1e40af;font-weight:600}.toc{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:20px;margin-bottom:30px}.toc h3{color:#1e40af;margin-bottom:15px}.toc ul{list-style:none;margin:0;padding:0}.toc li{margin:8px 0}.toc a{color:#2563eb;text-decoration:none}</style>
+</head>
+<body>
+<div class="container">
+<div class="header">
+    <h1>Module 13: RESTlets (Web Services)</h1>
+    <p class="meta">Week 12 • NetSuite SuiteScript 2.0 Training • ~60 minutes</p>
+</div>
+<div class="content">
+
+<div class="toc">
+    <h3>📑 In This Module</h3>
+    <ul>
+        <li><a href="#objectives">Learning Objectives</a></li>
+        <li><a href="#what-are">1. What Are RESTlets?</a></li>
+        <li><a href="#methods">2. HTTP Methods</a></li>
+        <li><a href="#creating">3. Creating RESTlets</a></li>
+        <li><a href="#authentication">4. Authentication</a></li>
+        <li><a href="#practice">Practice Exercises</a></li>
+    </ul>
+</div>
+
+<h2 id="objectives">🎯 Learning Objectives</h2>
+<ul>
+    <li>Understand RESTlets vs Suitelets</li>
+    <li>Implement GET, POST, PUT, DELETE handlers</li>
+    <li>Return JSON responses</li>
+    <li>Understand authentication options</li>
+</ul>
+
+<h2 id="what-are">1. What Are RESTlets?</h2>
+
+<p>RESTlets are <strong>web service endpoints</strong> for external system integration. Unlike Suitelets (HTML pages for users), RESTlets return data (JSON/XML) for other applications.</p>
+
+<div class="info-box blue">
+    <strong>💡 Suitelet vs RESTlet</strong>
+    <table>
+        <tr><th>Feature</th><th>Suitelet</th><th>RESTlet</th></tr>
+        <tr><td>Purpose</td><td>User interfaces</td><td>System integration</td></tr>
+        <tr><td>Output</td><td>HTML pages</td><td>JSON/XML data</td></tr>
+        <tr><td>Consumer</td><td>Humans</td><td>Applications</td></tr>
+        <tr><td>Auth</td><td>Browser session</td><td>OAuth/Token</td></tr>
+    </table>
+</div>
+
+<h2 id="methods">2. HTTP Methods</h2>
+
+<table>
+    <tr><th>Method</th><th>Function</th><th>Use Case</th></tr>
+    <tr><td>GET</td><td><code>get()</code></td><td>Retrieve data</td></tr>
+    <tr><td>POST</td><td><code>post()</code></td><td>Create records</td></tr>
+    <tr><td>PUT</td><td><code>put()</code></td><td>Update records</td></tr>
+    <tr><td>DELETE</td><td><code>delete()</code></td><td>Delete records</td></tr>
+</table>
+
+<h2 id="creating">3. Creating RESTlets</h2>
+
+<pre><code>/**
+ * @NApiVersion 2.1
+ * @NScriptType Restlet
+ */
+define(['N/record', 'N/search'], function(record, search) {
+    
+    // GET - Retrieve customer data
+    function get(requestParams) {
+        var customerId = requestParams.id;
+        
+        if (!customerId) {
+            return { error: 'Missing customer ID' };
+        }
+        
+        var customer = record.load({
+            type: record.Type.CUSTOMER,
+            id: customerId
+        });
+        
+        return {
+            id: customer.id,
+            name: customer.getValue('companyname'),
+            email: customer.getValue('email'),
+            phone: customer.getValue('phone')
+        };
+    }
+    
+    // POST - Create new customer
+    function post(requestBody) {
+        var customer = record.create({
+            type: record.Type.CUSTOMER
+        });
+        
+        customer.setValue('companyname', requestBody.name);
+        customer.setValue('email', requestBody.email);
+        
+        var customerId = customer.save();
+        
+        return {
+            success: true,
+            id: customerId,
+            message: 'Customer created'
+        };
+    }
+    
+    // PUT - Update customer
+    function put(requestBody) {
+        var customer = record.load({
+            type: record.Type.CUSTOMER,
+            id: requestBody.id
+        });
+        
+        if (requestBody.email) {
+            customer.setValue('email', requestBody.email);
+        }
+        
+        customer.save();
+        
+        return { success: true, message: 'Customer updated' };
+    }
+    
+    // DELETE - Remove customer
+    function doDelete(requestParams) {
+        record.delete({
+            type: record.Type.CUSTOMER,
+            id: requestParams.id
+        });
+        
+        return { success: true, message: 'Customer deleted' };
+    }
+    
+    return {
+        get: get,
+        post: post,
+        put: put,
+        'delete': doDelete  // 'delete' is reserved word
+    };
+});</code></pre>
+
+<div class="info-box yellow">
+    <strong>⚠️ Return Values</strong>
+    <p>RESTlets automatically convert returned objects to JSON. Just return a JavaScript object - no need to stringify!</p>
+</div>
+
+<h2 id="authentication">4. Authentication</h2>
+
+<p>RESTlets require authentication. Options include:</p>
+
+<ul>
+    <li><strong>Token-Based Authentication (TBA)</strong> - Recommended for integrations</li>
+    <li><strong>OAuth 2.0</strong> - Standard OAuth flow</li>
+    <li><strong>NLAuth</strong> - Legacy, uses email/password</li>
+</ul>
+
+<h3>Calling from External System</h3>
+<pre><code>// Example: Calling RESTlet from external application
+// URL format: https://&lt;account&gt;.restlets.api.netsuite.com/app/site/hosting/restlet.nl?script=123&deploy=1
+
+// With Token-Based Auth headers:
+// Authorization: OAuth realm="ACCOUNT_ID",
+//   oauth_consumer_key="...",
+//   oauth_token="...",
+//   oauth_signature_method="HMAC-SHA256",
+//   oauth_timestamp="...",
+//   oauth_nonce="...",
+//   oauth_version="1.0",
+//   oauth_signature="..."</code></pre>
+
+<h2 id="practice">🏋️ Practice Exercises</h2>
+
+<div class="info-box green">
+    <strong>Exercise 1: GET Endpoint</strong>
+    <p>Create a RESTlet that returns a list of open Sales Orders for a given customer ID.</p>
+</div>
+
+<div class="info-box green">
+    <strong>Exercise 2: POST Endpoint</strong>
+    <p>Create a RESTlet that accepts JSON to create a Contact record.</p>
+</div>
+
+<div class="takeaway">
+    <h3>🎯 Key Takeaways</h3>
+    <ul>
+        <li>RESTlets are web service endpoints for system integration</li>
+        <li>Implement get(), post(), put(), delete() functions</li>
+        <li>Return JavaScript objects - auto-converted to JSON</li>
+        <li>GET receives parameters, POST/PUT receive body</li>
+        <li>Requires authentication (TBA recommended)</li>
+    </ul>
+</div>
+
+<div class="nav-buttons">
+    <a href="week-12-dashboard.html" class="back-btn">← Back to Week 12</a>
+    <a href="Module-14.html" class="next-btn">Next: Module 14 →</a>
+</div>
+
+</div>
+</div>
+</body>
+</html>

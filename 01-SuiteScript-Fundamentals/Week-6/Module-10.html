@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 10: Script Parameters</title>
+    <style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.8;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:40px 20px}.container{max-width:900px;margin:0 auto}.header{background:white;padding:30px 40px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.2);margin-bottom:30px}.header h1{color:#2563eb;font-size:2rem;margin-bottom:10px}.header .meta{color:#6b7280;font-size:0.9rem}.content{background:white;padding:40px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.2)}.content h2{color:#1e40af;margin:35px 0 20px 0;font-size:1.6rem;padding-bottom:10px;border-bottom:3px solid #dbeafe}.content h2:first-of-type{margin-top:0}.content h3{color:#374151;margin:25px 0 15px 0;font-size:1.3rem}.content p{margin:15px 0;color:#374151}.content ul,.content ol{margin:15px 0 15px 30px;color:#374151}.content li{margin:10px 0}.info-box{padding:20px 25px;border-radius:8px;margin:25px 0;border-left:5px solid}.info-box.blue{background:#dbeafe;border-color:#2563eb}.info-box.yellow{background:#fef3c7;border-color:#f59e0b}.info-box.green{background:#dcfce7;border-color:#10b981}.info-box strong{color:#1e40af;display:block;margin-bottom:10px;font-size:1.1rem}code{background:#f3f4f6;padding:3px 8px;border-radius:4px;font-family:monospace;font-size:0.9em;color:#ef4444}pre{background:#1e293b;color:#e2e8f0;padding:25px;border-radius:8px;overflow-x:auto;margin:25px 0;border-left:5px solid #667eea}pre code{background:none;padding:0;color:inherit}.takeaway{background:#f0f9ff;border:2px solid #0ea5e9;border-radius:10px;padding:25px;margin:30px 0}.takeaway h3{color:#0369a1;margin:0 0 15px 0}.takeaway ul{margin:10px 0 10px 25px}.takeaway li{color:#0c4a6e;font-weight:500}.nav-buttons{display:flex;justify-content:space-between;margin-top:40px;gap:20px}.back-btn,.next-btn{padding:14px 28px;border-radius:8px;text-decoration:none;font-weight:600;transition:all 0.3s}.back-btn{background:#6b7280;color:white}.next-btn{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:white}table{width:100%;border-collapse:collapse;margin:20px 0}table th,table td{padding:12px;text-align:left;border-bottom:1px solid #e5e7eb}table th{background:#f3f4f6;color:#1e40af;font-weight:600}.toc{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:20px;margin-bottom:30px}.toc h3{color:#1e40af;margin-bottom:15px}.toc ul{list-style:none;margin:0;padding:0}.toc li{margin:8px 0}.toc a{color:#2563eb;text-decoration:none}</style>
+</head>
+<body>
+<div class="container">
+<div class="header">
+    <h1>Module 10: Script Parameters</h1>
+    <p class="meta">Week 6 • NetSuite SuiteScript 2.0 Training • ~45 minutes</p>
+</div>
+<div class="content">
+
+<div class="toc">
+    <h3>📑 In This Module</h3>
+    <ul>
+        <li><a href="#objectives">Learning Objectives</a></li>
+        <li><a href="#what-are">1. What Are Script Parameters?</a></li>
+        <li><a href="#types">2. Parameter Types</a></li>
+        <li><a href="#creating">3. Creating Parameters</a></li>
+        <li><a href="#reading">4. Reading Parameter Values</a></li>
+        <li><a href="#practice">Practice Exercises</a></li>
+    </ul>
+</div>
+
+<h2 id="objectives">🎯 Learning Objectives</h2>
+<ul>
+    <li>Understand what script parameters are and why to use them</li>
+    <li>Learn the three parameter types (Company, User, Deployment)</li>
+    <li>Create script parameter fields</li>
+    <li>Read parameter values using N/runtime</li>
+</ul>
+
+<h2 id="what-are">1. What Are Script Parameters?</h2>
+
+<p>Script parameters are <strong>configurable values attached to your script</strong> that can be changed without modifying code. Think of them as settings that administrators can adjust.</p>
+
+<div class="info-box blue">
+    <strong>💡 Why Use Parameters?</strong>
+    <ul>
+        <li>Change behavior without editing code</li>
+        <li>Let admins configure values (discount %, email addresses)</li>
+        <li>Pass data between scripts</li>
+        <li>Different values per user or deployment</li>
+    </ul>
+</div>
+
+<h2 id="types">2. Parameter Types</h2>
+
+<table>
+    <tr><th>Type</th><th>Scope</th><th>Set By</th><th>Use Case</th></tr>
+    <tr><td><strong>Company</strong></td><td>Whole account</td><td>Admin</td><td>Company-wide settings</td></tr>
+    <tr><td><strong>User</strong></td><td>Per user</td><td>Each user</td><td>Personal preferences</td></tr>
+    <tr><td><strong>Deployment</strong></td><td>Per deployment</td><td>Developer</td><td>Different configs per deployment</td></tr>
+</table>
+
+<h2 id="creating">3. Creating Parameters</h2>
+
+<h3>Step 1: Create Custom Field</h3>
+<ol>
+    <li>Go to Customization → Scripting → Script Parameters → New</li>
+    <li>Set ID (e.g., <code>custscript_default_discount</code>)</li>
+    <li>Choose Type (Integer, Text, List/Record, etc.)</li>
+    <li>Select Parameter Type (Company, User, or Deployment)</li>
+    <li>Save</li>
+</ol>
+
+<h3>Step 2: Add to Script Record</h3>
+<ol>
+    <li>Edit your Script Record</li>
+    <li>Go to Parameters subtab</li>
+    <li>Add your parameter field</li>
+    <li>Save</li>
+</ol>
+
+<h3>Step 3: Set Value</h3>
+<ul>
+    <li><strong>Company</strong>: Set on Script Record → Parameters tab</li>
+    <li><strong>User</strong>: Home → Set Preferences</li>
+    <li><strong>Deployment</strong>: Set on Script Deployment record</li>
+</ul>
+
+<h2 id="reading">4. Reading Parameter Values</h2>
+
+<pre><code>/**
+ * @NApiVersion 2.1
+ * @NScriptType UserEventScript
+ */
+define(['N/runtime'], function(runtime) {
+    
+    function beforeSubmit(context) {
+        // Get current script
+        var script = runtime.getCurrentScript();
+        
+        // Read parameter value
+        var defaultDiscount = script.getParameter({
+            name: 'custscript_default_discount'
+        });
+        
+        log.debug('Parameter Value', 'Discount: ' + defaultDiscount + '%');
+        
+        // Use the value
+        if (defaultDiscount) {
+            context.newRecord.setValue({
+                fieldId: 'discountrate',
+                value: defaultDiscount
+            });
+        }
+    }
+    
+    return { beforeSubmit: beforeSubmit };
+});</code></pre>
+
+<div class="info-box yellow">
+    <strong>⚠️ Parameter Returns</strong>
+    <p>Parameters return <code>null</code> if not set. Always check for null before using!</p>
+</div>
+
+<h3>Reading Different Types</h3>
+<pre><code>// Text parameter
+var emailAddress = script.getParameter({ name: 'custscript_notify_email' });
+
+// Integer parameter
+var maxRecords = script.getParameter({ name: 'custscript_max_records' });
+
+// Checkbox (returns true/false)
+var isEnabled = script.getParameter({ name: 'custscript_feature_enabled' });
+
+// List/Record (returns internal ID)
+var defaultCustomer = script.getParameter({ name: 'custscript_default_customer' });</code></pre>
+
+<h2 id="practice">🏋️ Practice Exercises</h2>
+
+<div class="info-box green">
+    <strong>Exercise 1: Company Parameter</strong>
+    <p>Create a company-level parameter for "Default Shipping Method" and read it in a User Event script.</p>
+</div>
+
+<div class="info-box green">
+    <strong>Exercise 2: Deployment Parameter</strong>
+    <p>Create a deployment parameter that controls which record type a scheduled script processes.</p>
+</div>
+
+<div class="takeaway">
+    <h3>🎯 Key Takeaways</h3>
+    <ul>
+        <li>Script parameters let you change script behavior without code changes</li>
+        <li>Three types: Company (account-wide), User (per person), Deployment (per deployment)</li>
+        <li>Create as custom fields, attach to script record</li>
+        <li>Read with <code>runtime.getCurrentScript().getParameter()</code></li>
+        <li>Always check for null values</li>
+    </ul>
+</div>
+
+<div class="nav-buttons">
+    <a href="week-6-dashboard.html" class="back-btn">← Back to Week 6</a>
+    <a href="Module-11.html" class="next-btn">Next: Module 11 →</a>
+</div>
+
+</div>
+</div>
+</body>
+</html>

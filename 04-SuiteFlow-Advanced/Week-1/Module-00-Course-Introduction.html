@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 0: Course Introduction - SuiteFlow Advanced Workflows</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #0f0f1a; line-height: 1.6; color: #e0e0e0; }
+        .header { background: linear-gradient(135deg, #e94560 0%, #0f3460 100%); color: white; padding: 40px 20px; }
+        .header-content { max-width: 1200px; margin: 0 auto; }
+        .breadcrumb { font-size: 0.9em; margin-bottom: 15px; opacity: 0.9; }
+        .breadcrumb a { color: white; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.3); }
+        .module-title-section { display: flex; align-items: center; gap: 20px; }
+        .module-number { background: rgba(255,255,255,0.2); width: 80px; height: 80px; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 2em; font-weight: 700; }
+        h1 { font-size: 2.5em; font-weight: 700; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        .objectives-box { background: #1a1a2e; border-radius: 15px; padding: 30px; margin-bottom: 30px; border-left: 5px solid #e94560; }
+        .objectives-box h2 { color: #e94560; margin-bottom: 20px; }
+        .objectives-box ul { list-style: none; padding: 0; }
+        .objectives-box li { padding: 10px 0 10px 30px; position: relative; color: #ccc; }
+        .objectives-box li::before { content: "✓"; position: absolute; left: 0; color: #e94560; font-weight: bold; }
+        .content-section { background: #1a1a2e; border-radius: 15px; padding: 40px; margin-bottom: 30px; }
+        .content-section h2 { color: #fff; font-size: 1.8em; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 3px solid #e94560; }
+        .content-section h3 { color: #e94560; font-size: 1.4em; margin-top: 30px; margin-bottom: 15px; }
+        .content-section p { color: #ccc; line-height: 1.8; margin-bottom: 15px; }
+        .content-section ul, .content-section ol { margin-left: 30px; margin-bottom: 20px; }
+        .content-section li { margin-bottom: 10px; color: #ccc; }
+        .info-box { padding: 20px; border-radius: 8px; margin: 25px 0; border-left: 4px solid; }
+        .info-box.blue { background: rgba(33,150,243,0.1); border-left-color: #2196f3; }
+        .info-box.yellow { background: rgba(255,193,7,0.1); border-left-color: #ffc107; }
+        .info-box.green { background: rgba(76,175,80,0.1); border-left-color: #4caf50; }
+        .info-box.red { background: rgba(244,67,54,0.1); border-left-color: #f44336; }
+        .info-box.purple { background: rgba(156,39,176,0.1); border-left-color: #9c27b0; }
+        .info-box h4 { margin-bottom: 10px; font-weight: 600; }
+        .info-box.blue h4 { color: #2196f3; }
+        .info-box.yellow h4 { color: #ffc107; }
+        .info-box.green h4 { color: #4caf50; }
+        .info-box.red h4 { color: #f44336; }
+        .info-box.purple h4 { color: #9c27b0; }
+        .key-takeaways { background: linear-gradient(135deg, #e94560 0%, #0f3460 100%); color: white; border-radius: 15px; padding: 30px; margin: 30px 0; }
+        .key-takeaways h3 { color: white; margin-bottom: 20px; font-size: 1.5em; }
+        .key-takeaways ul { list-style: none; padding: 0; }
+        .key-takeaways li { padding: 12px 0 12px 30px; position: relative; opacity: 0.95; }
+        .key-takeaways li::before { content: "★"; position: absolute; left: 0; }
+        .navigation { display: flex; justify-content: space-between; margin-top: 40px; gap: 20px; flex-wrap: wrap; }
+        .nav-btn { display: inline-flex; align-items: center; padding: 15px 30px; border-radius: 25px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; flex: 1; justify-content: center; min-width: 200px; }
+        .nav-btn-primary { background: linear-gradient(135deg, #e94560 0%, #0f3460 100%); color: white; }
+        .nav-btn-secondary { background: rgba(255,255,255,0.1); color: #fff; }
+        .nav-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(233,69,96,0.3); }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="breadcrumb">
+                <a href="../Master-Dashboard.html">← Course Overview</a> / 
+                <a href="week-1-dashboard.html">Week 1</a> / Module 0
+            </div>
+            <div class="module-title-section">
+                <div class="module-number">00</div>
+                <div>
+                    <h1>Course Introduction</h1>
+                    <p style="margin-top: 10px; opacity: 0.9;">Welcome to SuiteFlow Advanced Workflows</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="objectives-box">
+            <h2>🎯 Learning Objectives</h2>
+            <p style="color: #999; margin-bottom: 15px;">Upon completion of this module, you will be able to:</p>
+            <ul>
+                <li>Identify the target audience and prerequisites for this advanced course</li>
+                <li>List the primary goals and objectives of the course</li>
+                <li>Access and navigate your training account</li>
+                <li>Understand how to use the student workbook for hands-on exercises</li>
+            </ul>
+        </div>
+
+        <div class="content-section">
+            <h2>Target Audience</h2>
+            
+            <p>This course is designed for <strong>experienced technical NetSuite users</strong> who want to support more complex business processes using SuiteFlow's advanced capabilities.</p>
+
+            <h3>Who Should Take This Course</h3>
+            <ul>
+                <li>Software Developers working with NetSuite</li>
+                <li>NetSuite Consultants</li>
+                <li>System Administrators</li>
+                <li>Technical users with existing SuiteFlow experience</li>
+            </ul>
+
+            <div class="info-box yellow">
+                <h4>⚠️ Prerequisites Required</h4>
+                <p>Participants should have aptitude for: navigating the NetSuite interface, completing basic administrative tasks, building saved search criteria using expressions, and creating workflows supporting basic approval processing.</p>
+            </div>
+
+            <h3>Beneficial Background Knowledge</h3>
+            <ul>
+                <li>Event-based software development principles</li>
+                <li>Understanding of if-then logic and processing loops</li>
+                <li>Basic programming constructs</li>
+            </ul>
+
+            <div class="info-box red">
+                <h4>⚡ Important Note</h4>
+                <p>Although this course does not require participants to write extensive code, it is considered an <strong>advanced level</strong> SuiteFlow course. Participants should possess the required foundational knowledge.</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Course Objectives</h2>
+
+            <p>The primary goal of this course is to provide you with an applied understanding of the key terminologies, concepts, skills, and best practices that will enable you to support more complex business processes.</p>
+
+            <h3>Upon Course Completion, You Will Be Able To:</h3>
+            <ul>
+                <li>Use the <strong>Workflow Scheduler</strong> to schedule action and transition execution for service-level agreements</li>
+                <li>Conditionally execute actions and transitions using <strong>saved searches</strong></li>
+                <li>Configure business processes that run sequentially and in parallel using <strong>sub-workflows</strong></li>
+                <li>Configure transition execution based on changes to data in <strong>joined records</strong></li>
+                <li>Create <strong>SQL and SuiteScript formulas</strong> for use in action and transition conditions</li>
+                <li>Integrate custom workflow actions using <strong>Workflow Action Scripts</strong></li>
+                <li>Execute workflows in different <strong>processing contexts</strong> (CSV Import, User Event Script, Suitelet)</li>
+                <li>List each of the <strong>workflow mass updates</strong> and when to use each type</li>
+                <li>Develop workflows based on <strong>best practices</strong> for optimal performance</li>
+            </ul>
+        </div>
+
+        <div class="content-section">
+            <h2>Training Account & Student Workbook</h2>
+
+            <div class="info-box blue">
+                <h4>📋 Training Account Access</h4>
+                <p>If you registered for the training on-demand version, you must request provisioning of your course training account by contacting NetSuite Training. Login information is provided in the registration welcome email.</p>
+            </div>
+
+            <h3>Student Workbook Guidelines</h3>
+            <p>Your student workbook contains all the hands-on exercises for this course, designed to reinforce knowledge and skills learned in each module.</p>
+
+            <ul>
+                <li>Follow the exercise steps closely, but feel free to go beyond them</li>
+                <li>If problems are encountered, consider it a learning opportunity</li>
+                <li>Troubleshooting and resolving issues teaches more than any training guide</li>
+                <li>Complete all <strong>required exercises</strong> in each module—future modules may depend on them</li>
+                <li>Optional exercises may be completed after required exercises</li>
+            </ul>
+
+            <div class="info-box green">
+                <h4>✅ Solution Workflows Available</h4>
+                <p>If you get stuck, solution workflows are preloaded in each training account. Navigate to <strong>Customization → Workflow → Workflows</strong> and filter by "Furniture Request SOLUTION". Note: Most solution workflows need to be enabled prior to execution.</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Advanced Capabilities Overview</h2>
+
+            <p>This course introduces many of SuiteFlow's more advanced capabilities supporting complex use cases:</p>
+
+            <ul>
+                <li><strong>Scheduling</strong> workflows, actions, and transitions</li>
+                <li>Incorporating <strong>sub-workflows</strong> for sequential and parallel processing</li>
+                <li>Using <strong>saved searches</strong> in action and transition conditions</li>
+                <li>Altering workflow processing based on <strong>changes to related record data</strong></li>
+                <li>Extending SuiteFlow power using <strong>formulas and SuiteScript</strong></li>
+            </ul>
+
+            <div class="info-box purple">
+                <h4>💡 Modular Development</h4>
+                <p>Throughout this course, you will apply knowledge and skills by completing hands-on exercises that guide you through creating full-featured business processes utilizing <strong>modular workflow development principles</strong> and SuiteFlow best practices.</p>
+            </div>
+        </div>
+
+        <div class="key-takeaways">
+            <h3>🌟 Key Takeaways</h3>
+            <ul>
+                <li>This is an <strong>advanced course</strong> requiring foundational SuiteFlow knowledge</li>
+                <li>Target audience: developers, consultants, admins, and technical users</li>
+                <li>You'll learn scheduling, sub-workflows, formulas, SuiteScript, and contexts</li>
+                <li><strong>Complete required exercises</strong>—they build on each other</li>
+                <li>Solution workflows are available if you get stuck</li>
+                <li>Focus on <strong>modular design</strong> and best practices throughout</li>
+            </ul>
+        </div>
+
+        <div class="navigation">
+            <a href="week-1-dashboard.html" class="nav-btn nav-btn-secondary">← Week 1 Overview</a>
+            <a href="Module-01-Workflow-Triggers-Review.html" class="nav-btn nav-btn-primary">Next: Module 1 →</a>
+        </div>
+    </div>
+</body>
+</html>

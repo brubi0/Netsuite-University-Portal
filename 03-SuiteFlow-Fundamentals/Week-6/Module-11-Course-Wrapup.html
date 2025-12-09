@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 11: Course Wrap-Up - SuiteFlow Fundamentals</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f5f7fa; line-height: 1.6; color: #2d3748; }
+        .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 40px 20px; }
+        .header-content { max-width: 1200px; margin: 0 auto; }
+        .breadcrumb { font-size: 0.9em; margin-bottom: 15px; opacity: 0.9; }
+        .breadcrumb a { color: white; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.3); }
+        .module-title-section { display: flex; align-items: center; gap: 20px; }
+        .module-number { background: rgba(255,255,255,0.2); width: 80px; height: 80px; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 2em; font-weight: 700; }
+        h1 { font-size: 2.5em; font-weight: 700; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        .content-section { background: white; border-radius: 15px; padding: 40px; margin-bottom: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
+        .content-section h2 { color: #2d3748; font-size: 1.8em; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 3px solid #667eea; }
+        .content-section h3 { color: #667eea; font-size: 1.4em; margin-top: 30px; margin-bottom: 15px; }
+        .content-section p { color: #555; line-height: 1.8; margin-bottom: 15px; }
+        .content-section ul { margin-left: 30px; margin-bottom: 20px; }
+        .content-section li { margin-bottom: 10px; color: #555; }
+        .info-box { padding: 20px; border-radius: 8px; margin: 25px 0; border-left: 4px solid; }
+        .info-box.blue { background: #e3f2fd; border-left-color: #2196f3; }
+        .info-box.green { background: #e8f5e9; border-left-color: #4caf50; }
+        .info-box.purple { background: #f3e5f5; border-left-color: #9c27b0; }
+        .info-box h4 { margin-bottom: 10px; font-weight: 600; }
+        .info-box.blue h4 { color: #1976d2; }
+        .info-box.green h4 { color: #2e7d32; }
+        .info-box.purple h4 { color: #6a1b9a; }
+        .skill-card { background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); border-radius: 10px; padding: 20px; margin: 15px 0; border-left: 4px solid #667eea; }
+        .skill-card h4 { color: #667eea; margin-bottom: 10px; }
+        .certification-box { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 15px; padding: 30px; margin: 30px 0; text-align: center; }
+        .certification-box h3 { color: white; margin-bottom: 20px; font-size: 1.5em; }
+        .certification-box p { opacity: 0.95; margin-bottom: 15px; }
+        .resource-link { display: inline-block; margin: 10px; padding: 12px 25px; background: rgba(255,255,255,0.2); color: white; text-decoration: none; border-radius: 25px; font-weight: 600; transition: all 0.3s ease; }
+        .resource-link:hover { background: rgba(255,255,255,0.3); transform: translateY(-2px); }
+        .module-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin: 20px 0; }
+        .module-recap { background: white; border-radius: 10px; padding: 20px; border: 1px solid #e0e0e0; }
+        .module-recap h4 { color: #667eea; margin-bottom: 10px; font-size: 1.1em; }
+        .module-recap p { color: #666; font-size: 0.95em; }
+        .congrats-banner { background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%); color: white; border-radius: 15px; padding: 40px; margin-bottom: 30px; text-align: center; }
+        .congrats-banner h2 { color: white; font-size: 2em; margin-bottom: 15px; border: none; padding: 0; }
+        .congrats-banner p { font-size: 1.1em; opacity: 0.95; }
+        .navigation { display: flex; justify-content: space-between; margin-top: 40px; gap: 20px; flex-wrap: wrap; }
+        .nav-btn { display: inline-flex; align-items: center; padding: 15px 30px; border-radius: 25px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; flex: 1; justify-content: center; min-width: 200px; }
+        .nav-btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .nav-btn-secondary { background: #e2e8f0; color: #2d3748; }
+        .nav-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.15); }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="breadcrumb">
+                <a href="../Master-Dashboard.html">← Course Overview</a> / 
+                <a href="week-6-dashboard.html">Week 6</a> / Module 11
+            </div>
+            <div class="module-title-section">
+                <div class="module-number">11</div>
+                <div>
+                    <h1>Course Wrap-Up</h1>
+                    <p style="margin-top: 10px; opacity: 0.9;">Review, Resources, and Next Steps</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="congrats-banner">
+            <h2>🎉 Congratulations!</h2>
+            <p>You've completed the SuiteFlow Workflow Fundamentals course! You now have the foundational knowledge, skills, and best practices to effectively create and manage business process workflows using SuiteFlow.</p>
+        </div>
+
+        <div class="content-section">
+            <h2>Skills You've Mastered</h2>
+            
+            <p>Through hands-on exercises, you built modular workflows supporting these key functions:</p>
+
+            <div class="module-grid">
+                <div class="skill-card">
+                    <h4>📝 Data Entry</h4>
+                    <p>Defaulting data on forms and dynamically changing form data during entry using client triggers.</p>
+                </div>
+
+                <div class="skill-card">
+                    <h4>✅ Validations</h4>
+                    <p>Adding field and form-level data validations with user-friendly error messages.</p>
+                </div>
+
+                <div class="skill-card">
+                    <h4>👁️ Display Control</h4>
+                    <p>Controlling form data display based on Edit, View, or Print mode with display persistence.</p>
+                </div>
+
+                <div class="skill-card">
+                    <h4>📧 Notifications</h4>
+                    <p>Sending email notifications and automating creation of tasks, phone calls, and related records.</p>
+                </div>
+
+                <div class="skill-card">
+                    <h4>🔀 Navigation</h4>
+                    <p>Automatically directing users to different pages or records within NetSuite.</p>
+                </div>
+
+                <div class="skill-card">
+                    <h4>🔍 Troubleshooting</h4>
+                    <p>Using the Workflow Execution Log to debug and optimize workflows.</p>
+                </div>
+
+                <div class="skill-card">
+                    <h4>✓ Approval Routing</h4>
+                    <p>Generating approval workflows with multiple approvers and supervisor hierarchy loops.</p>
+                </div>
+
+                <div class="skill-card">
+                    <h4>📋 Sublist Processing</h4>
+                    <p>Manipulating record sublist lines on transactions using Sublist Action Groups.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Course Module Recap</h2>
+
+            <div class="module-grid">
+                <div class="module-recap">
+                    <h4>Module 0: Course Introduction</h4>
+                    <p>Environment setup, user preferences, case study overview</p>
+                </div>
+                <div class="module-recap">
+                    <h4>Module 1: SuiteFlow Overview</h4>
+                    <p>States, actions, transitions, triggers, Workflow Manager</p>
+                </div>
+                <div class="module-recap">
+                    <h4>Module 2: Client Triggers</h4>
+                    <p>Browser-side events, dynamic forms, field-level triggers</p>
+                </div>
+                <div class="module-recap">
+                    <h4>Module 3: Actions on Data Entry</h4>
+                    <p>Set Field actions, conditions, Visual Builder</p>
+                </div>
+                <div class="module-recap">
+                    <h4>Module 4: Server Triggers</h4>
+                    <p>Before/After Record Load/Submit, Entry/Exit triggers</p>
+                </div>
+                <div class="module-recap">
+                    <h4>Module 5: Actions on Record Load</h4>
+                    <p>Display persistence, event types, record joins</p>
+                </div>
+                <div class="module-recap">
+                    <h4>Module 6: Actions on Record Submit</h4>
+                    <p>Multi-state workflows, transitions, active triggers</p>
+                </div>
+                <div class="module-recap">
+                    <h4>Module 7: Troubleshooting</h4>
+                    <p>Execution logs, history, purging, status management</p>
+                </div>
+                <div class="module-recap">
+                    <h4>Module 8: Approval Workflows</h4>
+                    <p>End states, buttons, multi-level approvals</p>
+                </div>
+                <div class="module-recap">
+                    <h4>Module 9: Sublist Lines</h4>
+                    <p>Sublist Action Groups, line processing</p>
+                </div>
+                <div class="module-recap">
+                    <h4>Module 10: Performance</h4>
+                    <p>Best practices, optimization tips</p>
+                </div>
+                <div class="module-recap">
+                    <h4>Module 11: Wrap-Up</h4>
+                    <p>Review, resources, certification</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Additional Resources</h2>
+
+            <div class="info-box blue">
+                <h4>📚 SuiteAnswers</h4>
+                <p>Access SuiteAnswers from the <strong>Support tab</strong> in your NetSuite account. It contains training videos, support articles, demo videos, and Help Center documentation.</p>
+            </div>
+
+            <div class="info-box green">
+                <h4>📖 NetSuite Help Center</h4>
+                <p>Navigate to <strong>Help > SuiteCloud Platform > SuiteFlow Workflows</strong> for official documentation, troubleshooting guides, and workflow examples.</p>
+            </div>
+
+            <div class="info-box purple">
+                <h4>🎓 Training Catalog</h4>
+                <p>Explore more courses at <strong>www.netsuite.com</strong> → Services → Training and Certification → Course Catalog. Browse virtual ILT courses and on-demand self-study options.</p>
+            </div>
+        </div>
+
+        <div class="certification-box">
+            <h3>🏆 Become NetSuite Certified</h3>
+            <p>Contribute to your organization's success by becoming a certified NetSuite user!</p>
+            <p>Certification requires completion and successful passing of required exams.</p>
+            <a href="https://www.netsuite.com" target="_blank" class="resource-link">Learn About Certification →</a>
+            <a href="../Appendices/Appendix-A-Actions-Triggers-Reference.html" class="resource-link">Actions & Triggers Reference →</a>
+            <a href="../Appendices/Appendix-D-Glossary.html" class="resource-link">SuiteFlow Glossary →</a>
+        </div>
+
+        <div class="content-section">
+            <h2>What's Next?</h2>
+
+            <h3>Apply Your Knowledge</h3>
+            <ul>
+                <li>Identify business processes in your organization that could benefit from automation</li>
+                <li>Start with simple, single-state workflows and progressively add complexity</li>
+                <li>Use the modular approach—multiple small workflows are better than one large one</li>
+                <li>Always test in a sandbox environment before deploying to production</li>
+            </ul>
+
+            <h3>Continue Learning</h3>
+            <ul>
+                <li>Explore <strong>SuiteScript</strong> for custom actions beyond SuiteFlow's built-in capabilities</li>
+                <li>Learn about <strong>scheduled workflows</strong> for time-based automation</li>
+                <li>Investigate <strong>SuiteFlow integration</strong> with other SuiteCloud tools</li>
+                <li>Consider advanced certification paths</li>
+            </ul>
+
+            <div class="info-box green">
+                <h4>✅ Remember the Fundamentals</h4>
+                <p><strong>Triggers OCCUR, workflows EXECUTE.</strong> Always consider the active trigger, design modularly, test thoroughly, and optimize for performance. You now have all the tools you need to succeed!</p>
+            </div>
+        </div>
+
+        <div class="content-section" style="text-align: center; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
+            <h2 style="border: none;">Thank You!</h2>
+            <p style="font-size: 1.1em;">Thank you for participating in NetSuite SuiteFlow Workflow Fundamentals training.</p>
+            <p style="font-size: 1.1em; margin-top: 20px;"><strong>Best of luck with your workflow automation journey!</strong></p>
+        </div>
+
+        <div class="navigation">
+            <a href="Module-10-Improving-Workflow-Performance.html" class="nav-btn nav-btn-secondary">← Previous: Module 10</a>
+            <a href="../Master-Dashboard.html" class="nav-btn nav-btn-primary">Return to Course Overview →</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 2: Scheduling Actions & Transitions - SuiteFlow Advanced Workflows</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #0f0f1a; line-height: 1.6; color: #e0e0e0; }
+        .header { background: linear-gradient(135deg, #e94560 0%, #0f3460 100%); color: white; padding: 40px 20px; }
+        .header-content { max-width: 1200px; margin: 0 auto; }
+        .breadcrumb { font-size: 0.9em; margin-bottom: 15px; opacity: 0.9; }
+        .breadcrumb a { color: white; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.3); }
+        .module-title-section { display: flex; align-items: center; gap: 20px; }
+        .module-number { background: rgba(255,255,255,0.2); width: 80px; height: 80px; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 2em; font-weight: 700; }
+        h1 { font-size: 2.5em; font-weight: 700; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        .objectives-box { background: #1a1a2e; border-radius: 15px; padding: 30px; margin-bottom: 30px; border-left: 5px solid #e94560; }
+        .objectives-box h2 { color: #e94560; margin-bottom: 20px; }
+        .objectives-box ul { list-style: none; padding: 0; }
+        .objectives-box li { padding: 10px 0 10px 30px; position: relative; color: #ccc; }
+        .objectives-box li::before { content: "✓"; position: absolute; left: 0; color: #e94560; font-weight: bold; }
+        .content-section { background: #1a1a2e; border-radius: 15px; padding: 40px; margin-bottom: 30px; }
+        .content-section h2 { color: #fff; font-size: 1.8em; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 3px solid #e94560; }
+        .content-section h3 { color: #e94560; font-size: 1.4em; margin-top: 30px; margin-bottom: 15px; }
+        .content-section p { color: #ccc; line-height: 1.8; margin-bottom: 15px; }
+        .content-section ul, .content-section ol { margin-left: 30px; margin-bottom: 20px; }
+        .content-section li { margin-bottom: 10px; color: #ccc; }
+        .info-box { padding: 20px; border-radius: 8px; margin: 25px 0; border-left: 4px solid; }
+        .info-box.blue { background: rgba(33,150,243,0.1); border-left-color: #2196f3; }
+        .info-box.yellow { background: rgba(255,193,7,0.1); border-left-color: #ffc107; }
+        .info-box.green { background: rgba(76,175,80,0.1); border-left-color: #4caf50; }
+        .info-box.red { background: rgba(244,67,54,0.1); border-left-color: #f44336; }
+        .info-box.purple { background: rgba(156,39,176,0.1); border-left-color: #9c27b0; }
+        .info-box h4 { margin-bottom: 10px; font-weight: 600; }
+        .info-box.blue h4 { color: #2196f3; }
+        .info-box.yellow h4 { color: #ffc107; }
+        .info-box.green h4 { color: #4caf50; }
+        .info-box.red h4 { color: #f44336; }
+        .info-box.purple h4 { color: #9c27b0; }
+        .comparison-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        .comparison-table th, .comparison-table td { padding: 15px; text-align: left; border-bottom: 1px solid #333; }
+        .comparison-table th { background: linear-gradient(135deg, #e94560 0%, #0f3460 100%); color: white; }
+        .comparison-table tr:hover { background: rgba(233,69,96,0.1); }
+        .key-takeaways { background: linear-gradient(135deg, #e94560 0%, #0f3460 100%); color: white; border-radius: 15px; padding: 30px; margin: 30px 0; }
+        .key-takeaways h3 { color: white; margin-bottom: 20px; font-size: 1.5em; }
+        .key-takeaways ul { list-style: none; padding: 0; }
+        .key-takeaways li { padding: 12px 0 12px 30px; position: relative; opacity: 0.95; }
+        .key-takeaways li::before { content: "★"; position: absolute; left: 0; }
+        .exercise-section { background: rgba(255,152,0,0.1); border-radius: 15px; padding: 30px; margin: 30px 0; border-left: 5px solid #ff9800; }
+        .exercise-section h3 { color: #ff9800; margin-bottom: 15px; }
+        .navigation { display: flex; justify-content: space-between; margin-top: 40px; gap: 20px; flex-wrap: wrap; }
+        .nav-btn { display: inline-flex; align-items: center; padding: 15px 30px; border-radius: 25px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; flex: 1; justify-content: center; min-width: 200px; }
+        .nav-btn-primary { background: linear-gradient(135deg, #e94560 0%, #0f3460 100%); color: white; }
+        .nav-btn-secondary { background: rgba(255,255,255,0.1); color: #fff; }
+        .nav-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(233,69,96,0.3); }
+        code { background: rgba(233,69,96,0.2); padding: 2px 8px; border-radius: 4px; font-family: monospace; color: #e94560; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="breadcrumb">
+                <a href="../Master-Dashboard.html">← Course Overview</a> / 
+                <a href="week-2-dashboard.html">Week 2</a> / Module 2
+            </div>
+            <div class="module-title-section">
+                <div class="module-number">02</div>
+                <div>
+                    <h1>Scheduling Actions & Transitions</h1>
+                    <p style="margin-top: 10px; opacity: 0.9;">Time-Based Workflow Automation</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="objectives-box">
+            <h2>🎯 Learning Objectives</h2>
+            <p style="color: #999; margin-bottom: 15px;">Upon completion of this module, you will be able to:</p>
+            <ul>
+                <li>Explain the purpose of the Scheduled trigger for workflows, actions, and transitions</li>
+                <li>Describe the unique settings for each type of schedule</li>
+                <li>Configure scheduled actions and transitions to support service-level agreements</li>
+            </ul>
+        </div>
+
+        <div class="content-section">
+            <h2>The Workflow Scheduler</h2>
+            
+            <p>The Workflow Scheduler is a <strong>continuously running background process</strong> on the NetSuite server that wakes up every <strong>30 minutes</strong> to evaluate whether there are scheduled workflows, actions, and/or transitions to execute.</p>
+
+            <h3>Common Use Cases</h3>
+            <ul>
+                <li>Supporting <strong>service-level agreements</strong> (SLAs)</li>
+                <li>Automating <strong>email notifications</strong> for marketing campaigns</li>
+                <li>Scheduling <strong>batch record processing</strong> during off-peak hours</li>
+            </ul>
+
+            <div class="info-box yellow">
+                <h4>⚠️ Timing Consideration</h4>
+                <p>Depending on server processing load, scheduled tasks may be <strong>delayed slightly</strong>. A task scheduled for a specific time may execute later, but <strong>never before</strong> its scheduled time.</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Scheduling Workflow Initiation</h2>
+
+            <p>To schedule workflow initiation, select <strong>Scheduled</strong> from the Initiation section of the Workflow Definition page.</p>
+
+            <h3>Requirements</h3>
+            <ul>
+                <li>Release Status must be set to <strong>Released</strong></li>
+                <li>Must specify a <strong>saved search</strong> that returns records to process</li>
+                <li>Saved search must be on the <strong>same base record type</strong> as the workflow</li>
+            </ul>
+
+            <h3>Schedule Options</h3>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Option</th>
+                        <th>Configuration</th>
+                        <th>Result</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Run Once</strong></td>
+                        <td>Select Saved Search, disable Repeat, set date/time</td>
+                        <td>Workflow initiates once at specified time</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Recurring</strong></td>
+                        <td>Select Saved Search, enable Repeat, set options</td>
+                        <td>Workflow initiates repeatedly per schedule</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="info-box blue">
+                <h4>📋 Time Zone Behavior</h4>
+                <p>Schedules execute in the <strong>time zone of the user who created them</strong>. Even if the user later changes their time zone preference, the schedule maintains the original time zone.</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Scheduling Actions</h2>
+
+            <p>Schedule actions by selecting <strong>Scheduled</strong> from the Trigger On dropdown. Scheduled actions only execute <strong>after the record enters the state</strong> containing the action.</p>
+
+            <h3>Delay Configuration</h3>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Setting</th>
+                        <th>Purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Delay</strong></td>
+                        <td>Number of hours or days to wait before executing</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Unit</strong></td>
+                        <td>Time unit for delay (Hour or Day)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Recurrence</strong></td>
+                        <td>How often to repeat after initial execution</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Example Configurations</h3>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Delay</th>
+                        <th>Recurrence</th>
+                        <th>Unit</th>
+                        <th>Behavior</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>0</td>
+                        <td>Hour</td>
+                        <td>Execute once, 1 hour after entering state</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>2</td>
+                        <td>Day</td>
+                        <td>Execute 1 day after, then every 2 days</td>
+                    </tr>
+                    <tr>
+                        <td>0</td>
+                        <td>blank</td>
+                        <td>Hour</td>
+                        <td>Execute once on next scheduler run (≤30 min)</td>
+                    </tr>
+                    <tr>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>Hour</td>
+                        <td>Execute continuously every 30 minutes</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Time of Day Schedule</h3>
+            <p>For actions that need to execute at a <strong>specific time</strong>:</p>
+            <ul>
+                <li>Set <strong>Start Time</strong> (e.g., 9:00 AM)</li>
+                <li>Set <strong>Recurrence</strong> and <strong>Unit</strong></li>
+                <li>Example: Send marketing email at 9:00 AM every other day</li>
+            </ul>
+        </div>
+
+        <div class="content-section">
+            <h2>Scheduling Transitions</h2>
+
+            <p>Select <strong>Scheduled</strong> from the TRANSITION ON dropdown to create time-based transitions.</p>
+
+            <h3>Transition Scheduling Behaviors</h3>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>TRANSITION ON</th>
+                        <th>Saved Search</th>
+                        <th>Behavior</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Server Trigger</td>
+                        <td>Yes</td>
+                        <td>Runs search on trigger, transitions if criteria met</td>
+                    </tr>
+                    <tr>
+                        <td>Blank</td>
+                        <td>Yes</td>
+                        <td>Transitions when saved search criteria evaluates true</td>
+                    </tr>
+                    <tr>
+                        <td>Scheduled</td>
+                        <td>Yes</td>
+                        <td>Waits for delay, then transitions if search criteria met</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="info-box green">
+                <h4>✅ Scheduled vs. Server Trigger</h4>
+                <p><strong>Server Trigger + Delay:</strong> Executes delay time after the trigger event occurs.</p>
+                <p><strong>Scheduled:</strong> Executes delay time after entering the state—not tied to a specific event.</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Service-Level Agreement Example</h2>
+
+            <p>Implement an SLA for approval processing:</p>
+
+            <ol>
+                <li><strong>Scheduled Send Email</strong> — Reminder to approver (Delay: 0, executes on next scheduler run)</li>
+                <li><strong>Scheduled Transition</strong> — Auto-reject if not approved within 1 hour (Delay: 1 Hour)</li>
+                <li><strong>Set Field Value</strong> — Update status to "Auto-Rejected" in end state</li>
+            </ol>
+
+            <div class="info-box purple">
+                <h4>💡 Testing Tip</h4>
+                <p>When testing scheduled workflows, set delay values as <strong>low as possible</strong> (e.g., 0) so you only wait ~30 minutes for the next scheduler run rather than hours or days.</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Best Practices</h2>
+
+            <ul>
+                <li>Schedules run in the <strong>creator's time zone</strong>—document this for team awareness</li>
+                <li>Create <strong>appropriate saved search criteria</strong> to prevent processing unnecessary records</li>
+                <li>Avoid unnecessary reprocessing—update record data so it <strong>no longer meets search criteria</strong> after processing</li>
+                <li>Ensure workflows with scheduled items have <strong>Release Status = Released</strong></li>
+                <li><strong>Limit scheduled actions</strong> when large numbers of records will be processed</li>
+                <li>Scheduled actions in <strong>exiting end states won't execute</strong> if the record exits before the scheduled time</li>
+            </ul>
+
+            <div class="info-box red">
+                <h4>⚠️ Important</h4>
+                <p>There is <strong>no inherent order</strong> in which multiple scheduled workflows start and finish. If workflows A, B, and C are scheduled for the same time, any may complete first depending on processing load.</p>
+            </div>
+        </div>
+
+        <div class="exercise-section">
+            <h3>🎯 Hands-On Exercise</h3>
+            <p>Configure a service-level agreement for the performance review approval process:</p>
+            <ul style="margin-left: 30px; margin-top: 15px;">
+                <li>Add "Auto-Rejected" status to Performance Review Status list</li>
+                <li>Create scheduled reminder email to current approver</li>
+                <li>Configure scheduled transition to Auto-Rejected state after timeout</li>
+                <li>Test using Workflow History and Execution Log</li>
+            </ul>
+        </div>
+
+        <div class="key-takeaways">
+            <h3>🌟 Key Takeaways</h3>
+            <ul>
+                <li>Workflow Scheduler runs every <strong>30 minutes</strong> on NetSuite server</li>
+                <li>Scheduled workflows require <strong>Released status</strong> and a <strong>saved search</strong></li>
+                <li>Schedules execute in <strong>creator's time zone</strong></li>
+                <li>Use <strong>Delay</strong>, <strong>Unit</strong>, and <strong>Recurrence</strong> to control timing</li>
+                <li>Scheduled transitions provide more control than server trigger + delay</li>
+                <li>Perfect for implementing <strong>SLAs</strong>, reminders, and batch processing</li>
+            </ul>
+        </div>
+
+        <div class="navigation">
+            <a href="../Week-1/Module-01-Workflow-Triggers-Review.html" class="nav-btn nav-btn-secondary">← Previous: Module 1</a>
+            <a href="Module-03-Saved-Searches-Conditions.html" class="nav-btn nav-btn-primary">Next: Module 3 →</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appendix A: Scheduling Reference - SuiteFlow Advanced Workflows</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #0f0f1a; line-height: 1.6; color: #e0e0e0; }
+        .header { background: linear-gradient(135deg, #e94560 0%, #0f3460 100%); color: white; padding: 40px 20px; }
+        .header-content { max-width: 1200px; margin: 0 auto; }
+        .breadcrumb { font-size: 0.9em; margin-bottom: 15px; opacity: 0.9; }
+        .breadcrumb a { color: white; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.3); }
+        h1 { font-size: 2.5em; font-weight: 700; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        .content-section { background: #1a1a2e; border-radius: 15px; padding: 40px; margin-bottom: 30px; }
+        .content-section h2 { color: #fff; font-size: 1.8em; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 3px solid #e94560; }
+        .content-section h3 { color: #e94560; font-size: 1.4em; margin-top: 30px; margin-bottom: 15px; }
+        .content-section p { color: #ccc; line-height: 1.8; margin-bottom: 15px; }
+        .content-section ul { margin-left: 30px; margin-bottom: 20px; }
+        .content-section li { margin-bottom: 10px; color: #ccc; }
+        .comparison-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        .comparison-table th, .comparison-table td { padding: 15px; text-align: left; border-bottom: 1px solid #333; }
+        .comparison-table th { background: linear-gradient(135deg, #e94560 0%, #0f3460 100%); color: white; }
+        .comparison-table tr:hover { background: rgba(233,69,96,0.1); }
+        .info-box { padding: 20px; border-radius: 8px; margin: 25px 0; border-left: 4px solid; }
+        .info-box.blue { background: rgba(33,150,243,0.1); border-left-color: #2196f3; }
+        .info-box.yellow { background: rgba(255,193,7,0.1); border-left-color: #ffc107; }
+        .info-box h4 { margin-bottom: 10px; font-weight: 600; }
+        .info-box.blue h4 { color: #2196f3; }
+        .info-box.yellow h4 { color: #ffc107; }
+        .nav-btn { display: inline-block; padding: 15px 30px; border-radius: 25px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; background: rgba(255,255,255,0.1); color: #fff; margin-top: 30px; }
+        .nav-btn:hover { transform: translateY(-2px); background: rgba(255,255,255,0.2); }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="breadcrumb"><a href="../Master-Dashboard.html">← Course Overview</a> / Appendix A</div>
+            <h1>📅 Appendix A: Scheduling Reference</h1>
+            <p style="margin-top: 10px; opacity: 0.9;">Quick Reference for Workflow Scheduler Configuration</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="content-section">
+            <h2>Workflow Scheduler Overview</h2>
+            <ul>
+                <li>Runs every <strong>30 minutes</strong> as a background process</li>
+                <li>Evaluates scheduled workflows, actions, and transitions</li>
+                <li>Tasks may execute slightly late but <strong>never before</strong> scheduled time</li>
+                <li>Schedules run in the <strong>time zone of the creator</strong></li>
+            </ul>
+        </div>
+
+        <div class="content-section">
+            <h2>Scheduling Workflows</h2>
+            <h3>Requirements</h3>
+            <ul>
+                <li>Release Status = <strong>Released</strong></li>
+                <li>Saved search on <strong>same base record type</strong></li>
+                <li>At least one filter in saved search criteria</li>
+            </ul>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr><th>Setting</th><th>Purpose</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Saved Search Filter</td><td>Returns records to process</td></tr>
+                    <tr><td>Repeat</td><td>Enable for recurring execution</td></tr>
+                    <tr><td>Execution Date/Time</td><td>When to initiate (one-time)</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="content-section">
+            <h2>Scheduling Actions</h2>
+            <p>Select <strong>Scheduled</strong> from Trigger On dropdown.</p>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr><th>Delay</th><th>Recurrence</th><th>Unit</th><th>Behavior</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>1</td><td>0</td><td>Hour</td><td>Once, 1 hour after entering state</td></tr>
+                    <tr><td>1</td><td>2</td><td>Day</td><td>1 day after, then every 2 days</td></tr>
+                    <tr><td>0</td><td>blank</td><td>Hour</td><td>Once on next scheduler run (≤30 min)</td></tr>
+                    <tr><td>0</td><td>0</td><td>Hour</td><td>Every 30 minutes continuously</td></tr>
+                </tbody>
+            </table>
+
+            <div class="info-box blue">
+                <h4>📋 Time of Day Schedule</h4>
+                <p>Use Start Time + Recurrence + Unit for specific daily times (e.g., 9:00 AM every other day).</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Scheduling Transitions</h2>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr><th>TRANSITION ON</th><th>Result</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Scheduled</td><td>Waits for delay, then transitions</td></tr>
+                    <tr><td>Server Trigger</td><td>Delay starts after trigger event</td></tr>
+                    <tr><td>Blank + Saved Search</td><td>Transitions when search is true</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="content-section">
+            <h2>Best Practices Checklist</h2>
+            <ul>
+                <li>✓ Set Release Status to <strong>Released</strong></li>
+                <li>✓ Create saved search with proper filters</li>
+                <li>✓ Update records so they <strong>no longer match</strong> search after processing</li>
+                <li>✓ Avoid time-based criteria (e.g., "last 30 minutes")</li>
+                <li>✓ Limit scheduled actions on large record sets</li>
+                <li>✓ Document creator's time zone</li>
+            </ul>
+
+            <div class="info-box yellow">
+                <h4>⚠️ Testing Tip</h4>
+                <p>Set delay values to 0 during testing to wait only ~30 minutes instead of hours/days.</p>
+            </div>
+        </div>
+
+        <a href="../Master-Dashboard.html" class="nav-btn">← Back to Course Overview</a>
+    </div>
+</body>
+</html>

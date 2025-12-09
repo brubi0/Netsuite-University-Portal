@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 7: Searching in NetSuite</title>
+    <style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.8;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:40px 20px}.container{max-width:900px;margin:0 auto}.header{background:white;padding:30px 40px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.2);margin-bottom:30px}.header h1{color:#2563eb;font-size:2rem;margin-bottom:10px}.header .meta{color:#6b7280;font-size:0.9rem}.content{background:white;padding:40px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.2)}.content h2{color:#1e40af;margin:35px 0 20px 0;font-size:1.6rem;padding-bottom:10px;border-bottom:3px solid #dbeafe}.content h2:first-of-type{margin-top:0}.content h3{color:#374151;margin:25px 0 15px 0;font-size:1.3rem}.content p{margin:15px 0;color:#374151;line-height:1.9}.content ul,.content ol{margin:15px 0 15px 30px;color:#374151}.content li{margin:10px 0}.info-box{padding:20px 25px;border-radius:8px;margin:25px 0;border-left:5px solid}.info-box.blue{background:#dbeafe;border-color:#2563eb}.info-box.yellow{background:#fef3c7;border-color:#f59e0b}.info-box.green{background:#dcfce7;border-color:#10b981}.info-box.red{background:#fee2e2;border-color:#ef4444}.info-box strong{color:#1e40af;display:block;margin-bottom:10px;font-size:1.1rem}code{background:#f3f4f6;padding:3px 8px;border-radius:4px;font-family:'Courier New',monospace;font-size:0.9em;color:#ef4444}pre{background:#1e293b;color:#e2e8f0;padding:25px;border-radius:8px;overflow-x:auto;margin:25px 0;border-left:5px solid #667eea}pre code{background:none;padding:0;color:inherit}.takeaway{background:#f0f9ff;border:2px solid #0ea5e9;border-radius:10px;padding:25px;margin:30px 0}.takeaway h3{color:#0369a1;margin:0 0 15px 0}.takeaway ul{margin:10px 0 10px 25px}.takeaway li{color:#0c4a6e;font-weight:500}.nav-buttons{display:flex;justify-content:space-between;margin-top:40px;gap:20px}.back-btn,.next-btn{padding:14px 28px;border-radius:8px;text-decoration:none;font-weight:600;transition:all 0.3s}.back-btn{background:#6b7280;color:white}.next-btn{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:white}table{width:100%;border-collapse:collapse;margin:20px 0}table th,table td{padding:12px;text-align:left;border-bottom:1px solid #e5e7eb}table th{background:#f3f4f6;color:#1e40af;font-weight:600}.toc{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:20px;margin-bottom:30px}.toc h3{color:#1e40af;margin-bottom:15px}.toc ul{list-style:none;margin:0;padding:0}.toc li{margin:8px 0}.toc a{color:#2563eb;text-decoration:none}</style>
+</head>
+<body>
+<div class="container">
+<div class="header">
+    <h1>Module 7: Searching in NetSuite</h1>
+    <p class="meta">Week 4 • NetSuite SuiteScript 2.0 Training • ~90 minutes</p>
+</div>
+<div class="content">
+
+<div class="toc">
+    <h3>📑 In This Module</h3>
+    <ul>
+        <li><a href="#objectives">Learning Objectives</a></li>
+        <li><a href="#search-basics">1. Search Basics</a></li>
+        <li><a href="#filters">2. Search Filters</a></li>
+        <li><a href="#columns">3. Search Columns</a></li>
+        <li><a href="#joins">4. Joins</a></li>
+        <li><a href="#running">5. Running Searches</a></li>
+        <li><a href="#saved">6. Loading Saved Searches</a></li>
+        <li><a href="#practice">Practice Exercises</a></li>
+    </ul>
+</div>
+
+<h2 id="objectives">🎯 Learning Objectives</h2>
+<ul>
+    <li>Create searches programmatically using N/search</li>
+    <li>Add filters with various operators</li>
+    <li>Define result columns</li>
+    <li>Perform joins to related records</li>
+    <li>Process search results efficiently</li>
+    <li>Load and execute saved searches</li>
+</ul>
+
+<h2 id="search-basics">1. Search Basics</h2>
+
+<p>The <code>N/search</code> module lets you query NetSuite data. A search has three main components:</p>
+
+<ul>
+    <li><strong>Type</strong> - Which record type to search</li>
+    <li><strong>Filters</strong> - Conditions to narrow results (WHERE clause)</li>
+    <li><strong>Columns</strong> - Fields to return (SELECT clause)</li>
+</ul>
+
+<pre><code>define(['N/search'], function(search) {
+    
+    var customerSearch = search.create({
+        type: search.Type.CUSTOMER,
+        filters: [
+            ['email', 'isnotempty', '']
+        ],
+        columns: [
+            'entityid',
+            'companyname',
+            'email'
+        ]
+    });
+    
+});</code></pre>
+
+<h2 id="filters">2. Search Filters</h2>
+
+<p>Filters narrow your search results. Each filter has three parts:</p>
+
+<pre><code>// Format: [fieldId, operator, value]
+['email', 'contains', '@gmail.com']
+['total', 'greaterthan', 1000]
+['status', 'anyof', ['A', 'B']]</code></pre>
+
+<h3>Common Operators</h3>
+<table>
+    <tr><th>Operator</th><th>Use For</th><th>Example</th></tr>
+    <tr><td><code>is</code></td><td>Exact match</td><td><code>['status', 'is', 'A']</code></td></tr>
+    <tr><td><code>isnot</code></td><td>Not equal</td><td><code>['status', 'isnot', 'C']</code></td></tr>
+    <tr><td><code>contains</code></td><td>Text contains</td><td><code>['email', 'contains', 'gmail']</code></td></tr>
+    <tr><td><code>startswith</code></td><td>Text starts with</td><td><code>['phone', 'startswith', '555']</code></td></tr>
+    <tr><td><code>anyof</code></td><td>In list</td><td><code>['category', 'anyof', [1, 2, 3]]</code></td></tr>
+    <tr><td><code>noneof</code></td><td>Not in list</td><td><code>['status', 'noneof', ['X', 'Y']]</code></td></tr>
+    <tr><td><code>greaterthan</code></td><td>Numeric ></td><td><code>['amount', 'greaterthan', 100]</code></td></tr>
+    <tr><td><code>lessthan</code></td><td>Numeric <</td><td><code>['quantity', 'lessthan', 10]</code></td></tr>
+    <tr><td><code>isnotempty</code></td><td>Has value</td><td><code>['email', 'isnotempty', '']</code></td></tr>
+    <tr><td><code>isempty</code></td><td>No value</td><td><code>['fax', 'isempty', '']</code></td></tr>
+</table>
+
+<h3>Combining Filters (AND/OR)</h3>
+<pre><code>// AND - all conditions must match (default)
+filters: [
+    ['total', 'greaterthan', 1000],
+    'AND',
+    ['status', 'is', 'Open']
+]
+
+// OR - any condition matches
+filters: [
+    ['email', 'contains', '@gmail.com'],
+    'OR',
+    ['email', 'contains', '@yahoo.com']
+]
+
+// Complex: (A AND B) OR (C AND D)
+filters: [
+    [['status', 'is', 'Open'], 'AND', ['total', 'greaterthan', 1000]],
+    'OR',
+    [['status', 'is', 'Pending'], 'AND', ['priority', 'is', 'High']]
+]</code></pre>
+
+<h2 id="columns">3. Search Columns</h2>
+
+<p>Columns define what data to return:</p>
+
+<pre><code>// Simple - just field names
+columns: ['entityid', 'email', 'phone']
+
+// With options
+columns: [
+    search.createColumn({ name: 'entityid' }),
+    search.createColumn({ name: 'total', sort: search.Sort.DESC }),
+    search.createColumn({ name: 'trandate', label: 'Order Date' })
+]</code></pre>
+
+<h2 id="joins">4. Joins</h2>
+
+<p>Joins let you access fields from related records. Use the <code>join</code> parameter:</p>
+
+<pre><code>// Search Sales Orders, get Customer email
+var orderSearch = search.create({
+    type: search.Type.SALES_ORDER,
+    columns: [
+        'tranid',
+        'total',
+        search.createColumn({
+            name: 'email',
+            join: 'customer'  // Join to customer record
+        }),
+        search.createColumn({
+            name: 'companyname',
+            join: 'customer'
+        })
+    ]
+});</code></pre>
+
+<div class="info-box blue">
+    <strong>💡 Join Names</strong>
+    <p>Join names are usually the field ID that links to the other record. On a Sales Order, <code>customer</code> is the field linking to the Customer record. Check the Records Browser for valid join names.</p>
+</div>
+
+<h2 id="running">5. Running Searches</h2>
+
+<h3>Method 1: run().each() - Most Common</h3>
+<pre><code>customerSearch.run().each(function(result) {
+    var name = result.getValue('companyname');
+    var email = result.getValue('email');
+    log.debug('Customer', name + ': ' + email);
+    
+    return true; // Continue to next result (false stops)
+});
+// Note: Automatically handles up to 4000 results</code></pre>
+
+<h3>Method 2: getRange() - For Pagination</h3>
+<pre><code>var results = customerSearch.run().getRange({
+    start: 0,
+    end: 100  // Get first 100 results
+});
+
+for (var i = 0; i < results.length; i++) {
+    log.debug('Result ' + i, results[i].getValue('companyname'));
+}</code></pre>
+
+<h3>Method 3: runPaged() - Large Result Sets</h3>
+<pre><code>var pagedData = customerSearch.runPaged({ pageSize: 1000 });
+
+pagedData.pageRanges.forEach(function(pageRange) {
+    var page = pagedData.fetch({ index: pageRange.index });
+    
+    page.data.forEach(function(result) {
+        log.debug('Customer', result.getValue('companyname'));
+    });
+});</code></pre>
+
+<h3>Getting Values vs Text</h3>
+<pre><code>result.getValue('salesrep');  // Returns: 42 (internal ID)
+result.getText('salesrep');   // Returns: "John Smith" (display text)</code></pre>
+
+<h2 id="saved">6. Loading Saved Searches</h2>
+
+<p>You can run searches created in the UI:</p>
+
+<pre><code>// Load by internal ID
+var savedSearch = search.load({ id: 'customsearch_open_orders' });
+
+// Optionally modify filters
+savedSearch.filters.push(
+    search.createFilter({
+        name: 'total',
+        operator: search.Operator.GREATERTHAN,
+        values: 5000
+    })
+);
+
+// Run it
+savedSearch.run().each(function(result) {
+    // Process results
+    return true;
+});</code></pre>
+
+<h3>Quick Lookup</h3>
+<p>For simple lookups, use <code>search.lookupFields()</code>:</p>
+
+<pre><code>var customerData = search.lookupFields({
+    type: search.Type.CUSTOMER,
+    id: 123,
+    columns: ['companyname', 'email', 'phone']
+});
+
+log.debug('Name', customerData.companyname);
+log.debug('Email', customerData.email);</code></pre>
+
+<div class="info-box yellow">
+    <strong>⚠️ Governance</strong>
+    <p>Each search.create() uses 5 units. search.lookupFields() uses 1 unit. Use lookupFields() for simple single-record lookups.</p>
+</div>
+
+<h2 id="practice">🏋️ Practice Exercises</h2>
+
+<div class="info-box green">
+    <strong>Exercise 1: Basic Search</strong>
+    <p>Create a search that finds all Customers with "@gmail.com" in their email. Return companyname, email, and phone.</p>
+</div>
+
+<div class="info-box green">
+    <strong>Exercise 2: Filtered Search</strong>
+    <p>Search for Sales Orders with total > $1000 AND status = Open. Sort by total descending.</p>
+</div>
+
+<div class="info-box green">
+    <strong>Exercise 3: Join Search</strong>
+    <p>Search Support Cases and include the assigned employee's department and job title using joins.</p>
+</div>
+
+<div class="takeaway">
+    <h3>🎯 Key Takeaways</h3>
+    <ul>
+        <li>Searches have type, filters, and columns</li>
+        <li>Filters format: [fieldId, operator, value]</li>
+        <li>Use 'AND' and 'OR' between filters for complex logic</li>
+        <li>Joins access related record fields</li>
+        <li>run().each() is the most common way to process results</li>
+        <li>Use lookupFields() for simple single-record lookups (lower governance)</li>
+    </ul>
+</div>
+
+<div class="nav-buttons">
+    <a href="week-4-dashboard.html" class="back-btn">← Back to Week 4</a>
+    <a href="../Week-5/Module-8.html" class="next-btn">Next: Module 8 →</a>
+</div>
+
+</div>
+</div>
+</body>
+</html>

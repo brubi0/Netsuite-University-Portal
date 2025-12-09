@@ -1,0 +1,58 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Module 9: N/email Module - SuiteScript Learning Hub</title><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"><style>:root{--primary-gradient:linear-gradient(135deg,#667eea 0%,#764ba2 100%);--dark-bg:#1a1a2e;--card-bg:#16213e;--text-primary:#ffffff;--text-secondary:#a0aec0;--border-color:rgba(255,255,255,0.1);--purple:#9f7aea;--success:#48bb78;--warning:#ecc94b;--info:#4299e1;--code-bg:#0d1117}*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Inter',sans-serif;background:var(--dark-bg);color:var(--text-primary);min-height:100vh;line-height:1.7}.nav-bar{background:var(--card-bg);padding:15px 20px;border-bottom:1px solid var(--border-color);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100}.nav-bar a{color:var(--purple);text-decoration:none}.header{background:var(--primary-gradient);padding:50px 20px}.header-content{max-width:900px;margin:0 auto}.header .module-tag{display:inline-block;background:rgba(255,255,255,0.2);padding:5px 12px;border-radius:20px;font-size:0.85rem;margin-bottom:15px}.header h1{font-size:2.2rem;margin-bottom:10px}.header p{font-size:1.1rem;opacity:0.9}.container{max-width:900px;margin:0 auto;padding:40px 20px}.content-section{margin-bottom:40px}.content-section h2{font-size:1.5rem;margin-bottom:20px;padding-bottom:10px;border-bottom:2px solid var(--border-color)}.content-section h3{font-size:1.2rem;margin:25px 0 15px 0;color:var(--purple)}.content-section p{margin-bottom:15px;color:var(--text-secondary)}.info-box{border-radius:10px;padding:20px;margin:20px 0}.info-box.blue{background:rgba(66,153,225,0.15);border:1px solid rgba(66,153,225,0.3)}.info-box.green{background:rgba(72,187,120,0.15);border:1px solid rgba(72,187,120,0.3)}.info-box.yellow{background:rgba(236,201,75,0.15);border:1px solid rgba(236,201,75,0.3)}.info-box h4{margin-bottom:10px}.info-box p{margin-bottom:0;font-size:0.95rem}pre{background:var(--code-bg);border-radius:10px;padding:20px;overflow-x:auto;margin:20px 0;border:1px solid var(--border-color)}code{font-family:'JetBrains Mono',monospace;font-size:0.85rem;line-height:1.6}.inline-code{background:var(--code-bg);padding:2px 8px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:0.85rem;color:var(--purple)}.concept-table{width:100%;border-collapse:collapse;margin:20px 0}.concept-table th,.concept-table td{padding:12px 15px;text-align:left;border:1px solid var(--border-color)}.concept-table th{background:var(--card-bg);font-weight:600;color:var(--purple)}.concept-table td{color:var(--text-secondary)}.key-takeaways{background:var(--card-bg);border-radius:12px;padding:25px;margin-top:40px;border:1px solid var(--border-color)}.key-takeaways h3{margin-bottom:15px}.key-takeaways ul{list-style:none}.key-takeaways li{padding:8px 0;padding-left:25px;position:relative;color:var(--text-secondary)}.key-takeaways li::before{content:'✓';position:absolute;left:0;color:var(--success)}.nav-footer{display:flex;justify-content:space-between;margin-top:50px;padding-top:30px;border-top:1px solid var(--border-color);flex-wrap:wrap;gap:10px}.nav-footer a{color:var(--purple);text-decoration:none}</style></head><body><nav class="nav-bar"><a href="week-5-dashboard.html">← Week 5 Dashboard</a><div style="display:flex;gap:15px"><a href="../Week-4/Module-8-NSearch.html">← Module 8</a><a href="Module-10-Governance.html">Module 10 →</a></div></nav><header class="header"><div class="header-content"><span class="module-tag">Week 5 • Module 9</span><h1>N/email Module</h1><p>Sending programmatic emails with attachments and record linking</p></div></header><main class="container"><section class="content-section"><h2>📧 Basic Email Sending</h2><p>The N/email module provides email.send() for transactional emails from scripts:</p><pre><code>const email = require('N/email');
+
+email.send({
+    author: 207,  // Employee internal ID
+    recipients: 'customer@example.com',
+    subject: 'Your Order Confirmation',
+    body: 'Thank you for your order!'
+});</code></pre><h3>Key Parameters</h3><table class="concept-table"><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><span class="inline-code">author</span></td><td>Number</td><td>Employee internal ID (sender)</td></tr><tr><td><span class="inline-code">recipients</span></td><td>String/Array</td><td>Email addresses or entity IDs (max 10)</td></tr><tr><td><span class="inline-code">subject</span></td><td>String</td><td>Email subject line</td></tr><tr><td><span class="inline-code">body</span></td><td>String</td><td>Plain text or HTML content</td></tr><tr><td><span class="inline-code">cc</span></td><td>String/Array</td><td>CC recipients (optional)</td></tr><tr><td><span class="inline-code">bcc</span></td><td>String/Array</td><td>BCC recipients (optional)</td></tr></tbody></table><div class="info-box yellow"><h4>⚠️ Recipient Limit</h4><p>Maximum 10 recipients total across to, cc, and bcc fields. For bulk emails, use N/email.sendBulk() or a marketing platform.</p></div></section><section class="content-section"><h2>📎 Attachments</h2><p>Attach files from the File Cabinet:</p><pre><code>const file = require('N/file');
+
+const attachment = file.load({ id: 12345 });
+
+email.send({
+    author: 207,
+    recipients: 'customer@example.com',
+    subject: 'Your Report',
+    body: 'Please find your report attached.',
+    attachments: [attachment]
+});</code></pre></section><section class="content-section"><h2>🔗 Linking to Records</h2><p>Use relatedRecords to link emails to transactions for activity tracking:</p><pre><code>email.send({
+    author: 207,
+    recipients: customerId,  // Can use entity internal ID
+    subject: 'Order #' + orderNumber,
+    body: emailBody,
+    relatedRecords: {
+        transactionId: salesOrderId,
+        entityId: customerId
+    }
+});</code></pre><div class="info-box green"><h4>✅ Activity Tracking</h4><p>When you link an email to a record, it appears in the record's Communication subtab and Activity History, providing a complete audit trail.</p></div></section><section class="content-section"><h2>🎨 HTML Emails</h2><p>Send formatted HTML content:</p><pre><code>const htmlBody = `
+    &lt;h1 style="color: #333;"&gt;Order Confirmation&lt;/h1&gt;
+    &lt;p&gt;Thank you for your order, ${customerName}!&lt;/p&gt;
+    &lt;table&gt;
+        &lt;tr&gt;&lt;td&gt;Order Number:&lt;/td&gt;&lt;td&gt;${orderNumber}&lt;/td&gt;&lt;/tr&gt;
+        &lt;tr&gt;&lt;td&gt;Total:&lt;/td&gt;&lt;td&gt;${orderTotal}&lt;/td&gt;&lt;/tr&gt;
+    &lt;/table&gt;
+`;
+
+email.send({
+    author: 207,
+    recipients: customerEmail,
+    subject: 'Order Confirmation',
+    body: htmlBody
+});</code></pre></section><section class="content-section" style="background: rgba(66, 153, 225, 0.1); border: 1px solid rgba(66, 153, 225, 0.2); border-radius: 12px; padding: 25px; margin: 30px 0;">
+            <h2 style="border: none; padding: 0; margin-bottom: 15px;">📖 Finding This in the Docs</h2>
+            <p>To look up N/email methods:</p>
+            <ol style="margin-left: 20px; color: var(--text-secondary);">
+                <li style="margin-bottom: 8px;">Go to <strong>docs.oracle.com</strong> → SuiteScript 2.x Modules</li>
+                <li style="margin-bottom: 8px;">Click on <strong>N/email Module</strong></li>
+                <li style="margin-bottom: 8px;">Review email.send() parameters and relatedRecords options</li>
+            </ol>
+            <p style="margin-top: 15px;"><strong>Key pages to bookmark:</strong></p>
+            <ul style="margin-left: 20px; color: var(--text-secondary);">
+                <li>email.send(options) → author, recipients, subject, body, attachments</li>
+                <li>email.sendBulk(options) → for mass email campaigns</li>
+                <li>RelatedRecords object → transactionId, entityId, activityId</li>
+                <li>N/file Module → for creating attachments</li>
+            </ul>
+        </section>
+
+        <div class="key-takeaways"><h3>🎯 Key Takeaways</h3><ul><li><span class="inline-code">email.send()</span> requires author (employee ID), recipients, subject, and body</li><li>Author must be an employee internal ID, not an email address</li><li>Maximum 10 recipients across to, cc, and bcc</li><li>Use <span class="inline-code">relatedRecords</span> to link emails to transactions and entities</li><li>Attachments require file.load() to get the file object</li><li>HTML content works in the body parameter</li><li>Consumes 10 governance units per email</li></ul></div><nav class="nav-footer"><a href="../Week-4/Module-8-NSearch.html">← Module 8: N/search</a><a href="Module-10-Governance.html">Module 10: Governance →</a></nav></main></body></html>

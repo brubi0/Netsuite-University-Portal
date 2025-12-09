@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Appendix A: Actions & Triggers Reference - SuiteFlow Fundamentals</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f5f7fa; padding: 20px; }
+        .container { max-width: 1400px; margin: 0 auto; background: white; border-radius: 15px; padding: 40px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+        h1 { color: #667eea; font-size: 2.5em; margin-bottom: 30px; border-bottom: 3px solid #667eea; padding-bottom: 15px; }
+        h2 { color: #2d3748; font-size: 1.8em; margin: 30px 0 20px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 15px; text-align: left; }
+        td { padding: 12px 15px; border-bottom: 1px solid #e2e8f0; }
+        tr:hover { background: #f8f9fa; }
+        .info-box { background: #e3f2fd; border-left: 4px solid #2196f3; padding: 20px; margin: 20px 0; border-radius: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📚 Appendix A: Actions & Triggers Reference Guide</h1>
+        <p style="color: #666; font-size: 1.1em; margin-bottom: 30px;">Comprehensive reference for all SuiteFlow actions, triggers, and their compatibility matrix.</p>
+        
+        <h2>Client Triggers</h2>
+        <table>
+            <thead>
+                <tr><th>Trigger</th><th>When It Occurs</th><th>Common Uses</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><strong>Before User Edit</strong></td><td>When form loads in browser (create/edit)</td><td>Set field defaults, change display characteristics</td></tr>
+                <tr><td><strong>Before Field Edit</strong></td><td>When user tabs out of field (before validation)</td><td>Field-level validation with error return</td></tr>
+                <tr><td><strong>After Field Edit</strong></td><td>When field value changes</td><td>Update dependent field values dynamically</td></tr>
+                <tr><td><strong>After Field Sourcing</strong></td><td>After value sources from list record</td><td>Process sourced values</td></tr>
+                <tr><td><strong>Before User Submit</strong></td><td>When user saves record</td><td>Form-level validation before save</td></tr>
+            </tbody>
+        </table>
+        
+        <h2>Server Triggers</h2>
+        <table>
+            <thead>
+                <tr><th>Trigger</th><th>When It Occurs</th><th>Common Uses</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><strong>Before Record Load</strong></td><td>Before form returns to browser</td><td>Set defaults, change display (preferred over client)</td></tr>
+                <tr><td><strong>Before Record Submit</strong></td><td>Before database commit</td><td>Validations, calculations, field updates</td></tr>
+                <tr><td><strong>After Record Submit</strong></td><td>After database commit</td><td>Create related records, send emails</td></tr>
+                <tr><td><strong>Entry</strong></td><td>First time record enters state</td><td>One-time actions when entering state</td></tr>
+                <tr><td><strong>Exit</strong></td><td>First time record exits state</td><td>One-time actions when leaving state</td></tr>
+            </tbody>
+        </table>
+        
+        <h2>Common Actions Quick Reference</h2>
+        <table>
+            <thead>
+                <tr><th>Action</th><th>Client Triggers</th><th>Server Triggers</th><th>Purpose</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><strong>Set Field Value</strong></td><td>All (create only)</td><td>BRL (create), BRS, ARS</td><td>Set field values</td></tr>
+                <tr><td><strong>Set Field Display Type</strong></td><td>All</td><td>BRL</td><td>Hide/show/disable fields</td></tr>
+                <tr><td><strong>Set Field Mandatory</strong></td><td>All</td><td>BRL</td><td>Make fields required/optional</td></tr>
+                <tr><td><strong>Return User Error</strong></td><td>All</td><td>BRL, BRS</td><td>Display errors, cancel save</td></tr>
+                <tr><td><strong>Show Message</strong></td><td>All</td><td>Not supported</td><td>Display informational alerts</td></tr>
+                <tr><td><strong>Confirm</strong></td><td>BFE, BUS</td><td>Not supported</td><td>Display confirmation dialogs</td></tr>
+                <tr><td><strong>Create Record</strong></td><td>Not supported</td><td>ARS</td><td>Create related records</td></tr>
+                <tr><td><strong>Send Email</strong></td><td>Not supported</td><td>ARS</td><td>Send email notifications</td></tr>
+                <tr><td><strong>Add Button</strong></td><td>Not supported</td><td>BRL</td><td>Add custom buttons</td></tr>
+                <tr><td><strong>Lock Record</strong></td><td>Not supported</td><td>BRL</td><td>Make record read-only</td></tr>
+            </tbody>
+        </table>
+        
+        <div class="info-box">
+            <h3 style="color: #1976d2;">Legend</h3>
+            <p><strong>BRL:</strong> Before Record Load | <strong>BRS:</strong> Before Record Submit | <strong>ARS:</strong> After Record Submit</p>
+            <p><strong>BFE:</strong> Before Field Edit | <strong>BUS:</strong> Before User Submit</p>
+        </div>
+        
+        <div style="margin-top: 40px; padding-top: 30px; border-top: 2px solid #e2e8f0;">
+            <a href="../Master-Dashboard.html" style="display: inline-block; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 12px 30px; border-radius: 25px; text-decoration: none; font-weight: 600;">← Back to Course Overview</a>
+        </div>
+    </div>
+</body>
+</html>

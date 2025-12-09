@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appendix E: Workflow Examples - SuiteFlow Advanced Workflows</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #0f0f1a; line-height: 1.6; color: #e0e0e0; }
+        .header { background: linear-gradient(135deg, #e94560 0%, #0f3460 100%); color: white; padding: 40px 20px; }
+        .header-content { max-width: 1200px; margin: 0 auto; }
+        .breadcrumb { font-size: 0.9em; margin-bottom: 15px; opacity: 0.9; }
+        .breadcrumb a { color: white; text-decoration: none; }
+        h1 { font-size: 2.5em; font-weight: 700; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        .example-card { background: #1a1a2e; border-radius: 15px; margin-bottom: 40px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); }
+        .example-header { background: linear-gradient(135deg, #e94560 0%, #0f3460 100%); padding: 20px 25px; }
+        .example-header h2 { font-size: 1.4em; margin-bottom: 5px; }
+        .example-meta { display: flex; gap: 15px; flex-wrap: wrap; margin-top: 10px; }
+        .example-meta span { background: rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 15px; font-size: 0.85em; }
+        .example-body { padding: 30px; }
+        .example-purpose { background: rgba(33,150,243,0.1); border-left: 4px solid #2196f3; padding: 15px 20px; border-radius: 0 8px 8px 0; margin-bottom: 25px; }
+        .example-purpose h4 { color: #2196f3; margin-bottom: 8px; }
+        .workflow-diagram { background: #12121f; border-radius: 12px; padding: 25px; margin: 25px 0; }
+        .workflow-diagram h4 { color: #e94560; margin-bottom: 20px; font-size: 1.1em; }
+        .wf-definition { background: linear-gradient(135deg, rgba(233,69,96,0.2) 0%, rgba(15,52,96,0.2) 100%); border: 2px solid #e94560; border-radius: 10px; padding: 20px; margin-bottom: 20px; }
+        .wf-definition h5 { color: #e94560; margin-bottom: 12px; font-size: 1em; }
+        .wf-props { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; }
+        .wf-prop { background: rgba(0,0,0,0.3); padding: 8px 12px; border-radius: 6px; font-size: 0.9em; }
+        .wf-prop strong { color: #e94560; }
+        .wf-connector { display: flex; justify-content: center; padding: 10px 0; }
+        .wf-arrow { width: 2px; height: 30px; background: #e94560; position: relative; }
+        .wf-arrow::after { content: ""; position: absolute; bottom: -8px; left: -6px; border-left: 7px solid transparent; border-right: 7px solid transparent; border-top: 10px solid #e94560; }
+        .wf-state { background: #1e1e32; border-radius: 10px; margin: 15px 0; overflow: hidden; border: 2px solid #333; }
+        .wf-state.entry { border-left: 5px solid #4caf50; }
+        .wf-state.processing { border-left: 5px solid #2196f3; }
+        .wf-state.end { border-left: 5px solid #f44336; }
+        .wf-state.waiting { border-left: 5px solid #ff9800; }
+        .wf-state-header { background: rgba(255,255,255,0.05); padding: 12px 18px; display: flex; justify-content: space-between; align-items: center; }
+        .wf-state-header h5 { font-size: 1em; color: #fff; }
+        .wf-state-badge { font-size: 0.75em; padding: 3px 10px; border-radius: 10px; background: rgba(255,255,255,0.1); }
+        .wf-state-badge.entry { background: rgba(76,175,80,0.3); color: #4caf50; }
+        .wf-state-badge.exit { background: rgba(244,67,54,0.3); color: #f44336; }
+        .wf-state-badge.wait { background: rgba(255,152,0,0.3); color: #ff9800; }
+        .wf-state-body { padding: 15px 18px; }
+        .wf-action { background: rgba(76,175,80,0.1); border-radius: 8px; padding: 12px 15px; margin: 10px 0; border-left: 3px solid #4caf50; }
+        .wf-action h6 { color: #4caf50; font-size: 0.9em; margin-bottom: 8px; }
+        .wf-action-details { font-size: 0.85em; color: #aaa; }
+        .wf-action-details div { padding: 3px 0 3px 20px; position: relative; }
+        .wf-action-details div::before { content: "→"; position: absolute; left: 5px; color: #4caf50; }
+        .wf-transition { background: rgba(233,69,96,0.1); border-radius: 8px; padding: 12px 15px; margin: 10px 0; border-left: 3px solid #e94560; }
+        .wf-transition h6 { color: #e94560; font-size: 0.9em; margin-bottom: 8px; }
+        .wf-condition { display: inline-block; background: rgba(255,193,7,0.2); color: #ffc107; padding: 4px 10px; border-radius: 5px; font-size: 0.85em; margin: 5px 0; }
+        .wf-scheduled { background: rgba(156,39,176,0.1); border-left-color: #9c27b0; }
+        .wf-scheduled h6 { color: #9c27b0; }
+        .wf-email { background: rgba(33,150,243,0.1); border-left-color: #2196f3; }
+        .wf-email h6 { color: #2196f3; }
+        .wf-subscribe { background: rgba(255,152,0,0.1); border-left-color: #ff9800; }
+        .wf-subscribe h6 { color: #ff9800; }
+        .config-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        .config-table th, .config-table td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #333; }
+        .config-table th { background: rgba(233,69,96,0.2); color: #e94560; font-weight: 600; }
+        .config-table tr:hover { background: rgba(255,255,255,0.03); }
+        .code-block { background: #0a0a12; border-radius: 8px; padding: 20px; margin: 20px 0; font-family: 'Courier New', monospace; font-size: 0.85em; overflow-x: auto; color: #4caf50; white-space: pre; line-height: 1.5; }
+        .key-insight { background: rgba(156,39,176,0.1); border-left: 4px solid #9c27b0; padding: 15px 20px; border-radius: 0 8px 8px 0; margin: 20px 0; }
+        .key-insight h4 { color: #9c27b0; margin-bottom: 8px; }
+        .wf-flow-horizontal { display: flex; align-items: center; gap: 15px; flex-wrap: wrap; justify-content: center; margin: 20px 0; }
+        .wf-flow-box { background: #1e1e32; border: 2px solid #333; border-radius: 10px; padding: 15px 20px; text-align: center; min-width: 140px; }
+        .wf-flow-box.highlight { border-color: #e94560; background: rgba(233,69,96,0.1); }
+        .wf-flow-box h6 { color: #fff; margin-bottom: 5px; font-size: 0.95em; }
+        .wf-flow-box p { font-size: 0.8em; color: #888; margin: 0; }
+        .wf-flow-arrow { color: #e94560; font-size: 1.5em; }
+        .toc { background: #1a1a2e; border-radius: 15px; padding: 25px 30px; margin-bottom: 40px; }
+        .toc h3 { color: #e94560; margin-bottom: 15px; }
+        .toc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px; }
+        .toc-item { display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 8px; transition: background 0.2s; }
+        .toc-item:hover { background: rgba(233,69,96,0.1); }
+        .toc-item a { color: #ccc; text-decoration: none; }
+        .toc-num { background: linear-gradient(135deg, #e94560 0%, #0f3460 100%); width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 0.85em; font-weight: 600; flex-shrink: 0; }
+        .nav-btn { display: inline-block; padding: 15px 30px; border-radius: 25px; text-decoration: none; font-weight: 600; background: rgba(255,255,255,0.1); color: #fff; margin-top: 30px; transition: all 0.3s; }
+        .nav-btn:hover { background: rgba(255,255,255,0.2); transform: translateY(-2px); }
+        .grid-2x2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .formula-box { background: #1e1e32; border-radius: 8px; padding: 15px; margin: 10px 0; }
+        .formula-box h6 { color: #2196f3; margin-bottom: 8px; font-size: 0.9em; }
+        .formula-box code { color: #4caf50; font-family: 'Courier New', monospace; }
+        .formula-box p { color: #888; font-size: 0.8em; margin-top: 8px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="breadcrumb"><a href="Master-Dashboard.html">← Course Overview</a> / Appendix E</div>
+            <h1>📋 Appendix E: Workflow Examples</h1>
+            <p style="margin-top: 10px; opacity: 0.9;">Complete Visual Blueprints for Building Advanced Workflows</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Table of Contents -->
+        <div class="toc">
+            <h3>Examples Index</h3>
+            <div class="toc-grid">
+                <div class="toc-item"><span class="toc-num">1</span><a href="#ex1">SLA Reminder System</a></div>
+                <div class="toc-item"><span class="toc-num">2</span><a href="#ex2">Subscribe to Related Record</a></div>
+                <div class="toc-item"><span class="toc-num">3</span><a href="#ex3">SQL Formula Calculations</a></div>
+                <div class="toc-item"><span class="toc-num">4</span><a href="#ex4">Workflow Action Script</a></div>
+                <div class="toc-item"><span class="toc-num">5</span><a href="#ex5">CSV Import Context</a></div>
+                <div class="toc-item"><span class="toc-num">6</span><a href="#ex6">Rejection Processing (UES)</a></div>
+                <div class="toc-item"><span class="toc-num">7</span><a href="#ex7">Suitelet Integration</a></div>
+                <div class="toc-item"><span class="toc-num">8</span><a href="#ex8">Mass Update Patterns</a></div>
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- EXAMPLE 1: SLA Reminder System -->
+        <!-- ============================================ -->
+        <div class="example-card" id="ex1">
+            <div class="example-header">
+                <h2>Example 1: SLA Reminder System</h2>
+                <div class="example-meta">
+                    <span>📚 Module 2</span>
+                    <span>⏰ Scheduled Actions</span>
+                    <span>🔄 Auto-Transitions</span>
+                </div>
+            </div>
+            <div class="example-body">
+                <div class="example-purpose">
+                    <h4>Purpose</h4>
+                    <p>Automatically sends reminder emails when a record has been waiting for approval too long, then auto-rejects if no action is taken within the SLA window.</p>
+                </div>
+
+                <div class="workflow-diagram">
+                    <h4>Workflow Blueprint</h4>
+                    
+                    <div class="wf-definition">
+                        <h5>⚙️ Workflow Definition</h5>
+                        <div class="wf-props">
+                            <div class="wf-prop"><strong>Record:</strong> Performance Review</div>
+                            <div class="wf-prop"><strong>Event:</strong> Before Record Load</div>
+                            <div class="wf-prop"><strong>Trigger:</strong> On Create</div>
+                            <div class="wf-prop"><strong>Release Status:</strong> Released</div>
+                        </div>
+                    </div>
+
+                    <div class="wf-connector"><div class="wf-arrow"></div></div>
+
+                    <div class="wf-state waiting">
+                        <div class="wf-state-header">
+                            <h5>State 1: Waiting for Approval</h5>
+                            <span class="wf-state-badge wait">Waiting</span>
+                        </div>
+                        <div class="wf-state-body">
+                            <div class="wf-action wf-scheduled">
+                                <h6>📧 Send Email (Reminder 1)</h6>
+                                <div class="wf-action-details">
+                                    <div>Trigger: <strong>Scheduled</strong></div>
+                                    <div>Delay: 2 | Unit: Days | Recurrence: 0</div>
+                                    <div>To: {Approver}</div>
+                                    <div>Subject: "Approval Reminder - Action Required"</div>
+                                </div>
+                            </div>
+                            <div class="wf-action wf-scheduled">
+                                <h6>📧 Send Email (Final Warning)</h6>
+                                <div class="wf-action-details">
+                                    <div>Trigger: <strong>Scheduled</strong></div>
+                                    <div>Delay: 4 | Unit: Days | Recurrence: 0</div>
+                                    <div>To: {Approver}</div>
+                                    <div>Subject: "URGENT: Approval Required Within 24 Hours"</div>
+                                </div>
+                            </div>
+                            <div class="wf-transition wf-scheduled">
+                                <h6>↪️ Auto-Reject Transition</h6>
+                                <div class="wf-action-details">
+                                    <div>Transition On: <strong>Scheduled</strong></div>
+                                    <div>Delay: 5 | Unit: Days</div>
+                                    <div>Target State: Rejected</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="wf-connector"><div class="wf-arrow"></div></div>
+
+                    <div class="wf-state end">
+                        <div class="wf-state-header">
+                            <h5>State 3: Rejected</h5>
+                            <span class="wf-state-badge exit">Exit</span>
+                        </div>
+                        <div class="wf-state-body">
+                            <div class="wf-action">
+                                <h6>📝 Set Field Value</h6>
+                                <div class="wf-action-details">
+                                    <div>Field: Approval Status</div>
+                                    <div>Value: Rejected</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <table class="config-table">
+                    <tr><th>Setting</th><th>Value</th><th>Why</th></tr>
+                    <tr><td>Delay (Reminder 1)</td><td>2 Days</td><td>First nudge after 48 hours</td></tr>
+                    <tr><td>Delay (Final Warning)</td><td>4 Days</td><td>Escalation before auto-reject</td></tr>
+                    <tr><td>Delay (Auto-Reject)</td><td>5 Days</td><td>SLA deadline enforcement</td></tr>
+                    <tr><td>Recurrence</td><td>0</td><td>One-time execution per action</td></tr>
+                </table>
+
+                <div class="key-insight">
+                    <h4>💡 Key Insight</h4>
+                    <p>Scheduled transitions use the <strong>Scheduled</strong> trigger type, NOT a server trigger + delay. The workflow scheduler (runs every 30 min) evaluates and executes these automatically.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- EXAMPLE 2: Subscribe to Related Record -->
+        <!-- ============================================ -->
+        <div class="example-card" id="ex2">
+            <div class="example-header">
+                <h2>Example 2: Subscribe to Related Record</h2>
+                <div class="example-meta">
+                    <span>📚 Module 5</span>
+                    <span>🔗 Related Records</span>
+                    <span>👁️ Subscribe Action</span>
+                </div>
+            </div>
+            <div class="example-body">
+                <div class="example-purpose">
+                    <h4>Purpose</h4>
+                    <p>A Customer workflow creates a Task record and then waits. When the Task is marked complete, the Customer workflow automatically transitions to the next state.</p>
+                </div>
+
+                <div class="workflow-diagram">
+                    <h4>Workflow Blueprint</h4>
+                    
+                    <div class="wf-definition">
+                        <h5>⚙️ Workflow Definition</h5>
+                        <div class="wf-props">
+                            <div class="wf-prop"><strong>Record:</strong> Customer</div>
+                            <div class="wf-prop"><strong>Event:</strong> After Record Submit</div>
+                            <div class="wf-prop"><strong>Trigger:</strong> On Create</div>
+                        </div>
+                    </div>
+
+                    <div class="wf-connector"><div class="wf-arrow"></div></div>
+
+                    <div class="wf-state entry">
+                        <div class="wf-state-header">
+                            <h5>State 0: Entry State</h5>
+                            <span class="wf-state-badge entry">Entry</span>
+                        </div>
+                        <div class="wf-state-body">
+                            <div class="wf-action">
+                                <h6>📋 Create Record (Task)</h6>
+                                <div class="wf-action-details">
+                                    <div>Record Type: Task</div>
+                                    <div>Title: "Follow up with new customer"</div>
+                                    <div>Assigned To: {Sales Rep}</div>
+                                    <div><strong>Store Result In:</strong> custentity_created_task</div>
+                                </div>
+                            </div>
+                            <div class="wf-action wf-subscribe">
+                                <h6>👁️ Subscribe to Record</h6>
+                                <div class="wf-action-details">
+                                    <div>Field to Monitor: Create Record Result</div>
+                                    <div>Select: [Task created above]</div>
+                                </div>
+                            </div>
+                            <div class="wf-transition">
+                                <h6>↪️ Transition to Next State</h6>
+                                <div class="wf-action-details">
+                                    <div>Transition On: <strong>(blank)</strong></div>
+                                    <div><span class="wf-condition">Condition: Task.Status = Completed</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="wf-connector"><div class="wf-arrow"></div></div>
+
+                    <div class="wf-state processing">
+                        <div class="wf-state-header">
+                            <h5>State 1: Task Completed</h5>
+                        </div>
+                        <div class="wf-state-body">
+                            <div class="wf-action wf-email">
+                                <h6>📧 Send Email</h6>
+                                <div class="wf-action-details">
+                                    <div>To: {Sales Manager}</div>
+                                    <div>Subject: "Customer follow-up complete"</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <table class="config-table">
+                    <tr><th>Component</th><th>Configuration</th></tr>
+                    <tr><td>Custom Field</td><td>custentity_created_task (Integer) on Customer record</td></tr>
+                    <tr><td>Create Record</td><td>Store Result In → custentity_created_task</td></tr>
+                    <tr><td>Subscribe to Record</td><td>Monitor: Create Record Result</td></tr>
+                    <tr><td>Transition Condition</td><td>Joined field: Task.Status = Completed</td></tr>
+                </table>
+
+                <div class="key-insight">
+                    <h4>💡 Key Insight</h4>
+                    <p>The <strong>TRANSITION ON</strong> field must be <strong>blank</strong> when using Subscribe to Record. The transition fires when the subscription condition evaluates true, not on a trigger event.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- EXAMPLE 3: SQL Formula Calculations -->
+        <!-- ============================================ -->
+        <div class="example-card" id="ex3">
+            <div class="example-header">
+                <h2>Example 3: SQL Formula Calculations</h2>
+                <div class="example-meta">
+                    <span>📚 Module 6</span>
+                    <span>🔢 SQL Formulas</span>
+                    <span>⚙️ Server Triggers</span>
+                </div>
+            </div>
+            <div class="example-body">
+                <div class="example-purpose">
+                    <h4>Purpose</h4>
+                    <p>Use SQL formulas for calculations, concatenations, and conditional logic in workflow actions and conditions on server triggers.</p>
+                </div>
+
+                <div class="workflow-diagram">
+                    <h4>Formula Examples</h4>
+
+                    <div class="grid-2x2">
+                        <div class="formula-box">
+                            <h6>Salary Increase (5%)</h6>
+                            <code>{custrecord_salary} * 1.05</code>
+                            <p>Multiplies current salary by 1.05</p>
+                        </div>
+
+                        <div class="formula-box">
+                            <h6>Field Concatenation</h6>
+                            <code>{city} || ', ' || {state} || ' ' || {zipcode}</code>
+                            <p>Result: "Austin, TX 78701"</p>
+                        </div>
+
+                        <div class="formula-box">
+                            <h6>Extract Email Domain</h6>
+                            <code>SUBSTR({email}, INSTR({email}, '@') + 1)</code>
+                            <p>Extracts "company.com" from email</p>
+                        </div>
+
+                        <div class="formula-box">
+                            <h6>Null Handling</h6>
+                            <code>NVL({discount}, 0)</code>
+                            <p>Returns 0 if discount is null</p>
+                        </div>
+                    </div>
+
+                    <div class="wf-state processing" style="margin-top: 25px;">
+                        <div class="wf-state-header">
+                            <h5>CASE WHEN Conditional Logic</h5>
+                        </div>
+                        <div class="wf-state-body">
+                            <div class="code-block">CASE
+  WHEN {amount} > 10000 THEN 'High'
+  WHEN {amount} > 5000 THEN 'Medium'
+  ELSE 'Low'
+END</div>
+                        </div>
+                    </div>
+                </div>
+
+                <table class="config-table">
+                    <tr><th>Function</th><th>Purpose</th><th>Example</th></tr>
+                    <tr><td>||</td><td>Concatenate strings</td><td>{first} || ' ' || {last}</td></tr>
+                    <tr><td>SUBSTR()</td><td>Extract substring</td><td>SUBSTR({phone}, 1, 3)</td></tr>
+                    <tr><td>INSTR()</td><td>Find position</td><td>INSTR({email}, '@')</td></tr>
+                    <tr><td>NVL()</td><td>Handle nulls</td><td>NVL({discount}, 0)</td></tr>
+                    <tr><td>UPPER() / LOWER()</td><td>Change case</td><td>UPPER({name})</td></tr>
+                    <tr><td>LENGTH()</td><td>String length</td><td>LENGTH({phone}) > 10</td></tr>
+                    <tr><td>TO_CHAR()</td><td>Format number/date</td><td>TO_CHAR({amount}, '999,999')</td></tr>
+                    <tr><td>CASE WHEN</td><td>Conditional logic</td><td>CASE WHEN {x}='A' THEN 'Yes' END</td></tr>
+                </table>
+
+                <div class="key-insight">
+                    <h4>💡 Key Insight</h4>
+                    <p>SQL formulas only work on <strong>server triggers</strong> (Before/After Record Submit, Before Record Load). For client triggers, use SuiteScript 1.0 formulas with nlapiGetFieldValue() instead. Mismatched formula/trigger types show "ERROR: Invalid expression" in logs.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- EXAMPLE 4: Workflow Action Script -->
+        <!-- ============================================ -->
+        <div class="example-card" id="ex4">
+            <div class="example-header">
+                <h2>Example 4: Workflow Action Script</h2>
+                <div class="example-meta">
+                    <span>📚 Module 7</span>
+                    <span>💻 SuiteScript 2.x</span>
+                    <span>🔧 Custom Action</span>
+                </div>
+            </div>
+            <div class="example-body">
+                <div class="example-purpose">
+                    <h4>Purpose</h4>
+                    <p>Extend SuiteFlow with custom SuiteScript logic when built-in actions don't meet requirements. Returns a value the workflow can use for subsequent decisions.</p>
+                </div>
+
+                <div class="code-block">/**
+ * @NApiVersion 2.x
+ * @NScriptType WorkflowActionScript
+ */
+define(['N/record', 'N/log'], function(record, log) {
+
+    function onAction(scriptContext) {
+        var newRecord = scriptContext.newRecord;
+        var workflowId = scriptContext.workflowId;
+        
+        // Get field value from record
+        var amount = newRecord.getValue({ fieldId: 'amount' });
+        
+        // Custom business logic
+        var result = 'STANDARD';
+        if (amount > 50000) {
+            result = 'EXECUTIVE_APPROVAL';
+        } else if (amount > 10000) {
+            result = 'MANAGER_APPROVAL';
+        }
+        
+        log.debug('Approval Level', result);
+        
+        // Return value to workflow
+        return result;
+    }
+
+    return {
+        onAction: onAction
+    };
+});</div>
+
+                <div class="workflow-diagram">
+                    <h4>Deployment Steps</h4>
+                    <div class="wf-flow-horizontal">
+                        <div class="wf-flow-box">
+                            <h6>1. Upload Script</h6>
+                            <p>File Cabinet → SuiteScripts</p>
+                        </div>
+                        <span class="wf-flow-arrow">→</span>
+                        <div class="wf-flow-box">
+                            <h6>2. Create Record</h6>
+                            <p>Script Type: Workflow Action</p>
+                        </div>
+                        <span class="wf-flow-arrow">→</span>
+                        <div class="wf-flow-box">
+                            <h6>3. Deploy</h6>
+                            <p>Status: Released</p>
+                        </div>
+                        <span class="wf-flow-arrow">→</span>
+                        <div class="wf-flow-box highlight">
+                            <h6>4. Add to Workflow</h6>
+                            <p>Custom Action → Select</p>
+                        </div>
+                    </div>
+                </div>
+
+                <table class="config-table">
+                    <tr><th>Context Property</th><th>Description</th></tr>
+                    <tr><td>scriptContext.newRecord</td><td>The record being processed</td></tr>
+                    <tr><td>scriptContext.oldRecord</td><td>Previous record version (on edit)</td></tr>
+                    <tr><td>scriptContext.workflowId</td><td>Internal ID of the workflow</td></tr>
+                    <tr><td>scriptContext.type</td><td>Event type (create, edit, etc.)</td></tr>
+                    <tr><td>return value</td><td>Passed back to workflow for conditions</td></tr>
+                </table>
+
+                <div class="key-insight">
+                    <h4>💡 Key Insight</h4>
+                    <p>Workflows wait <strong>synchronously</strong> for scripts to complete. For long-running operations, initiate a <strong>Scheduled Script</strong> instead to process asynchronously and return control to the user immediately.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- EXAMPLE 5: CSV Import Context -->
+        <!-- ============================================ -->
+        <div class="example-card" id="ex5">
+            <div class="example-header">
+                <h2>Example 5: CSV Import Context Workflow</h2>
+                <div class="example-meta">
+                    <span>📚 Module 8</span>
+                    <span>📥 CSV Import</span>
+                    <span>🎯 Context Restriction</span>
+                </div>
+            </div>
+            <div class="example-body">
+                <div class="example-purpose">
+                    <h4>Purpose</h4>
+                    <p>Execute a workflow ONLY when records are imported via CSV, not when created through the UI. Useful for tagging imported records or applying import-specific processing.</p>
+                </div>
+
+                <div class="workflow-diagram">
+                    <h4>Workflow Blueprint</h4>
+                    
+                    <div class="wf-definition">
+                        <h5>⚙️ Workflow Definition</h5>
+                        <div class="wf-props">
+                            <div class="wf-prop"><strong>Record:</strong> Customer</div>
+                            <div class="wf-prop"><strong>Event:</strong> On Create</div>
+                            <div class="wf-prop"><strong>Trigger:</strong> All</div>
+                            <div class="wf-prop" style="background: rgba(233,69,96,0.3);"><strong>Context:</strong> CSV Import</div>
+                        </div>
+                    </div>
+
+                    <div class="wf-connector"><div class="wf-arrow"></div></div>
+
+                    <div class="wf-state entry">
+                        <div class="wf-state-header">
+                            <h5>State 0: Tag Imported Record</h5>
+                            <span class="wf-state-badge entry">Entry/Exit</span>
+                        </div>
+                        <div class="wf-state-body">
+                            <div class="wf-action">
+                                <h6>📝 Set Field Value</h6>
+                                <div class="wf-action-details">
+                                    <div>Field: Comments</div>
+                                    <div>Value: "Created via CSV Import"</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="workflow-diagram">
+                    <h4>CSV Import Setup</h4>
+                    <div class="wf-flow-horizontal">
+                        <div class="wf-flow-box">
+                            <h6>Global Preferences</h6>
+                            <p>❌ Uncheck "Run Server SuiteScript and Trigger Workflows"</p>
+                        </div>
+                        <span class="wf-flow-arrow">→</span>
+                        <div class="wf-flow-box highlight">
+                            <h6>Import Assistant</h6>
+                            <p>✅ Check "Run Server SuiteScript and Trigger Workflows"</p>
+                        </div>
+                        <span class="wf-flow-arrow">→</span>
+                        <div class="wf-flow-box">
+                            <h6>Result</h6>
+                            <p>Workflow runs only for this import</p>
+                        </div>
+                    </div>
+                </div>
+
+                <table class="config-table">
+                    <tr><th>Setting</th><th>Location</th><th>Value</th></tr>
+                    <tr><td>Global Preference</td><td>Setup → Import/Export → CSV Import Preferences</td><td>Disabled</td></tr>
+                    <tr><td>Per-Import Override</td><td>Import Assistant → Advanced Options</td><td>Enabled</td></tr>
+                    <tr><td>Workflow Context</td><td>Workflow Definition → Contexts</td><td>CSV Import</td></tr>
+                </table>
+
+                <div class="key-insight">
+                    <h4>💡 Key Insight</h4>
+                    <p>The Context field acts as a <strong>filter</strong>. Even with "All" trigger type, the workflow only fires when the record is created in the specified context. Records created via UI will NOT trigger this workflow.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- EXAMPLE 6: Rejection Processing (UES) -->
+        <!-- ============================================ -->
+        <div class="example-card" id="ex6">
+            <div class="example-header">
+                <h2>Example 6: Rejection Processing (UES Context)</h2>
+                <div class="example-meta">
+                    <span>📚 Module 8</span>
+                    <span>⚡ User Event Script Context</span>
+                    <span>🔗 Workflow Chaining</span>
+                </div>
+            </div>
+            <div class="example-body">
+                <div class="example-purpose">
+                    <h4>Purpose</h4>
+                    <p>A secondary workflow triggers when ANOTHER workflow sets a field value. Creates a task for the supervisor and notifies the employee when their review is rejected.</p>
+                </div>
+
+                <div class="workflow-diagram">
+                    <h4>Workflow Chain Visualization</h4>
+                    <div class="wf-flow-horizontal">
+                        <div class="wf-flow-box">
+                            <h6>Approval Workflow</h6>
+                            <p>Set Field: Status = Rejected</p>
+                        </div>
+                        <span class="wf-flow-arrow">→</span>
+                        <div class="wf-flow-box highlight">
+                            <h6>Rejection Processing</h6>
+                            <p>Triggers on UES Context</p>
+                        </div>
+                        <span class="wf-flow-arrow">→</span>
+                        <div class="wf-flow-box">
+                            <h6>Create Task + Email</h6>
+                            <p>Notify supervisor & employee</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="workflow-diagram">
+                    <h4>Rejection Processing Workflow</h4>
+                    
+                    <div class="wf-definition">
+                        <h5>⚙️ Workflow Definition</h5>
+                        <div class="wf-props">
+                            <div class="wf-prop"><strong>Record:</strong> Performance Review</div>
+                            <div class="wf-prop"><strong>Event:</strong> On View or Update</div>
+                            <div class="wf-prop"><strong>Trigger:</strong> After Record Submit</div>
+                            <div class="wf-prop" style="background: rgba(233,69,96,0.3);"><strong>Context:</strong> User Event Script</div>
+                            <div class="wf-prop"><strong>Release Status:</strong> Released</div>
+                        </div>
+                        <div style="margin-top: 15px;">
+                            <span class="wf-condition">Initiation Condition: Approval Status = Rejected</span>
+                        </div>
+                    </div>
+
+                    <div class="wf-connector"><div class="wf-arrow"></div></div>
+
+                    <div class="wf-state entry">
+                        <div class="wf-state-header">
+                            <h5>State 0: Process Rejections</h5>
+                            <span class="wf-state-badge entry">Entry</span>
+                        </div>
+                        <div class="wf-state-body">
+                            <div class="wf-action">
+                                <h6>📋 Create Record (Task)</h6>
+                                <div class="wf-action-details">
+                                    <div>Record Type: Task</div>
+                                    <div>Title: "Subordinate review rejected"</div>
+                                    <div>Assigned To: {Subordinate.Supervisor}</div>
+                                    <div>Due Date: 30 days from now</div>
+                                    <div>Message: "Please reach out to discuss resolution"</div>
+                                </div>
+                            </div>
+                            <div class="wf-action wf-email">
+                                <h6>📧 Send Email</h6>
+                                <div class="wf-action-details">
+                                    <div>From: Current User</div>
+                                    <div>To: {Subordinate}</div>
+                                    <div>Subject: "Your review was rejected"</div>
+                                    <div>Body: "Your manager will contact you"</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <table class="config-table">
+                    <tr><th>Requirement</th><th>Setting</th></tr>
+                    <tr><td>Execute As Admin</td><td>✅ Must be enabled for UES context</td></tr>
+                    <tr><td>Release Status</td><td>Released (required for UES context)</td></tr>
+                    <tr><td>Initiation Condition</td><td>Approval Status = Rejected</td></tr>
+                    <tr><td>Context</td><td>User Event Script</td></tr>
+                </table>
+
+                <div class="key-insight">
+                    <h4>💡 Key Insight</h4>
+                    <p>The "User Event Script" context means the workflow triggers when ANOTHER script or workflow modifies the record—not from user UI actions. This enables <strong>workflow chaining</strong> where one workflow's Set Field Value action triggers another workflow.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- EXAMPLE 7: Suitelet Integration -->
+        <!-- ============================================ -->
+        <div class="example-card" id="ex7">
+            <div class="example-header">
+                <h2>Example 7: Suitelet Integration</h2>
+                <div class="example-meta">
+                    <span>📚 Module 8</span>
+                    <span>🖥️ Suitelet Context</span>
+                    <span>🔧 workflow.initiate() & workflow.trigger()</span>
+                </div>
+            </div>
+            <div class="example-body">
+                <div class="example-purpose">
+                    <h4>Purpose</h4>
+                    <p>Build custom NetSuite pages that interact with workflows programmatically. Process bulk approvals or initiate workflows on-demand without opening individual records.</p>
+                </div>
+
+                <div class="workflow-diagram">
+                    <h4>Two API Functions</h4>
+                    
+                    <div class="grid-2x2">
+                        <div class="wf-state processing">
+                            <div class="wf-state-header">
+                                <h5>workflow.initiate()</h5>
+                            </div>
+                            <div class="wf-state-body">
+                                <p style="color: #ccc; margin-bottom: 15px;">Starts a <strong>NEW</strong> workflow instance on a record (like Initiate Workflow action)</p>
+                                <div class="code-block" style="font-size: 0.8em;">workflow.initiate({
+    recordType: 'customrecord_perf_review',
+    recordId: 123,
+    workflowId: 'customworkflow_ondemand'
+});</div>
+                                <p style="color: #888; font-size: 0.85em; margin-top: 10px;">Use case: Apply 5% bonus to eligible records</p>
+                            </div>
+                        </div>
+
+                        <div class="wf-state processing">
+                            <div class="wf-state-header">
+                                <h5>workflow.trigger()</h5>
+                            </div>
+                            <div class="wf-state-body">
+                                <p style="color: #ccc; margin-bottom: 15px;">Wakes up an <strong>EXISTING</strong> workflow and simulates a button click</p>
+                                <div class="code-block" style="font-size: 0.8em;">workflow.trigger({
+    recordType: 'customrecord_perf_review',
+    recordId: 123,
+    workflowId: 'customworkflow_approval',
+    actionId: 'custworkflow_approve_btn'
+});</div>
+                                <p style="color: #888; font-size: 0.85em; margin-top: 10px;">Use case: Bulk approve records waiting in State 1</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="workflow-diagram">
+                    <h4>Process Performance Reviews Suitelet</h4>
+                    <div class="wf-flow-horizontal">
+                        <div class="wf-flow-box">
+                            <h6>Custom UI</h6>
+                            <p>Action dropdown + Multi-selects</p>
+                        </div>
+                        <span class="wf-flow-arrow">→</span>
+                        <div class="wf-flow-box">
+                            <h6>Saved Searches</h6>
+                            <p>Eligible for Bonus / Outstanding Approvals</p>
+                        </div>
+                        <span class="wf-flow-arrow">→</span>
+                        <div class="wf-flow-box highlight">
+                            <h6>Action 1</h6>
+                            <p>workflow.initiate() - 5% Bonus</p>
+                        </div>
+                        <span class="wf-flow-arrow">→</span>
+                        <div class="wf-flow-box highlight">
+                            <h6>Action 2</h6>
+                            <p>workflow.trigger() - Approve</p>
+                        </div>
+                    </div>
+                </div>
+
+                <table class="config-table">
+                    <tr><th>Component</th><th>Configuration</th></tr>
+                    <tr><td>Suitelet Script</td><td>@NScriptType Suitelet, onRequest function</td></tr>
+                    <tr><td>Script Parameters</td><td>Record Type, Workflow ID, Button ID (configurable)</td></tr>
+                    <tr><td>Deployment Link</td><td>Setup → Custom → [Menu Name]</td></tr>
+                    <tr><td>Saved Search 1</td><td>Performance Reviews with Rating Code = A</td></tr>
+                    <tr><td>Saved Search 2</td><td>Reviews in State 1 with Approve Button visible</td></tr>
+                </table>
+
+                <div class="key-insight">
+                    <h4>💡 Key Insight</h4>
+                    <p><strong>workflow.initiate()</strong> = Start fresh workflow. <strong>workflow.trigger()</strong> = Wake up existing workflow + click button. In the execution log, you'll see "Workflow triggered to process transition by click on button [name]".</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- EXAMPLE 8: Mass Update Patterns -->
+        <!-- ============================================ -->
+        <div class="example-card" id="ex8">
+            <div class="example-header">
+                <h2>Example 8: Mass Update Patterns</h2>
+                <div class="example-meta">
+                    <span>📚 Module 8</span>
+                    <span>📦 Batch Processing</span>
+                    <span>4 Update Types</span>
+                </div>
+            </div>
+            <div class="example-body">
+                <div class="example-purpose">
+                    <h4>Purpose</h4>
+                    <p>Process multiple records with running workflow instances simultaneously. Initiate, process, cancel, or force-transition workflows in bulk based on saved search criteria.</p>
+                </div>
+
+                <div class="workflow-diagram">
+                    <h4>Four Mass Update Types</h4>
+                    
+                    <div class="grid-2x2">
+                        <div class="wf-state entry">
+                            <div class="wf-state-header">
+                                <h5>INITIATE</h5>
+                                <span class="wf-state-badge entry">Start</span>
+                            </div>
+                            <div class="wf-state-body">
+                                <p style="color: #ccc; margin-bottom: 10px;">Start workflow on multiple records without opening each one</p>
+                                <p style="color: #888; font-size: 0.85em;"><strong>Use case:</strong> After CSV import, initiate approval workflow on all imported records</p>
+                            </div>
+                        </div>
+
+                        <div class="wf-state processing">
+                            <div class="wf-state-header">
+                                <h5>PROCESS</h5>
+                                <span class="wf-state-badge" style="background: rgba(33,150,243,0.3); color: #2196f3;">Execute</span>
+                            </div>
+                            <div class="wf-state-body">
+                                <p style="color: #ccc; margin-bottom: 10px;">Re-evaluate transitions or simulate button click</p>
+                                <p style="color: #888; font-size: 0.85em;"><strong>Use case:</strong> Bulk approve all records waiting in "Pending Approval" state</p>
+                            </div>
+                        </div>
+
+                        <div class="wf-state end">
+                            <div class="wf-state-header">
+                                <h5>CANCEL</h5>
+                                <span class="wf-state-badge exit">Admin Only</span>
+                            </div>
+                            <div class="wf-state-body">
+                                <p style="color: #ccc; margin-bottom: 10px;">Cancel running workflow instances</p>
+                                <p style="color: #888; font-size: 0.85em;"><strong>Use case:</strong> Cancel obsolete workflows after process change</p>
+                            </div>
+                        </div>
+
+                        <div class="wf-state waiting">
+                            <div class="wf-state-header">
+                                <h5>TRANSITION</h5>
+                                <span class="wf-state-badge wait">Force</span>
+                            </div>
+                            <div class="wf-state-body">
+                                <p style="color: #ccc; margin-bottom: 10px;">Force transition to ANY state (bypass normal path)</p>
+                                <p style="color: #888; font-size: 0.85em;"><strong>Use case:</strong> Move accidentally rejected records back to approval state</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="workflow-diagram">
+                    <h4>Navigation Path</h4>
+                    <p style="color: #ccc; margin-bottom: 15px;">Lists → Mass Update → Mass Updates → Workflows → [Record Type] → [Workflow Name]</p>
+                    <div class="wf-flow-horizontal">
+                        <div class="wf-flow-box">
+                            <h6>Define Criteria</h6>
+                            <p>Same as saved search</p>
+                        </div>
+                        <span class="wf-flow-arrow">→</span>
+                        <div class="wf-flow-box">
+                            <h6>Name Update</h6>
+                            <p>Creates saved mass update</p>
+                        </div>
+                        <span class="wf-flow-arrow">→</span>
+                        <div class="wf-flow-box">
+                            <h6>Schedule (Optional)</h6>
+                            <p>Run during off-peak hours</p>
+                        </div>
+                        <span class="wf-flow-arrow">→</span>
+                        <div class="wf-flow-box highlight">
+                            <h6>Execute</h6>
+                            <p>Process matching records</p>
+                        </div>
+                    </div>
+                </div>
+
+                <table class="config-table">
+                    <tr><th>Update Type</th><th>When to Use</th><th>Permission</th></tr>
+                    <tr><td>Initiate</td><td>Start workflow on records without opening each one</td><td>Standard</td></tr>
+                    <tr><td>Process</td><td>Simulate button click or re-evaluate transitions</td><td>Standard</td></tr>
+                    <tr><td>Cancel</td><td>Stop workflows that are stuck or no longer needed</td><td>Admin Only</td></tr>
+                    <tr><td>Transition</td><td>Fix records in wrong state or stuck workflows</td><td>Standard</td></tr>
+                </table>
+
+                <div class="key-insight">
+                    <h4>💡 Key Insight</h4>
+                    <p><strong>Process vs Transition:</strong> Process follows the normal workflow path (next state). Transition can jump to ANY state, even backwards. Use Transition for error recovery; use Process for bulk automation.</p>
+                </div>
+            </div>
+        </div>
+
+        <a href="../Master-Dashboard.html" class="nav-btn">← Back to Course Overview</a>
+    </div>
+</body>
+</html>

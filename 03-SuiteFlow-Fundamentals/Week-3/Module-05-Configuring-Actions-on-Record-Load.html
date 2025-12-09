@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 5: Configuring Actions on Record Load - SuiteFlow Fundamentals</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f5f7fa; line-height: 1.6; color: #2d3748; }
+        .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 40px 20px; }
+        .header-content { max-width: 1200px; margin: 0 auto; }
+        .breadcrumb { font-size: 0.9em; margin-bottom: 15px; opacity: 0.9; }
+        .breadcrumb a { color: white; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.3); }
+        .module-title-section { display: flex; align-items: center; gap: 20px; }
+        .module-number { background: rgba(255,255,255,0.2); width: 80px; height: 80px; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 2em; font-weight: 700; }
+        h1 { font-size: 2.5em; font-weight: 700; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        .objectives-box { background: white; border-radius: 15px; padding: 30px; margin-bottom: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); border-left: 5px solid #667eea; }
+        .objectives-box h2 { color: #667eea; margin-bottom: 20px; }
+        .objectives-box ul { list-style: none; padding: 0; }
+        .objectives-box li { padding: 10px 0 10px 30px; position: relative; color: #555; }
+        .objectives-box li::before { content: "✓"; position: absolute; left: 0; color: #667eea; font-weight: bold; font-size: 1.3em; }
+        .content-section { background: white; border-radius: 15px; padding: 40px; margin-bottom: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
+        .content-section h2 { color: #2d3748; font-size: 1.8em; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 3px solid #667eea; }
+        .content-section h3 { color: #667eea; font-size: 1.4em; margin-top: 30px; margin-bottom: 15px; }
+        .content-section p { color: #555; line-height: 1.8; margin-bottom: 15px; }
+        .content-section ul, .content-section ol { margin-left: 30px; margin-bottom: 20px; }
+        .content-section li { margin-bottom: 10px; color: #555; }
+        .info-box { padding: 20px; border-radius: 8px; margin: 25px 0; border-left: 4px solid; }
+        .info-box.blue { background: #e3f2fd; border-left-color: #2196f3; }
+        .info-box.yellow { background: #fff9c4; border-left-color: #fbc02d; }
+        .info-box.green { background: #e8f5e9; border-left-color: #4caf50; }
+        .info-box.purple { background: #f3e5f5; border-left-color: #9c27b0; }
+        .info-box.red { background: #ffebee; border-left-color: #f44336; }
+        .info-box h4 { margin-bottom: 10px; font-weight: 600; }
+        .info-box.blue h4 { color: #1976d2; }
+        .info-box.yellow h4 { color: #f57f17; }
+        .info-box.green h4 { color: #2e7d32; }
+        .info-box.purple h4 { color: #6a1b9a; }
+        .info-box.red h4 { color: #c62828; }
+        .action-card { background: #f8f9fa; border-radius: 10px; padding: 20px; margin: 15px 0; border-left: 4px solid #667eea; }
+        .action-card h4 { color: #667eea; margin-bottom: 10px; }
+        .comparison-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        .comparison-table th, .comparison-table td { padding: 15px; text-align: left; border-bottom: 1px solid #e0e0e0; }
+        .comparison-table th { background: #667eea; color: white; }
+        .comparison-table tr:hover { background: #f5f5f5; }
+        .key-takeaways { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 15px; padding: 30px; margin: 30px 0; }
+        .key-takeaways h3 { color: white; margin-bottom: 20px; font-size: 1.5em; }
+        .key-takeaways ul { list-style: none; padding: 0; }
+        .key-takeaways li { padding: 12px 0 12px 30px; position: relative; color: white; opacity: 0.95; }
+        .key-takeaways li::before { content: "★"; position: absolute; left: 0; font-size: 1.2em; }
+        .exercise-section { background: #fff3e0; border-radius: 15px; padding: 30px; margin: 30px 0; border-left: 5px solid #ff9800; }
+        .exercise-section h3 { color: #e65100; margin-bottom: 15px; }
+        .exercise-link { display: inline-block; margin-top: 15px; padding: 12px 25px; background: #ff9800; color: white; text-decoration: none; border-radius: 25px; font-weight: 600; }
+        .navigation { display: flex; justify-content: space-between; margin-top: 40px; gap: 20px; flex-wrap: wrap; }
+        .nav-btn { display: inline-flex; align-items: center; padding: 15px 30px; border-radius: 25px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; flex: 1; justify-content: center; min-width: 200px; }
+        .nav-btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .nav-btn-secondary { background: #e2e8f0; color: #2d3748; }
+        .nav-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.15); }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="breadcrumb">
+                <a href="../Master-Dashboard.html">← Course Overview</a> / 
+                <a href="week-3-dashboard.html">Week 3</a> / Module 5
+            </div>
+            <div class="module-title-section">
+                <div class="module-number">05</div>
+                <div>
+                    <h1>Configuring Actions on Record Load</h1>
+                    <p style="margin-top: 10px; opacity: 0.9;">Display Persistence, Event Types, and Record Joins</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="objectives-box">
+            <h2>🎯 Learning Objectives</h2>
+            <p style="color: #666; margin-bottom: 15px;">Upon completion of this module, you will be able to:</p>
+            <ul>
+                <li>Configure actions to execute on server triggers when requesting a record</li>
+                <li>Explain display persistence and when to use client vs. server triggers</li>
+                <li>Filter action execution using event types</li>
+                <li>Explain record joins and create conditions using related record fields</li>
+            </ul>
+        </div>
+
+        <div class="content-section">
+            <h2>Actions on Before Record Load</h2>
+            
+            <p>Many actions you configured on client triggers in Module 3 (📚) can also be configured on the Before Record Load server trigger. Here's the comparison:</p>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Action</th>
+                        <th>Before User Edit (Client)</th>
+                        <th>Before Record Load (Server)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Set Field Display Type</td><td>✓</td><td>✓</td></tr>
+                    <tr><td>Set Field Mandatory</td><td>✓</td><td>✓</td></tr>
+                    <tr><td>Set Field Display Label</td><td>✓</td><td>✓</td></tr>
+                    <tr><td>Set Field Value</td><td>✓</td><td>✓ (New records only!)</td></tr>
+                    <tr><td>Add Button</td><td>—</td><td>✓</td></tr>
+                    <tr><td>Remove Button</td><td>—</td><td>✓</td></tr>
+                    <tr><td>Lock Record</td><td>—</td><td>✓</td></tr>
+                </tbody>
+            </table>
+
+            <div class="info-box yellow">
+                <h4>⚠️ Set Field Value Limitation</h4>
+                <p>On Before Record Load, Set Field Value only works when <strong>creating new records</strong>. You cannot set field values on existing records at this trigger!</p>
+            </div>
+
+            <h3>Additional Before Record Load Actions</h3>
+
+            <div class="action-card">
+                <h4>Add Button</h4>
+                <p>Adds a custom button to the record form. Used for transitions or navigation.</p>
+            </div>
+
+            <div class="action-card">
+                <h4>Remove Button</h4>
+                <p>Removes a standard NetSuite button from the form. <strong>Note:</strong> Cannot remove buttons added with Add Button—delete/inactivate the action instead.</p>
+            </div>
+
+            <div class="action-card">
+                <h4>Lock Record</h4>
+                <p>Makes the record read-only by removing the Edit button. Must be added to each state where locking is needed.</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Understanding Display Persistence</h2>
+
+            <p>This is one of the most important concepts in SuiteFlow. Form-level actions like Set Field Display Type, Set Field Display Label, Set Field Mandatory, Add/Remove Button, and Lock Record are <strong>NOT persisted</strong> to the database.</p>
+
+            <div class="info-box red">
+                <h4>⚠️ The Display Persistence Problem</h4>
+                <p>Actions configured only on <strong>Before User Edit</strong> (client trigger) will work during create and edit—but may <strong>NOT persist when viewing</strong> a record!</p>
+            </div>
+
+            <h3>Example: Set Field Display Label</h3>
+
+            <p>Scenario: You configure Set Field Display Label to change "Review Name" to "Review Period" on Before User Edit.</p>
+
+            <ul>
+                <li>✅ <strong>Create:</strong> Label shows "Review Period"</li>
+                <li>✅ <strong>Edit:</strong> Label shows "Review Period"</li>
+                <li>❌ <strong>View:</strong> Label reverts to "Review Name"!</li>
+            </ul>
+
+            <div class="info-box green">
+                <h4>✅ Solution: Use Both Triggers</h4>
+                <p>Configure the action on <strong>Before Record Load</strong> (server) in ADDITION to Before User Edit. Before Record Load fires in the View context!</p>
+            </div>
+
+            <div class="info-box purple">
+                <h4>💡 Best Practice</h4>
+                <p>Always prefer <strong>Before Record Load</strong> over Before User Edit for display actions. Server execution is more consistent across browsers, and it handles the View context automatically.</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Event Types</h2>
+
+            <p>Event types allow you to filter action execution based on specific user events in the NetSuite UI. Think of them as another type of workflow condition.</p>
+
+            <h3>Common Event Types for Before Record Load</h3>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Event Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>Copy</strong></td><td>User copies an existing record to create new</td></tr>
+                    <tr><td><strong>Create</strong></td><td>User clicks New to create a record</td></tr>
+                    <tr><td><strong>Edit</strong></td><td>User opens record in Edit mode</td></tr>
+                    <tr><td><strong>View</strong></td><td>User opens record in View mode</td></tr>
+                    <tr><td><strong>Print</strong></td><td>User opens record in Print mode</td></tr>
+                    <tr><td><strong>Email</strong></td><td>Automatic email notification sending</td></tr>
+                </tbody>
+            </table>
+
+            <div class="info-box blue">
+                <h4>📋 Example: Hide Field When Viewing/Printing</h4>
+                <p>Configure Set Field Display Type with event types = View, Print to hide "Salary Increase Amount" only when viewing or printing—but show it during Edit!</p>
+            </div>
+
+            <div class="info-box yellow">
+                <h4>⚠️ Event Type Limitations</h4>
+                <ul style="margin-left: 20px;">
+                    <li>Only available on <strong>server triggers</strong></li>
+                    <li>Not available when "All" is selected as trigger type</li>
+                    <li>Not available for scheduled actions</li>
+                    <li>Ignored if no selections made in multi-select field</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Record Joins</h2>
+
+            <p>A <strong>record join</strong> allows you to access field data from related records in your workflow conditions. This is powerful for building conditions based on data that lives outside the current record.</p>
+
+            <h3>Join Relationship Examples</h3>
+
+            <ul>
+                <li><strong>Transaction records</strong> → join to Item and Customer records</li>
+                <li><strong>Task records</strong> → join to Employee record</li>
+                <li><strong>Employee records</strong> → join to custom Performance Review record</li>
+                <li><strong>Furniture Request</strong> → join to Employee and Customer records</li>
+            </ul>
+
+            <div class="info-box blue">
+                <h4>📋 Using Joins in the Visual Builder</h4>
+                <p>In the Visual Builder's condition editor, you can select fields from related records. Look for the "joined" field options that reference related record types.</p>
+            </div>
+
+            <h3>Example: Condition Based on Employee Type</h3>
+
+            <p>Create a condition where an action only executes if the associated Employee's type is "Contractor":</p>
+            <ol>
+                <li>In Visual Builder, select the Employee join field</li>
+                <li>Select "Employee Type" from the related Employee record</li>
+                <li>Set condition: Employee Type = Contractor</li>
+            </ol>
+        </div>
+
+        <div class="exercise-section">
+            <h3>🎯 Hands-On Exercises</h3>
+            <p>Practice server trigger actions and display persistence:</p>
+            <ul style="margin-left: 30px; margin-bottom: 20px;">
+                <li>Exercise 1: Configure Set Field Display Type on Before Record Load</li>
+                <li>Exercise 2: Fix display persistence issues from Module 3</li>
+                <li>Exercise 3: Use event types to filter action execution</li>
+                <li>Exercise 4: Create a condition using a record join</li>
+            </ul>
+            <a href="../Appendices/Appendix-B-Hands-On-Exercises.html#module-5" class="exercise-link">Go to Module 5 Exercises →</a>
+        </div>
+
+        <div class="key-takeaways">
+            <h3>🌟 Key Takeaways</h3>
+            <ul>
+                <li><strong>Display actions are NOT persisted</strong>—must re-execute on every record load</li>
+                <li>Use <strong>Before Record Load</strong> for display actions to ensure View context works</li>
+                <li>Set Field Value on Before Record Load works only for <strong>new records</strong></li>
+                <li><strong>Event types</strong> filter when actions execute (Create, Edit, View, Print, etc.)</li>
+                <li><strong>Record joins</strong> let you build conditions using related record data</li>
+                <li>Cannot remove buttons added with Add Button—delete the action instead</li>
+                <li>Always test in Create, Edit, AND View modes to verify display persistence!</li>
+            </ul>
+        </div>
+
+        <div class="navigation">
+            <a href="Module-04-Understanding-Server-Triggers.html" class="nav-btn nav-btn-secondary">← Previous: Module 4</a>
+            <a href="../Week-4/Module-06-Configuring-Actions-on-Record-Submit.html" class="nav-btn nav-btn-primary">Next: Module 6 →</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 01: Accessing Standard Reports - Suite Analytics Learning Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #0f0f1a; color: #e0e0e0; line-height: 1.7; }
+        .header { background: linear-gradient(135deg, #0f3460 0%, #533483 100%); padding: 30px 20px; }
+        .header-content { max-width: 900px; margin: 0 auto; }
+        .breadcrumb { font-size: 0.9em; margin-bottom: 10px; opacity: 0.8; }
+        .breadcrumb a { color: #fff; text-decoration: none; }
+        .breadcrumb a:hover { text-decoration: underline; }
+        h1 { font-size: 2em; font-weight: 700; color: #fff; }
+        .module-meta { margin-top: 10px; color: rgba(255,255,255,0.8); font-size: 0.9em; }
+        .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+        h2 { color: #e94560; font-size: 1.5em; margin: 40px 0 20px; padding-bottom: 10px; border-bottom: 2px solid #e94560; }
+        h3 { color: #533483; font-size: 1.2em; margin: 30px 0 15px; }
+        p { margin-bottom: 15px; }
+        .concept-box { background: linear-gradient(145deg, #1a1a2e 0%, #1e1e32 100%); border-radius: 15px; padding: 25px; margin: 25px 0; border-left: 4px solid #e94560; }
+        .concept-box h4 { color: #e94560; margin-bottom: 12px; font-size: 1.1em; }
+        .key-point { background: rgba(83,52,131,0.2); border-radius: 10px; padding: 20px; margin: 20px 0; border: 1px solid rgba(83,52,131,0.4); }
+        .key-point h4 { color: #533483; margin-bottom: 10px; }
+        .method-card { background: #1a1a2e; border-radius: 12px; padding: 20px; margin: 15px 0; border: 1px solid rgba(255,255,255,0.1); }
+        .method-card h4 { color: #2196f3; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+        .method-card .icon { font-size: 1.3em; }
+        .steps { background: #12121f; border-radius: 10px; padding: 20px; margin: 15px 0; }
+        .steps ol { margin-left: 20px; }
+        .steps li { padding: 8px 0; }
+        .example-box { background: linear-gradient(145deg, #1e3a1e 0%, #1a2e1a 100%); border-radius: 12px; padding: 20px; margin: 20px 0; border: 1px solid #4caf50; }
+        .example-box h4 { color: #4caf50; margin-bottom: 12px; }
+        .example-box .scenario { font-style: italic; opacity: 0.9; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid rgba(76,175,80,0.3); }
+        .tip-box { background: rgba(255,193,7,0.1); border-radius: 10px; padding: 20px; margin: 20px 0; border: 1px solid rgba(255,193,7,0.3); }
+        .tip-box h4 { color: #ffc107; margin-bottom: 10px; }
+        .warning-box { background: rgba(244,67,54,0.1); border-radius: 10px; padding: 20px; margin: 20px 0; border: 1px solid rgba(244,67,54,0.3); }
+        .warning-box h4 { color: #f44336; margin-bottom: 10px; }
+        .nav-path { background: #1a1a2e; border-radius: 8px; padding: 12px 18px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 0.9em; color: #4caf50; display: inline-block; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #333; }
+        th { background: rgba(233,69,96,0.2); color: #e94560; font-weight: 600; }
+        tr:hover { background: rgba(255,255,255,0.03); }
+        .category-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0; }
+        .category-item { background: #1a1a2e; border-radius: 10px; padding: 15px; text-align: center; border: 1px solid rgba(255,255,255,0.1); }
+        .category-item .icon { font-size: 1.5em; margin-bottom: 8px; }
+        .category-item .name { font-weight: 600; color: #fff; }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 50px; padding-top: 30px; border-top: 1px solid #333; flex-wrap: wrap; gap: 15px; }
+        .nav-btn { padding: 12px 25px; border-radius: 25px; text-decoration: none; font-weight: 600; font-size: 0.9em; transition: all 0.3s ease; }
+        .nav-btn.secondary { background: rgba(255,255,255,0.1); color: #fff; }
+        .nav-btn.primary { background: linear-gradient(135deg, #e94560 0%, #533483 100%); color: #fff; }
+        .nav-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(0,0,0,0.3); }
+        ul { margin-left: 20px; margin-bottom: 15px; }
+        li { margin-bottom: 8px; }
+        code { background: rgba(255,255,255,0.1); padding: 2px 8px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="breadcrumb">
+                <a href="../Master-Dashboard.html">Course Overview</a> / 
+                <a href="week-1-dashboard.html">Week 1</a> / Module 01
+            </div>
+            <h1>📋 Module 01: Accessing Standard Reports</h1>
+            <div class="module-meta">Week 1 • Standard Reports • Foundation</div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="concept-box">
+            <h4>Module Overview</h4>
+            <p>NetSuite provides a full suite of standard reports to help you track and monitor your business. These reports cover financial data, inventory, sales, purchasing, and more. This module teaches you the multiple ways to find and access these reports quickly.</p>
+        </div>
+
+        <h2>Report Categories</h2>
+        <p>NetSuite organizes standard reports into categories based on their function. Your access to specific reports depends on your role and permissions.</p>
+
+        <div class="category-grid">
+            <div class="category-item">
+                <div class="icon">💰</div>
+                <div class="name">Financial Reports</div>
+                <div style="font-size: 0.85em; opacity: 0.7; margin-top: 5px;">Income, expenses, cash flow, balance sheet</div>
+            </div>
+            <div class="category-item">
+                <div class="icon">📦</div>
+                <div class="name">Inventory Reports</div>
+                <div style="font-size: 0.85em; opacity: 0.7; margin-top: 5px;">On-hand, revenue, valuation</div>
+            </div>
+            <div class="category-item">
+                <div class="icon">📈</div>
+                <div class="name">Sales Reports</div>
+                <div style="font-size: 0.85em; opacity: 0.7; margin-top: 5px;">By customer, item, rep</div>
+            </div>
+            <div class="category-item">
+                <div class="icon">🛒</div>
+                <div class="name">Purchasing Reports</div>
+                <div style="font-size: 0.85em; opacity: 0.7; margin-top: 5px;">By item, vendor, trends</div>
+            </div>
+        </div>
+
+        <h2>Three Ways to Access Reports</h2>
+
+        <div class="method-card">
+            <h4><span class="icon">🔍</span> Method 1: Global Search</h4>
+            <p>The fastest way to locate a specific report when you know its name.</p>
+            <div class="steps">
+                <ol>
+                    <li>Click the <strong>Search</strong> field in the upper right corner of NetSuite</li>
+                    <li>Enter a search term or the report name (e.g., "Sales by Customer")</li>
+                    <li>Add the <code>page:</code> prefix to limit results to pages and reports</li>
+                    <li>Select the report from the list of results</li>
+                </ol>
+            </div>
+            <div class="example-box">
+                <h4>💡 Example</h4>
+                <p>To quickly find the Income Statement report:</p>
+                <p><code>page: income statement</code></p>
+                <p>This filters out transactions and records, showing only pages and reports matching your search.</p>
+            </div>
+        </div>
+
+        <div class="method-card">
+            <h4><span class="icon">📂</span> Method 2: Reports Menu</h4>
+            <p>Navigate through the menu hierarchy to browse available reports by category.</p>
+            <div class="steps">
+                <ol>
+                    <li>Click <strong>Reports</strong> in the main navigation menu</li>
+                    <li>Navigate to the desired report category (Financial, Sales, Inventory, etc.)</li>
+                    <li>Select the specific report from the submenu</li>
+                </ol>
+            </div>
+            <p class="nav-path">Reports → [Category] → [Report Name]</p>
+        </div>
+
+        <div class="method-card">
+            <h4><span class="icon">📊</span> Method 3: Reports Dashboard</h4>
+            <p>View all available reports and saved searches in one centralized location.</p>
+            <div class="steps">
+                <ol>
+                    <li>Click <strong>Reports</strong> in the navigation menu (click the label itself, not the dropdown)</li>
+                    <li>The Reports Dashboard displays all reports you can access based on your role</li>
+                    <li>Reports are grouped by category</li>
+                    <li>Click <strong>Expand All</strong> to see all reports in each category</li>
+                    <li>Click any report title to open it</li>
+                </ol>
+            </div>
+        </div>
+
+        <h2>Creating Report Shortcuts</h2>
+        <p>For reports you use frequently, create shortcuts to access them with one click.</p>
+
+        <div class="key-point">
+            <h4>📌 How to Create a Shortcut</h4>
+            <ol>
+                <li>Open the report you want to shortcut</li>
+                <li>Hover over the <strong>favorites icon</strong> (star) in the report header</li>
+                <li>Select <strong>Add to Shortcuts</strong></li>
+                <li>Optionally check <strong>"Open in a new window"</strong> to open the report in a new tab when clicked</li>
+                <li>Click <strong>Save</strong></li>
+                <li>Refresh your browser to see the shortcut in your Shortcuts portlet</li>
+            </ol>
+        </div>
+
+        <div class="tip-box">
+            <h4>💡 Pro Tip</h4>
+            <p>Create shortcuts for reports you run daily, like Sales by Customer or Cash Flow. This saves navigation time and ensures you always have quick access to critical business data.</p>
+        </div>
+
+        <h2>Common Standard Reports</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Report</th>
+                    <th>Category</th>
+                    <th>Use Case</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Income Statement</td>
+                    <td>Financial</td>
+                    <td>Review revenue, expenses, and profit/loss</td>
+                </tr>
+                <tr>
+                    <td>Balance Sheet</td>
+                    <td>Financial</td>
+                    <td>View assets, liabilities, and equity</td>
+                </tr>
+                <tr>
+                    <td>Cash Flow Statement</td>
+                    <td>Financial</td>
+                    <td>Track cash inflows and outflows</td>
+                </tr>
+                <tr>
+                    <td>Sales by Customer</td>
+                    <td>Sales</td>
+                    <td>Analyze customer purchasing patterns</td>
+                </tr>
+                <tr>
+                    <td>Inventory Revenue</td>
+                    <td>Inventory</td>
+                    <td>Compare sales quantities to on-hand inventory</td>
+                </tr>
+                <tr>
+                    <td>Purchase by Item</td>
+                    <td>Purchasing</td>
+                    <td>Track buying behavior and cost trends</td>
+                </tr>
+                <tr>
+                    <td>Purchase by Vendor</td>
+                    <td>Purchasing</td>
+                    <td>Identify vendor reliance and trends</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Role-Based Access</h2>
+
+        <div class="warning-box">
+            <h4>⚠️ Important</h4>
+            <p>The reports you can see depend on your <strong>role and permissions</strong> in NetSuite. If you can't find a report you need, contact your NetSuite administrator to request appropriate permissions.</p>
+        </div>
+
+        <div class="concept-box">
+            <h4>🎯 Key Takeaways</h4>
+            <ul>
+                <li><strong>Global Search</strong> is fastest when you know the report name — use <code>page:</code> prefix</li>
+                <li><strong>Reports Menu</strong> lets you browse by category when exploring available reports</li>
+                <li><strong>Reports Dashboard</strong> provides a comprehensive view of all accessible reports</li>
+                <li><strong>Shortcuts</strong> save time for frequently accessed reports</li>
+                <li>Your <strong>role and permissions</strong> determine which reports you can access</li>
+            </ul>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="week-1-dashboard.html" class="nav-btn secondary">← Week 1 Overview</a>
+            <a href="Module-02-Viewing-Reports.html" class="nav-btn primary">Next: Viewing Reports →</a>
+        </div>
+    </div>
+</body>
+</html>

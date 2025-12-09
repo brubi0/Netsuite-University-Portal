@@ -1,0 +1,47 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Module 13: N/ui/message & N/ui/dialog - SuiteScript Learning Hub</title><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"><style>:root{--primary-gradient:linear-gradient(135deg,#667eea 0%,#764ba2 100%);--dark-bg:#1a1a2e;--card-bg:#16213e;--text-primary:#ffffff;--text-secondary:#a0aec0;--border-color:rgba(255,255,255,0.1);--purple:#9f7aea;--success:#48bb78;--code-bg:#0d1117}*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Inter',sans-serif;background:var(--dark-bg);color:var(--text-primary);min-height:100vh;line-height:1.7}.nav-bar{background:var(--card-bg);padding:15px 20px;border-bottom:1px solid var(--border-color);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100}.nav-bar a{color:var(--purple);text-decoration:none}.header{background:var(--primary-gradient);padding:50px 20px}.header-content{max-width:900px;margin:0 auto}.header .module-tag{display:inline-block;background:rgba(255,255,255,0.2);padding:5px 12px;border-radius:20px;font-size:0.85rem;margin-bottom:15px}.header h1{font-size:2.2rem;margin-bottom:10px}.header p{font-size:1.1rem;opacity:0.9}.container{max-width:900px;margin:0 auto;padding:40px 20px}.content-section{margin-bottom:40px}.content-section h2{font-size:1.5rem;margin-bottom:20px;padding-bottom:10px;border-bottom:2px solid var(--border-color)}.content-section h3{font-size:1.2rem;margin:25px 0 15px 0;color:var(--purple)}.content-section p{margin-bottom:15px;color:var(--text-secondary)}.info-box{border-radius:10px;padding:20px;margin:20px 0;background:rgba(66,153,225,0.15);border:1px solid rgba(66,153,225,0.3)}.info-box h4{margin-bottom:10px}.info-box p{margin-bottom:0;font-size:0.95rem}pre{background:var(--code-bg);border-radius:10px;padding:20px;overflow-x:auto;margin:20px 0;border:1px solid var(--border-color)}code{font-family:'JetBrains Mono',monospace;font-size:0.85rem;line-height:1.6}.inline-code{background:var(--code-bg);padding:2px 8px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:0.85rem;color:var(--purple)}.concept-table{width:100%;border-collapse:collapse;margin:20px 0}.concept-table th,.concept-table td{padding:12px 15px;text-align:left;border:1px solid var(--border-color)}.concept-table th{background:var(--card-bg);font-weight:600;color:var(--purple)}.concept-table td{color:var(--text-secondary)}.key-takeaways{background:var(--card-bg);border-radius:12px;padding:25px;margin-top:40px;border:1px solid var(--border-color)}.key-takeaways h3{margin-bottom:15px}.key-takeaways ul{list-style:none}.key-takeaways li{padding:8px 0;padding-left:25px;position:relative;color:var(--text-secondary)}.key-takeaways li::before{content:'✓';position:absolute;left:0;color:var(--success)}.nav-footer{display:flex;justify-content:space-between;margin-top:50px;padding-top:30px;border-top:1px solid var(--border-color);flex-wrap:wrap;gap:10px}.nav-footer a{color:var(--purple);text-decoration:none}</style></head><body><nav class="nav-bar"><a href="week-7-dashboard.html">← Week 7 Dashboard</a><div style="display:flex;gap:15px"><a href="Module-12-URL-Redirect.html">← Module 12</a><a href="Module-14-NTask.html">Module 14 →</a></div></nav><header class="header"><div class="header-content"><span class="module-tag">Week 7 • Module 13</span><h1>N/ui/message & N/ui/dialog</h1><p>Displaying banners, alerts, and confirmation dialogs</p></div></header><main class="container"><section class="content-section"><h2>📢 N/ui/message Module</h2><p>Display banner messages at the top of the page (Client Scripts only).</p><pre><code>const message = require('N/ui/message');
+
+// Create and show a message
+const myMsg = message.create({
+    title: 'Success!',
+    message: 'Record saved successfully.',
+    type: message.Type.CONFIRMATION
+});
+
+myMsg.show();
+
+// Auto-hide after 5 seconds
+myMsg.show({ duration: 5000 });</code></pre><h3>Message Types</h3><table class="concept-table"><thead><tr><th>Type</th><th>Appearance</th><th>Use Case</th></tr></thead><tbody><tr><td>CONFIRMATION</td><td>Green</td><td>Success messages</td></tr><tr><td>INFORMATION</td><td>Blue</td><td>General info</td></tr><tr><td>WARNING</td><td>Yellow</td><td>Caution alerts</td></tr><tr><td>ERROR</td><td>Red</td><td>Error notifications</td></tr></tbody></table></section><section class="content-section"><h2>💬 N/ui/dialog Module</h2><p>Show modal dialogs for user interaction.</p><h3>dialog.alert()</h3><pre><code>const dialog = require('N/ui/dialog');
+
+dialog.alert({
+    title: 'Notice',
+    message: 'Please review the data before continuing.'
+});</code></pre><h3>dialog.confirm()</h3><pre><code>dialog.confirm({
+    title: 'Confirm Action',
+    message: 'Are you sure you want to proceed?'
+}).then(result => {
+    if (result) {
+        // User clicked OK
+        processRecord();
+    } else {
+        // User clicked Cancel
+        log.audit('Cancelled', 'User cancelled the action');
+    }
+});</code></pre><div class="info-box"><h4>💡 Promise-Based</h4><p>dialog.confirm() returns a Promise. Use .then() to handle the user's response. True = OK clicked, False = Cancel clicked.</p></div></section><section class="content-section" style="background: rgba(66, 153, 225, 0.1); border: 1px solid rgba(66, 153, 225, 0.2); border-radius: 12px; padding: 25px; margin: 30px 0;">
+            <h2 style="border: none; padding: 0; margin-bottom: 15px;">📖 Finding This in the Docs</h2>
+            <p>To look up message and dialog APIs:</p>
+            <ol style="margin-left: 20px; color: var(--text-secondary);">
+                <li style="margin-bottom: 8px;">Go to <strong>docs.oracle.com</strong> → SuiteScript 2.x Modules</li>
+                <li style="margin-bottom: 8px;">Click on <strong>N/ui/message Module</strong> for banner messages</li>
+                <li style="margin-bottom: 8px;">Click on <strong>N/ui/dialog Module</strong> for modal dialogs</li>
+            </ol>
+            <p style="margin-top: 15px;"><strong>Key pages to bookmark:</strong></p>
+            <ul style="margin-left: 20px; color: var(--text-secondary);">
+                <li>message.create(options) → type (CONFIRMATION, INFORMATION, WARNING, ERROR)</li>
+                <li>Message.show() / Message.hide() → display control</li>
+                <li>dialog.alert(options) → simple notification popup</li>
+                <li>dialog.confirm(options) → returns Promise with user response</li>
+                <li>dialog.create(options) → custom dialogs with buttons</li>
+            </ul>
+        </section>
+
+        <div class="key-takeaways"><h3>🎯 Key Takeaways</h3><ul><li><span class="inline-code">message.create()</span> creates banner messages (CONFIRMATION, INFORMATION, WARNING, ERROR)</li><li><span class="inline-code">message.show()</span> displays the banner; optional duration for auto-hide</li><li><span class="inline-code">dialog.alert()</span> shows informational popups</li><li><span class="inline-code">dialog.confirm()</span> returns a Promise with the user's choice</li><li>Both modules are Client Script only (browser-side)</li></ul></div><nav class="nav-footer"><a href="Module-12-URL-Redirect.html">← Module 12: URL & Redirect</a><a href="Module-14-NTask.html">Module 14: N/task →</a></nav></main></body></html>

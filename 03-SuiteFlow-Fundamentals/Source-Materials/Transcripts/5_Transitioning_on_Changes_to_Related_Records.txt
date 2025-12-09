@@ -1,0 +1,79 @@
+Transitioning on changes to related records. In this module, we will review the concept of a record join and discuss how the subscribe to record action can be configured to monitor related records that when updated will wake up the running workflow to perform additional processing. It's important to note that the subscribe to record action is used in conjunction with transition configurations rather than action configurations. This is because changes to a subscribe to record do not cause a before or after record submit event to occur. As a result, the only valid transition trigger is blank, which is not supported in action configurations.
+
+In this module, we will discuss the following topics. We will review the concept of a join on a related record. And we'll look at the Subscribe to Record action. Upon the completion of this module, you will be able to use the Subscribe to Record action to monitor changes to related records and perform automatic transitions based on those changes.
+
+Before we dive into this module, let's do a quick review of how data is shared between workflows. The call record that's going to be subscribed to in student exercise 1 of this module has its record created by one workflow, yet its data evaluated by another workflow. This is going to require a way to return data from a child's workflow back to its parent workflow. Which of the following field types do you think can be used to share data between workflows?
+
+Workflow instance fields are private to a specific workflow and cannot be shared between workflows workflow state fields are private to a specific state of a workflow and therefore cannot be shared between workflows. Standard record fields are record specific by their very nature. So if you define them in one workflow, they're always available in another. Custom record fields are defined at the record level as well. So they are always available to all workflows running on the record just as with standard record fields. Understanding which types of fields can pass data between workflows will be important when configuring the Subscribe to Record action.
+
+A join is the ability to access another records types data in the context of the base record that the workflow instance is running on. Joins are defined at the record level by specifying the list record you would like to join to the base record. Once this join has been established, joined records are referred to as related records. For example, a typical sales order record has its own sales order fields, but it also has several joined or related records, such as the employee record, the item record, and the customer record.
+
+You can configure transitions on changes to related records by defining a condition that is evaluated against data in the related record. When the related record value changes, it causes the workflow to wake up and evaluate the transition condition to see if it should be executed. The manner in which you were able to monitor a related record for data changes is through the configuration of the Subscribe to Record action which allows you to evaluate data across related records by making all of the fields of the subscribe to record visible to the workflow. Transitions can then be configured to execute based on the value of a field on the related record.
+
+The Subscribe to Record action can be used to monitor the following types of fields-- workflow instance and state fields, which is important to understand since you cannot pass data between workflows using either of these fields, standard and custom record fields, fields returned by the Create Record action, and fields returned by a workflow action script. One basic implementation of the subscribe to record action is the relationship between a customer record and a related task record. In this example a workflow running on the customer record has a transition configured based on the value of the status field in the related task record. In this case, the transition will only be executed when the status is updated from not started to completed.
+
+The configuration of the Subscribed to Record action is a 2-step process. First you must execute the Subscribe to Record action itself. And then you must evaluate the Subscribe to Records data for changes, usually in a transition condition. You can also execute to create record action in conjunction with the Subscribe to record action. When using the Subscribe to Record action in conjunction with the Create record action, make sure the Subscribe to Record action is executed before the related record data is evaluated but after the Create record action when subscribing to fields on the record being created.
+
+Consider this example using our performance review record. In step one, 1, a workflow executing on record save initiates the creation of a related task record using the Create record action. The performance review record is able to monitor fields in the related task record by storing the created record in a custom record field and referencing that field in the store results in dropdown list in the record action configuration.
+
+In step 2, once the record has been successfully saved, the approval workflow is executed on the performance review record and a Subscribe to Record action is executed which references the related task record using the custom record field. In step 3, a change is made to the related task record such as a status update. And in step 4, the approval workflow wakes up and evaluates its transmission conditions to determine if any transitions should be executed based on the change in the related task record.
+
+Here are some things to keep in mind when configuring transitions based on changes to related records. Set transition on equal to blank when configuring transitions based on changes to a related record. The Subscribe to Record action and the subsequent evaluation of related record data must occur in the same workflow but not necessarily in the same state of that workflow.
+
+The Subscribe to Record action must be executed after any create record actions when subscribing to fields on the new record, but before the evaluation of related record data in transition conditions. In this walk through demonstration, we will show you how to transition to an approval state representing the subordinate's manager once the self-evaluation task has been completed.
+
+Specifically, the tasks we will demonstrate are as follows. First will create a custom record field to store the Subscribe to record. Then will create the related record using the Create record action. We'll do this using the performance review save workflow.
+
+Next, we'll subscribe to the new record with the Subscribe to Record action in the performance review approval workflow. And then finally, we'll configure our transitions based on changes to our related task record. Let's begin by creating that custom field on our performance review record.
+
+So what I'm going to do is come up here to customization, list records in fields and then once again come down to record types. And I'm just going to go ahead and modify my performance review record here. And all we're going to do is add another field to this record.
+
+And I'm going to do that right down here in the fields subtab. It's simply going to say new field. And I'm going to go ahead and call this field task since that's going to be the related record that we're going to go ahead and create.
+
+I'm going to call this SDR per rev task. Oops, sorry about that. There we go. And I'm going to go ahead and make this a type field of list record. I'm simply going to go out and just reference the task record with that.
+
+Now, down here in the display subtab, I could certainly have that display on the record and then subsequently on the form if I want to. I'm not going to go ahead and do that. I'm just going to go out and hide that for now. So I'm just going to go ahead and choose hidden there.
+
+It's optional. But I don't really need to see it. It's just going to be storing that reference when we subscribe to. And then when we monitor those fields for changes, that will be what we use to do that. Go ahead and click Save. And there we go. We have our custom field. I can see it right down here, the task field referencing the task record.
+
+Now, let's go ahead and modify our performance review save workflow. So I'm going to go up to my list of workflows here. Here we are. And I'm just going to go ahead and edit performance review save. And all we're really going to do here is just a couple of things.
+
+The first thing we're going to do is simply modify the existing create record action in state 1 as you can see here. So this is what's creating our related task record. But now that I'm creating it, I can store the results of that created record in my custom task field that I just created on the record itself.
+
+So I'm just going to choose task from store results in. And that is all I have to do here. I can go ahead and save that. The other thing that I need to do is just one kind of sidebar is if you look at the transitions between state 0 and state 1, notice that transition is set to after record submit.
+
+I'm going to go ahead and remove that transition there. So it comes in at the before record submit, which is what the context of the workflow is. There we go. And I'm going to change the transition from state 1 to state 2 to after record submit.
+
+And that will accommodate the Send Email action there in state 2, OK? So just a couple little tweaks there to my triggers. And I'll go ahead and click Done editing on that one.
+
+Now, let's go ahead and modify our approval workflow. I'm going to go ahead and edit that here. And one thing we're going to do is we're going to actually perform a validation right when this workflow starts. And we want to validate that the task record has actually been completed. And so this is going to be kind of the whole crux of our subscribe to record action.
+
+So watch what I do here. I'm going to go ahead and click New State. And I'm just going to drag this right up here alongside state 1. And I'm going to rename this state 0. Check for task completion right there. And I'm going to make this the start state of the workflow, OK? No longer is state 1 the start state. The state 0 will be with my validations.
+
+Let me go ahead and save that. Notice that it now knows that state 0 is the start state. And I'm going to create a transition from state 0 to state 1. And there we go.
+
+Now, in state 0, let's go ahead and add our Subscribe to Record action. So I'm going to come down here, click new action. There we go. And all the way down at the bottom of the Action list, you'll see subscribe to record. I want to go ahead and choose that.
+
+It's simply saying, which field do you want to go ahead and subscribe to? Well, I'm going to go ahead and subscribe to the task record. And that is really all I have to do is just select task, OK?
+
+Go ahead and click Save. And now I'm simply going to modify the transition between state 0 and state 1 to only occur when the status of the task record is completed. So we're going to be monitoring this task record using the subscribe to record action and just kind of listening on that status field. And when it gets changed to completed, the transition will automatically occur and put us into a waiting approval state.
+
+So let's go ahead and configure that. So what I'm going to do is put a condition here. I'm simply going to click Open to open up the Visual Builder condition and simply say, I only want that to occur when the task record status field-- there it is-- is any of-- I'll just go ahead and enter it right in here-- completed. Only when the task status is completed do I want this to occur. So I'll click Save. And that is all I have to do there. And I'll click Done editing. And now we can go ahead and test this.
+
+I'm going to go out here and create a new performance review record. And just I'll go ahead and let's see, module 6, test number 1. Go ahead and choose Wilheim Schueler as my subordinate.
+
+We'll will give him a not so good rating code this time. He really didn't step up to the plate this year. And we'll go ahead and save that, all right. There we go. I'll go to my list of records which we'll need to hear in just a second. You can see my new record that I'll get to in just a moment.
+
+But let's just go out and verify that the task record actually did get created for Wilheim Schueler. So if I go out here to activities, to scheduling, to tasks. Let me go ahead and open that up in a new tab. We can see that there is, in fact, one that is out here for Wilheim Schueler that was just created. And I can see that it is currently not started.
+
+Now, let's go back to that record. And I'm going to go ahead and just edit this record. And if we come down here into our workflow history-- let me see what's going on here. Notice we have our create workflow that executed our save workflow and then our approval workflow. And you will see that workflow is currently sitting in state 0. Check for task completion mode.
+
+And if we look at the log file for that, we can see that it has, in fact executed the Subscribe to Record action, OK? So the target record ID of 713 coincides with the idea of my task record that I just created coincidentally. And so everything seems to be working great so far. So if I close that, we simply need to change the status of that task record. And we should see the transition to state 1 automatically occur.
+
+So let me go back to that task record. And all I'm going to do is edit that and change the status to completed, OK? So from not started to completed, and I'll click Save, all right? There we go.
+
+Now, I'm going to just simply jump back to that record where I'm looking at workflow history. And all I'm going to do is simply click Refresh here. And notice that when I do that, it went out, re-evaluated the condition based on the change to the related record and said, whoop, that is now completed. I can make the transition to state 1. And I can see it right here.
+
+So if I come in and look at the log file in state 0, notice that I do see the workflow trigger to process transition as subscribe to workflow, is actually how it's being logged, which is kind of neat. And it will show me that was a subscribed transition, basically, that occurred on that change to the task status. So that is really the whole point behind subscribing to a record is that you could certainly go in and update statuses using the UI, but the whole point of this is to automate that process and take action in workflow when certain field values change using subscribed to record.
+
+It is now time for you to complete the required hands on exercises associated with the topics discussed in this module. To complete the required exercises refer to your student workbook. When you have finished, you may continue with the next module. This concludes the transitioning on changes to related records module.

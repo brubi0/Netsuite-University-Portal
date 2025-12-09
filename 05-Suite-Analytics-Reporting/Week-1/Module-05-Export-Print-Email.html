@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 05: Export, Print & Email - Suite Analytics Learning Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #0f0f1a; color: #e0e0e0; line-height: 1.7; }
+        .header { background: linear-gradient(135deg, #0f3460 0%, #533483 100%); padding: 30px 20px; }
+        .header-content { max-width: 900px; margin: 0 auto; }
+        .breadcrumb { font-size: 0.9em; margin-bottom: 10px; opacity: 0.8; }
+        .breadcrumb a { color: #fff; text-decoration: none; }
+        h1 { font-size: 2em; font-weight: 700; color: #fff; }
+        .module-meta { margin-top: 10px; color: rgba(255,255,255,0.8); font-size: 0.9em; }
+        .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+        h2 { color: #e94560; font-size: 1.5em; margin: 40px 0 20px; padding-bottom: 10px; border-bottom: 2px solid #e94560; }
+        h3 { color: #533483; font-size: 1.2em; margin: 30px 0 15px; }
+        p { margin-bottom: 15px; }
+        .concept-box { background: linear-gradient(145deg, #1a1a2e 0%, #1e1e32 100%); border-radius: 15px; padding: 25px; margin: 25px 0; border-left: 4px solid #e94560; }
+        .concept-box h4 { color: #e94560; margin-bottom: 12px; font-size: 1.1em; }
+        .export-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; margin: 20px 0; }
+        .export-item { background: #1a1a2e; border-radius: 12px; padding: 20px; text-align: center; border: 1px solid rgba(255,255,255,0.1); transition: all 0.3s ease; }
+        .export-item:hover { border-color: #e94560; transform: translateY(-3px); }
+        .export-item .icon { font-size: 2em; margin-bottom: 10px; }
+        .export-item .format { font-weight: 600; color: #fff; margin-bottom: 5px; }
+        .export-item .desc { font-size: 0.8em; opacity: 0.7; }
+        .feature-card { background: #1a1a2e; border-radius: 12px; padding: 20px; margin: 15px 0; border: 1px solid rgba(255,255,255,0.1); }
+        .feature-card h4 { color: #2196f3; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+        .steps { background: #12121f; border-radius: 10px; padding: 20px; margin: 15px 0; }
+        .steps ol { margin-left: 20px; }
+        .steps li { padding: 8px 0; }
+        .example-box { background: linear-gradient(145deg, #1e3a1e 0%, #1a2e1a 100%); border-radius: 12px; padding: 20px; margin: 20px 0; border: 1px solid #4caf50; }
+        .example-box h4 { color: #4caf50; margin-bottom: 12px; }
+        .tip-box { background: rgba(255,193,7,0.1); border-radius: 10px; padding: 20px; margin: 20px 0; border: 1px solid rgba(255,193,7,0.3); }
+        .tip-box h4 { color: #ffc107; margin-bottom: 10px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #333; }
+        th { background: rgba(233,69,96,0.2); color: #e94560; font-weight: 600; }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 50px; padding-top: 30px; border-top: 1px solid #333; flex-wrap: wrap; gap: 15px; }
+        .nav-btn { padding: 12px 25px; border-radius: 25px; text-decoration: none; font-weight: 600; font-size: 0.9em; transition: all 0.3s ease; }
+        .nav-btn.secondary { background: rgba(255,255,255,0.1); color: #fff; }
+        .nav-btn.primary { background: linear-gradient(135deg, #e94560 0%, #533483 100%); color: #fff; }
+        .nav-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(0,0,0,0.3); }
+        ul { margin-left: 20px; margin-bottom: 15px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="breadcrumb">
+                <a href="../Master-Dashboard.html">Course Overview</a> / 
+                <a href="week-1-dashboard.html">Week 1</a> / Module 05
+            </div>
+            <h1>📤 Module 05: Export, Print & Email</h1>
+            <div class="module-meta">Week 1 • Standard Reports • Foundation</div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="concept-box">
+            <h4>Module Overview</h4>
+            <p>From the report viewer, you can export reports in multiple formats, print them, or email them directly to colleagues. This module covers all the distribution options available for standard reports.</p>
+        </div>
+
+        <h2>Export Formats</h2>
+        <p>Click the format icons in the report toolbar to download the report in your preferred format.</p>
+
+        <div class="export-grid">
+            <div class="export-item">
+                <div class="icon">📊</div>
+                <div class="format">Excel</div>
+                <div class="desc">Spreadsheet with formulas</div>
+            </div>
+            <div class="export-item">
+                <div class="icon">📄</div>
+                <div class="format">PDF</div>
+                <div class="desc">Formatted document</div>
+            </div>
+            <div class="export-item">
+                <div class="icon">📝</div>
+                <div class="format">CSV</div>
+                <div class="desc">Raw data, comma-separated</div>
+            </div>
+            <div class="export-item">
+                <div class="icon">📃</div>
+                <div class="format">Word</div>
+                <div class="desc">Editable document</div>
+            </div>
+        </div>
+
+        <div class="example-box">
+            <h4>💡 When to Use Each Format</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Format</th>
+                        <th>Best For</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Excel</strong></td>
+                        <td>Further analysis, pivot tables, additional calculations</td>
+                    </tr>
+                    <tr>
+                        <td><strong>PDF</strong></td>
+                        <td>Sharing final reports, printing, archiving</td>
+                    </tr>
+                    <tr>
+                        <td><strong>CSV</strong></td>
+                        <td>Importing into other systems, data processing</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Word</strong></td>
+                        <td>Adding commentary, creating presentations</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2>Printing Reports</h2>
+        <div class="feature-card">
+            <h4><span style="font-size:1.3em">🖨️</span> Print Options</h4>
+            <p>Click the <strong>Print</strong> icon to send the report to your printer. NetSuite automatically:</p>
+            <ul>
+                <li>Adds the report title on each page</li>
+                <li>Includes column headings on each page</li>
+                <li>Formats the report for the selected paper size</li>
+            </ul>
+        </div>
+
+        <h2>Emailing Reports</h2>
+        <p>Email reports directly from NetSuite to share data with colleagues or external recipients.</p>
+
+        <div class="feature-card">
+            <h4><span style="font-size:1.3em">📧</span> Email Report Steps</h4>
+            <div class="steps">
+                <ol>
+                    <li>Click the <strong>Email</strong> icon in the report toolbar</li>
+                    <li>You are automatically added as a recipient</li>
+                    <li>Add additional recipients under <strong>Copy Others</strong> or type email addresses</li>
+                    <li>On the <strong>Message</strong> subtab, add your email message</li>
+                    <li>Choose the attachment format:
+                        <ul style="margin-top: 8px;">
+                            <li><strong>Inline HTML</strong> — Report displays in the email body</li>
+                            <li><strong>Attachment</strong> — Report attached as Excel, PDF, CSV, or Word</li>
+                        </ul>
+                    </li>
+                    <li>On the <strong>Attachment</strong> subtab, optionally attach additional documents</li>
+                    <li>Click <strong>Send</strong></li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="tip-box">
+            <h4>💡 Pro Tip</h4>
+            <p>You can email reports to both <strong>internal NetSuite users</strong> and <strong>external recipients</strong> (like clients or vendors) by entering their email addresses directly. You can also attach additional files from your computer or the NetSuite File Cabinet.</p>
+        </div>
+
+        <h2>Report Snapshots</h2>
+        <p>Some reports are available as snapshots — static images that can be added to your Home dashboard.</p>
+
+        <div class="feature-card">
+            <h4><span style="font-size:1.3em">📸</span> Snapshot Features</h4>
+            <ul>
+                <li>A <strong>camera icon</strong> indicates the report is available as a snapshot</li>
+                <li>Add snapshots to the <strong>Report Snapshot portlet</strong> on your Home dashboard</li>
+                <li>Create custom snapshots for frequently viewed reports</li>
+                <li>Not all reports have snapshot capability — refer to SuiteAnswers for the full list</li>
+            </ul>
+        </div>
+
+        <div class="concept-box">
+            <h4>🎯 Key Takeaways</h4>
+            <ul>
+                <li>Export reports in <strong>Excel, PDF, CSV, or Word</strong> formats</li>
+                <li>Click <strong>Print</strong> to send reports to your printer with automatic formatting</li>
+                <li><strong>Email reports</strong> with inline HTML or as attachments to internal or external recipients</li>
+                <li>Use <strong>Report Snapshots</strong> to display static report images on your dashboard</li>
+                <li>Attach additional documents when emailing reports</li>
+            </ul>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="Module-04-Report-Tools.html" class="nav-btn secondary">← Previous: Report Tools</a>
+            <a href="Module-06-Scheduling-Reports.html" class="nav-btn primary">Next: Scheduling Reports →</a>
+        </div>
+    </div>
+</body>
+</html>

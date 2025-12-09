@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appendix B: Formula Reference - SuiteFlow Advanced Workflows</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #0f0f1a; line-height: 1.6; color: #e0e0e0; }
+        .header { background: linear-gradient(135deg, #e94560 0%, #0f3460 100%); color: white; padding: 40px 20px; }
+        .header-content { max-width: 1200px; margin: 0 auto; }
+        .breadcrumb { font-size: 0.9em; margin-bottom: 15px; opacity: 0.9; }
+        .breadcrumb a { color: white; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.3); }
+        h1 { font-size: 2.5em; font-weight: 700; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        .content-section { background: #1a1a2e; border-radius: 15px; padding: 40px; margin-bottom: 30px; }
+        .content-section h2 { color: #fff; font-size: 1.8em; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 3px solid #e94560; }
+        .content-section h3 { color: #e94560; font-size: 1.4em; margin-top: 30px; margin-bottom: 15px; }
+        .content-section p { color: #ccc; line-height: 1.8; margin-bottom: 15px; }
+        .comparison-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        .comparison-table th, .comparison-table td { padding: 15px; text-align: left; border-bottom: 1px solid #333; }
+        .comparison-table th { background: linear-gradient(135deg, #e94560 0%, #0f3460 100%); color: white; }
+        .comparison-table tr:hover { background: rgba(233,69,96,0.1); }
+        .code-block { background: #0a0a12; border-radius: 8px; padding: 15px; margin: 15px 0; font-family: 'Courier New', monospace; color: #4caf50; overflow-x: auto; }
+        .info-box { padding: 20px; border-radius: 8px; margin: 25px 0; border-left: 4px solid; }
+        .info-box.blue { background: rgba(33,150,243,0.1); border-left-color: #2196f3; }
+        .info-box.red { background: rgba(244,67,54,0.1); border-left-color: #f44336; }
+        .info-box h4 { margin-bottom: 10px; font-weight: 600; }
+        .info-box.blue h4 { color: #2196f3; }
+        .info-box.red h4 { color: #f44336; }
+        .nav-btn { display: inline-block; padding: 15px 30px; border-radius: 25px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; background: rgba(255,255,255,0.1); color: #fff; margin-top: 30px; }
+        .nav-btn:hover { transform: translateY(-2px); background: rgba(255,255,255,0.2); }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="breadcrumb"><a href="../Master-Dashboard.html">← Course Overview</a> / Appendix B</div>
+            <h1>🔢 Appendix B: Formula Reference</h1>
+            <p style="margin-top: 10px; opacity: 0.9;">SQL and SuiteScript Formula Quick Reference</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="content-section">
+            <h2>Formula Types</h2>
+            <table class="comparison-table">
+                <thead>
+                    <tr><th>Type</th><th>Trigger</th><th>Syntax</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>SQL Formulas</strong></td><td>Server triggers</td><td>{field_id}</td></tr>
+                    <tr><td><strong>SuiteScript Formulas</strong></td><td>Client triggers</td><td>'field_id' in API calls</td></tr>
+                </tbody>
+            </table>
+
+            <div class="info-box red">
+                <h4>⚠️ Important</h4>
+                <p>Mismatched formula/trigger types will be ignored and show "ERROR: Invalid expression" in logs.</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>SQL Formula Functions</h2>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr><th>Function</th><th>Purpose</th><th>Example</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>LENGTH()</td><td>String length</td><td>LENGTH({phone}) > 10</td></tr>
+                    <tr><td>UPPER() / LOWER()</td><td>Change case</td><td>UPPER({name})</td></tr>
+                    <tr><td>SUBSTR()</td><td>Extract substring</td><td>SUBSTR({email}, 1, 5)</td></tr>
+                    <tr><td>INSTR()</td><td>Find position</td><td>INSTR({email}, '@')</td></tr>
+                    <tr><td>NVL()</td><td>Handle nulls</td><td>NVL({amount}, 0)</td></tr>
+                    <tr><td>TO_CHAR()</td><td>Format number/date</td><td>TO_CHAR({amount}, '999,999')</td></tr>
+                    <tr><td>TO_NUMBER()</td><td>Convert to number</td><td>TO_NUMBER({text_field})</td></tr>
+                    <tr><td>CASE WHEN</td><td>Conditional logic</td><td>CASE WHEN {status}='A' THEN 'Active' END</td></tr>
+                    <tr><td>||</td><td>Concatenate</td><td>{first} || ' ' || {last}</td></tr>
+                </tbody>
+            </table>
+
+            <h3>SQL Formula Examples</h3>
+            <div class="code-block">{custrecord_salary} * 1.05</div>
+            <div class="code-block">{phone} || '-' || {zipcode}</div>
+            <div class="code-block">SUBSTR({email}, INSTR({email}, '@') + 1)</div>
+            <div class="code-block">UPPER({custrecord_code}) NOT IN ('A', 'B', 'C')</div>
+        </div>
+
+        <div class="content-section">
+            <h2>SuiteScript 1.0 Functions</h2>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr><th>Function</th><th>Purpose</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>nlapiGetFieldValue('fieldId')</td><td>Get field value</td></tr>
+                    <tr><td>nlapiSetFieldValue('fieldId', value)</td><td>Set field value</td></tr>
+                    <tr><td>nlapiGetFieldText('fieldId')</td><td>Get list field display text</td></tr>
+                    <tr><td>nlapiLookupField(type, id, fields)</td><td>Look up field on another record</td></tr>
+                    <tr><td>nlapiGetUser()</td><td>Get current user ID</td></tr>
+                    <tr><td>nlapiGetRole()</td><td>Get current role ID</td></tr>
+                </tbody>
+            </table>
+
+            <h3>SuiteScript Formula Example</h3>
+            <div class="code-block">nlapiGetFieldValue('custrecord_rating_code').length < 10</div>
+
+            <div class="info-box blue">
+                <h4>📋 Note</h4>
+                <p>Only SuiteScript 1.0 is supported in formula conditions. SuiteScript 2.0 requires Workflow Action Scripts.</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Field Reference Syntax</h2>
+            <table class="comparison-table">
+                <thead>
+                    <tr><th>Context</th><th>Syntax</th><th>Example</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>SQL - Base field</td><td>{field_id}</td><td>{phone}</td></tr>
+                    <tr><td>SQL - Related record</td><td>{record.field}</td><td>{customer.email}</td></tr>
+                    <tr><td>SQL - Custom field</td><td>{custrecord_xxx}</td><td>{custrecord_rating}</td></tr>
+                    <tr><td>SuiteScript</td><td>'field_id'</td><td>'custrecord_rating'</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <a href="../Master-Dashboard.html" class="nav-btn">← Back to Course Overview</a>
+    </div>
+</body>
+</html>

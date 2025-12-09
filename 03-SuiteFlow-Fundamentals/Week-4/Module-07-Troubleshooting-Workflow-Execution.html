@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 7: Troubleshooting Workflow Execution - SuiteFlow Fundamentals</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f5f7fa; line-height: 1.6; color: #2d3748; }
+        .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 40px 20px; }
+        .header-content { max-width: 1200px; margin: 0 auto; }
+        .breadcrumb { font-size: 0.9em; margin-bottom: 15px; opacity: 0.9; }
+        .breadcrumb a { color: white; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.3); }
+        .module-title-section { display: flex; align-items: center; gap: 20px; }
+        .module-number { background: rgba(255,255,255,0.2); width: 80px; height: 80px; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 2em; font-weight: 700; }
+        h1 { font-size: 2.5em; font-weight: 700; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        .objectives-box { background: white; border-radius: 15px; padding: 30px; margin-bottom: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); border-left: 5px solid #667eea; }
+        .objectives-box h2 { color: #667eea; margin-bottom: 20px; }
+        .objectives-box ul { list-style: none; padding: 0; }
+        .objectives-box li { padding: 10px 0 10px 30px; position: relative; color: #555; }
+        .objectives-box li::before { content: "✓"; position: absolute; left: 0; color: #667eea; font-weight: bold; font-size: 1.3em; }
+        .content-section { background: white; border-radius: 15px; padding: 40px; margin-bottom: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
+        .content-section h2 { color: #2d3748; font-size: 1.8em; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 3px solid #667eea; }
+        .content-section h3 { color: #667eea; font-size: 1.4em; margin-top: 30px; margin-bottom: 15px; }
+        .content-section p { color: #555; line-height: 1.8; margin-bottom: 15px; }
+        .content-section ul, .content-section ol { margin-left: 30px; margin-bottom: 20px; }
+        .content-section li { margin-bottom: 10px; color: #555; }
+        .info-box { padding: 20px; border-radius: 8px; margin: 25px 0; border-left: 4px solid; }
+        .info-box.blue { background: #e3f2fd; border-left-color: #2196f3; }
+        .info-box.yellow { background: #fff9c4; border-left-color: #fbc02d; }
+        .info-box.green { background: #e8f5e9; border-left-color: #4caf50; }
+        .info-box.purple { background: #f3e5f5; border-left-color: #9c27b0; }
+        .info-box.red { background: #ffebee; border-left-color: #f44336; }
+        .info-box h4 { margin-bottom: 10px; font-weight: 600; }
+        .info-box.blue h4 { color: #1976d2; }
+        .info-box.yellow h4 { color: #f57f17; }
+        .info-box.green h4 { color: #2e7d32; }
+        .info-box.purple h4 { color: #6a1b9a; }
+        .info-box.red h4 { color: #c62828; }
+        .comparison-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        .comparison-table th, .comparison-table td { padding: 15px; text-align: left; border-bottom: 1px solid #e0e0e0; }
+        .comparison-table th { background: #667eea; color: white; }
+        .comparison-table tr:hover { background: #f5f5f5; }
+        .key-takeaways { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 15px; padding: 30px; margin: 30px 0; }
+        .key-takeaways h3 { color: white; margin-bottom: 20px; font-size: 1.5em; }
+        .key-takeaways ul { list-style: none; padding: 0; }
+        .key-takeaways li { padding: 12px 0 12px 30px; position: relative; color: white; opacity: 0.95; }
+        .key-takeaways li::before { content: "★"; position: absolute; left: 0; font-size: 1.2em; }
+        .exercise-section { background: #fff3e0; border-radius: 15px; padding: 30px; margin: 30px 0; border-left: 5px solid #ff9800; }
+        .exercise-section h3 { color: #e65100; margin-bottom: 15px; }
+        .exercise-link { display: inline-block; margin-top: 15px; padding: 12px 25px; background: #ff9800; color: white; text-decoration: none; border-radius: 25px; font-weight: 600; }
+        .navigation { display: flex; justify-content: space-between; margin-top: 40px; gap: 20px; flex-wrap: wrap; }
+        .nav-btn { display: inline-flex; align-items: center; padding: 15px 30px; border-radius: 25px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; flex: 1; justify-content: center; min-width: 200px; }
+        .nav-btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .nav-btn-secondary { background: #e2e8f0; color: #2d3748; }
+        .nav-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.15); }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="breadcrumb">
+                <a href="../Master-Dashboard.html">← Course Overview</a> / 
+                <a href="week-4-dashboard.html">Week 4</a> / Module 7
+            </div>
+            <div class="module-title-section">
+                <div class="module-number">07</div>
+                <div>
+                    <h1>Troubleshooting Workflow Execution</h1>
+                    <p style="margin-top: 10px; opacity: 0.9;">Using Execution Logs, Purging History, and Managing Workflow Status</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="objectives-box">
+            <h2>🎯 Learning Objectives</h2>
+            <p style="color: #666; margin-bottom: 15px;">Upon completion of this module, you will be able to:</p>
+            <ul>
+                <li>Use Active Workflows to identify workflow instances running on a record</li>
+                <li>Use Workflow History to identify states visited by each workflow instance</li>
+                <li>Use the Workflow Execution Log to troubleshoot action and transition execution</li>
+                <li>Explain the process and benefits of purging workflow history records</li>
+                <li>Explain the workflow execution history options in the Keep Instance and History dropdown</li>
+            </ul>
+        </div>
+
+        <div class="content-section">
+            <h2>Active Workflows & Workflow History</h2>
+            
+            <p>When a workflow initiates on a record, NetSuite tracks all processing activity and logs it. This information appears in two sublists on the record:</p>
+
+            <h3>Active Workflows Sublist</h3>
+            <ul>
+                <li>Shows all <strong>currently running</strong> workflow instances on the record</li>
+                <li>Completed workflows are automatically removed</li>
+                <li>Common with single-state workflows and workflows with non-exiting end states</li>
+            </ul>
+
+            <h3>Workflow History Sublist</h3>
+            <ul>
+                <li>Displays each <strong>state entered</strong> during workflow execution</li>
+                <li>Shows current and past state transitions</li>
+                <li>Records stay for the life of the record (until purged)</li>
+                <li>Provides link to the <strong>Workflow Execution Log</strong></li>
+                <li>Shows workflow and state field values set during execution</li>
+            </ul>
+
+            <div class="info-box blue">
+                <h4>📋 Finding the Sublists</h4>
+                <p>By default, Active Workflows and Workflow History appear under a <strong>System Information</strong> subtab. To group them under a "Workflow" subtab, modify the custom record and enable "Allow Attachments" or "Show Notes."</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>The Workflow Execution Log</h2>
+
+            <p>The execution log is your primary troubleshooting tool. It shows exactly what happened during workflow processing for each state.</p>
+
+            <h3>What You Can Learn from the Log</h3>
+            <ul>
+                <li>Which actions and transitions <strong>did or did not execute</strong></li>
+                <li>The <strong>order</strong> of action and transition execution</li>
+                <li><strong>Server-side errors</strong> (client-side errors are NOT logged)</li>
+                <li>Whether conditions evaluated <strong>true or false</strong></li>
+                <li>Field values that were set or retrieved</li>
+            </ul>
+
+            <div class="info-box yellow">
+                <h4>⚠️ Enabling Logging</h4>
+                <p>Workflow logging is <strong>NOT enabled by default</strong>! Check "Enable Logging" on the workflow definition page. The log is only available when:</p>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li>User is logged in as Administrator</li>
+                    <li>Release Status is Testing or Released</li>
+                    <li>Enable Logging checkbox is checked</li>
+                </ul>
+            </div>
+
+            <h3>Understanding Skipped Actions</h3>
+
+            <p>When an action's trigger doesn't match the active workflow trigger, it gets <strong>skipped</strong>—but no user-facing error appears! Only the execution log reveals this.</p>
+
+            <div class="info-box red">
+                <h4>⚠️ Common Skipped Action Scenario</h4>
+                <p>A Go to Record action configured on Before Record Submit won't execute because Before Record Submit isn't a valid trigger for that action. The log shows "Skipped" but no error displays to users.</p>
+            </div>
+
+            <h3>Reading the Log</h3>
+
+            <p>The log shows NetSuite field IDs (not UI labels). Enable <strong>Show Internal IDs</strong> in User Preferences (Module 0 📚) to match field IDs to form fields. List/record field values show as internal IDs—open the referenced record to verify data.</p>
+        </div>
+
+        <div class="content-section">
+            <h2>Suspending Workflow Execution</h2>
+
+            <p>Set the workflow's Release Status to <strong>Suspended</strong> to completely halt execution:</p>
+
+            <ul>
+                <li>No new workflow instances will initiate</li>
+                <li>Existing instances won't be triggered</li>
+                <li>No new execution log entries created</li>
+                <li>Scheduled actions/transitions won't execute</li>
+                <li>Cannot be initiated from SuiteScript</li>
+                <li>Current instances can be canceled</li>
+                <li>Workflow can still be edited in Workflow Manager</li>
+            </ul>
+
+            <div class="info-box green">
+                <h4>✅ Resume Execution</h4>
+                <p>Set Release Status back to <strong>Testing</strong> or <strong>Released</strong> to resume normal processing.</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Purging Workflow History</h2>
+
+            <p>Over time, workflow history records can become very large and impact performance. Purging removes old records.</p>
+
+            <h3>Accessing the Purge Dialog</h3>
+            <ol>
+                <li>Open the workflow in Workflow Manager</li>
+                <li>Click <strong>More</strong> in the upper right corner</li>
+                <li>Select <strong>Instances and History Records</strong></li>
+            </ol>
+
+            <h3>Purge Options</h3>
+            <ul>
+                <li>Delete history records older than X months (default: 3 months)</li>
+                <li>Enter 0 to delete ALL history records</li>
+                <li>Only <strong>completed</strong> workflow instances are deleted</li>
+                <li>Purge runs as a background task</li>
+                <li>Only one purge runs at a time; additional requests queue</li>
+            </ul>
+
+            <div class="info-box purple">
+                <h4>💡 No Impact on Development</h4>
+                <p>Purging has no effect on currently processing workflows or future development. It also doesn't affect the Update History on the workflow definition page (History subtab).</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Disabling Execution History</h2>
+
+            <p>The <strong>Keep Instance and History</strong> dropdown on the workflow definition controls whether execution history is saved:</p>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Option</th>
+                        <th>Behavior</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Always</strong></td>
+                        <td>Preserves all instances and history entries</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Only When Testing</strong></td>
+                        <td>Preserves only when Release Status = Testing</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Never</strong></td>
+                        <td>Deletes instances when workflow reaches end state; no new history saved</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="info-box green">
+                <h4>✅ Performance Tip</h4>
+                <p>For high-volume transaction workflows, consider "Only When Testing" or "Never" to reduce database usage and improve performance.</p>
+            </div>
+        </div>
+
+        <div class="exercise-section">
+            <h3>🎯 Hands-On Exercises</h3>
+            <p>Practice troubleshooting workflows:</p>
+            <ul style="margin-left: 30px; margin-bottom: 20px;">
+                <li>Exercise 1: Review Active Workflows and Workflow History sublists</li>
+                <li>Exercise 2: Analyze the Workflow Execution Log</li>
+                <li>Exercise 3: Identify and fix a skipped action</li>
+                <li>Exercise 4: Practice purging workflow history</li>
+            </ul>
+            <a href="../Appendices/Appendix-B-Hands-On-Exercises.html#module-7" class="exercise-link">Go to Module 7 Exercises →</a>
+        </div>
+
+        <div class="key-takeaways">
+            <h3>🌟 Key Takeaways</h3>
+            <ul>
+                <li><strong>Active Workflows</strong> shows currently running instances; <strong>Workflow History</strong> shows all visited states</li>
+                <li>The <strong>Execution Log</strong> is essential for troubleshooting—check it to see skipped actions!</li>
+                <li><strong>Enable Logging</strong> must be checked to generate log entries</li>
+                <li>Only <strong>server-side</strong> action execution is logged—client-side is not</li>
+                <li><strong>Skipped actions</strong> don't generate user errors—only visible in the log</li>
+                <li>When releasing to production, <strong>uncheck Enable Logging</strong> to reduce overhead</li>
+                <li><strong>Purge history</strong> periodically to maintain performance</li>
+                <li>Use <strong>Keep Instance and History = Never</strong> for high-volume workflows</li>
+            </ul>
+        </div>
+
+        <div class="navigation">
+            <a href="Module-06-Configuring-Actions-on-Record-Submit.html" class="nav-btn nav-btn-secondary">← Previous: Module 6</a>
+            <a href="../Week-5/Module-08-Building-Approval-Workflows.html" class="nav-btn nav-btn-primary">Next: Module 8 →</a>
+        </div>
+    </div>
+</body>
+</html>

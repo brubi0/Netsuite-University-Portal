@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 9: Improving Workflow Performance - SuiteFlow Advanced Workflows</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #0f0f1a; line-height: 1.6; color: #e0e0e0; }
+        .header { background: linear-gradient(135deg, #e94560 0%, #0f3460 100%); color: white; padding: 40px 20px; }
+        .header-content { max-width: 1200px; margin: 0 auto; }
+        .breadcrumb { font-size: 0.9em; margin-bottom: 15px; opacity: 0.9; }
+        .breadcrumb a { color: white; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.3); }
+        .module-title-section { display: flex; align-items: center; gap: 20px; }
+        .module-number { background: rgba(255,255,255,0.2); width: 80px; height: 80px; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 2em; font-weight: 700; }
+        h1 { font-size: 2.5em; font-weight: 700; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        .objectives-box { background: #1a1a2e; border-radius: 15px; padding: 30px; margin-bottom: 30px; border-left: 5px solid #e94560; }
+        .objectives-box h2 { color: #e94560; margin-bottom: 20px; }
+        .objectives-box ul { list-style: none; padding: 0; }
+        .objectives-box li { padding: 10px 0 10px 30px; position: relative; color: #ccc; }
+        .objectives-box li::before { content: "✓"; position: absolute; left: 0; color: #e94560; font-weight: bold; }
+        .content-section { background: #1a1a2e; border-radius: 15px; padding: 40px; margin-bottom: 30px; }
+        .content-section h2 { color: #fff; font-size: 1.8em; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 3px solid #e94560; }
+        .content-section h3 { color: #e94560; font-size: 1.4em; margin-top: 30px; margin-bottom: 15px; }
+        .content-section p { color: #ccc; line-height: 1.8; margin-bottom: 15px; }
+        .content-section ul, .content-section ol { margin-left: 30px; margin-bottom: 20px; }
+        .content-section li { margin-bottom: 10px; color: #ccc; }
+        .info-box { padding: 20px; border-radius: 8px; margin: 25px 0; border-left: 4px solid; }
+        .info-box.blue { background: rgba(33,150,243,0.1); border-left-color: #2196f3; }
+        .info-box.yellow { background: rgba(255,193,7,0.1); border-left-color: #ffc107; }
+        .info-box.green { background: rgba(76,175,80,0.1); border-left-color: #4caf50; }
+        .info-box.red { background: rgba(244,67,54,0.1); border-left-color: #f44336; }
+        .info-box.purple { background: rgba(156,39,176,0.1); border-left-color: #9c27b0; }
+        .info-box h4 { margin-bottom: 10px; font-weight: 600; }
+        .info-box.blue h4 { color: #2196f3; }
+        .info-box.yellow h4 { color: #ffc107; }
+        .info-box.green h4 { color: #4caf50; }
+        .info-box.red h4 { color: #f44336; }
+        .info-box.purple h4 { color: #9c27b0; }
+        .tip-card { background: rgba(76,175,80,0.1); border-radius: 10px; padding: 20px; margin: 15px 0; border-left: 4px solid #4caf50; }
+        .tip-card h4 { color: #4caf50; margin-bottom: 10px; }
+        .comparison-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        .comparison-table th, .comparison-table td { padding: 15px; text-align: left; border-bottom: 1px solid #333; }
+        .comparison-table th { background: linear-gradient(135deg, #e94560 0%, #0f3460 100%); color: white; }
+        .comparison-table tr:hover { background: rgba(233,69,96,0.1); }
+        .key-takeaways { background: linear-gradient(135deg, #e94560 0%, #0f3460 100%); color: white; border-radius: 15px; padding: 30px; margin: 30px 0; }
+        .key-takeaways h3 { color: white; margin-bottom: 20px; font-size: 1.5em; }
+        .key-takeaways ul { list-style: none; padding: 0; }
+        .key-takeaways li { padding: 12px 0 12px 30px; position: relative; opacity: 0.95; }
+        .key-takeaways li::before { content: "★"; position: absolute; left: 0; }
+        .navigation { display: flex; justify-content: space-between; margin-top: 40px; gap: 20px; flex-wrap: wrap; }
+        .nav-btn { display: inline-flex; align-items: center; padding: 15px 30px; border-radius: 25px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; flex: 1; justify-content: center; min-width: 200px; }
+        .nav-btn-primary { background: linear-gradient(135deg, #e94560 0%, #0f3460 100%); color: white; }
+        .nav-btn-secondary { background: rgba(255,255,255,0.1); color: #fff; }
+        .nav-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(233,69,96,0.3); }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="breadcrumb">
+                <a href="../Master-Dashboard.html">← Course Overview</a> / 
+                <a href="week-4-dashboard.html">Week 4</a> / Module 9
+            </div>
+            <div class="module-title-section">
+                <div class="module-number">09</div>
+                <div>
+                    <h1>Improving Workflow Performance</h1>
+                    <p style="margin-top: 10px; opacity: 0.9;">Best Practices for Optimized Processing</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="objectives-box">
+            <h2>🎯 Learning Objectives</h2>
+            <p style="color: #999; margin-bottom: 15px;">Upon completion of this module, you will be able to:</p>
+            <ul>
+                <li>List tips and best practices for workflow design principles</li>
+                <li>Apply best practices for workflow initiation and condition construction</li>
+                <li>Optimize scheduling of workflow and action execution</li>
+                <li>Describe performance issues with After Record Submit processing</li>
+            </ul>
+        </div>
+
+        <div class="content-section">
+            <h2>Performance Overview</h2>
+            
+            <p>While many performance tips result in <strong>minuscule gains</strong>, saving just a few milliseconds per workflow execution can significantly improve overall performance when <strong>thousands or millions of records</strong> are processed across many user sessions.</p>
+
+            <div class="info-box blue">
+                <h4>📋 Performance Areas Covered</h4>
+                <ul style="margin-top: 10px; margin-left: 20px;">
+                    <li>Workflow Design</li>
+                    <li>Workflow Initiation</li>
+                    <li>Workflow Conditions</li>
+                    <li>Scheduling Workflows and Actions</li>
+                    <li>After Record Submit Processing</li>
+                    <li>Workflow Logging</li>
+                    <li>Workflow Action Scripts</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Workflow Design Best Practices</h2>
+
+            <p><strong>Poorly designed workflows are the most common</strong> cause of performance issues.</p>
+
+            <div class="tip-card">
+                <h4>💡 Tip 1: Modularize Workflows</h4>
+                <p>Don't try to do too much in any one workflow. Break workflows into smaller processing chunks. Consider the nature of processing and modularize as necessary.</p>
+            </div>
+
+            <div class="tip-card">
+                <h4>💡 Tip 2: Separate Client and Server</h4>
+                <p>Separate workflow processing between client-triggered and server-triggered initiation. This allows for easier troubleshooting by isolating actions by trigger type.</p>
+            </div>
+
+            <div class="tip-card">
+                <h4>💡 Tip 3: Leverage Sub-Workflows</h4>
+                <p>Use parent workflows to initiate child sub-workflows for additional processing. This provides better control over execution order and facilitates troubleshooting.</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Workflow Initiation Best Practices</h2>
+
+            <div class="tip-card">
+                <h4>💡 Tip 1: Configure Proper Initiation Conditions</h4>
+                <p>Ensure workflows only execute when all conditions are met AND the workflow has something to process. It's better to <strong>prevent initiation</strong> than to initiate and immediately exit.</p>
+            </div>
+
+            <div class="tip-card">
+                <h4>💡 Tip 2: Select Appropriate Event Type and Context</h4>
+                <p>Use specific contexts (like CSV Import) to prevent workflow processing on non-targeted records. Only initiate workflows during bulk imports when absolutely necessary.</p>
+            </div>
+
+            <div class="tip-card">
+                <h4>💡 Tip 3: Avoid "All" Trigger Type</h4>
+                <p>Using "All" as the trigger type can cause workflows to execute inappropriately. Always select the most appropriate specific trigger: Before Record Load, Before Record Submit, or After Record Submit.</p>
+            </div>
+
+            <div class="info-box red">
+                <h4>⚠️ Warning</h4>
+                <p>Not specifying event type or context fields may initiate workflows unnecessarily, reducing performance during record load or save events.</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Condition Best Practices</h2>
+
+            <div class="tip-card">
+                <h4>💡 Tip 1: Limit Old Record References</h4>
+                <p>Referencing "Old Record" in VALUE FIELD conditions causes the database record to be reloaded during condition evaluation, impacting performance.</p>
+            </div>
+
+            <div class="tip-card">
+                <h4>💡 Tip 2: Limit Saved Search Conditions</h4>
+                <p>Saved search criteria can impact performance on individual actions/transitions. Configure saved searches at <strong>workflow initiation</strong> level when possible—evaluated once instead of multiple times.</p>
+            </div>
+
+            <div class="tip-card">
+                <h4>💡 Tip 3: Limit Joined Record Conditions</h4>
+                <p>Visual Builder conditions are converted to SQL queries. More related record fields = more complex queries = reduced performance.</p>
+            </div>
+
+            <h3>Alternatives to Joined Conditions</h3>
+            <ul>
+                <li>Use <strong>SQL formulas</strong> for more control over conditional logic</li>
+                <li>Create <strong>custom record fields</strong> and source values from related records before evaluating</li>
+            </ul>
+        </div>
+
+        <div class="content-section">
+            <h2>Scheduling Best Practices</h2>
+
+            <div class="tip-card">
+                <h4>💡 Tip 1: Target Only Records Requiring Processing</h4>
+                <p>Create saved search conditions that only return records the workflow will actually process. Prevent initiating workflows on records that don't need updating.</p>
+            </div>
+
+            <div class="tip-card">
+                <h4>💡 Tip 2: Avoid Unnecessary Reprocessing</h4>
+                <p>After processing, ensure record data changes so it <strong>no longer meets the saved search criteria</strong>. Use status fields when possible to exclude processed records.</p>
+            </div>
+
+            <div class="tip-card">
+                <h4>💡 Tip 3: Avoid Time-Based Search Criteria</h4>
+                <p>Don't filter for records created "in the last 30 minutes." If processing isn't complete before the next scheduler cycle, records may be skipped.</p>
+            </div>
+
+            <div class="tip-card">
+                <h4>💡 Tip 4: Limit Scheduled Actions on Large Record Sets</h4>
+                <p>Workflows with scheduled actions wake up every 30 minutes, reload ALL records, and check if actions need execution—even if no action is needed.</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>After Record Submit Processing</h2>
+
+            <h3>Understanding Backend Behavior</h3>
+            <p>When processing multiple workflows at After Record Submit, records are <strong>reloaded on the server</strong>. A second save event occurs only if a workflow made changes using Set Field Value.</p>
+
+            <div class="tip-card">
+                <h4>💡 Tip 1: Use Before Record Submit When Possible</h4>
+                <p>Execute Set Field Value actions at <strong>Before Record Submit</strong> rather than After Record Submit. This sets values while the record is in memory, avoiding a second database commit.</p>
+            </div>
+
+            <div class="tip-card">
+                <h4>💡 Tip 2: Guard Set Field Value Actions</h4>
+                <p>For fields that are set once and never change, add a condition that checks if the value has changed. This prevents unnecessary save events.</p>
+            </div>
+
+            <div class="info-box yellow">
+                <h4>⚠️ Note</h4>
+                <p>For data-heavy records like Sales Orders and Purchase Orders, the second load and save event can have <strong>significant performance impact</strong>.</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Logging Best Practices</h2>
+
+            <div class="tip-card">
+                <h4>💡 Disable Logging in Production</h4>
+                <p>When setting Release Status to "Released," uncheck "Enable Logging" to reduce logging overhead. Error logs are still generated but only display server processing errors.</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Workflow Action Script Best Practices</h2>
+
+            <div class="tip-card">
+                <h4>💡 Tip 1: Use Built-in Actions First</h4>
+                <p>Always use standard SuiteFlow actions when possible. Only use Workflow Action Scripts when required processing isn't supported by built-in actions.</p>
+            </div>
+
+            <div class="tip-card">
+                <h4>💡 Tip 2: Avoid Resource-Intensive Operations</h4>
+                <p>Workflows wait for scripts to complete (synchronous). Long processing loops or resource-intensive operations will be perceived as slow workflow performance.</p>
+            </div>
+
+            <div class="tip-card">
+                <h4>💡 Tip 3: Use Scheduled Scripts for Batch Operations</h4>
+                <p>For complex batch processing, initiate a <strong>scheduled script</strong> from the workflow. This runs asynchronously on the server, returning focus to the client immediately.</p>
+            </div>
+
+            <div class="tip-card">
+                <h4>💡 Tip 4: Use APM for Performance Analysis</h4>
+                <p>Use the <strong>Application Performance Management SuiteApp</strong> to identify bottlenecks in server-side script processing.</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Performance Summary Table</h2>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Area</th>
+                        <th>Best Practice</th>
+                        <th>Avoid</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Design</strong></td>
+                        <td>Modular, separated client/server</td>
+                        <td>Monolithic, complex workflows</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Initiation</strong></td>
+                        <td>Specific triggers and contexts</td>
+                        <td>"All" trigger, no context filter</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Conditions</strong></td>
+                        <td>Simple conditions, SQL formulas</td>
+                        <td>Old Record refs, complex joins</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Saved Searches</strong></td>
+                        <td>At initiation level, exclude processed</td>
+                        <td>On individual actions, time-based</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Set Field Value</strong></td>
+                        <td>Before Record Submit with guards</td>
+                        <td>After Record Submit without guards</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Logging</strong></td>
+                        <td>Disabled in production</td>
+                        <td>Always enabled</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Scripts</strong></td>
+                        <td>Built-in actions, async for batch</td>
+                        <td>Long loops, resource-intensive</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="key-takeaways">
+            <h3>🌟 Key Takeaways</h3>
+            <ul>
+                <li><strong>Modularize</strong> workflows and separate client/server triggers</li>
+                <li>Configure <strong>specific initiation conditions</strong>—prevent rather than exit</li>
+                <li><strong>Avoid "All" trigger</strong>—use specific server triggers</li>
+                <li><strong>Limit Old Record</strong> references and saved search conditions</li>
+                <li>Use <strong>Before Record Submit</strong> for Set Field Value when possible</li>
+                <li><strong>Guard Set Field Value</strong> actions to prevent unnecessary saves</li>
+                <li><strong>Disable logging</strong> in production environments</li>
+                <li>Use <strong>scheduled scripts</strong> for batch operations</li>
+            </ul>
+        </div>
+
+        <div class="navigation">
+            <a href="Module-08-Executing-Different-Contexts.html" class="nav-btn nav-btn-secondary">← Previous: Module 8</a>
+            <a href="Module-10-Course-WrapUp.html" class="nav-btn nav-btn-primary">Next: Module 10 →</a>
+        </div>
+    </div>
+</body>
+</html>

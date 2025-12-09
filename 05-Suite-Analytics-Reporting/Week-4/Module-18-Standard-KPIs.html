@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 18: Standard KPIs & Portlets - Suite Analytics Learning Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #0f0f1a; color: #e0e0e0; line-height: 1.7; }
+        .header { background: linear-gradient(135deg, #0f3460 0%, #533483 100%); padding: 30px 20px; }
+        .header-content { max-width: 900px; margin: 0 auto; }
+        .breadcrumb { font-size: 0.9em; margin-bottom: 10px; opacity: 0.8; }
+        .breadcrumb a { color: #fff; text-decoration: none; }
+        h1 { font-size: 2em; font-weight: 700; color: #fff; }
+        .module-meta { margin-top: 10px; color: rgba(255,255,255,0.8); font-size: 0.9em; }
+        .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+        h2 { color: #e94560; font-size: 1.5em; margin: 40px 0 20px; padding-bottom: 10px; border-bottom: 2px solid #e94560; }
+        p { margin-bottom: 15px; }
+        .concept-box { background: linear-gradient(145deg, #1a1a2e 0%, #1e1e32 100%); border-radius: 15px; padding: 25px; margin: 25px 0; border-left: 4px solid #e94560; }
+        .concept-box h4 { color: #e94560; margin-bottom: 12px; font-size: 1.1em; }
+        .portlet-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 25px 0; }
+        .portlet-card { background: #1a1a2e; border-radius: 12px; padding: 20px; border: 1px solid #333; }
+        .portlet-card h4 { color: #2196f3; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+        .portlet-card .icon { font-size: 1.5em; }
+        .portlet-card p { font-size: 0.9em; opacity: 0.8; margin: 0; }
+        .portlet-card ul { margin-left: 15px; margin-top: 10px; font-size: 0.9em; }
+        .example-box { background: linear-gradient(145deg, #1e3a1e 0%, #1a2e1a 100%); border-radius: 12px; padding: 20px; margin: 20px 0; border: 1px solid #4caf50; }
+        .example-box h4 { color: #4caf50; margin-bottom: 12px; }
+        .key-point { background: rgba(83,52,131,0.2); border-radius: 10px; padding: 20px; margin: 20px 0; border: 1px solid rgba(83,52,131,0.4); }
+        .key-point h4 { color: #533483; margin-bottom: 10px; }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 50px; padding-top: 30px; border-top: 1px solid #333; flex-wrap: wrap; gap: 15px; }
+        .nav-btn { padding: 12px 25px; border-radius: 25px; text-decoration: none; font-weight: 600; font-size: 0.9em; transition: all 0.3s ease; }
+        .nav-btn.secondary { background: rgba(255,255,255,0.1); color: #fff; }
+        .nav-btn.primary { background: linear-gradient(135deg, #e94560 0%, #533483 100%); color: #fff; }
+        ul { margin-left: 20px; margin-bottom: 15px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="breadcrumb">
+                <a href="../Master-Dashboard.html">Course Overview</a> / 
+                <a href="week-4-dashboard.html">Week 4</a> / Module 18
+            </div>
+            <h1>📈 Module 18: Standard KPIs & Portlets</h1>
+            <div class="module-meta">Week 4 • KPIs & Suite Analytics Workbook • Advanced Analytics</div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="concept-box">
+            <h4>What are KPIs?</h4>
+            <p>Key Performance Indicators (KPIs) are quantifiable metrics that measure business performance. NetSuite provides <strong>75+ prepackaged KPIs</strong> based on standard reports, displayed through various dashboard portlets. KPIs let executives and managers monitor critical metrics at a glance.</p>
+        </div>
+
+        <h2>KPI Portlet Types</h2>
+
+        <div class="portlet-grid">
+            <div class="portlet-card">
+                <h4><span class="icon">📊</span> Key Performance Indicators</h4>
+                <p>Summary lines showing current values with drill-down to underlying data.</p>
+                <ul>
+                    <li>Multiple KPIs in one portlet</li>
+                    <li>Click values to drill down</li>
+                    <li>Shows trend indicators</li>
+                </ul>
+            </div>
+            <div class="portlet-card">
+                <h4><span class="icon">🎯</span> KPI Meter</h4>
+                <p>Semi-circular gauge showing a single value against thresholds.</p>
+                <ul>
+                    <li>Visual speedometer style</li>
+                    <li>Compare to target values</li>
+                    <li>Color-coded ranges</li>
+                </ul>
+            </div>
+            <div class="portlet-card">
+                <h4><span class="icon">📉</span> Trend Graph</h4>
+                <p>Line chart showing KPI values over time.</p>
+                <ul>
+                    <li>Multiple KPIs on one chart</li>
+                    <li>Select time intervals</li>
+                    <li>Track trends visually</li>
+                </ul>
+            </div>
+            <div class="portlet-card">
+                <h4><span class="icon">📋</span> KPI Scorecard</h4>
+                <p>Tabular comparison of KPIs across date ranges.</p>
+                <ul>
+                    <li>Compare periods side-by-side</li>
+                    <li>Highlight variances</li>
+                    <li>Complex multi-KPI views</li>
+                </ul>
+            </div>
+        </div>
+
+        <h2>Adding KPI Portlets</h2>
+
+        <div class="key-point">
+            <h4>📍 Steps to Add a KPI Portlet</h4>
+            <ol style="margin-left: 20px; margin-top: 10px;">
+                <li>Click <strong>Personalize Dashboard</strong></li>
+                <li>Select <strong>Custom Portlet</strong> → KPI type</li>
+                <li>Choose the KPIs to display</li>
+                <li>Configure date ranges and comparison periods</li>
+                <li>Set highlighting thresholds (optional)</li>
+                <li>Click <strong>Save</strong></li>
+            </ol>
+        </div>
+
+        <div class="example-box">
+            <h4>💡 Example: Revenue Trend Graph</h4>
+            <p>Create a trend graph showing monthly revenue for the past 12 months:</p>
+            <ul>
+                <li><strong>Portlet Type:</strong> Trend Graph</li>
+                <li><strong>KPI:</strong> Revenue</li>
+                <li><strong>Time Interval:</strong> Monthly</li>
+                <li><strong>Range:</strong> Last 12 Months</li>
+            </ul>
+        </div>
+
+        <div class="concept-box">
+            <h4>🎯 Key Takeaways</h4>
+            <ul>
+                <li>NetSuite includes <strong>75+ standard KPIs</strong> based on reports</li>
+                <li><strong>KPI Portlet</strong> — List of values with drill-down</li>
+                <li><strong>KPI Meter</strong> — Visual gauge with thresholds</li>
+                <li><strong>Trend Graph</strong> — Line chart over time</li>
+                <li><strong>KPI Scorecard</strong> — Multi-period comparison table</li>
+            </ul>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="week-4-dashboard.html" class="nav-btn secondary">← Week 4 Overview</a>
+            <a href="Module-19-Custom-KPIs.html" class="nav-btn primary">Next: Custom KPIs →</a>
+        </div>
+    </div>
+</body>
+</html>

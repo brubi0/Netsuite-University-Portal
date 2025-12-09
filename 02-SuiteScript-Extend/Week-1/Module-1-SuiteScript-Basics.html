@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 1: SuiteScript Basics - SuiteScript Learning Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --dark-bg: #1a1a2e;
+            --card-bg: #16213e;
+            --text-primary: #ffffff;
+            --text-secondary: #a0aec0;
+            --border-color: rgba(255,255,255,0.1);
+            --purple: #9f7aea;
+            --success: #48bb78;
+            --warning: #ecc94b;
+            --info: #4299e1;
+            --code-bg: #0d1117;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.7;
+        }
+
+        .nav-bar {
+            background: var(--card-bg);
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-bar a {
+            color: var(--purple);
+            text-decoration: none;
+            font-size: 0.95rem;
+        }
+
+        .nav-bar a:hover { text-decoration: underline; }
+
+        .module-nav {
+            display: flex;
+            gap: 15px;
+        }
+
+        .header {
+            background: var(--primary-gradient);
+            padding: 50px 20px;
+        }
+
+        .header-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header .module-tag {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-bottom: 15px;
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .content-section {
+            margin-bottom: 40px;
+        }
+
+        .content-section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .content-section h3 {
+            font-size: 1.2rem;
+            margin: 25px 0 15px 0;
+            color: var(--purple);
+        }
+
+        .content-section p {
+            margin-bottom: 15px;
+            color: var(--text-secondary);
+        }
+
+        .info-box {
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .info-box.blue {
+            background: rgba(66, 153, 225, 0.15);
+            border: 1px solid rgba(66, 153, 225, 0.3);
+        }
+
+        .info-box.yellow {
+            background: rgba(236, 201, 75, 0.15);
+            border: 1px solid rgba(236, 201, 75, 0.3);
+        }
+
+        .info-box.green {
+            background: rgba(72, 187, 120, 0.15);
+            border: 1px solid rgba(72, 187, 120, 0.3);
+        }
+
+        .info-box.purple {
+            background: rgba(159, 122, 234, 0.15);
+            border: 1px solid rgba(159, 122, 234, 0.3);
+        }
+
+        .info-box h4 {
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        .info-box p {
+            margin-bottom: 0;
+            font-size: 0.95rem;
+        }
+
+        pre {
+            background: var(--code-bg);
+            border-radius: 10px;
+            padding: 20px;
+            overflow-x: auto;
+            margin: 20px 0;
+            border: 1px solid var(--border-color);
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .inline-code {
+            background: var(--code-bg);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--purple);
+        }
+
+        .step-list {
+            list-style: none;
+            counter-reset: step;
+        }
+
+        .step-list li {
+            counter-increment: step;
+            padding: 15px 15px 15px 60px;
+            position: relative;
+            margin-bottom: 10px;
+            background: var(--card-bg);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .step-list li::before {
+            content: counter(step);
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 30px;
+            height: 30px;
+            background: var(--primary-gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .concept-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .concept-table th,
+        .concept-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border: 1px solid var(--border-color);
+        }
+
+        .concept-table th {
+            background: var(--card-bg);
+            font-weight: 600;
+            color: var(--purple);
+        }
+
+        .concept-table td {
+            color: var(--text-secondary);
+        }
+
+        .module-ref {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: rgba(159, 122, 234, 0.2);
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            color: var(--purple);
+        }
+
+        .key-takeaways {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 40px;
+            border: 1px solid var(--border-color);
+        }
+
+        .key-takeaways h3 {
+            margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+
+        .key-takeaways ul {
+            list-style: none;
+        }
+
+        .key-takeaways li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            color: var(--text-secondary);
+        }
+
+        .key-takeaways li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--success);
+        }
+
+        .nav-footer {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .nav-footer a {
+            color: var(--purple);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .path-example {
+            background: var(--card-bg);
+            border-radius: 8px;
+            padding: 15px 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--purple);
+            margin: 15px 0;
+            border: 1px solid var(--border-color);
+        }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.8rem; }
+            .nav-footer { flex-direction: column; gap: 15px; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav-bar">
+        <a href="week-1-dashboard.html">← Week 1 Dashboard</a>
+        <div class="module-nav">
+            <span style="color: var(--text-secondary);">Module 1</span>
+            <a href="Module-2-Script-Types.html">Module 2 →</a>
+        </div>
+    </nav>
+
+    <header class="header">
+        <div class="header-content">
+            <span class="module-tag">Week 1 • Module 1</span>
+            <h1>SuiteScript Basics</h1>
+            <p>Understanding the fundamentals of SuiteScript development in NetSuite</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="content-section">
+            <h2>📂 The File Cabinet</h2>
+            <p>All SuiteScript files are stored in NetSuite's File Cabinet. To access it, navigate to:</p>
+            <div class="path-example">Documents → Files → SuiteScripts</div>
+            
+            <p>This is the primary location where SuiteScript files are stored when working in an account or transitioning between environments.</p>
+
+            <div class="info-box blue">
+                <h4>💡 SuiteApps vs SuiteBundles</h4>
+                <p>Third-party applications come in two forms: <strong>SuiteBundles</strong> (bundled applications with objects and files) and <strong>SuiteApps</strong> (Oracle-approved marketplace apps). Both are stored in their respective folders in the File Cabinet.</p>
+            </div>
+
+            <h3>Organizing Your Scripts</h3>
+            <p>Best practice is to create subfolders within SuiteScripts to organize your projects. Each project should have its own folder containing all related script files.</p>
+            
+            <p>The <span class="inline-code">Last Modified</span> date is helpful for tracking when scripts were updated—useful when working in a team or reviewing your own Git history.</p>
+        </section>
+
+        <section class="content-section">
+            <h2>📝 Creating a Script Record</h2>
+            <p>Uploading a file to the File Cabinet doesn't automatically make it a functioning script. You must create a <strong>Script Record</strong> to link the file to NetSuite's execution engine.</p>
+
+            <ol class="step-list">
+                <li>Navigate to <strong>Customization → Scripting → Scripts</strong></li>
+                <li>Click the <strong>New</strong> button</li>
+                <li>Select your script file from the File Cabinet</li>
+                <li>Click <strong>Create Script Record</strong></li>
+                <li>Enter a meaningful <strong>Name</strong> and unique <strong>ID</strong></li>
+            </ol>
+
+            <div class="info-box yellow">
+                <h4>⚠️ Naming Convention Tip</h4>
+                <p>Add script type abbreviations to your names (e.g., "Create Field <strong>UE</strong>" for User Event, "Validation <strong>CS</strong>" for Client Script). This makes scripts easy to identify in long lists without opening each one.</p>
+            </div>
+
+            <h3>Script ID Best Practice</h3>
+            <p>NetSuite automatically prefixes your ID with <span class="inline-code">custscript_</span>. Use descriptive IDs that will remain unique across environments to avoid conflicts when moving scripts from sandbox to production.</p>
+        </section>
+
+        <section class="content-section">
+            <h2>🚀 Script Deployments</h2>
+            <p>A Script Record alone doesn't execute anything—you need a <strong>Deployment</strong> to tell NetSuite when and where the script should run.</p>
+
+            <table class="concept-table">
+                <thead>
+                    <tr>
+                        <th>Field</th>
+                        <th>Purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Applies To</strong></td>
+                        <td>Which record type triggers this script (e.g., Sales Order, Customer)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Deployed</strong></td>
+                        <td>Checkbox—if unchecked, script won't run</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Status</strong></td>
+                        <td><em>Testing</em> = runs only for you; <em>Released</em> = runs for defined audience</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Log Level</strong></td>
+                        <td>Controls which log types are recorded (Debug, Audit, Error, Emergency)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Audience</strong></td>
+                        <td>Which roles, employees, or departments the script runs for</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Execute As Role</strong></td>
+                        <td>Permission level the script runs under (default: current user's role)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="info-box purple">
+                <h4>📚 Cross-Reference: Script Types</h4>
+                <p>Different script types have different deployment options. <span class="module-ref">📚 Module 2</span> covers the five main script types and their specific deployment configurations.</p>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>📊 Log Levels Explained</h2>
+            <p>Log levels control what information is captured during script execution:</p>
+
+            <table class="concept-table">
+                <thead>
+                    <tr>
+                        <th>Level</th>
+                        <th>Use Case</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Debug</strong></td>
+                        <td>Development troubleshooting—variable values, condition tracking</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Audit</strong></td>
+                        <td>Milestone tracking—"entered beforeLoad", "reduce stage complete"</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Error</strong></td>
+                        <td>Exception handling—caught errors that need attention</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Emergency</strong></td>
+                        <td>Critical failures—system-level issues (rarely used)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="info-box green">
+                <h4>✅ Best Practice</h4>
+                <p>In production, set Log Level to <strong>Error</strong> to reduce noise. Only use <strong>Debug</strong> when actively troubleshooting. Too many logs can make it hard to find real issues.</p>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>👥 Audience Configuration</h2>
+            <p>The Audience tab on a deployment controls who the script runs for:</p>
+            <ul style="list-style: disc; margin-left: 25px; color: var(--text-secondary);">
+                <li><strong>Roles</strong> – Select specific roles or "All Roles"</li>
+                <li><strong>Employees</strong> – Target specific users</li>
+                <li><strong>Departments</strong> – Limit to department members</li>
+                <li><strong>Subsidiaries</strong> – Multi-subsidiary filtering</li>
+            </ul>
+
+            <div class="info-box yellow">
+                <h4>⚠️ Permission Consideration</h4>
+                <p>Scripts are limited by the user's role permissions by default. If a script needs to create an Invoice but the user's role doesn't have Invoice access, the script will error. Use <strong>Execute As Role</strong> to run with elevated permissions when necessary.</p>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>🔍 Execution Log & System Notes</h2>
+            <p>After creating a script, two new tabs appear on the script record:</p>
+            
+            <h3>Execution Log</h3>
+            <p>Shows real-time log entries from script execution. Filter by date, log level, or search for specific text. This is your primary debugging tool.</p>
+
+            <h3>System Notes</h3>
+            <p>Tracks all changes to the script record—when it was deployed, who modified it, and what changed. Everything in NetSuite is logged, so always ensure you have proper authorization before modifying production scripts.</p>
+        </section>
+
+        <section class="content-section">
+            <h2>🧪 Testing Your First Script</h2>
+            <p>Once your script is deployed and released, test it by performing the action it's designed to trigger:</p>
+
+            <ol class="step-list">
+                <li>For a User Event on Sales Orders: create or edit a Sales Order</li>
+                <li>Check the record for expected changes (new fields, modified values)</li>
+                <li>Review the Execution Log for any errors or debug output</li>
+                <li>Verify the script ran for the expected user/role</li>
+            </ol>
+
+            <p>In the example from the training, a script named "Create Field UE" added a new text field to Sales Orders. After deployment, navigating to <strong>Transactions → Sales → Enter Sales Orders</strong> revealed the new field with its default value—confirming the script was working.</p>
+        </section>
+
+        <section class="content-section" style="background: rgba(66, 153, 225, 0.1); border: 1px solid rgba(66, 153, 225, 0.2); border-radius: 12px; padding: 25px; margin: 30px 0;">
+            <h2 style="border: none; padding: 0; margin-bottom: 15px;">📖 Finding This in the Docs</h2>
+            <p>To explore SuiteScript basics in NetSuite Help:</p>
+            <ol style="margin-left: 20px; color: var(--text-secondary);">
+                <li style="margin-bottom: 8px;">Go to <strong>docs.oracle.com</strong> and search "SuiteScript 2.x"</li>
+                <li style="margin-bottom: 8px;">Navigate to <strong>SuiteScript 2.x Developer Guide</strong></li>
+                <li style="margin-bottom: 8px;">Read "Getting Started with SuiteScript 2.x" and "SuiteScript 2.x Scripts Overview"</li>
+            </ol>
+            <p style="margin-top: 15px;"><strong>Key pages to bookmark:</strong></p>
+            <ul style="margin-left: 20px; color: var(--text-secondary);">
+                <li>SuiteScript 2.x Developer Guide → for conceptual overview</li>
+                <li>SuiteScript 2.x Script Types → for script type reference</li>
+                <li>Working with Scripts in the File Cabinet → for file management</li>
+            </ul>
+        </section>
+
+        <div class="key-takeaways">
+            <h3>🎯 Key Takeaways</h3>
+            <ul>
+                <li>SuiteScript files live in the File Cabinet under <code>/SuiteScripts/</code></li>
+                <li>A Script Record links your .js file to NetSuite's execution engine</li>
+                <li>Deployments determine when, where, and for whom scripts run</li>
+                <li>Use descriptive, unique IDs to avoid conflicts between environments</li>
+                <li>Log levels control what information is captured (Debug for development, Error for production)</li>
+                <li>The Execution Log is your primary debugging tool</li>
+                <li>Always test scripts with Testing status before releasing to all users</li>
+            </ul>
+        </div>
+
+        <nav class="nav-footer">
+            <a href="week-1-dashboard.html">← Week 1 Dashboard</a>
+            <a href="Module-2-Script-Types.html">Module 2: SuiteScript Types →</a>
+        </nav>
+    </main>
+</body>
+</html>

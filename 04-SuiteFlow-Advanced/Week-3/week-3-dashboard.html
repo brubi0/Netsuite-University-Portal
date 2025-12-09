@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 3: Formulas & SuiteScript - SuiteFlow Advanced Workflows</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); min-height: 100vh; color: #fff; }
+        .header { background: linear-gradient(135deg, #e94560 0%, #0f3460 100%); padding: 40px 20px; }
+        .header-content { max-width: 1200px; margin: 0 auto; }
+        .breadcrumb { margin-bottom: 15px; opacity: 0.9; }
+        .breadcrumb a { color: white; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.3); }
+        h1 { font-size: 2.5em; font-weight: 700; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        .module-card { background: rgba(255,255,255,0.05); border-radius: 15px; padding: 30px; margin-bottom: 25px; border: 1px solid rgba(255,255,255,0.1); transition: all 0.3s ease; }
+        .module-card:hover { border-color: #e94560; transform: translateX(5px); }
+        .module-header { display: flex; align-items: center; gap: 20px; margin-bottom: 15px; }
+        .module-num { background: linear-gradient(135deg, #e94560 0%, #0f3460 100%); width: 60px; height: 60px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5em; font-weight: 700; }
+        .module-title { font-size: 1.4em; font-weight: 600; }
+        .module-desc { color: rgba(255,255,255,0.7); margin-bottom: 20px; line-height: 1.6; }
+        .module-link { display: inline-block; padding: 12px 25px; background: linear-gradient(135deg, #e94560 0%, #0f3460 100%); color: white; text-decoration: none; border-radius: 25px; font-weight: 600; transition: all 0.3s ease; }
+        .module-link:hover { transform: scale(1.05); box-shadow: 0 5px 20px rgba(233,69,96,0.4); }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 40px; gap: 20px; flex-wrap: wrap; }
+        .nav-btn { padding: 15px 30px; border-radius: 25px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; }
+        .nav-btn-secondary { background: rgba(255,255,255,0.1); color: white; }
+        .nav-btn-primary { background: linear-gradient(135deg, #e94560 0%, #0f3460 100%); color: white; }
+        .nav-btn:hover { transform: translateY(-2px); }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="breadcrumb"><a href="../Master-Dashboard.html">← Course Overview</a> / Week 3</div>
+            <h1>Week 3: Formulas & SuiteScript</h1>
+            <p style="margin-top: 10px; opacity: 0.9;">Related records, SQL formulas, and custom workflow actions</p>
+        </div>
+    </div>
+    <div class="container">
+        <div class="module-card">
+            <div class="module-header">
+                <div class="module-num">5</div>
+                <div class="module-title">Transitioning on Related Records</div>
+            </div>
+            <p class="module-desc">Learn to use the Subscribe to Record action to monitor changes in related records and trigger transitions based on those changes. Understand joins and data sharing between workflows.</p>
+            <a href="Module-05-Transitioning-Related-Records.html" class="module-link">Start Module 5 →</a>
+        </div>
+        <div class="module-card">
+            <div class="module-header">
+                <div class="module-num">6</div>
+                <div class="module-title">Working with Formulas</div>
+            </div>
+            <p class="module-desc">Master SQL formulas for server-side processing. Learn to calculate fields, concatenate values, extract data, reformat output, and validate fields using formula syntax.</p>
+            <a href="Module-06-Working-Formulas.html" class="module-link">Start Module 6 →</a>
+        </div>
+        <div class="module-card">
+            <div class="module-header">
+                <div class="module-num">7</div>
+                <div class="module-title">Using SuiteScript in Workflows</div>
+            </div>
+            <p class="module-desc">Extend SuiteFlow with client-side SuiteScript formulas and Workflow Action Scripts. Create custom actions to perform functions beyond standard SuiteFlow capabilities.</p>
+            <a href="Module-07-Using-SuiteScript-Workflows.html" class="module-link">Start Module 7 →</a>
+        </div>
+        <div class="nav-buttons">
+            <a href="../Week-2/week-2-dashboard.html" class="nav-btn nav-btn-secondary">← Week 2</a>
+            <a href="../Week-4/week-4-dashboard.html" class="nav-btn nav-btn-primary">Week 4: Contexts →</a>
+        </div>
+    </div>
+</body>
+</html>

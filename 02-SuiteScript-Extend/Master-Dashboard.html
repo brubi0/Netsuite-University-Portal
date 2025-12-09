@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SuiteScript 2.1 Developer Fundamentals - Learning Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --dark-bg: #1a1a2e;
+            --card-bg: #16213e;
+            --text-primary: #ffffff;
+            --text-secondary: #a0aec0;
+            --border-color: rgba(255,255,255,0.1);
+            --success: #48bb78;
+            --warning: #ecc94b;
+            --info: #4299e1;
+            --purple: #9f7aea;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .hero {
+            background: var(--primary-gradient);
+            padding: 60px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.5;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .hero .subtitle {
+            font-size: 1.3rem;
+            opacity: 0.95;
+            margin-bottom: 25px;
+        }
+
+        .hero-meta {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        .hero-meta span {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .week-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+
+        .week-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 28px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .week-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--primary-gradient);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .week-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(102, 126, 234, 0.5);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .week-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .week-number {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--purple);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .week-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .week-description {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 18px;
+        }
+
+        .module-list {
+            list-style: none;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .module-list li {
+            padding: 6px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .module-list li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--purple);
+        }
+
+        .appendix-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .appendix-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid var(--border-color);
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .appendix-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(102, 126, 234, 0.5);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .appendix-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .appendix-icon.code { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .appendix-icon.exercises { background: linear-gradient(135deg, #48bb78 0%, #38a169 100%); }
+        .appendix-icon.cases { background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%); }
+        .appendix-icon.glossary { background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%); }
+
+        .appendix-content h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .appendix-content p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .cert-banner {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            border-radius: 12px;
+            padding: 25px 30px;
+            margin-top: 40px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .cert-banner .icon {
+            font-size: 2.5rem;
+        }
+
+        .cert-banner .content h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .cert-banner .content p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .quick-start {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 50px;
+            border: 1px solid var(--border-color);
+        }
+
+        .quick-start h2 {
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .quick-start-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .quick-start-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .quick-start-item .number {
+            width: 32px;
+            height: 32px;
+            background: var(--primary-gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .quick-start-item .text {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        .quick-start-item .text strong {
+            color: var(--text-primary);
+            display: block;
+            margin-bottom: 3px;
+        }
+
+        footer {
+            background: var(--card-bg);
+            padding: 30px 20px;
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+            margin-top: 50px;
+        }
+
+        footer p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: var(--purple);
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            .hero .subtitle {
+                font-size: 1.1rem;
+            }
+            .hero-meta {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .section-title {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="hero">
+        <div class="hero-content">
+            <h1>🚀 SuiteScript 2.1 Developer Fundamentals</h1>
+            <p class="subtitle">Master NetSuite customization with comprehensive SuiteScript training</p>
+            <div class="hero-meta">
+                <span>📚 16 Modules</span>
+                <span>⏱️ 8 Weeks</span>
+                <span>🎯 Developer Certification Aligned</span>
+                <span>💻 Hands-On Projects</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Documentation Guide Banner -->
+        <div style="background: linear-gradient(135deg, rgba(66, 153, 225, 0.2), rgba(159, 122, 234, 0.2)); border: 1px solid rgba(102, 126, 234, 0.3); border-radius: 12px; padding: 20px 25px; margin-bottom: 30px; display: flex; align-items: center; gap: 20px; flex-wrap: wrap;">
+            <div style="font-size: 2rem;">📖</div>
+            <div style="flex: 1; min-width: 200px;">
+                <h3 style="margin: 0 0 5px 0; font-size: 1.1rem;">Essential: Navigating NetSuite Help</h3>
+                <p style="margin: 0; color: var(--text-secondary); font-size: 0.9rem;">Learn to find answers in the official documentation—the most important developer skill.</p>
+            </div>
+            <a href="Documentation-Guide.html" style="background: var(--primary-gradient); color: white; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: 500; white-space: nowrap;">Read First →</a>
+        </div>
+
+        <!-- Quick Start Guide -->
+        <div class="quick-start">
+            <h2>⚡ Quick Start Guide</h2>
+            <div class="quick-start-grid">
+                <div class="quick-start-item">
+                    <div class="number">1</div>
+                    <div class="text">
+                        <strong>Set Up Your Environment</strong>
+                        Week 1 covers IDE setup, file templates, and type declarations
+                    </div>
+                </div>
+                <div class="quick-start-item">
+                    <div class="number">2</div>
+                    <div class="text">
+                        <strong>Learn Core Modules</strong>
+                        Weeks 2-5 cover essential N/ modules for records, data, and communication
+                    </div>
+                </div>
+                <div class="quick-start-item">
+                    <div class="number">3</div>
+                    <div class="text">
+                        <strong>Build User Interfaces</strong>
+                        Weeks 6-7 teach form customization, navigation, and user feedback
+                    </div>
+                </div>
+                <div class="quick-start-item">
+                    <div class="number">4</div>
+                    <div class="text">
+                        <strong>Complete Capstone Projects</strong>
+                        Week 8 combines everything into real-world scenarios
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Weekly Modules -->
+        <h2 class="section-title">📅 Weekly Curriculum</h2>
+        <div class="week-grid">
+            <a href="Week-1/week-1-dashboard.html" class="week-card">
+                <div class="week-number">Week 1</div>
+                <h3 class="week-title">Introduction & Environment Setup</h3>
+                <p class="week-description">Foundation concepts, script types, and development environment configuration.</p>
+                <ul class="module-list">
+                    <li>SuiteScript Basics</li>
+                    <li>Script Types Overview</li>
+                    <li>Development Environment</li>
+                </ul>
+            </a>
+
+            <a href="Week-2/week-2-dashboard.html" class="week-card">
+                <div class="week-number">Week 2</div>
+                <h3 class="week-title">Script Architecture</h3>
+                <p class="week-description">Deep dive into script anatomy, entry points, and documentation.</p>
+                <ul class="module-list">
+                    <li>Script Anatomy</li>
+                    <li>Entry Points</li>
+                    <li>JSDoc & Type Declarations</li>
+                </ul>
+            </a>
+
+            <a href="Week-3/week-3-dashboard.html" class="week-card">
+                <div class="week-number">Week 3</div>
+                <h3 class="week-title">Record Operations</h3>
+                <p class="week-description">Server-side and client-side record manipulation techniques.</p>
+                <ul class="module-list">
+                    <li>N/record Module</li>
+                    <li>N/currentRecord Module</li>
+                    <li>Sublist Operations</li>
+                </ul>
+            </a>
+
+            <a href="Week-4/week-4-dashboard.html" class="week-card">
+                <div class="week-number">Week 4</div>
+                <h3 class="week-title">Data Retrieval</h3>
+                <p class="week-description">Query and search techniques for efficient data access.</p>
+                <ul class="module-list">
+                    <li>N/query Module (SuiteQL)</li>
+                    <li>N/search Module</li>
+                    <li>Records Catalog</li>
+                </ul>
+            </a>
+
+            <a href="Week-5/week-5-dashboard.html" class="week-card">
+                <div class="week-number">Week 5</div>
+                <h3 class="week-title">Communication & Performance</h3>
+                <p class="week-description">Email automation and understanding governance limits.</p>
+                <ul class="module-list">
+                    <li>N/email Module</li>
+                    <li>Governance Units</li>
+                    <li>Performance Optimization</li>
+                </ul>
+            </a>
+
+            <a href="Week-6/week-6-dashboard.html" class="week-card">
+                <div class="week-number">Week 6</div>
+                <h3 class="week-title">Form Development</h3>
+                <p class="week-description">Building custom forms, fields, and sublists with serverWidget.</p>
+                <ul class="module-list">
+                    <li>N/ui/serverWidget Module</li>
+                    <li>Custom Suitelets</li>
+                    <li>Field Types & Display</li>
+                </ul>
+            </a>
+
+            <a href="Week-7/week-7-dashboard.html" class="week-card">
+                <div class="week-number">Week 7</div>
+                <h3 class="week-title">Navigation, Feedback & Automation</h3>
+                <p class="week-description">URL generation, redirects, user messaging, and task scheduling.</p>
+                <ul class="module-list">
+                    <li>N/url & N/redirect</li>
+                    <li>N/ui/message & N/ui/dialog</li>
+                    <li>N/task Module</li>
+                </ul>
+            </a>
+
+            <a href="Week-8/week-8-dashboard.html" class="week-card">
+                <div class="week-number">Week 8</div>
+                <h3 class="week-title">Capstone Projects</h3>
+                <p class="week-description">Real-world scenarios combining all modules into complete solutions.</p>
+                <ul class="module-list">
+                    <li>CSV Export Map/Reduce</li>
+                    <li>Interactive Scheduler UI</li>
+                    <li>Integration Patterns</li>
+                </ul>
+            </a>
+        </div>
+
+        <!-- Appendices -->
+        <h2 class="section-title">📎 Appendices</h2>
+        <div class="appendix-grid">
+            <a href="Appendix-A-Code-Examples.html" class="appendix-card">
+                <div class="appendix-icon code">💻</div>
+                <div class="appendix-content">
+                    <h3>Appendix A: Code Examples</h3>
+                    <p>Annotated scripts and reusable patterns</p>
+                </div>
+            </a>
+
+            <a href="Appendix-B-Exercises.html" class="appendix-card">
+                <div class="appendix-icon exercises">✏️</div>
+                <div class="appendix-content">
+                    <h3>Appendix B: Hands-On Exercises</h3>
+                    <p>Practice problems and challenges</p>
+                </div>
+            </a>
+
+            <a href="Appendix-C-Case-Studies.html" class="appendix-card">
+                <div class="appendix-icon cases">📊</div>
+                <div class="appendix-content">
+                    <h3>Appendix C: Case Studies</h3>
+                    <p>Real-world implementation examples</p>
+                </div>
+            </a>
+
+            <a href="Appendix-D-Glossary.html" class="appendix-card">
+                <div class="appendix-icon glossary">📖</div>
+                <div class="appendix-content">
+                    <h3>Appendix D: Glossary</h3>
+                    <p>Searchable reference of terms and APIs</p>
+                </div>
+            </a>
+        </div>
+
+        <!-- Certification Banner -->
+        <div class="cert-banner">
+            <div class="icon">🎓</div>
+            <div class="content">
+                <h3>NetSuite SuiteScript Developer Certification Aligned</h3>
+                <p>This curriculum covers core topics tested on the NetSuite SuiteScript Developer certification exam, including script types, module usage, governance, and best practices.</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>SuiteScript 2.1 Developer Fundamentals Learning Hub | Version 1.0.0 | December 2024</p>
+        <p>Created by <a href="https://github.com/brubi0">Bruno Rubio</a> | Urku Consulting, LLC</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 2: Understanding Client Triggers - SuiteFlow Fundamentals</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f5f7fa; line-height: 1.6; color: #2d3748; }
+        .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 40px 20px; }
+        .header-content { max-width: 1200px; margin: 0 auto; }
+        .breadcrumb { font-size: 0.9em; margin-bottom: 15px; opacity: 0.9; }
+        .breadcrumb a { color: white; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.3); }
+        .breadcrumb a:hover { border-bottom-color: white; }
+        .module-title-section { display: flex; align-items: center; gap: 20px; }
+        .module-number { background: rgba(255,255,255,0.2); width: 80px; height: 80px; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 2em; font-weight: 700; }
+        h1 { font-size: 2.5em; font-weight: 700; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        .objectives-box { background: white; border-radius: 15px; padding: 30px; margin-bottom: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); border-left: 5px solid #667eea; }
+        .objectives-box h2 { color: #667eea; margin-bottom: 20px; }
+        .objectives-box ul { list-style: none; padding: 0; }
+        .objectives-box li { padding: 10px 0 10px 30px; position: relative; color: #555; }
+        .objectives-box li::before { content: "✓"; position: absolute; left: 0; color: #667eea; font-weight: bold; font-size: 1.3em; }
+        .content-section { background: white; border-radius: 15px; padding: 40px; margin-bottom: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
+        .content-section h2 { color: #2d3748; font-size: 1.8em; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 3px solid #667eea; }
+        .content-section h3 { color: #667eea; font-size: 1.4em; margin-top: 30px; margin-bottom: 15px; }
+        .content-section p { color: #555; line-height: 1.8; margin-bottom: 15px; }
+        .content-section ul, .content-section ol { margin-left: 30px; margin-bottom: 20px; }
+        .content-section li { margin-bottom: 10px; color: #555; }
+        .info-box { padding: 20px; border-radius: 8px; margin: 25px 0; border-left: 4px solid; }
+        .info-box.blue { background: #e3f2fd; border-left-color: #2196f3; }
+        .info-box.yellow { background: #fff9c4; border-left-color: #fbc02d; }
+        .info-box.green { background: #e8f5e9; border-left-color: #4caf50; }
+        .info-box.purple { background: #f3e5f5; border-left-color: #9c27b0; }
+        .info-box.red { background: #ffebee; border-left-color: #f44336; }
+        .info-box h4 { margin-bottom: 10px; font-weight: 600; }
+        .info-box.blue h4 { color: #1976d2; }
+        .info-box.yellow h4 { color: #f57f17; }
+        .info-box.green h4 { color: #2e7d32; }
+        .info-box.purple h4 { color: #6a1b9a; }
+        .info-box.red h4 { color: #c62828; }
+        .trigger-diagram { background: #f8f9fa; padding: 30px; border-radius: 10px; margin: 25px 0; text-align: center; }
+        .trigger-box { display: inline-block; background: white; border: 2px solid #667eea; border-radius: 8px; padding: 15px 25px; margin: 10px; font-weight: 600; }
+        .trigger-box.client { border-color: #4caf50; color: #4caf50; }
+        .trigger-box.server { border-color: #2196f3; color: #2196f3; }
+        .comparison-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        .comparison-table th, .comparison-table td { padding: 15px; text-align: left; border-bottom: 1px solid #e0e0e0; }
+        .comparison-table th { background: #667eea; color: white; }
+        .comparison-table tr:hover { background: #f5f5f5; }
+        .key-takeaways { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 15px; padding: 30px; margin: 30px 0; }
+        .key-takeaways h3 { color: white; margin-bottom: 20px; font-size: 1.5em; }
+        .key-takeaways ul { list-style: none; padding: 0; }
+        .key-takeaways li { padding: 12px 0 12px 30px; position: relative; color: white; opacity: 0.95; }
+        .key-takeaways li::before { content: "★"; position: absolute; left: 0; font-size: 1.2em; }
+        .exercise-section { background: #fff3e0; border-radius: 15px; padding: 30px; margin: 30px 0; border-left: 5px solid #ff9800; }
+        .exercise-section h3 { color: #e65100; margin-bottom: 15px; }
+        .exercise-link { display: inline-block; margin-top: 15px; padding: 12px 25px; background: #ff9800; color: white; text-decoration: none; border-radius: 25px; font-weight: 600; }
+        .exercise-link:hover { background: #f57c00; }
+        .navigation { display: flex; justify-content: space-between; margin-top: 40px; gap: 20px; flex-wrap: wrap; }
+        .nav-btn { display: inline-flex; align-items: center; padding: 15px 30px; border-radius: 25px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; flex: 1; justify-content: center; min-width: 200px; }
+        .nav-btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .nav-btn-secondary { background: #e2e8f0; color: #2d3748; }
+        .nav-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.15); }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="breadcrumb">
+                <a href="../Master-Dashboard.html">← Course Overview</a> / 
+                <a href="week-2-dashboard.html">Week 2</a> / Module 2
+            </div>
+            <div class="module-title-section">
+                <div class="module-number">02</div>
+                <div>
+                    <h1>Understanding Client Triggers</h1>
+                    <p style="margin-top: 10px; opacity: 0.9;">Mastering Browser-Side Events for Dynamic Forms</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="objectives-box">
+            <h2>🎯 Learning Objectives</h2>
+            <p style="color: #666; margin-bottom: 15px;">Upon completion of this module, you will be able to:</p>
+            <ul>
+                <li>Define a workflow trigger and list examples of how triggers control action execution</li>
+                <li>List each of the primary client triggers and their role in the workflow execution cycle</li>
+                <li>List the three client triggers used to build dynamic forms supporting field-level validations</li>
+                <li>Explain the difference between client triggers and server triggers</li>
+            </ul>
+        </div>
+
+        <div class="content-section">
+            <h2>Understanding Workflow Triggers</h2>
+            
+            <p>Workflow triggers are the foundation of controlling <em>when</em> your workflows execute specific tasks. They represent specific events that occur during the processing of a record in NetSuite and dictate when actions should be performed or when records should transition between states.</p>
+
+            <div class="info-box purple">
+                <h4>💡 The Most Important Concept</h4>
+                <p><strong>Triggers OCCUR, but workflows, actions, and transitions EXECUTE.</strong> This distinction is fundamental to understanding workflow timing and behavior!</p>
+            </div>
+
+            <h3>Two Types of Workflow Triggers</h3>
+            
+            <div class="trigger-diagram">
+                <div style="margin-bottom: 20px;"><strong>Workflow Trigger Types:</strong></div>
+                <div class="trigger-box client">Client Triggers</div>
+                <div class="trigger-box server">Server Triggers</div>
+                <p style="margin-top: 20px; color: #666;">Client triggers occur in the browser • Server triggers occur on the NetSuite server</p>
+            </div>
+
+            <ul>
+                <li><strong>Client Triggers:</strong> Events that occur on the user's computer within their web browser</li>
+                <li><strong>Server Triggers:</strong> Events that occur on the NetSuite server (covered in Module 4 📚)</li>
+            </ul>
+
+            <div class="info-box blue">
+                <h4>📋 When to Use Each Type</h4>
+                <p><strong>Client Trigger Example:</strong> Alert users they must change a field value before saving—display an informational message.</p>
+                <p><strong>Server Trigger Example:</strong> Send an automated email notification after saving the record.</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Client Triggers Overview</h2>
+
+            <p>Client triggers respond to events occurring in the user's web browser. They fire just before a record is displayed, while the user is interacting with the form, and when saving a record.</p>
+
+            <div class="info-box yellow">
+                <h4>⚠️ Important Limitation</h4>
+                <p>Client triggers <strong>only occur when creating a new record or editing an existing record</strong>. They do NOT occur when viewing a record!</p>
+            </div>
+
+            <h3>Form-Level Client Triggers</h3>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Trigger</th>
+                        <th>When It Occurs</th>
+                        <th>Common Uses</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Before User Edit</strong></td>
+                        <td>When a user creates/edits a record—between request and display in browser</td>
+                        <td>Show/hide fields, make fields mandatory/optional, default values</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Before User Submit</strong></td>
+                        <td>When the user makes changes and saves the record</td>
+                        <td>Form-level validations, display validation error messages</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Field-Level Client Triggers (Dynamic Forms)</h3>
+
+            <div class="info-box blue">
+                <h4>🔹 Before Field Edit</h4>
+                <p>Occurs after the user tabs out of a field but <strong>before</strong> data moves to memory—regardless of whether the value changed. Used for field-level validation.</p>
+            </div>
+
+            <div class="info-box green">
+                <h4>🔹 After Field Edit</h4>
+                <p>Occurs only when leaving a field <strong>and</strong> the field's value was actually changed. Used to affect other fields based on current field value.</p>
+            </div>
+
+            <div class="info-box purple">
+                <h4>🔹 After Field Sourcing</h4>
+                <p>Similar to After Field Edit, but waits for value sourcing to complete. Used when selecting from list/record fields where values are sourced from related records.</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>SuiteBuilder vs. SuiteFlow</h2>
+
+            <p>Understanding the difference between static and dynamic form modifications:</p>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>SuiteBuilder</th>
+                        <th>SuiteFlow</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Hide/Show Fields</td>
+                        <td>✓ Static</td>
+                        <td>✓ Dynamic</td>
+                    </tr>
+                    <tr>
+                        <td>Set Mandatory/Optional</td>
+                        <td>✓ Static</td>
+                        <td>✓ Dynamic</td>
+                    </tr>
+                    <tr>
+                        <td>Behavior</td>
+                        <td>Same for ALL users</td>
+                        <td>Varies based on conditions</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="info-box green">
+                <h4>✅ SuiteFlow Advantage</h4>
+                <p>SuiteFlow creates <strong>dynamic forms</strong> that can change display characteristics, mandatory settings, and values based on user interaction and data conditions—affecting all users who interact with records that have workflows running on them.</p>
+            </div>
+        </div>
+
+        <div class="exercise-section">
+            <h3>🎯 Hands-On Exercises</h3>
+            <p>Practice configuring client triggers in your Student Workbook:</p>
+            <ul style="margin-left: 30px; margin-bottom: 20px;">
+                <li>Exercise 1: Configure Before User Edit to default field values</li>
+                <li>Exercise 2: Create field-level validations using Before Field Edit</li>
+                <li>Exercise 3: Build dynamic field behavior using After Field Edit</li>
+            </ul>
+            <a href="../Appendices/Appendix-B-Hands-On-Exercises.html#module-2" class="exercise-link">Go to Module 2 Exercises →</a>
+        </div>
+
+        <div class="key-takeaways">
+            <h3>🌟 Key Takeaways</h3>
+            <ul>
+                <li><strong>Triggers OCCUR</strong>, workflows/actions/transitions <strong>EXECUTE</strong>—fundamental to understanding timing</li>
+                <li>Client triggers only fire when <strong>creating</strong> or <strong>editing</strong> records—NOT when viewing</li>
+                <li>Use <strong>Before User Edit</strong> to default values and set display characteristics as the form loads</li>
+                <li>Use <strong>Before User Submit</strong> to validate form fields during save</li>
+                <li><strong>Before/After Field Edit</strong> and <strong>After Field Sourcing</strong> create dynamic forms</li>
+                <li><strong>Ctrl+F5</strong> (Windows) or <strong>Cmd+R</strong> (Mac) refreshes browser when testing</li>
+            </ul>
+        </div>
+
+        <div class="navigation">
+            <a href="week-2-dashboard.html" class="nav-btn nav-btn-secondary">← Back to Week 2</a>
+            <a href="Module-03-Configuring-Actions-on-Data-Entry.html" class="nav-btn nav-btn-primary">Next: Module 3 →</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 23: Sharing & Analytics Portlet - Suite Analytics Learning Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #0f0f1a; color: #e0e0e0; line-height: 1.7; }
+        .header { background: linear-gradient(135deg, #0f3460 0%, #533483 100%); padding: 30px 20px; }
+        .header-content { max-width: 900px; margin: 0 auto; }
+        .breadcrumb { font-size: 0.9em; margin-bottom: 10px; opacity: 0.8; }
+        .breadcrumb a { color: #fff; text-decoration: none; }
+        h1 { font-size: 2em; font-weight: 700; color: #fff; }
+        .module-meta { margin-top: 10px; color: rgba(255,255,255,0.8); font-size: 0.9em; }
+        .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+        h2 { color: #e94560; font-size: 1.5em; margin: 40px 0 20px; padding-bottom: 10px; border-bottom: 2px solid #e94560; }
+        p { margin-bottom: 15px; }
+        .concept-box { background: linear-gradient(145deg, #1a1a2e 0%, #1e1e32 100%); border-radius: 15px; padding: 25px; margin: 25px 0; border-left: 4px solid #e94560; }
+        .concept-box h4 { color: #e94560; margin-bottom: 12px; font-size: 1.1em; }
+        .key-point { background: rgba(83,52,131,0.2); border-radius: 10px; padding: 20px; margin: 20px 0; border: 1px solid rgba(83,52,131,0.4); }
+        .key-point h4 { color: #533483; margin-bottom: 10px; }
+        .warning-box { background: rgba(244,67,54,0.1); border-radius: 10px; padding: 20px; margin: 20px 0; border: 1px solid rgba(244,67,54,0.3); }
+        .warning-box h4 { color: #f44336; margin-bottom: 10px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #333; }
+        th { background: rgba(233,69,96,0.2); color: #e94560; font-weight: 600; }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 50px; padding-top: 30px; border-top: 1px solid #333; flex-wrap: wrap; gap: 15px; }
+        .nav-btn { padding: 12px 25px; border-radius: 25px; text-decoration: none; font-weight: 600; font-size: 0.9em; transition: all 0.3s ease; }
+        .nav-btn.secondary { background: rgba(255,255,255,0.1); color: #fff; }
+        .nav-btn.primary { background: linear-gradient(135deg, #e94560 0%, #533483 100%); color: #fff; }
+        ul { margin-left: 20px; margin-bottom: 15px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="breadcrumb">
+                <a href="../Master-Dashboard.html">Course Overview</a> / 
+                <a href="week-4-dashboard.html">Week 4</a> / Module 23
+            </div>
+            <h1>🔗 Module 23: Sharing & Analytics Portlet</h1>
+            <div class="module-meta">Week 4 • KPIs & Suite Analytics Workbook • Advanced Analytics</div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="concept-box">
+            <h4>Sharing Workbooks</h4>
+            <p>Workbooks and datasets can be shared with other users. You can grant view or edit access to specific roles, users, or groups. Shared workbooks appear in recipients' Analytics menu.</p>
+        </div>
+
+        <h2>Sharing Levels</h2>
+
+        <table>
+            <thead><tr><th>Level</th><th>Can View</th><th>Can Edit</th><th>Can Share</th></tr></thead>
+            <tbody>
+                <tr><td><strong>Owner</strong></td><td>✓</td><td>✓</td><td>✓</td></tr>
+                <tr><td><strong>Editor</strong></td><td>✓</td><td>✓</td><td>✗</td></tr>
+                <tr><td><strong>Viewer</strong></td><td>✓</td><td>✗</td><td>✗</td></tr>
+            </tbody>
+        </table>
+
+        <h2>Analytics Portlet</h2>
+
+        <div class="key-point">
+            <h4>📊 Display Workbooks on Dashboards</h4>
+            <p>The <strong>Analytics Portlet</strong> displays workbook visualizations on your Home dashboard or role-based dashboards.</p>
+            <ol style="margin-left: 20px; margin-top: 10px;">
+                <li>Click <strong>Personalize Dashboard</strong></li>
+                <li>Add an <strong>Analytics Portlet</strong></li>
+                <li>Select the workbook and visualization</li>
+                <li>Position and resize on the dashboard</li>
+            </ol>
+            <p style="margin-top: 10px;"><strong>Limit:</strong> Up to 10 Analytics Portlets per dashboard.</p>
+        </div>
+
+        <h2>Workbook Limitations</h2>
+
+        <div class="warning-box">
+            <h4>⚠️ What Workbooks Can't Do</h4>
+            <ul>
+                <li><strong>Cannot schedule</strong> — No automatic email distribution</li>
+                <li><strong>Cannot email</strong> — No send/schedule like saved searches</li>
+                <li><strong>Limited highlighting</strong> — Less formatting than saved searches</li>
+                <li><strong>Not in workflows/bundles</strong> — Not exposed to SuiteFlow or SDF</li>
+            </ul>
+        </div>
+
+        <div class="concept-box" style="border-left-color: #4caf50;">
+            <h4 style="color: #4caf50;">🎉 Course Complete!</h4>
+            <p>Congratulations! You've completed the Suite Analytics & Reporting Learning Hub. You now have the skills to access and customize standard reports, build powerful saved searches, deploy KPIs on dashboards, and create visual analytics with Suite Analytics Workbook.</p>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="Module-22-Visualizations.html" class="nav-btn secondary">← Previous: Visualizations</a>
+            <a href="../Appendices/Appendix-A-Formula-Reference.html" class="nav-btn primary">View Appendices →</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,119 @@
+Working with formulas. In this module, we will introduce you to formulas and the various ways they can be leveraged in workflow, action, and transition configurations. This module will focus on the creation of server-side SQL formulas. Client-side SuiteScript formulas will be discussed in the next module.
+
+In this module, we will discuss the following topics. Formulas overview and understanding SQL formulas. Upon the completion of this module, you will be able to list the various ways formulas can be used in SuiteFlow, describe the two primary types of formulas and when you would use each type, and configure more complex business rules using SQL formulas and server triggers.
+
+Formulas represent calculations performed on one or more variables. A simple example of a formula is the temperature conversion from degrees Celsius to degrees Fahrenheit. In SuiteFlow, a formula that performs a calculation on numeric record fields might look something like this. Or even as simple as incrementing the value of a numeric workflow state field by one.
+
+Here are just some of the ways you can use formulas in SuiteFlow. You can use them to calculate fields. For example, calculating a new salary based on a current salary times a percent increase. You can combine or concatenate fields, where you might create an account code based off of a phone number plus the customer's postal code.
+
+You can extract portions of fields, such as retrieving the domain name portion of an email address only. You can reformat fields such as displaying negative field value in parentheses. And of course, you can validate fields, such as returning an error if someone enters a zip code less than 5 digits in length.
+
+Formulas are constructed from fields on the workflows base record and/or related records, and its values are calculated dynamically when the workflow instance runs on a record. Just as with conditions created using the Visual Builder, formulas can be used to conditionally initiate a workflow or to execute an action or transition.
+
+When constructing a workflow formula, you can define the following elements. The internal NetSuite field ID, SQL functions, and JavaScript SuiteScript API functions. Record fields in NetSuite have an internal ID which can be used to reference the field in scripts and formulas.
+
+When referencing record and field IDs and formulas, you must enclose the record and fields in curly braces. For example, you can use the following syntax to refer to a customer's phone number. You can use SQL functions in a condition for workflow initiation, or an action and transition conditions that execute on server triggers.
+
+Since server triggers are associated with server-side processing, it is advantageous to have any SQL functions executing against the NetSuite database be as close to the database as possible for general performance reasons. For example, you can use the following SQL function in a formula condition to evaluate whether a field is less than 10 characters in a return user error action.
+
+You can also construct formulas using JavaScript or SuiteScript and action conditions that execute on client triggers. For example, to evaluate whether that same field is less than 10 characters using a SuiteScript formula, you might use the following SuiteScript code.
+
+Here, we are retrieving a fields ID using the SuiteScript 1.0 API function called nlapiGetFieldValue. The function is determining the length of the field using the length property, and the resulting value is then evaluated to see if it is less than 10 characters in length. It's important to note that only SuiteScript 1.0 API functions are supported on client triggers. SuiteScript 2.0 functions are not supported.
+
+Formulas are created using the Formula Builder. The Formula Builder is accessed in the event definition section for workflow initiation, and in the Conditions section when configuring actions and transitions. Notice how a condition created with the Visual Builder is converted to a formula when selecting the custom formula option.
+
+When creating a custom formula, you can include internal NetSuite field IDs, SQL functions, and SuiteScript 1.0 API functions, as well as various JavaScript mathematical functions. Let's take a look at each of the options when constructing a custom formula. The function dropdown list lists the supported SQL, JavaScript, or SuiteScript functions.
+
+The functions listed will be based on the type of trigger selected in the workflow, action, or transitions configuration. More on this in a moment. The join dropdown list contains the list record types that can be joined to the workflows-based record. You can use this dropdown list to include fields from a record other than the workflows-based record. It's important to note that this option will not be available when configuring actions or transitions on client triggers.
+
+The value field lists all of the fields from the base record of the workflow. When added to a formula, the Formula Builder enters the internal NetSuite field ID with proper formula syntax in the formula field. The formula field, unlike the Visual Builder, allows you to type the formula directly into the field. Use this option if the functions, records, or fields you want to use in the formula do not appear in the provided dropdown lists.
+
+When creating a custom formula, the functions available in the functions dropdown list will depend on the triggers selected in the workflow, action, or transition configuration. Configuring a workflow action or transition on a client trigger lists several JavaScript and SuiteScript mathematical functions in lowercase characters. What you will not see is the full list of supported SuiteScript API functions.
+
+When configuring a workflow action or transition on a server trigger, the supported Oracle SQL functions are listed in uppercase characters. If an Oracle SQL function is not listed, it is not supported by SuiteFlow.
+
+When constructing formulas, there are two types of formula styles that you can choose from-- SQL and SuiteScript. Each of these formula styles define the supported functions and proper syntax required for successful formula execution. SQL style formulas support Oracle database syntax, and follow the same rules as formula fields and saved search formulas in NetSuite.
+
+SuiteScript formulas support JavaScript and SuiteScript mathematical functions. The trigger selected for workflow action or transition execution determines which formula style will be supported. As you can see here, only actions using formulas configured on server triggers will be supported by the SQL formula style. We will talk more about the SuiteScript formula style later in this course.
+
+SQL formulas support the following Oracle database formatting and syntax rules. All strings must be enclosed in single quotes, as shown here. Using double quotes will generate an error. You can append, or concatenate multiple strings or fields together using two pipe characters.
+
+NetSuite field IDs referenced in formulas must always be enclosed in curly braces. Do not enclose NetSuite field IDs in quotes when inside the curly braces, as they will always be evaluated as strings whenever they're enclosed in quotes.
+
+Here are some things to keep in mind when working with SQL formulas. Do not use formulas unless you have a good reason, as formulas can be harder to maintain. So only use them when you absolutely need to.
+
+You must manually change custom field IDs referenced in existing formulas when changing the custom fields ID. Changing the ID of a custom field doesn't automatically change any formulas that reference that field ID.
+
+Use SQL functions on server triggers, and SuiteScript functions on client triggers. Invalid formulas can cause record forms to load improperly, preventing users from viewing and/or editing values on the form. This is often a telltale sign you may have an invalid formula being called by workflow.
+
+In this walkthrough demonstration, we will show you some of the ways SQL formulas can be used to set field values and conditionally execute actions. Specifically, we will demonstrate the following tasks. Changing the title of the related task record created in the save workflow, change the due date calculation to review date plus 30 days, and update the rating code validation also in the save workflow.
+
+Let's begin this demonstration by modifying the create record action in our performance review save workflow. So let me go to my list of workflows here. There we go. I'll go ahead and edit that.
+
+And if you recall, we have a create record action here in state 1, which is creating our related task record. I'm simply going to edit that action configuration, because down in the parameters down here, you can see that we are passing in as part of that create record action the required fields necessary in order to actually commit that record to the database. We have to actually, via workflow, tell it, here are the required fields you need in order to commit that record.
+
+And so we're going to change our text here-- the title of our task record, as well as the due date using a formula. So what should I do here? I'm simply going to come in here and remove the existing text-based title, and I'm going to replace that with a very simple formula.
+
+And I'm going to do that by coming all the way down here on the far end of the row, and you'll see this little icon that I can click that says open, and that will bring me into the Formula Builder. And what I can do is I can certainly use these individual fields here. And notice that when I select this dropdown list here, I get a list of SQL functions, and the reason is this particular action-- the create record action is being executed on a server trigger before record submit. So I would expect to see SQL functions in here, which is what I'm seeing.
+
+Now I could certainly select those, and if I do, it simply enters that formatting syntax down here in the formula field. And I can go in and change the placeholder values accordingly. So that's really handy.
+
+I can also do that with joined records or list record fields. So if there's a subordinate field I'm looking for, I can then choose which field it is, and it'll automatically populate the proper syntax, not only for the parent record, but also the field on that record. So use these dropdown lists to help you get going when you're constructing these formulas. They can be really helpful.
+
+In the case of what we're going to do here-- is I'm just going to go ahead and paste in the formula. I've already had it pre-written, and it simply says please complete your-- and then that's the string. And then we're concatenating the custom record perf review, review type field-- so is it a salary review or a no salary review-- self-evaluation.
+
+So it'll actually print, please complete your salary increase or salary review self-evaluation. That's simply what it's going to do. And I'm going to go ahead and click Set and OK.
+
+And I'm going to do something equally simple on the due date. Currently, we're using the basic date selection here of saying 30 days from now. But instead of doing that, I'm just going to go ahead and set that to blank here.
+
+Let's go ahead and use once again a formula and do that same exact scenario. So what I'm going to do is come in here and simply say the value field-- we'll just say due date. See if we can find that. It's not in here.
+
+Oops, I'm sorry. I'm in the wrong place. We want-- let's see-- task. There we go. Due date.
+
+So you can see it puts it right in there. And then I can just say plus 30. So that's just another really quick way to get those fields in there.
+
+And I'll click Set and then OK. So we've got two really simple examples of formulas executing on server triggers. Let me go ahead and commit this particular change on the action configuration, and click Done Editing.
+
+So now I'm going to go up and create a new performance review record. I'm going to go to Custom Performance Review and New. And let me go ahead-- this'll be M7 test 1. We'll go ahead and enter-- or select Willheim Schueler, and enter some information here.
+
+I'm going to go ahead and click Save. And if I go and take a look at that record now-- let's see if we can use the log files and see what went on with that record. So let me go ahead and view that here.
+
+And if I scroll down to workflow history, you can clearly see that the workflow did in fact process. I have my Review Save State 1 Create Task entry here. If I go ahead and look at the log file in this particular entry here, you can see that I do have my CREATERECORD task that was executed successfully.
+
+I can see the new assigned record, the new ID of the record that was generated, which is 7515. So on and so forth. And so if I go out and look at that task record now, I should see the results of our SQL formulas.
+
+So I'm going to navigate out here to Activities, Scheduling, Tasks. Open that up in a new tab. And you can clearly see that new entry here that says "please complete your salary change self-evaluation." That's bringing in the title using my formula.
+
+And if I go ahead and just view this record-- and I actually see it right there, but notice the due date is actually one month from today. So it's actually June 7th as I'm recording this, and so it went to-- I'm sorry-- July 8, 2018. So it did add 30 days to the review date.
+
+So it looks like those formulas are working really well. So hopefully, that gives you some idea of how simple it is to use formulas. As long as you know what those internal NetSuite field IDs are, and you what some of the basic syntax rules are, it's really pretty straightforward.
+
+Now I'd like to briefly show you how to use SQL formulas in action conditions. So what we're going to do is use the same performance review save workflow. I'm going to go ahead and re-edit this.
+
+And you'll see that here in state 0, rating code validation, we currently have a return user error action that is configured that will return an error telling us that the rating code must be A, B, or C when we enter a value other than A, B, or C.
+
+And if I edit this action configuration, you can see that the condition was created just using the normal Visual Builder. And I can see that right there. What I'm going to do is-- let's go ahead and change this. Let's go ahead and use a SQL formula rather than Visual Builder.
+
+So what I'm going to do is just highlight all that logic in the Visual Builder condition field and just delete it. I thought I could delete it, but I guess I can't. Let me go ahead and just bring that up, and I'll go ahead and remove those lines. There we go.
+
+And now I'll go ahead and create a custom formula. So I'll go ahead and expand that little window out. I can certainly use the fields, as I mentioned earlier, if I wanted to facilitate the entry of some of the fields. But I know exactly what I want to enter in here for my formula, so I'm just going to go ahead and paste that right into the window.
+
+Now, if you can see here, we're basically referencing a custom record field called Review Type, and we're saying if the review type selected-- if the ID is 1-- notice, I have review type dot ID. Well, what does that refer to?
+
+Well, if I come back here to one of these tabs, and I just go out to my custom lists just for a second, and I bring up my performance review type custom list, which is right here, notice that the values are salary change and no salary change. And notice right over here we have an internal ID for each one of those values.
+
+So what we're basically saying in that first line of our SQL formula is if the review type equals ID 1, which is salary change right here-- let me go back to that window-- and the rating code is not equal to A, the rating code is not equal to B, and the rating code is not equal to C, then go ahead and throw that error.
+
+So you can clearly see that we're simply calling the rating code custom field exclusively here-- or-- yeah-- by name. And that's really all we need to do. I'm just going to go ahead and click Set on that. Click Save.
+
+If I hover over, you can clearly see that I do have my new SQL formula condition. And now let's go ahead and test that. I'll go ahead and click Done Editing. And let's create a new performance review record, but only this time, I'm not going to select a valid rating code.
+
+So let me go ahead and type in M07 test number 2. I'll select Willheim Schueler again, and I'll enter in X, let's say. Maybe I mistyped it. Maybe I meant to type A. I hit X instead, or C-- whichever is closest on the keyboard.
+
+And if I click Save, notice that that condition does evaluate the value, and then throws the error. And I know it's working because notice, I'm getting the full SuiteScript error page. That's very indicative of what you would expect to see when you have actions that throw a return user error configured on server triggers.
+
+So this is what you would expect to see. So if I go back, I can certainly correct that value. And maybe give them a C-- didn't do all that great this quarter. And I can go ahead and enter the record as normal. So that's just another quick example of how you can use SQL formulas to conditionally execute actions in SuiteFlow.
+
+It is now time for you to complete the required hands-on exercises associated with the topics discussed in this module. To complete the required exercises, refer to your student workbook. When you have finished, you may continue with the next module.
+
+This concludes the working with formulas module.

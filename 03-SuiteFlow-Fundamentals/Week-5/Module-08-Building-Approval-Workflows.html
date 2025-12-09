@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 8: Building Approval Workflows - SuiteFlow Fundamentals</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f5f7fa; line-height: 1.6; color: #2d3748; }
+        .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 40px 20px; }
+        .header-content { max-width: 1200px; margin: 0 auto; }
+        .breadcrumb { font-size: 0.9em; margin-bottom: 15px; opacity: 0.9; }
+        .breadcrumb a { color: white; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.3); }
+        .module-title-section { display: flex; align-items: center; gap: 20px; }
+        .module-number { background: rgba(255,255,255,0.2); width: 80px; height: 80px; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 2em; font-weight: 700; }
+        h1 { font-size: 2.5em; font-weight: 700; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        .objectives-box { background: white; border-radius: 15px; padding: 30px; margin-bottom: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); border-left: 5px solid #667eea; }
+        .objectives-box h2 { color: #667eea; margin-bottom: 20px; }
+        .objectives-box ul { list-style: none; padding: 0; }
+        .objectives-box li { padding: 10px 0 10px 30px; position: relative; color: #555; }
+        .objectives-box li::before { content: "✓"; position: absolute; left: 0; color: #667eea; font-weight: bold; font-size: 1.3em; }
+        .content-section { background: white; border-radius: 15px; padding: 40px; margin-bottom: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
+        .content-section h2 { color: #2d3748; font-size: 1.8em; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 3px solid #667eea; }
+        .content-section h3 { color: #667eea; font-size: 1.4em; margin-top: 30px; margin-bottom: 15px; }
+        .content-section p { color: #555; line-height: 1.8; margin-bottom: 15px; }
+        .content-section ul, .content-section ol { margin-left: 30px; margin-bottom: 20px; }
+        .content-section li { margin-bottom: 10px; color: #555; }
+        .info-box { padding: 20px; border-radius: 8px; margin: 25px 0; border-left: 4px solid; }
+        .info-box.blue { background: #e3f2fd; border-left-color: #2196f3; }
+        .info-box.yellow { background: #fff9c4; border-left-color: #fbc02d; }
+        .info-box.green { background: #e8f5e9; border-left-color: #4caf50; }
+        .info-box.purple { background: #f3e5f5; border-left-color: #9c27b0; }
+        .info-box.red { background: #ffebee; border-left-color: #f44336; }
+        .info-box h4 { margin-bottom: 10px; font-weight: 600; }
+        .info-box.blue h4 { color: #1976d2; }
+        .info-box.yellow h4 { color: #f57f17; }
+        .info-box.green h4 { color: #2e7d32; }
+        .info-box.purple h4 { color: #6a1b9a; }
+        .info-box.red h4 { color: #c62828; }
+        .workflow-diagram { background: #f8f9fa; padding: 30px; border-radius: 10px; margin: 25px 0; text-align: center; }
+        .state-box { display: inline-block; background: white; border: 2px solid #667eea; border-radius: 8px; padding: 15px 20px; margin: 10px; font-weight: 600; color: #667eea; }
+        .state-box.end { border-style: double; border-width: 4px; }
+        .arrow { color: #667eea; font-size: 1.5em; margin: 0 5px; }
+        .action-card { background: #f8f9fa; border-radius: 10px; padding: 20px; margin: 15px 0; border-left: 4px solid #667eea; }
+        .action-card h4 { color: #667eea; margin-bottom: 10px; }
+        .key-takeaways { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 15px; padding: 30px; margin: 30px 0; }
+        .key-takeaways h3 { color: white; margin-bottom: 20px; font-size: 1.5em; }
+        .key-takeaways ul { list-style: none; padding: 0; }
+        .key-takeaways li { padding: 12px 0 12px 30px; position: relative; color: white; opacity: 0.95; }
+        .key-takeaways li::before { content: "★"; position: absolute; left: 0; font-size: 1.2em; }
+        .exercise-section { background: #fff3e0; border-radius: 15px; padding: 30px; margin: 30px 0; border-left: 5px solid #ff9800; }
+        .exercise-section h3 { color: #e65100; margin-bottom: 15px; }
+        .exercise-link { display: inline-block; margin-top: 15px; padding: 12px 25px; background: #ff9800; color: white; text-decoration: none; border-radius: 25px; font-weight: 600; }
+        .navigation { display: flex; justify-content: space-between; margin-top: 40px; gap: 20px; flex-wrap: wrap; }
+        .nav-btn { display: inline-flex; align-items: center; padding: 15px 30px; border-radius: 25px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; flex: 1; justify-content: center; min-width: 200px; }
+        .nav-btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .nav-btn-secondary { background: #e2e8f0; color: #2d3748; }
+        .nav-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.15); }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="breadcrumb">
+                <a href="../Master-Dashboard.html">← Course Overview</a> / 
+                <a href="week-5-dashboard.html">Week 5</a> / Module 8
+            </div>
+            <div class="module-title-section">
+                <div class="module-number">08</div>
+                <div>
+                    <h1>Building Approval Workflows</h1>
+                    <p style="margin-top: 10px; opacity: 0.9;">End States, Button Transitions, and Multi-Level Approvals</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="objectives-box">
+            <h2>🎯 Learning Objectives</h2>
+            <p style="color: #666; margin-bottom: 15px;">Upon completion of this module, you will be able to:</p>
+            <ul>
+                <li>List and describe the fundamental processing states for approval workflows</li>
+                <li>Create an approval workflow using Add Button, Lock Record, and Send Email actions</li>
+                <li>Configure transitions based on button clicks during the approval process</li>
+                <li>Explain exiting vs. non-exiting end states and when to use each</li>
+                <li>Configure multi-approval workflows with looping logic for supervisor hierarchy</li>
+            </ul>
+        </div>
+
+        <div class="content-section">
+            <h2>Approval Workflow Components</h2>
+            
+            <p>A basic approval workflow requires these minimum components:</p>
+
+            <div class="workflow-diagram">
+                <div class="state-box">State 1: Waiting for Approval</div>
+                <span class="arrow">→</span>
+                <div class="state-box end">State 2: Approved</div>
+                <br><br>
+                <div class="state-box">State 1: Waiting for Approval</div>
+                <span class="arrow">→</span>
+                <div class="state-box end">State 3: Rejected</div>
+            </div>
+
+            <ul>
+                <li><strong>Entry State:</strong> Waiting for Approval (where records wait for action)</li>
+                <li><strong>End States:</strong> Approved and Rejected (logical endpoints)</li>
+                <li><strong>Transitions:</strong> At least 2—one for approval, one for rejection</li>
+                <li><strong>Optional:</strong> Transition from Rejected back to Waiting for re-approval</li>
+            </ul>
+        </div>
+
+        <div class="content-section">
+            <h2>Step-Based Approach to Building Approvals</h2>
+
+            <h3>Step 1: Create States and Buttons</h3>
+            <ol>
+                <li>Create each state (Waiting, Approved, Rejected)</li>
+                <li>Configure Add Button actions in Waiting state</li>
+                <li>Configure transitions to end states</li>
+                <li>Test with Workflow History to verify flow</li>
+            </ol>
+
+            <h3>Step 2: Restrict Actions with Conditions</h3>
+            <p>Add conditions so only the approver sees the buttons. May require a workflow field to store the current approver identity.</p>
+
+            <h3>Step 3: Adjust Display Characteristics</h3>
+            <p>Lock records or hide fields at end states to prevent unauthorized modifications.</p>
+
+            <h3>Step 4: Define Approval Statuses</h3>
+            <p>Create a custom list for approval statuses and set values at each state transition.</p>
+
+            <h3>Step 5: Add Notifications</h3>
+            <p>Configure Send Email actions to notify approvers of pending items and submitters of approval status.</p>
+        </div>
+
+        <div class="content-section">
+            <h2>Key Approval Actions</h2>
+
+            <div class="action-card">
+                <h4>Add Button</h4>
+                <p>Adds custom buttons (Approve, Reject) to the record form. Buttons trigger transitions to other states.</p>
+                <p><strong>Triggers:</strong> Before Record Load, Entry</p>
+            </div>
+
+            <div class="action-card">
+                <h4>Remove Button</h4>
+                <p>Removes standard NetSuite buttons. Cannot remove custom buttons—delete/inactivate the Add Button action instead.</p>
+                <p><strong>Triggers:</strong> Before Record Load, Entry</p>
+            </div>
+
+            <div class="action-card">
+                <h4>Lock Record</h4>
+                <p>Makes record read-only by removing Edit button. Add to each state where locking is needed.</p>
+                <p><strong>Triggers:</strong> Before Record Load, Entry</p>
+            </div>
+
+            <div class="action-card">
+                <h4>Send Email</h4>
+                <p>Sends notifications to approvers (pending items) and submitters (status updates).</p>
+                <p><strong>Triggers:</strong> After Record Submit only</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Understanding End States</h2>
+
+            <p>End states have no outgoing transitions. There are two types:</p>
+
+            <h3>Exiting End States (Default)</h3>
+            <ul>
+                <li>Workflow continues processing on record visits</li>
+                <li>Actions execute every time record transitions to the state</li>
+                <li>Shown with end arrow in Workflow Manager</li>
+            </ul>
+
+            <h3>Non-Exiting End States</h3>
+            <ul>
+                <li>Halts further processing after actions complete</li>
+                <li>Freezes record at this state</li>
+                <li>Commonly used to prevent modifications after approval</li>
+                <li>Enable via <strong>"Do Not Exit Workflow"</strong> checkbox</li>
+                <li>Shown with cyclical icon in lower-left corner</li>
+            </ul>
+
+            <div class="info-box green">
+                <h4>✅ When to Use Non-Exiting</h4>
+                <p><strong>Approved state:</strong> Use non-exiting + Lock Record to prevent modifications.</p>
+                <p><strong>Rejected state:</strong> Leave as exiting so records can return to Waiting for Approval.</p>
+            </div>
+
+            <div class="info-box purple">
+                <h4>💡 Execution Log Benefit</h4>
+                <p>Non-exiting end states result in cleaner execution logs—only one entry for initial workflow execution instead of entries every time the record is viewed.</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Configuring Button Transitions</h2>
+
+            <p>When using buttons to trigger transitions, configure the <strong>Transition On</strong> field appropriately:</p>
+
+            <ol>
+                <li>Create Add Button action with button label (e.g., "Approve Review")</li>
+                <li>Draw transition from current state to target state</li>
+                <li>Edit transition and set <strong>Transition On = Entry</strong></li>
+                <li>In the Initiate Condition, select the button that triggers this transition</li>
+            </ol>
+
+            <div class="info-box yellow">
+                <h4>⚠️ Transition On for Buttons</h4>
+                <p>When configuring button-triggered transitions, <strong>Transition On</strong> should typically be set to <strong>Entry</strong> or left blank, not Before/After Record Submit.</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Multi-Level Approval with Looping</h2>
+
+            <p>For hierarchical approvals (e.g., manager → director → VP), use <strong>looping logic</strong>:</p>
+
+            <h3>Pattern: Check for More Approvers</h3>
+
+            <div class="workflow-diagram">
+                <div class="state-box">State 1: Waiting for Approval</div>
+                <span class="arrow">→</span>
+                <div class="state-box">State 1A: More Approvers?</div>
+                <span class="arrow">→</span>
+                <div class="state-box end">State 2: Approved</div>
+                <br><br>
+                <span style="color: #667eea;">↑ Loop back if more approvers ↩</span>
+            </div>
+
+            <ol>
+                <li>Create a <strong>workflow field</strong> to track "Current Approver"</li>
+                <li>When approved, transition to "More Approvers?" state</li>
+                <li>In that state, check if supervisor exists (join to Employee record)</li>
+                <li>If supervisor exists: Set Current Approver = Supervisor, transition back to Waiting</li>
+                <li>If no supervisor: Transition to final Approved state</li>
+            </ol>
+
+            <div class="info-box blue">
+                <h4>📋 Supervisor Hierarchy</h4>
+                <p>Use a record join to access the Employee record's Supervisor field. When Current Approver's Supervisor is empty, all approvals are complete!</p>
+            </div>
+        </div>
+
+        <div class="exercise-section">
+            <h3>🎯 Hands-On Exercises</h3>
+            <p>Build complete approval workflows:</p>
+            <ul style="margin-left: 30px; margin-bottom: 20px;">
+                <li>Exercise 1: Create a basic 3-state approval workflow</li>
+                <li>Exercise 2: Add Approve and Reject buttons with transitions</li>
+                <li>Exercise 3: Configure non-exiting end state with Lock Record</li>
+                <li>Exercise 4: Build multi-level approval with supervisor hierarchy loop</li>
+            </ul>
+            <a href="../Appendices/Appendix-B-Hands-On-Exercises.html#module-8" class="exercise-link">Go to Module 8 Exercises →</a>
+        </div>
+
+        <div class="key-takeaways">
+            <h3>🌟 Key Takeaways</h3>
+            <ul>
+                <li>Basic approval needs: <strong>Entry state</strong>, <strong>End states</strong>, and <strong>Transitions</strong></li>
+                <li>Use <strong>Add Button</strong> to create Approve/Reject buttons</li>
+                <li><strong>Non-exiting end states</strong> freeze records—use "Do Not Exit Workflow"</li>
+                <li>Use <strong>Lock Record</strong> in approved state to prevent modifications</li>
+                <li>Leave rejected state as <strong>exiting</strong> to allow re-submission</li>
+                <li>Multi-level approvals use <strong>looping logic</strong> with workflow fields</li>
+                <li>Track current approver in a <strong>workflow field</strong>, update via supervisor join</li>
+                <li>Loop ends when supervisor field is empty</li>
+            </ul>
+        </div>
+
+        <div class="navigation">
+            <a href="../Week-4/Module-07-Troubleshooting-Workflow-Execution.html" class="nav-btn nav-btn-secondary">← Previous: Module 7</a>
+            <a href="../Week-6/Module-09-Updating-Record-Sublists-Lines.html" class="nav-btn nav-btn-primary">Next: Module 9 →</a>
+        </div>
+    </div>
+</body>
+</html>

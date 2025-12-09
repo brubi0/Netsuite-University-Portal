@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 1: Standard Reports - Suite Analytics Learning Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); min-height: 100vh; color: #fff; }
+        .header { background: linear-gradient(135deg, #0f3460 0%, #533483 100%); padding: 40px 20px; }
+        .header-content { max-width: 1200px; margin: 0 auto; }
+        .breadcrumb { font-size: 0.9em; margin-bottom: 15px; opacity: 0.8; }
+        .breadcrumb a { color: #fff; text-decoration: none; }
+        .breadcrumb a:hover { text-decoration: underline; }
+        h1 { font-size: 2.5em; font-weight: 700; margin-bottom: 10px; }
+        .week-meta { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 15px; }
+        .meta-item { background: rgba(255,255,255,0.15); padding: 8px 16px; border-radius: 20px; font-size: 0.85em; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        .week-intro { background: linear-gradient(145deg, #1e1e32 0%, #2a2a4a 100%); border-radius: 20px; padding: 30px; margin-bottom: 40px; border: 1px solid rgba(255,255,255,0.1); }
+        .intro-title { color: #e94560; font-size: 1.2em; margin-bottom: 15px; }
+        .intro-text { line-height: 1.8; opacity: 0.9; }
+        .objectives { margin-top: 20px; }
+        .objectives h4 { margin-bottom: 12px; color: #533483; }
+        .objectives ul { list-style: none; }
+        .objectives li { padding: 8px 0; padding-left: 25px; position: relative; }
+        .objectives li::before { content: "✓"; position: absolute; left: 0; color: #e94560; font-weight: bold; }
+        .module-grid { display: grid; gap: 20px; }
+        .module-card { background: linear-gradient(145deg, #1e1e32 0%, #2a2a4a 100%); border-radius: 15px; padding: 25px; border: 1px solid rgba(255,255,255,0.1); transition: all 0.3s ease; display: flex; align-items: center; gap: 20px; text-decoration: none; color: inherit; }
+        .module-card:hover { transform: translateX(10px); border-color: #e94560; box-shadow: 0 10px 30px rgba(233,69,96,0.2); }
+        .module-number { background: linear-gradient(135deg, #e94560 0%, #533483 100%); width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.2em; flex-shrink: 0; }
+        .module-content { flex: 1; }
+        .module-title { font-size: 1.15em; font-weight: 600; margin-bottom: 5px; }
+        .module-desc { font-size: 0.9em; opacity: 0.7; }
+        .module-arrow { font-size: 1.5em; opacity: 0.5; transition: all 0.3s ease; }
+        .module-card:hover .module-arrow { opacity: 1; transform: translateX(5px); }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 40px; flex-wrap: wrap; gap: 15px; }
+        .nav-btn { padding: 15px 30px; border-radius: 25px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; }
+        .nav-btn.secondary { background: rgba(255,255,255,0.1); color: #fff; }
+        .nav-btn.primary { background: linear-gradient(135deg, #e94560 0%, #533483 100%); color: #fff; }
+        .nav-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(0,0,0,0.3); }
+        .progress-section { margin-top: 40px; padding: 25px; background: rgba(255,255,255,0.05); border-radius: 15px; }
+        .progress-title { font-size: 1em; margin-bottom: 15px; opacity: 0.8; }
+        .progress-bar { height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #e94560, #533483); border-radius: 4px; width: 0%; transition: width 0.5s ease; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="breadcrumb">
+                <a href="../Master-Dashboard.html">← Course Overview</a> / Week 1
+            </div>
+            <h1>📋 Week 1: Standard Reports</h1>
+            <div class="week-meta">
+                <span class="meta-item">📚 6 Modules</span>
+                <span class="meta-item">⏱️ ~2 Hours</span>
+                <span class="meta-item">🎯 Foundation Level</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="week-intro">
+            <h3 class="intro-title">Week Overview</h3>
+            <p class="intro-text">
+                NetSuite provides a comprehensive suite of standard reports to help you track and monitor your business in real time. This week covers everything you need to know about accessing, viewing, filtering, and distributing these built-in reports. You'll learn to navigate report data, apply dynamic filters, export in multiple formats, schedule recurring distributions, and use the "Alert Me When Ready" feature for large reports.
+            </p>
+            <div class="objectives">
+                <h4>Learning Objectives</h4>
+                <ul>
+                    <li>Access standard reports using global search, menus, and the Reports Dashboard</li>
+                    <li>Navigate between summary and detail views with drill-down capabilities</li>
+                    <li>Apply date ranges, subsidiary context, and column filters</li>
+                    <li>Export reports in Excel, PDF, CSV, and Word formats</li>
+                    <li>Schedule reports to run and distribute automatically</li>
+                    <li>Use Alert Me When Ready for long-running reports</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="module-grid">
+            <a href="Module-01-Accessing-Reports.html" class="module-card">
+                <div class="module-number">01</div>
+                <div class="module-content">
+                    <div class="module-title">Accessing Standard Reports</div>
+                    <div class="module-desc">Global search, report menus, Reports Dashboard, and creating shortcuts to frequently used reports</div>
+                </div>
+                <div class="module-arrow">→</div>
+            </a>
+
+            <a href="Module-02-Viewing-Reports.html" class="module-card">
+                <div class="module-number">02</div>
+                <div class="module-content">
+                    <div class="module-title">Viewing & Navigating Reports</div>
+                    <div class="module-desc">Summary vs. detail views, drill-down navigation, Find field, and report navigation pane</div>
+                </div>
+                <div class="module-arrow">→</div>
+            </a>
+
+            <a href="Module-03-Filtering-Reports.html" class="module-card">
+                <div class="module-number">03</div>
+                <div class="module-content">
+                    <div class="module-title">Filtering Reports</div>
+                    <div class="module-desc">Static and dynamic date ranges, subsidiary context, column filters, and creating filter favorites</div>
+                </div>
+                <div class="module-arrow">→</div>
+            </a>
+
+            <a href="Module-04-Report-Tools.html" class="module-card">
+                <div class="module-number">04</div>
+                <div class="module-content">
+                    <div class="module-title">Report Tools & Options</div>
+                    <div class="module-desc">Display options, report grid view, expand/collapse levels, and graph visualization</div>
+                </div>
+                <div class="module-arrow">→</div>
+            </a>
+
+            <a href="Module-05-Export-Print-Email.html" class="module-card">
+                <div class="module-number">05</div>
+                <div class="module-content">
+                    <div class="module-title">Export, Print & Email</div>
+                    <div class="module-desc">Export formats (Excel, PDF, CSV, Word), printing, email distribution, and report snapshots</div>
+                </div>
+                <div class="module-arrow">→</div>
+            </a>
+
+            <a href="Module-06-Scheduling-Reports.html" class="module-card">
+                <div class="module-number">06</div>
+                <div class="module-content">
+                    <div class="module-title">Scheduling & Alert Me When Ready</div>
+                    <div class="module-desc">Recurring schedules, distribution lists, managing scheduled reports, and background processing</div>
+                </div>
+                <div class="module-arrow">→</div>
+            </a>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="../Master-Dashboard.html" class="nav-btn secondary">← Back to Course Overview</a>
+            <a href="Module-01-Accessing-Reports.html" class="nav-btn primary">Begin Week 1 →</a>
+        </div>
+
+        <div class="progress-section">
+            <div class="progress-title">Week 1 Progress</div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 0%;"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

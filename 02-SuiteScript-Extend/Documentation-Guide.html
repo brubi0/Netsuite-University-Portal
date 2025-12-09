@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navigating NetSuite Help - SuiteScript Learning Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%); --dark-bg: #1a1a2e; --card-bg: #16213e; --text-primary: #ffffff; --text-secondary: #a0aec0; --border-color: rgba(255,255,255,0.1); --purple: #9f7aea; --success: #48bb78; --warning: #ecc94b; --info: #4299e1; --code-bg: #0d1117; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--dark-bg); color: var(--text-primary); min-height: 100vh; line-height: 1.7; }
+        .nav-bar { background: var(--card-bg); padding: 15px 20px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+        .nav-bar a { color: var(--purple); text-decoration: none; }
+        .header { background: var(--primary-gradient); padding: 50px 20px; }
+        .header-content { max-width: 900px; margin: 0 auto; }
+        .header .module-tag { display: inline-block; background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 20px; font-size: 0.85rem; margin-bottom: 15px; }
+        .header h1 { font-size: 2.2rem; margin-bottom: 10px; }
+        .header p { font-size: 1.1rem; opacity: 0.9; }
+        .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+        .content-section { margin-bottom: 40px; }
+        .content-section h2 { font-size: 1.5rem; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid var(--border-color); }
+        .content-section h3 { font-size: 1.2rem; margin: 25px 0 15px 0; color: var(--purple); }
+        .content-section p { margin-bottom: 15px; color: var(--text-secondary); }
+        .info-box { border-radius: 10px; padding: 20px; margin: 20px 0; }
+        .info-box.blue { background: rgba(66, 153, 225, 0.15); border: 1px solid rgba(66, 153, 225, 0.3); }
+        .info-box.green { background: rgba(72, 187, 120, 0.15); border: 1px solid rgba(72, 187, 120, 0.3); }
+        .info-box.yellow { background: rgba(236, 201, 75, 0.15); border: 1px solid rgba(236, 201, 75, 0.3); }
+        .info-box.purple { background: rgba(159, 122, 234, 0.15); border: 1px solid rgba(159, 122, 234, 0.3); }
+        .info-box h4 { margin-bottom: 10px; }
+        .info-box p { margin-bottom: 0; font-size: 0.95rem; }
+        .inline-code { background: var(--code-bg); padding: 2px 8px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--purple); }
+        .step-box { background: var(--card-bg); border-radius: 12px; padding: 25px; margin: 20px 0; border: 1px solid var(--border-color); }
+        .step-box h4 { color: var(--purple); margin-bottom: 15px; font-size: 1.1rem; }
+        .step-box ol { margin-left: 20px; color: var(--text-secondary); }
+        .step-box ol li { margin-bottom: 12px; }
+        .doc-structure { background: var(--code-bg); border-radius: 10px; padding: 25px; margin: 20px 0; border: 1px solid var(--border-color); font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; line-height: 1.8; }
+        .doc-structure .folder { color: var(--warning); }
+        .doc-structure .file { color: var(--info); }
+        .doc-structure .highlight { color: var(--success); font-weight: bold; }
+        .screenshot-placeholder { background: var(--card-bg); border: 2px dashed var(--border-color); border-radius: 12px; padding: 40px; text-align: center; margin: 20px 0; color: var(--text-secondary); }
+        .key-takeaways { background: var(--card-bg); border-radius: 12px; padding: 25px; margin-top: 40px; border: 1px solid var(--border-color); }
+        .key-takeaways h3 { margin-bottom: 15px; }
+        .key-takeaways ul { list-style: none; }
+        .key-takeaways li { padding: 8px 0; padding-left: 25px; position: relative; color: var(--text-secondary); }
+        .key-takeaways li::before { content: '✓'; position: absolute; left: 0; color: var(--success); }
+        .nav-footer { display: flex; justify-content: space-between; margin-top: 50px; padding-top: 30px; border-top: 1px solid var(--border-color); flex-wrap: wrap; gap: 10px; }
+        .nav-footer a { color: var(--purple); text-decoration: none; }
+        .url-box { background: var(--code-bg); padding: 15px 20px; border-radius: 8px; font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; color: var(--info); margin: 15px 0; word-break: break-all; }
+    </style>
+</head>
+<body>
+    <nav class="nav-bar">
+        <a href="Master-Dashboard.html">← Back to Dashboard</a>
+        <div style="display: flex; gap: 15px;">
+            <a href="Week-1/week-1-dashboard.html">Start Week 1 →</a>
+        </div>
+    </nav>
+
+    <header class="header">
+        <div class="header-content">
+            <span class="module-tag">Essential Skill</span>
+            <h1>📖 Navigating NetSuite Help Documentation</h1>
+            <p>The most important skill for any SuiteScript developer</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="content-section">
+            <h2>🎯 Why This Matters</h2>
+            <p>Throughout this course, you'll see us repeatedly open the NetSuite Help documentation to look up syntax, parameters, and examples. This isn't laziness—it's <strong>exactly how professional developers work</strong>.</p>
+            
+            <div class="info-box green">
+                <h4>✅ The Reality of Professional Development</h4>
+                <p>No developer memorizes every API. The skill is knowing <em>where to find</em> the answer quickly. NetSuite's documentation is comprehensive—learn to navigate it, and you can solve any problem.</p>
+            </div>
+
+            <p>The documentation contains:</p>
+            <ul style="margin-left: 25px; color: var(--text-secondary); margin-bottom: 15px;">
+                <li>Complete method signatures with all parameters</li>
+                <li>Return types and possible values</li>
+                <li>Working code examples</li>
+                <li>Governance unit costs</li>
+                <li>Version compatibility notes</li>
+            </ul>
+        </section>
+
+        <section class="content-section">
+            <h2>🔗 Accessing the Documentation</h2>
+            
+            <h3>Primary URL</h3>
+            <div class="url-box">https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/</div>
+            
+            <p>Bookmark this! You'll use it daily.</p>
+
+            <h3>Quick Access from NetSuite</h3>
+            <p>Inside NetSuite, click the <strong>Help</strong> link in the top-right corner, then search or browse to SuiteScript documentation.</p>
+
+            <div class="info-box blue">
+                <h4>💡 Pro Tip: Use Google</h4>
+                <p>Often the fastest way to find specific documentation is to Google: <span class="inline-code">netsuite N/record load site:docs.oracle.com</span>. The site filter ensures you get official docs.</p>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>🗂️ Documentation Structure</h2>
+            
+            <p>Understanding how the docs are organized helps you find information faster:</p>
+
+            <div class="doc-structure">
+                <span class="folder">📁 SuiteScript 2.x</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="folder">📁 SuiteScript 2.x API Reference</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="highlight">📁 SuiteScript 2.x Modules</span> ← Most used!<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="file">📄 N/record Module</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="file">📄 N/search Module</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="file">📄 N/query Module</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="file">📄 N/email Module</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="file">📄 ... (50+ modules)</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="folder">📁 SuiteScript 2.x Script Types</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="file">📄 User Event Script Type</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="file">📄 Client Script Type</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="file">📄 Map/Reduce Script Type</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="folder">📁 SuiteScript 2.x Developer Guide</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="folder">📁 Records Browser</span> ← For field IDs
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>🔍 How to Look Up a Module</h2>
+            
+            <div class="step-box">
+                <h4>Step-by-Step: Finding N/record.load()</h4>
+                <ol>
+                    <li>Go to <strong>docs.oracle.com</strong> and search "N/record" or navigate to SuiteScript 2.x Modules</li>
+                    <li>Click on <strong>N/record Module</strong></li>
+                    <li>Find the <strong>Methods</strong> section</li>
+                    <li>Click on <strong>record.load(options)</strong></li>
+                    <li>You'll see:
+                        <ul style="margin-top: 10px;">
+                            <li><strong>Parameters:</strong> type, id, isDynamic, defaultValues</li>
+                            <li><strong>Returns:</strong> record.Record object</li>
+                            <li><strong>Governance:</strong> 10 units</li>
+                            <li><strong>Example code</strong></li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>📋 What Each Help Page Contains</h2>
+
+            <h3>Method Documentation Pattern</h3>
+            <p>Every method page follows a consistent structure:</p>
+
+            <div class="step-box">
+                <h4>Anatomy of a Help Page</h4>
+                <ol>
+                    <li><strong>Method Signature:</strong> <span class="inline-code">record.load(options)</span></li>
+                    <li><strong>Description:</strong> What the method does</li>
+                    <li><strong>Parameters Table:</strong>
+                        <ul style="margin-top: 8px;">
+                            <li>Parameter name</li>
+                            <li>Type (string, number, boolean, object)</li>
+                            <li>Required or optional</li>
+                            <li>Description of valid values</li>
+                        </ul>
+                    </li>
+                    <li><strong>Returns:</strong> What the method gives back</li>
+                    <li><strong>Errors:</strong> What exceptions can be thrown</li>
+                    <li><strong>Governance:</strong> Units consumed</li>
+                    <li><strong>Since:</strong> Version introduced (2015.2, 2019.1, etc.)</li>
+                    <li><strong>Example:</strong> Working code sample</li>
+                </ol>
+            </div>
+
+            <div class="info-box yellow">
+                <h4>⚠️ Pay Attention To</h4>
+                <p><strong>Required vs Optional parameters</strong> - Missing a required parameter causes errors. <strong>Governance costs</strong> - Plan your script budget. <strong>Since version</strong> - Ensure your account supports the feature.</p>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>🔎 Finding Field IDs: Records Browser</h2>
+            
+            <p>When you need to know what fields exist on a record (and their internal IDs), use the Records Browser:</p>
+
+            <div class="step-box">
+                <h4>Using the Records Browser</h4>
+                <ol>
+                    <li>In the Help docs, navigate to <strong>Records Browser</strong></li>
+                    <li>Search for a record type (e.g., "Sales Order", "Customer")</li>
+                    <li>View all available fields with:
+                        <ul style="margin-top: 8px;">
+                            <li>Field ID (what you use in code)</li>
+                            <li>Field label (what users see)</li>
+                            <li>Field type</li>
+                            <li>Whether it's on body or sublist</li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
+
+            <div class="info-box blue">
+                <h4>💡 Alternative: &xml=T Parameter</h4>
+                <p>Add <span class="inline-code">&xml=T</span> to any NetSuite record URL to see raw field IDs. Example: <span class="inline-code">/app/accounting/transactions/salesord.nl?id=123&xml=T</span></p>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>📚 Script Type Documentation</h2>
+            
+            <p>Each script type has its own help page documenting:</p>
+            <ul style="margin-left: 25px; color: var(--text-secondary); margin-bottom: 15px;">
+                <li><strong>Entry Points:</strong> Which functions you can export (beforeLoad, afterSubmit, etc.)</li>
+                <li><strong>Context Object:</strong> What properties are available (context.newRecord, context.type)</li>
+                <li><strong>Triggers:</strong> When each entry point fires</li>
+                <li><strong>Governance:</strong> Total units available for that script type</li>
+                <li><strong>Examples:</strong> Complete working scripts</li>
+            </ul>
+
+            <div class="info-box purple">
+                <h4>📚 Common Lookups</h4>
+                <p>
+                    <strong>User Event entry points?</strong> → Search "User Event Script Type"<br>
+                    <strong>Client Script entry points?</strong> → Search "Client Script Type"<br>
+                    <strong>Map/Reduce stages?</strong> → Search "Map/Reduce Script Type"
+                </p>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>🏃 Quick Reference Searches</h2>
+            
+            <p>Bookmark these common searches:</p>
+
+            <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+                <thead>
+                    <tr>
+                        <th style="padding: 12px; text-align: left; border: 1px solid var(--border-color); background: var(--card-bg); color: var(--purple);">When You Need...</th>
+                        <th style="padding: 12px; text-align: left; border: 1px solid var(--border-color); background: var(--card-bg); color: var(--purple);">Search For...</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td style="padding: 12px; border: 1px solid var(--border-color); color: var(--text-secondary);">Load/create/save records</td><td style="padding: 12px; border: 1px solid var(--border-color); color: var(--text-secondary);">N/record Module</td></tr>
+                    <tr><td style="padding: 12px; border: 1px solid var(--border-color); color: var(--text-secondary);">Run searches</td><td style="padding: 12px; border: 1px solid var(--border-color); color: var(--text-secondary);">N/search Module</td></tr>
+                    <tr><td style="padding: 12px; border: 1px solid var(--border-color); color: var(--text-secondary);">Write SuiteQL queries</td><td style="padding: 12px; border: 1px solid var(--border-color); color: var(--text-secondary);">N/query Module</td></tr>
+                    <tr><td style="padding: 12px; border: 1px solid var(--border-color); color: var(--text-secondary);">Send emails</td><td style="padding: 12px; border: 1px solid var(--border-color); color: var(--text-secondary);">N/email Module</td></tr>
+                    <tr><td style="padding: 12px; border: 1px solid var(--border-color); color: var(--text-secondary);">Build custom forms</td><td style="padding: 12px; border: 1px solid var(--border-color); color: var(--text-secondary);">N/ui/serverWidget Module</td></tr>
+                    <tr><td style="padding: 12px; border: 1px solid var(--border-color); color: var(--text-secondary);">Check governance</td><td style="padding: 12px; border: 1px solid var(--border-color); color: var(--text-secondary);">N/runtime Module</td></tr>
+                    <tr><td style="padding: 12px; border: 1px solid var(--border-color); color: var(--text-secondary);">Field IDs on a record</td><td style="padding: 12px; border: 1px solid var(--border-color); color: var(--text-secondary);">Records Browser + record name</td></tr>
+                    <tr><td style="padding: 12px; border: 1px solid var(--border-color); color: var(--text-secondary);">Script entry points</td><td style="padding: 12px; border: 1px solid var(--border-color); color: var(--text-secondary);">[Script Type] Script Type</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <div class="key-takeaways">
+            <h3>🎯 Key Takeaways</h3>
+            <ul>
+                <li>NetSuite Help at <strong>docs.oracle.com</strong> is your primary reference—bookmark it</li>
+                <li>Use the <strong>SuiteScript 2.x Modules</strong> section for API documentation</li>
+                <li>Every method page shows parameters, returns, governance, and examples</li>
+                <li>Use <strong>Records Browser</strong> to find field IDs on any record type</li>
+                <li>Script Type pages document entry points and context objects</li>
+                <li>Google with <span class="inline-code">site:docs.oracle.com</span> for faster searching</li>
+                <li><strong>Looking things up is not cheating—it's professional development</strong></li>
+            </ul>
+        </div>
+
+        <nav class="nav-footer">
+            <a href="Master-Dashboard.html">← Back to Dashboard</a>
+            <a href="Week-1/week-1-dashboard.html">Start Week 1 →</a>
+        </nav>
+    </main>
+</body>
+</html>

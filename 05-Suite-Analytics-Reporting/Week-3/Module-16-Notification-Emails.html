@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 16: Email Notifications - Suite Analytics Learning Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #0f0f1a; color: #e0e0e0; line-height: 1.7; }
+        .header { background: linear-gradient(135deg, #0f3460 0%, #533483 100%); padding: 30px 20px; }
+        .header-content { max-width: 900px; margin: 0 auto; }
+        .breadcrumb { font-size: 0.9em; margin-bottom: 10px; opacity: 0.8; }
+        .breadcrumb a { color: #fff; text-decoration: none; }
+        h1 { font-size: 2em; font-weight: 700; color: #fff; }
+        .module-meta { margin-top: 10px; color: rgba(255,255,255,0.8); font-size: 0.9em; }
+        .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+        h2 { color: #e94560; font-size: 1.5em; margin: 40px 0 20px; padding-bottom: 10px; border-bottom: 2px solid #e94560; }
+        p { margin-bottom: 15px; }
+        .concept-box { background: linear-gradient(145deg, #1a1a2e 0%, #1e1e32 100%); border-radius: 15px; padding: 25px; margin: 25px 0; border-left: 4px solid #e94560; }
+        .concept-box h4 { color: #e94560; margin-bottom: 12px; font-size: 1.1em; }
+        .example-box { background: linear-gradient(145deg, #1e3a1e 0%, #1a2e1a 100%); border-radius: 12px; padding: 20px; margin: 20px 0; border: 1px solid #4caf50; }
+        .example-box h4 { color: #4caf50; margin-bottom: 12px; }
+        .tip-box { background: rgba(255,193,7,0.1); border-radius: 10px; padding: 20px; margin: 20px 0; border: 1px solid rgba(255,193,7,0.3); }
+        .tip-box h4 { color: #ffc107; margin-bottom: 10px; }
+        .key-point { background: rgba(83,52,131,0.2); border-radius: 10px; padding: 20px; margin: 20px 0; border: 1px solid rgba(83,52,131,0.4); }
+        .key-point h4 { color: #533483; margin-bottom: 10px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #333; }
+        th { background: rgba(233,69,96,0.2); color: #e94560; font-weight: 600; }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 50px; padding-top: 30px; border-top: 1px solid #333; flex-wrap: wrap; gap: 15px; }
+        .nav-btn { padding: 12px 25px; border-radius: 25px; text-decoration: none; font-weight: 600; font-size: 0.9em; transition: all 0.3s ease; }
+        .nav-btn.secondary { background: rgba(255,255,255,0.1); color: #fff; }
+        .nav-btn.primary { background: linear-gradient(135deg, #e94560 0%, #533483 100%); color: #fff; }
+        ul { margin-left: 20px; margin-bottom: 15px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="breadcrumb">
+                <a href="../Master-Dashboard.html">Course Overview</a> / 
+                <a href="week-3-dashboard.html">Week 3</a> / Module 16
+            </div>
+            <h1>📧 Module 16: Email Notifications</h1>
+            <div class="module-meta">Week 3 • Saved Searches Advanced • Core Skills</div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="concept-box">
+            <h4>Notification Emails</h4>
+            <p>The Email subtab lets you send automatic notifications when search results match certain conditions. You can trigger emails when records are created or updated, and customize the message with dynamic field tokens.</p>
+        </div>
+
+        <h2>Trigger Options</h2>
+
+        <div class="key-point">
+            <h4>⚡ When to Send</h4>
+            <table>
+                <thead><tr><th>Option</th><th>Triggers When</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>Send When Records Created</strong></td><td>New record matches search criteria</td></tr>
+                    <tr><td><strong>Send When Records Updated</strong></td><td>Existing record is modified and matches criteria</td></tr>
+                    <tr><td><strong>Show Recent Changes</strong></td><td>Email highlights what changed on the record</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2>Recipient Types</h2>
+
+        <table>
+            <thead><tr><th>Type</th><th>Description</th></tr></thead>
+            <tbody>
+                <tr><td><strong>Specific Recipients</strong></td><td>Fixed list of employees — always receive emails</td></tr>
+                <tr><td><strong>Recipients from Results</strong></td><td>Dynamic — email field in search results determines recipient</td></tr>
+                <tr><td><strong>Allow Subscriptions</strong></td><td>Users can opt-in via Home → Set Preferences → Alerts</td></tr>
+            </tbody>
+        </table>
+
+        <h2>Customizing the Message</h2>
+
+        <div class="key-point">
+            <h4>✉️ Email Fields</h4>
+            <ul>
+                <li><strong>From:</strong> Sender's email address (default or custom)</li>
+                <li><strong>Subject:</strong> Use field tokens like {name} or {tranid}</li>
+                <li><strong>Body:</strong> HTML or Rich Text with Insert Field option</li>
+            </ul>
+        </div>
+
+        <div class="example-box">
+            <h4>💡 Example: Low Inventory Alert</h4>
+            <p><strong>Search:</strong> Items where Quantity On Hand ≤ Reorder Point</p>
+            <p><strong>Recipients:</strong> Purchasing Manager (Specific)</p>
+            <p><strong>Subject:</strong> Low Inventory Alert: {itemid}</p>
+            <p><strong>Body:</strong> The following item needs to be reordered: {itemid} - Current Qty: {quantityonhand}</p>
+        </div>
+
+        <div class="tip-box">
+            <h4>💡 Recipients from Results</h4>
+            <p>To use "Recipients from Results," you must include an <strong>email field</strong> in your Results columns. The email address in that column receives the notification for that specific record.</p>
+        </div>
+
+        <div class="concept-box">
+            <h4>🎯 Key Takeaways</h4>
+            <ul>
+                <li>Trigger emails on <strong>record create</strong> or <strong>update</strong></li>
+                <li>Use <strong>Specific Recipients</strong> for fixed distribution</li>
+                <li>Use <strong>Recipients from Results</strong> for dynamic recipients</li>
+                <li>Customize <strong>Subject</strong> and <strong>Body</strong> with field tokens</li>
+                <li>Enable <strong>Subscriptions</strong> for user opt-in</li>
+            </ul>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="Module-15-Deployment.html" class="nav-btn secondary">← Previous: Deployment</a>
+            <a href="Module-17-Scheduled-Emails.html" class="nav-btn primary">Next: Scheduled Emails →</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 07: Creating Saved Searches - Suite Analytics Learning Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #0f0f1a; color: #e0e0e0; line-height: 1.7; }
+        .header { background: linear-gradient(135deg, #0f3460 0%, #533483 100%); padding: 30px 20px; }
+        .header-content { max-width: 900px; margin: 0 auto; }
+        .breadcrumb { font-size: 0.9em; margin-bottom: 10px; opacity: 0.8; }
+        .breadcrumb a { color: #fff; text-decoration: none; }
+        h1 { font-size: 2em; font-weight: 700; color: #fff; }
+        .module-meta { margin-top: 10px; color: rgba(255,255,255,0.8); font-size: 0.9em; }
+        .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+        h2 { color: #e94560; font-size: 1.5em; margin: 40px 0 20px; padding-bottom: 10px; border-bottom: 2px solid #e94560; }
+        h3 { color: #533483; font-size: 1.2em; margin: 30px 0 15px; }
+        p { margin-bottom: 15px; }
+        .concept-box { background: linear-gradient(145deg, #1a1a2e 0%, #1e1e32 100%); border-radius: 15px; padding: 25px; margin: 25px 0; border-left: 4px solid #e94560; }
+        .concept-box h4 { color: #e94560; margin-bottom: 12px; font-size: 1.1em; }
+        .steps { background: #12121f; border-radius: 10px; padding: 20px; margin: 15px 0; }
+        .steps ol { margin-left: 20px; }
+        .steps li { padding: 8px 0; }
+        .example-box { background: linear-gradient(145deg, #1e3a1e 0%, #1a2e1a 100%); border-radius: 12px; padding: 20px; margin: 20px 0; border: 1px solid #4caf50; }
+        .example-box h4 { color: #4caf50; margin-bottom: 12px; }
+        .tip-box { background: rgba(255,193,7,0.1); border-radius: 10px; padding: 20px; margin: 20px 0; border: 1px solid rgba(255,193,7,0.3); }
+        .tip-box h4 { color: #ffc107; margin-bottom: 10px; }
+        .key-point { background: rgba(83,52,131,0.2); border-radius: 10px; padding: 20px; margin: 20px 0; border: 1px solid rgba(83,52,131,0.4); }
+        .key-point h4 { color: #533483; margin-bottom: 10px; }
+        .nav-path { background: #1a1a2e; border-radius: 8px; padding: 12px 18px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 0.9em; color: #4caf50; display: inline-block; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #333; }
+        th { background: rgba(233,69,96,0.2); color: #e94560; font-weight: 600; }
+        .search-type-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin: 20px 0; }
+        .search-type { background: #1a1a2e; border-radius: 8px; padding: 12px; text-align: center; border: 1px solid rgba(255,255,255,0.1); font-size: 0.9em; }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 50px; padding-top: 30px; border-top: 1px solid #333; flex-wrap: wrap; gap: 15px; }
+        .nav-btn { padding: 12px 25px; border-radius: 25px; text-decoration: none; font-weight: 600; font-size: 0.9em; transition: all 0.3s ease; }
+        .nav-btn.secondary { background: rgba(255,255,255,0.1); color: #fff; }
+        .nav-btn.primary { background: linear-gradient(135deg, #e94560 0%, #533483 100%); color: #fff; }
+        ul { margin-left: 20px; margin-bottom: 15px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="breadcrumb">
+                <a href="../Master-Dashboard.html">Course Overview</a> / 
+                <a href="week-2-dashboard.html">Week 2</a> / Module 07
+            </div>
+            <h1>🔍 Module 07: Creating Saved Searches</h1>
+            <div class="module-meta">Week 2 • Saved Searches Fundamentals • Core Skills</div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="concept-box">
+            <h4>What is a Saved Search?</h4>
+            <p>A saved search is a reusable, customizable query that retrieves specific data from NetSuite based on criteria you define. Unlike standard reports, saved searches give you complete control over what data is returned, how it's filtered, and how it's displayed. They can be used for reporting, dashboards, workflows, email alerts, and more.</p>
+        </div>
+
+        <h2>Common Search Types</h2>
+        <p>When creating a saved search, you first select the record type (search type) to query.</p>
+
+        <div class="search-type-grid">
+            <div class="search-type">Transaction</div>
+            <div class="search-type">Customer</div>
+            <div class="search-type">Item</div>
+            <div class="search-type">Vendor</div>
+            <div class="search-type">Employee</div>
+            <div class="search-type">Contact</div>
+            <div class="search-type">Case</div>
+            <div class="search-type">Opportunity</div>
+            <div class="search-type">Project</div>
+            <div class="search-type">Custom Record</div>
+        </div>
+
+        <h2>Creating a New Saved Search</h2>
+        <p class="nav-path">Reports → Saved Searches → All Saved Searches → New</p>
+
+        <div class="steps">
+            <ol>
+                <li>Navigate to <strong>Reports → Saved Searches → All Saved Searches</strong></li>
+                <li>Click <strong>New</strong></li>
+                <li>Select the <strong>Search Type</strong> from the list (e.g., Transaction, Customer, Item)</li>
+                <li>Enter a <strong>Search Title</strong> (this appears in menus and lists)</li>
+                <li>Optionally enter a <strong>Script ID</strong> for use in SuiteScript</li>
+                <li>Configure the <strong>Criteria</strong> subtab (filters)</li>
+                <li>Configure the <strong>Results</strong> subtab (columns and sorting)</li>
+                <li>Click <strong>Save</strong> or <strong>Save & Run</strong></li>
+            </ol>
+        </div>
+
+        <h2>Public vs. Private Searches</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Setting</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Private (default)</strong></td>
+                    <td>Only you can see and run the search</td>
+                </tr>
+                <tr>
+                    <td><strong>Public</strong></td>
+                    <td>All users can run and view results; only owner/admin can edit</td>
+                </tr>
+                <tr>
+                    <td><strong>Allow Audience to Edit</strong></td>
+                    <td>Specific users/roles can edit the search (set on Audience subtab)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="tip-box">
+            <h4>💡 Naming Convention</h4>
+            <p>Use a consistent naming convention for saved searches:</p>
+            <ul>
+                <li><strong>Prefix with record type:</strong> "Customer - High Balance"</li>
+                <li><strong>Include purpose:</strong> "Sales - My Customers - Template"</li>
+                <li><strong>Mark templates:</strong> Add "Template" to searches intended as starting points</li>
+            </ul>
+        </div>
+
+        <h2>Saved Search Subtabs</h2>
+
+        <div class="key-point">
+            <h4>📋 Key Subtabs</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Subtab</th>
+                        <th>Purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Criteria</strong></td>
+                        <td>Define filters to limit which records are returned</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Results</strong></td>
+                        <td>Select columns to display and set sort order</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Available Filters</strong></td>
+                        <td>Add filters users can adjust when viewing results</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Highlighting</strong></td>
+                        <td>Set conditional formatting (colors, bold, images)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Audience</strong></td>
+                        <td>Define who can view/edit the search</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Email</strong></td>
+                        <td>Configure email alerts and scheduled emails</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2>Deployment Options</h2>
+        <p>Control where and how the saved search appears in NetSuite.</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Option</th>
+                    <th>Effect</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Available as List View</strong></td>
+                    <td>Search appears as a view option on record list pages</td>
+                </tr>
+                <tr>
+                    <td><strong>Available as Dashboard View</strong></td>
+                    <td>Search can be added to Custom Search portlets</td>
+                </tr>
+                <tr>
+                    <td><strong>Available for Reminders</strong></td>
+                    <td>Search can be added to the Reminders portlet</td>
+                </tr>
+                <tr>
+                    <td><strong>Show in Menu</strong></td>
+                    <td>Search appears in Reports → Saved Searches menu</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="example-box">
+            <h4>💡 Example: Customer Balance Search</h4>
+            <p>Create a search to find customers with a positive balance who were created in the last year:</p>
+            <ul>
+                <li><strong>Search Type:</strong> Customer</li>
+                <li><strong>Title:</strong> "Customer - Positive Balance - Last 12 Months"</li>
+                <li><strong>Criteria:</strong> Balance > 0, Date Created within Last Rolling Year</li>
+                <li><strong>Results:</strong> Name, Balance, Date Created, Sales Rep</li>
+                <li><strong>Sort By:</strong> Balance (Descending)</li>
+            </ul>
+        </div>
+
+        <div class="concept-box">
+            <h4>🎯 Key Takeaways</h4>
+            <ul>
+                <li>Saved searches query NetSuite data based on your <strong>criteria</strong> and display results in <strong>columns</strong> you define</li>
+                <li>Select the <strong>search type</strong> (record type) first</li>
+                <li>Use <strong>Public</strong> checkbox to share with all users</li>
+                <li>Configure <strong>Criteria</strong> (filters) and <strong>Results</strong> (columns) subtabs</li>
+                <li>Use <strong>deployment options</strong> to control where the search appears (lists, dashboards, menus)</li>
+            </ul>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="week-2-dashboard.html" class="nav-btn secondary">← Week 2 Overview</a>
+            <a href="Module-08-Results-Columns.html" class="nav-btn primary">Next: Results Columns →</a>
+        </div>
+    </div>
+</body>
+</html>

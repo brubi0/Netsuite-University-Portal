@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 10: N/runtime Module - SuiteScript Learning Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%); --dark-bg: #1a1a2e; --card-bg: #16213e; --text-primary: #ffffff; --text-secondary: #a0aec0; --border-color: rgba(255,255,255,0.1); --purple: #9f7aea; --success: #48bb78; --warning: #ecc94b; --info: #4299e1; --code-bg: #0d1117; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--dark-bg); color: var(--text-primary); min-height: 100vh; line-height: 1.7; }
+        .nav-bar { background: var(--card-bg); padding: 15px 20px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+        .nav-bar a { color: var(--purple); text-decoration: none; }
+        .header { background: var(--primary-gradient); padding: 50px 20px; }
+        .header-content { max-width: 900px; margin: 0 auto; }
+        .header .module-tag { display: inline-block; background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 20px; font-size: 0.85rem; margin-bottom: 15px; }
+        .header h1 { font-size: 2.2rem; margin-bottom: 10px; }
+        .header p { font-size: 1.1rem; opacity: 0.9; }
+        .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+        .content-section { margin-bottom: 40px; }
+        .content-section h2 { font-size: 1.5rem; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid var(--border-color); }
+        .content-section h3 { font-size: 1.2rem; margin: 25px 0 15px 0; color: var(--purple); }
+        .content-section p { margin-bottom: 15px; color: var(--text-secondary); }
+        .info-box { border-radius: 10px; padding: 20px; margin: 20px 0; }
+        .info-box.blue { background: rgba(66, 153, 225, 0.15); border: 1px solid rgba(66, 153, 225, 0.3); }
+        .info-box.green { background: rgba(72, 187, 120, 0.15); border: 1px solid rgba(72, 187, 120, 0.3); }
+        .info-box.yellow { background: rgba(236, 201, 75, 0.15); border: 1px solid rgba(236, 201, 75, 0.3); }
+        .info-box.purple { background: rgba(159, 122, 234, 0.15); border: 1px solid rgba(159, 122, 234, 0.3); }
+        .info-box h4 { margin-bottom: 10px; }
+        .info-box p { margin-bottom: 0; font-size: 0.95rem; }
+        pre { background: var(--code-bg); border-radius: 10px; padding: 20px; overflow-x: auto; margin: 20px 0; border: 1px solid var(--border-color); }
+        code { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; line-height: 1.6; }
+        .inline-code { background: var(--code-bg); padding: 2px 8px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--purple); }
+        .concept-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        .concept-table th, .concept-table td { padding: 12px 15px; text-align: left; border: 1px solid var(--border-color); }
+        .concept-table th { background: var(--card-bg); font-weight: 600; color: var(--purple); }
+        .concept-table td { color: var(--text-secondary); }
+        .example-box { background: var(--card-bg); border-radius: 12px; padding: 25px; margin: 25px 0; border: 1px solid var(--border-color); }
+        .example-box h4 { color: var(--purple); margin-bottom: 10px; font-size: 1.1rem; }
+        .example-box .scenario { color: var(--text-secondary); margin-bottom: 15px; font-style: italic; }
+        .key-takeaways { background: var(--card-bg); border-radius: 12px; padding: 25px; margin-top: 40px; border: 1px solid var(--border-color); }
+        .key-takeaways h3 { margin-bottom: 15px; }
+        .key-takeaways ul { list-style: none; }
+        .key-takeaways li { padding: 8px 0; padding-left: 25px; position: relative; color: var(--text-secondary); }
+        .key-takeaways li::before { content: '✓'; position: absolute; left: 0; color: var(--success); }
+        .nav-footer { display: flex; justify-content: space-between; margin-top: 50px; padding-top: 30px; border-top: 1px solid var(--border-color); flex-wrap: wrap; gap: 10px; }
+        .nav-footer a { color: var(--purple); text-decoration: none; }
+    </style>
+</head>
+<body>
+    <nav class="nav-bar">
+        <a href="week-5-dashboard.html">← Week 5 Dashboard</a>
+        <div style="display: flex; gap: 15px;">
+            <a href="Module-9-NEmail.html">← Module 9</a>
+            <a href="../Week-6/week-6-dashboard.html">Week 6 →</a>
+        </div>
+    </nav>
+
+    <header class="header">
+        <div class="header-content">
+            <span class="module-tag">Week 5 • Module 10</span>
+            <h1>N/runtime Module</h1>
+            <p>Governance monitoring, user context, script parameters, and feature detection</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="content-section">
+            <h2>🎯 N/runtime Overview</h2>
+            <p>The N/runtime module provides information about the execution environment. It answers key questions:</p>
+            <ul style="margin-left: 25px; color: var(--text-secondary); margin-bottom: 15px;">
+                <li><strong>Who</strong> is running this script? → <span class="inline-code">getCurrentUser()</span></li>
+                <li><strong>What</strong> script is this? → <span class="inline-code">getCurrentScript()</span></li>
+                <li><strong>How much</strong> governance remains? → <span class="inline-code">getRemainingUsage()</span></li>
+                <li><strong>What parameters</strong> were configured? → <span class="inline-code">getParameter()</span></li>
+                <li><strong>Which features</strong> are enabled? → <span class="inline-code">isFeatureInEffect()</span></li>
+            </ul>
+        </section>
+
+        <section class="content-section">
+            <h2>👤 Getting Current User</h2>
+            <p>Know who's running your script for assignments, logging, and personalization:</p>
+            <pre><code>const runtime = require('N/runtime');
+
+const currentUser = runtime.getCurrentUser();
+
+log.audit('User Info', {
+    id: currentUser.id,           // Internal ID (e.g., 207)
+    name: currentUser.name,       // Display name (e.g., "John Smith")
+    email: currentUser.email,     // Email address
+    role: currentUser.role,       // Current role ID
+    roleId: currentUser.roleId,   // Same as role
+    roleCenter: currentUser.roleCenter,  // Role center type
+    department: currentUser.department,  // Department ID
+    location: currentUser.location,      // Location ID
+    subsidiary: currentUser.subsidiary   // Subsidiary ID
+});</code></pre>
+
+            <div class="example-box">
+                <h4>📧 Example: New Employee Welcome Call</h4>
+                <p class="scenario">When a new employee is created, automatically create a phone call task assigned to the current user (likely HR).</p>
+                <pre><code>/**
+ * @NApiVersion 2.1
+ * @NScriptType UserEventScript
+ */
+define(['N/runtime', 'N/record'], (runtime, record) => {
+
+    const afterSubmit = (context) => {
+        if (context.type !== context.UserEventType.CREATE) return;
+
+        const employee = context.newRecord;
+        const firstName = employee.getValue('firstname');
+        const lastName = employee.getValue('lastname');
+        const phoneNumber = employee.getValue('phone');
+
+        // Create phone call assigned to whoever created the employee
+        const phoneCall = record.create({ type: record.Type.PHONE_CALL });
+
+        phoneCall.setValue({
+            fieldId: 'assigned',
+            value: runtime.getCurrentUser().id  // Assign to current user
+        });
+
+        phoneCall.setValue({
+            fieldId: 'title',
+            value: `Welcome call: ${firstName} ${lastName}`
+        });
+
+        phoneCall.setValue({
+            fieldId: 'message',
+            value: `Welcome call for new employee at ${phoneNumber}.`
+        });
+
+        const recordId = phoneCall.save();
+        log.debug('Phone Call Created', recordId);
+    };
+
+    return { afterSubmit };
+});</code></pre>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>⚙️ Script Parameters</h2>
+            <p>Script parameters let administrators configure scripts without changing code. Define them in the script record, then read at runtime:</p>
+            <pre><code>const runtime = require('N/runtime');
+
+const script = runtime.getCurrentScript();
+
+// Read a script parameter (defined in script record)
+const recipientId = script.getParameter({
+    name: 'custscript_notif_recipient'  // Parameter ID
+});
+
+const approvalThreshold = script.getParameter({
+    name: 'custscript_approval_limit'
+});
+
+log.audit('Parameters', { recipientId, approvalThreshold });</code></pre>
+
+            <div class="info-box blue">
+                <h4>💡 Why Use Parameters?</h4>
+                <p>Instead of hardcoding values like email recipients or thresholds, use script parameters. Administrators can change them in the deployment without touching code.</p>
+            </div>
+
+            <div class="example-box">
+                <h4>📧 Example: Configurable Notification Recipient</h4>
+                <p class="scenario">Send a notification when records are created, but let administrators configure who receives it via script parameter.</p>
+                <pre><code>/**
+ * @NApiVersion 2.1
+ * @NScriptType UserEventScript
+ */
+define(['N/runtime', 'N/email'], (runtime, email) => {
+
+    const afterSubmit = (context) => {
+        try {
+            if (context.type !== context.UserEventType.CREATE) return;
+
+            // Get recipient from script parameter (not hardcoded!)
+            const recipientId = runtime.getCurrentScript().getParameter({
+                name: 'custscript_notif_recipient'
+            });
+
+            email.send({
+                author: runtime.getCurrentUser().id,
+                recipients: recipientId,
+                subject: `New ${context.newRecord.type} record created!`,
+                body: `${runtime.getCurrentUser().name} created a new 
+                       ${context.newRecord.type} record for 
+                       ${context.newRecord.getValue('entityid')}.`
+            });
+
+        } catch (e) {
+            log.error({ title: e.name, details: e.message });
+        }
+    };
+
+    return { afterSubmit };
+});</code></pre>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>🔓 Feature Detection</h2>
+            <p>Check if a NetSuite feature is enabled before using it. This prevents errors when scripts run in accounts with different configurations:</p>
+            <pre><code>const runtime = require('N/runtime');
+
+// Check if Opportunities feature is enabled
+const opportunitiesEnabled = runtime.isFeatureInEffect({
+    feature: 'OPPORTUNITIES'
+});
+
+// Check other common features
+const multiCurrency = runtime.isFeatureInEffect({ feature: 'MULTICURRENCY' });
+const advancedBilling = runtime.isFeatureInEffect({ feature: 'ADVANCEDBILLING' });
+const serializedInventory = runtime.isFeatureInEffect({ feature: 'SERIALIZEDINVENTORY' });</code></pre>
+
+            <div class="example-box">
+                <h4>🔒 Example: Feature-Gated Record Creation</h4>
+                <p class="scenario">Only create an Opportunity if the feature is enabled in the account.</p>
+                <pre><code>require(['N/record', 'N/runtime'], (record, runtime) => {
+
+    const opportunitiesEnabled = runtime.isFeatureInEffect({
+        feature: 'OPPORTUNITIES'
+    });
+
+    if (opportunitiesEnabled) {
+        const newOpport = record.create({
+            type: record.Type.OPPORTUNITY
+        });
+
+        newOpport.setValue({ fieldId: 'title', value: 'Office chairs hire' });
+        newOpport.setValue({ fieldId: 'entity', value: 325 });
+
+        newOpport.setSublistValue({
+            sublistId: 'item',
+            fieldId: 'item',
+            line: 0,
+            value: 14
+        });
+
+        const recordId = newOpport.save();
+        log.debug('Opportunity saved!', recordId);
+
+    } else {
+        log.debug('Skipped', 'Opportunities feature is not enabled.');
+    }
+});</code></pre>
+            </div>
+
+            <div class="info-box yellow">
+                <h4>⚠️ Common Feature IDs</h4>
+                <p>OPPORTUNITIES, MULTICURRENCY, MULTISUBSIDIARY, ADVANCEDBILLING, SERIALIZEDINVENTORY, LOTTRACKING, CUSTOMRECORDS. Find more in NetSuite Help under "Feature IDs".</p>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>⚡ Governance Monitoring</h2>
+            <p>Governance is NetSuite's way of limiting API calls. Every script has a governance budget—exceed it, and your script stops.</p>
+
+            <h3>Governance Limits by Script Type</h3>
+            <table class="concept-table">
+                <thead>
+                    <tr><th>Script Type</th><th>Units</th><th>Notes</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Client Script</td><td>1,000</td><td>Runs in browser</td></tr>
+                    <tr><td>User Event</td><td>1,000</td><td>Per record action</td></tr>
+                    <tr><td>Suitelet</td><td>1,000</td><td>Per page request</td></tr>
+                    <tr><td>Scheduled Script</td><td>10,000</td><td>Can reschedule itself</td></tr>
+                    <tr><td>Map/Reduce (getInputData)</td><td>10,000</td><td>Data gathering stage</td></tr>
+                    <tr><td>Map/Reduce (map)</td><td>1,000</td><td>Per map invocation</td></tr>
+                    <tr><td>Map/Reduce (reduce)</td><td>5,000</td><td>Per reduce invocation</td></tr>
+                    <tr><td>Map/Reduce (summarize)</td><td>10,000</td><td>Final summary stage</td></tr>
+                </tbody>
+            </table>
+
+            <h3>Monitoring Remaining Units</h3>
+            <pre><code>const runtime = require('N/runtime');
+
+function processRecords() {
+    const script = runtime.getCurrentScript();
+
+    // Check before expensive operations
+    const remaining = script.getRemainingUsage();
+    log.audit('Governance', 'Remaining: ' + remaining);
+
+    if (remaining < 100) {
+        log.audit('Governance', 'Low on units, stopping early');
+        return; // Exit gracefully before hitting limit
+    }
+
+    // Continue processing...
+}</code></pre>
+
+            <h3>Common Operation Costs</h3>
+            <table class="concept-table">
+                <thead><tr><th>Operation</th><th>Units</th></tr></thead>
+                <tbody>
+                    <tr><td>record.load()</td><td>10</td></tr>
+                    <tr><td>record.save() / record.create()</td><td>10</td></tr>
+                    <tr><td>record.submitFields()</td><td>10</td></tr>
+                    <tr><td>search.create().run()</td><td>10</td></tr>
+                    <tr><td>query.runSuiteQL()</td><td>10</td></tr>
+                    <tr><td>email.send()</td><td>10</td></tr>
+                    <tr><td>http.request()</td><td>10</td></tr>
+                    <tr><td>file.load()</td><td>10</td></tr>
+                </tbody>
+            </table>
+
+            <div class="info-box blue">
+                <h4>💡 Key Insight</h4>
+                <p>Most operations cost 10 units. With 1,000 units, you can do ~100 operations. Plan accordingly!</p>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>🚀 Optimization Strategies</h2>
+
+            <h3>1. Use Searches Over Multiple Loads</h3>
+            <pre><code>// BAD: 100 units for 10 records
+for (let id of recordIds) {
+    const rec = record.load({ type: 'customer', id: id }); // 10 units each
+}
+
+// GOOD: 10 units for all records
+const customerSearch = search.create({
+    type: 'customer',
+    filters: [['internalid', 'anyof', recordIds]],
+    columns: ['companyname', 'email']
+}).run(); // 10 units total</code></pre>
+
+            <h3>2. Use submitFields for Updates</h3>
+            <pre><code>// BAD: 20 units (load + save)
+const rec = record.load({ type: 'customer', id: 123 });
+rec.setValue('email', 'new@example.com');
+rec.save();
+
+// GOOD: 10 units
+record.submitFields({
+    type: 'customer',
+    id: 123,
+    values: { email: 'new@example.com' }
+});</code></pre>
+
+            <h3>3. Choose Map/Reduce for Large Jobs</h3>
+            <p>Map/Reduce scripts get fresh governance at each stage and can process unlimited records across multiple invocations.</p>
+
+            <div class="info-box green">
+                <h4>✅ Map/Reduce Advantage</h4>
+                <p>Each stage gets its own governance pool. If map runs out, it yields and resumes later with fresh units.</p>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>🌐 Environment Detection</h2>
+            <p>Detect which environment (production vs sandbox) you're running in:</p>
+            <pre><code>const runtime = require('N/runtime');
+
+// Get account ID
+const accountId = runtime.accountId;  // e.g., "1234567" or "1234567_SB1"
+
+// Check if sandbox
+const isSandbox = accountId.toLowerCase().includes('_sb');
+
+// Get environment type
+const envType = runtime.envType;  // PRODUCTION, SANDBOX, BETA, INTERNAL
+
+if (runtime.envType === runtime.EnvType.SANDBOX) {
+    log.debug('Environment', 'Running in Sandbox');
+}</code></pre>
+        </section>
+
+        <section class="content-section" style="background: rgba(66, 153, 225, 0.1); border: 1px solid rgba(66, 153, 225, 0.2); border-radius: 12px; padding: 25px; margin: 30px 0;">
+            <h2 style="border: none; padding: 0; margin-bottom: 15px;">📖 Finding This in the Docs</h2>
+            <p>To look up N/runtime:</p>
+            <ol style="margin-left: 20px; color: var(--text-secondary);">
+                <li style="margin-bottom: 8px;">Go to <strong>docs.oracle.com</strong> → SuiteScript 2.x Modules</li>
+                <li style="margin-bottom: 8px;">Click on <strong>N/runtime Module</strong></li>
+                <li style="margin-bottom: 8px;">Review User, Script, and Session objects</li>
+            </ol>
+            <p style="margin-top: 15px;"><strong>Key pages to bookmark:</strong></p>
+            <ul style="margin-left: 20px; color: var(--text-secondary);">
+                <li>runtime.getCurrentUser() → User object properties</li>
+                <li>runtime.getCurrentScript() → Script object, getParameter(), getRemainingUsage()</li>
+                <li>runtime.isFeatureInEffect() → feature detection</li>
+                <li>runtime.envType → environment detection</li>
+                <li>SuiteScript 2.x API Governance → units per operation table</li>
+            </ul>
+        </section>
+
+        <div class="key-takeaways">
+            <h3>🎯 Key Takeaways</h3>
+            <ul>
+                <li><span class="inline-code">runtime.getCurrentUser()</span> returns id, name, email, role, department, location</li>
+                <li><span class="inline-code">runtime.getCurrentScript().getParameter()</span> reads deployment-configured values</li>
+                <li><span class="inline-code">runtime.isFeatureInEffect()</span> checks if account features are enabled</li>
+                <li><span class="inline-code">runtime.getCurrentScript().getRemainingUsage()</span> monitors governance</li>
+                <li>Most operations cost 10 units; script types have 1,000-10,000 unit budgets</li>
+                <li>Use script parameters instead of hardcoding values—makes scripts configurable</li>
+                <li>Check features before using them to prevent errors in different accounts</li>
+                <li>Monitor governance and exit gracefully before hitting limits</li>
+            </ul>
+        </div>
+
+        <nav class="nav-footer">
+            <a href="Module-9-NEmail.html">← Module 9: N/email</a>
+            <a href="../Week-6/week-6-dashboard.html">Week 6: Form Development →</a>
+        </nav>
+    </main>
+</body>
+</html>

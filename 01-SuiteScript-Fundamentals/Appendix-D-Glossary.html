@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appendix D: SuiteScript 2.x Glossary</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.7; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 40px 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .header { background: white; padding: 30px 40px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); margin-bottom: 30px; }
+        .header h1 { color: #2563eb; font-size: 2rem; margin-bottom: 10px; }
+        .header .meta { color: #6b7280; font-size: 0.9rem; }
+        .search-container { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); margin-bottom: 20px; position: sticky; top: 20px; z-index: 100; }
+        .search-box { display: flex; gap: 15px; flex-wrap: wrap; align-items: center; }
+        .search-input { flex: 1; min-width: 250px; padding: 12px 20px; font-size: 16px; border: 2px solid #e5e7eb; border-radius: 8px; outline: none; }
+        .search-input:focus { border-color: #2563eb; }
+        .filter-btn { padding: 10px 20px; border: 2px solid #e5e7eb; background: white; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s; }
+        .filter-btn:hover { border-color: #2563eb; }
+        .filter-btn.active { background: #2563eb; color: white; border-color: #2563eb; }
+        .results-count { color: #6b7280; font-size: 0.9rem; margin-top: 10px; }
+        .content { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .module-section { margin-bottom: 40px; border-bottom: 2px solid #e5e7eb; padding-bottom: 30px; }
+        .module-section:last-child { border-bottom: none; }
+        .module-header { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
+        .module-header h2 { color: #1e40af; font-size: 1.4rem; margin: 0; }
+        .module-badge { background: #dbeafe; color: #1e40af; padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; }
+        .function-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; margin: 15px 0; }
+        .function-card:hover { border-color: #2563eb; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.1); }
+        .function-card.hidden { display: none; }
+        .function-name { color: #1e40af; font-size: 1.1rem; font-weight: 600; font-family: 'Consolas', monospace; margin-bottom: 8px; }
+        .function-syntax { background: #1e293b; color: #e2e8f0; padding: 12px 15px; border-radius: 6px; font-family: 'Consolas', monospace; font-size: 0.85em; margin: 10px 0; overflow-x: auto; }
+        .function-desc { color: #374151; margin: 10px 0; }
+        .function-meta { display: flex; flex-wrap: wrap; gap: 15px; margin-top: 12px; font-size: 0.85rem; }
+        .gov-cost { background: #fef3c7; color: #92400e; padding: 2px 8px; border-radius: 4px; }
+        .returns { background: #dcfce7; color: #166534; padding: 2px 8px; border-radius: 4px; }
+        .params { background: #e0e7ff; color: #3730a3; padding: 2px 8px; border-radius: 4px; }
+        .example-toggle { color: #2563eb; cursor: pointer; font-size: 0.9rem; margin-top: 10px; display: inline-block; }
+        .example-toggle:hover { text-decoration: underline; }
+        .example-code { background: #1e293b; color: #e2e8f0; padding: 15px; border-radius: 6px; font-family: 'Consolas', monospace; font-size: 0.85em; margin-top: 10px; display: none; overflow-x: auto; white-space: pre; }
+        .example-code.show { display: block; }
+        .nav-buttons { display: flex; justify-content: center; margin-top: 40px; gap: 20px; }
+        .back-btn { padding: 14px 28px; border-radius: 8px; text-decoration: none; font-weight: 600; background: #6b7280; color: white; }
+        .jump-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; }
+        .jump-link { background: #f3f4f6; color: #374151; padding: 5px 12px; border-radius: 6px; text-decoration: none; font-size: 0.85rem; }
+        .jump-link:hover { background: #dbeafe; color: #1e40af; }
+    </style>
+</head>
+<body>
+<div class="container">
+<div class="header">
+    <h1>📖 Appendix D: SuiteScript 2.x Glossary</h1>
+    <p class="meta">Complete function reference • Searchable • With governance costs and examples</p>
+</div>
+
+<div class="search-container">
+    <div class="search-box">
+        <input type="text" id="searchInput" class="search-input" placeholder="Search functions, modules, or keywords..." onkeyup="filterFunctions()">
+        <button class="filter-btn active" data-filter="all" onclick="setFilter('all')">All</button>
+        <button class="filter-btn" data-filter="record" onclick="setFilter('record')">N/record</button>
+        <button class="filter-btn" data-filter="search" onclick="setFilter('search')">N/search</button>
+        <button class="filter-btn" data-filter="email" onclick="setFilter('email')">N/email</button>
+        <button class="filter-btn" data-filter="runtime" onclick="setFilter('runtime')">N/runtime</button>
+        <button class="filter-btn" data-filter="ui" onclick="setFilter('ui')">N/ui</button>
+    </div>
+    <div class="results-count" id="resultsCount">Showing all 50+ functions</div>
+    <div class="jump-links">
+        <a href="#record" class="jump-link">N/record</a>
+        <a href="#search" class="jump-link">N/search</a>
+        <a href="#runtime" class="jump-link">N/runtime</a>
+        <a href="#email" class="jump-link">N/email</a>
+        <a href="#file" class="jump-link">N/file</a>
+        <a href="#url" class="jump-link">N/url</a>
+        <a href="#redirect" class="jump-link">N/redirect</a>
+        <a href="#render" class="jump-link">N/render</a>
+        <a href="#format" class="jump-link">N/format</a>
+        <a href="#task" class="jump-link">N/task</a>
+        <a href="#log" class="jump-link">N/log</a>
+        <a href="#serverwidget" class="jump-link">N/ui/serverWidget</a>
+    </div>
+</div>
+
+<div class="content">
+
+<!-- N/record -->
+<div class="module-section" id="record" data-module="record">
+<div class="module-header"><h2>N/record</h2><span class="module-badge">📚 Module 3, 5, 6</span></div>
+
+<div class="function-card" data-keywords="record create new"><div class="function-name">record.create(options)</div><div class="function-syntax">record.create({ type: record.Type.CUSTOMER, isDynamic: true })</div><div class="function-desc">Creates a new record in memory. Use isDynamic: true for sublist operations.</div><div class="function-meta"><span class="params">type, isDynamic, defaultValues</span><span class="returns">Record</span><span class="gov-cost">0 units</span></div></div>
+
+<div class="function-card" data-keywords="record load get fetch"><div class="function-name">record.load(options)</div><div class="function-syntax">record.load({ type: record.Type.SALES_ORDER, id: 123, isDynamic: true })</div><div class="function-desc">Loads an existing record from the database.</div><div class="function-meta"><span class="params">type, id, isDynamic</span><span class="returns">Record</span><span class="gov-cost">5-10 units</span></div></div>
+
+<div class="function-card" data-keywords="record save commit write"><div class="function-name">record.save(options)</div><div class="function-syntax">var id = myRecord.save({ enableSourcing: true })</div><div class="function-desc">Saves record to database. Returns internal ID.</div><div class="function-meta"><span class="params">enableSourcing, ignoreMandatoryFields</span><span class="returns">Number (ID)</span><span class="gov-cost">10-20 units</span></div></div>
+
+<div class="function-card" data-keywords="record submitfields update efficient"><div class="function-name">record.submitFields(options)</div><div class="function-syntax">record.submitFields({ type: 'customer', id: 123, values: { comments: 'Updated' } })</div><div class="function-desc">Updates fields without loading record. Much more efficient!</div><div class="function-meta"><span class="params">type, id, values, options</span><span class="returns">Number (ID)</span><span class="gov-cost">2 units ⭐</span></div><div class="example-toggle" onclick="toggleExample(this)">▶ Show Example</div><div class="example-code">// Much better than load() + setValue() + save()!
+record.submitFields({
+    type: record.Type.CUSTOMER,
+    id: 12345,
+    values: { 'comments': 'Updated via script' },
+    options: { ignoreMandatoryFields: true }
+});</div></div>
+
+<div class="function-card" data-keywords="record delete remove"><div class="function-name">record.delete(options)</div><div class="function-syntax">record.delete({ type: record.Type.CUSTOMER, id: 123 })</div><div class="function-desc">Deletes a record. Cannot be undone!</div><div class="function-meta"><span class="params">type, id</span><span class="returns">Number (ID)</span><span class="gov-cost">20 units</span></div></div>
+
+<div class="function-card" data-keywords="record copy duplicate clone"><div class="function-name">record.copy(options)</div><div class="function-syntax">record.copy({ type: record.Type.SALES_ORDER, id: 123 })</div><div class="function-desc">Creates a copy of an existing record (not saved).</div><div class="function-meta"><span class="params">type, id, isDynamic</span><span class="returns">Record</span><span class="gov-cost">10 units</span></div></div>
+
+<div class="function-card" data-keywords="record getvalue read field"><div class="function-name">record.getValue(options)</div><div class="function-syntax">var value = myRecord.getValue({ fieldId: 'entity' })</div><div class="function-desc">Gets internal value of a field. For list fields, returns ID.</div><div class="function-meta"><span class="params">fieldId</span><span class="returns">String/Number/Date/Boolean</span><span class="gov-cost">0 units</span></div></div>
+
+<div class="function-card" data-keywords="record gettext display name"><div class="function-name">record.getText(options)</div><div class="function-syntax">var text = myRecord.getText({ fieldId: 'entity' })</div><div class="function-desc">Gets display text of a field. For list fields, returns name.</div><div class="function-meta"><span class="params">fieldId</span><span class="returns">String</span><span class="gov-cost">0 units</span></div></div>
+
+<div class="function-card" data-keywords="record setvalue write field"><div class="function-name">record.setValue(options)</div><div class="function-syntax">myRecord.setValue({ fieldId: 'memo', value: 'Updated' })</div><div class="function-desc">Sets value of a body field.</div><div class="function-meta"><span class="params">fieldId, value, ignoreFieldChange</span><span class="returns">Record</span><span class="gov-cost">0 units</span></div></div>
+
+<div class="function-card" data-keywords="record getlinecount sublist lines"><div class="function-name">record.getLineCount(options)</div><div class="function-syntax">var count = myRecord.getLineCount({ sublistId: 'item' })</div><div class="function-desc">Returns number of lines in a sublist.</div><div class="function-meta"><span class="params">sublistId</span><span class="returns">Number</span><span class="gov-cost">0 units</span></div></div>
+
+<div class="function-card" data-keywords="record getsublistvalue sublist line"><div class="function-name">record.getSublistValue(options)</div><div class="function-syntax">var qty = rec.getSublistValue({ sublistId: 'item', fieldId: 'quantity', line: 0 })</div><div class="function-desc">Gets value from a sublist line. Line is 0-based.</div><div class="function-meta"><span class="params">sublistId, fieldId, line</span><span class="returns">String/Number/Date</span><span class="gov-cost">0 units</span></div></div>
+
+<div class="function-card" data-keywords="record setsublistvalue sublist line"><div class="function-name">record.setSublistValue(options)</div><div class="function-syntax">rec.setSublistValue({ sublistId: 'item', fieldId: 'quantity', line: 0, value: 5 })</div><div class="function-desc">Sets value on a sublist line (standard mode).</div><div class="function-meta"><span class="params">sublistId, fieldId, line, value</span><span class="returns">Record</span><span class="gov-cost">0 units</span></div></div>
+
+<div class="function-card" data-keywords="record selectnewline sublist add dynamic"><div class="function-name">record.selectNewLine(options)</div><div class="function-syntax">myRecord.selectNewLine({ sublistId: 'item' })</div><div class="function-desc">Selects new line for editing (dynamic mode).</div><div class="function-meta"><span class="params">sublistId</span><span class="returns">Record</span><span class="gov-cost">0 units</span></div></div>
+
+<div class="function-card" data-keywords="record setcurrentsublistvalue current dynamic"><div class="function-name">record.setCurrentSublistValue(options)</div><div class="function-syntax">rec.setCurrentSublistValue({ sublistId: 'item', fieldId: 'item', value: 123 })</div><div class="function-desc">Sets value on current line (dynamic mode).</div><div class="function-meta"><span class="params">sublistId, fieldId, value</span><span class="returns">Record</span><span class="gov-cost">0 units</span></div></div>
+
+<div class="function-card" data-keywords="record commitline sublist save dynamic"><div class="function-name">record.commitLine(options)</div><div class="function-syntax">myRecord.commitLine({ sublistId: 'item' })</div><div class="function-desc">Commits current line to sublist (dynamic mode).</div><div class="function-meta"><span class="params">sublistId</span><span class="returns">Record</span><span class="gov-cost">0 units</span></div></div>
+
+<div class="function-card" data-keywords="record attach link file"><div class="function-name">record.attach(options)</div><div class="function-syntax">record.attach({ record: { type: 'file', id: 123 }, to: { type: 'customer', id: 456 } })</div><div class="function-desc">Attaches a record (like file) to another record.</div><div class="function-meta"><span class="params">record, to</span><span class="returns">void</span><span class="gov-cost">10 units</span></div></div>
+</div>
+
+<!-- N/search -->
+<div class="module-section" id="search" data-module="search">
+<div class="module-header"><h2>N/search</h2><span class="module-badge">📚 Module 7</span></div>
+
+<div class="function-card" data-keywords="search create new query"><div class="function-name">search.create(options)</div><div class="function-syntax">search.create({ type: 'customer', filters: [...], columns: [...] })</div><div class="function-desc">Creates a new search. Must run() to get results.</div><div class="function-meta"><span class="params">type, filters, columns, title, id</span><span class="returns">Search</span><span class="gov-cost">5 units</span></div><div class="example-toggle" onclick="toggleExample(this)">▶ Show Example</div><div class="example-code">var customerSearch = search.create({
+    type: search.Type.CUSTOMER,
+    filters: [
+        ['isinactive', 'is', 'F'],
+        'AND',
+        ['balance', 'greaterthan', 0]
+    ],
+    columns: ['entityid', 'email', 'balance']
+});
+customerSearch.run().each(function(result) {
+    log.debug('Customer', result.getValue('entityid'));
+    return true;
+});</div></div>
+
+<div class="function-card" data-keywords="search load saved existing"><div class="function-name">search.load(options)</div><div class="function-syntax">search.load({ id: 'customsearch_my_search' })</div><div class="function-desc">Loads an existing saved search by script ID.</div><div class="function-meta"><span class="params">id</span><span class="returns">Search</span><span class="gov-cost">5 units</span></div></div>
+
+<div class="function-card" data-keywords="search lookupfields single efficient"><div class="function-name">search.lookupFields(options)</div><div class="function-syntax">search.lookupFields({ type: 'customer', id: 123, columns: ['email'] })</div><div class="function-desc">Gets fields from single record. Very efficient!</div><div class="function-meta"><span class="params">type, id, columns</span><span class="returns">Object</span><span class="gov-cost">1 unit ⭐</span></div><div class="example-toggle" onclick="toggleExample(this)">▶ Show Example</div><div class="example-code">var fields = search.lookupFields({
+    type: search.Type.CUSTOMER,
+    id: 12345,
+    columns: ['email', 'phone', 'salesrep']
+});
+log.debug('Email', fields.email);
+log.debug('Sales Rep', fields.salesrep[0].text);</div></div>
+
+<div class="function-card" data-keywords="search run execute results each"><div class="function-name">search.run().each()</div><div class="function-syntax">mySearch.run().each(function(result) { return true; })</div><div class="function-desc">Runs search, iterates up to 4000 results.</div><div class="function-meta"><span class="params">callback function</span><span class="returns">void</span><span class="gov-cost">10 units/1000</span></div></div>
+
+<div class="function-card" data-keywords="search runpaged pagination large"><div class="function-name">search.runPaged(options)</div><div class="function-syntax">mySearch.runPaged({ pageSize: 1000 })</div><div class="function-desc">For 4000+ results. Returns PagedData.</div><div class="function-meta"><span class="params">pageSize (max 1000)</span><span class="returns">PagedData</span><span class="gov-cost">5 + 10/page</span></div></div>
+
+<div class="function-card" data-keywords="search getrange slice"><div class="function-name">resultSet.getRange(options)</div><div class="function-syntax">mySearch.run().getRange({ start: 0, end: 100 })</div><div class="function-desc">Gets specific range of results. Max 1000.</div><div class="function-meta"><span class="params">start, end</span><span class="returns">Result[]</span><span class="gov-cost">10 units</span></div></div>
+
+<div class="function-card" data-keywords="search createcolumn column join summary"><div class="function-name">search.createColumn(options)</div><div class="function-syntax">search.createColumn({ name: 'amount', summary: search.Summary.SUM })</div><div class="function-desc">Creates column for search. Supports joins, summaries.</div><div class="function-meta"><span class="params">name, join, summary, sort</span><span class="returns">Column</span><span class="gov-cost">0 units</span></div></div>
+
+<div class="function-card" data-keywords="search createfilter filter criteria"><div class="function-name">search.createFilter(options)</div><div class="function-syntax">search.createFilter({ name: 'status', operator: 'anyof', values: ['A'] })</div><div class="function-desc">Creates filter for search.</div><div class="function-meta"><span class="params">name, join, operator, values</span><span class="returns">Filter</span><span class="gov-cost">0 units</span></div></div>
+</div>
+
+<!-- N/runtime -->
+<div class="module-section" id="runtime" data-module="runtime">
+<div class="module-header"><h2>N/runtime</h2><span class="module-badge">📚 Module 10</span></div>
+
+<div class="function-card" data-keywords="runtime getcurrentscript script"><div class="function-name">runtime.getCurrentScript()</div><div class="function-syntax">var script = runtime.getCurrentScript()</div><div class="function-desc">Returns current script object for parameters, governance.</div><div class="function-meta"><span class="returns">Script</span><span class="gov-cost">0 units</span></div></div>
+
+<div class="function-card" data-keywords="runtime getcurrentuser user employee"><div class="function-name">runtime.getCurrentUser()</div><div class="function-syntax">var user = runtime.getCurrentUser()</div><div class="function-desc">Returns current user with id, name, email, role.</div><div class="function-meta"><span class="returns">User</span><span class="gov-cost">0 units</span></div></div>
+
+<div class="function-card" data-keywords="runtime getremainingusage governance"><div class="function-name">script.getRemainingUsage()</div><div class="function-syntax">var remaining = runtime.getCurrentScript().getRemainingUsage()</div><div class="function-desc">Returns remaining governance units.</div><div class="function-meta"><span class="returns">Number</span><span class="gov-cost">0 units</span></div></div>
+
+<div class="function-card" data-keywords="runtime getparameter parameter config"><div class="function-name">script.getParameter(options)</div><div class="function-syntax">script.getParameter({ name: 'custscript_my_param' })</div><div class="function-desc">Gets script parameter value from deployment.</div><div class="function-meta"><span class="params">name</span><span class="returns">Value</span><span class="gov-cost">0 units</span></div></div>
+</div>
+
+<!-- N/email -->
+<div class="module-section" id="email" data-module="email">
+<div class="module-header"><h2>N/email</h2><span class="module-badge">📚 Module 5</span></div>
+
+<div class="function-card" data-keywords="email send notification"><div class="function-name">email.send(options)</div><div class="function-syntax">email.send({ author: 123, recipients: 456, subject: 'Hi', body: '...' })</div><div class="function-desc">Sends email. Author must be employee ID.</div><div class="function-meta"><span class="params">author, recipients, cc, bcc, subject, body, attachments, relatedRecords</span><span class="returns">void</span><span class="gov-cost">20 units</span></div><div class="example-toggle" onclick="toggleExample(this)">▶ Show Example</div><div class="example-code">email.send({
+    author: 123,
+    recipients: ['customer@example.com', 456],
+    cc: [789],
+    subject: 'Your Order',
+    body: '&lt;html&gt;&lt;body&gt;Thank you!&lt;/body&gt;&lt;/html&gt;',
+    relatedRecords: { transactionId: orderId }
+});</div></div>
+
+<div class="function-card" data-keywords="email sendbulk mass batch"><div class="function-name">email.sendBulk(options)</div><div class="function-syntax">email.sendBulk({ author: 123, recipients: [...], subject: '...', body: '...' })</div><div class="function-desc">Sends bulk emails. Counts against daily limits.</div><div class="function-meta"><span class="params">author, recipients, subject, body</span><span class="returns">void</span><span class="gov-cost">20 units</span></div></div>
+</div>
+
+<!-- N/file -->
+<div class="module-section" id="file" data-module="file">
+<div class="module-header"><h2>N/file</h2><span class="module-badge">📚 Module 5</span></div>
+
+<div class="function-card" data-keywords="file create new upload"><div class="function-name">file.create(options)</div><div class="function-syntax">file.create({ name: 'report.txt', fileType: file.Type.PLAINTEXT, contents: '...' })</div><div class="function-desc">Creates new file in memory. Call save() to store.</div><div class="function-meta"><span class="params">name, fileType, contents, folder</span><span class="returns">File</span><span class="gov-cost">0 (save: 10)</span></div></div>
+
+<div class="function-card" data-keywords="file load get download"><div class="function-name">file.load(options)</div><div class="function-syntax">file.load({ id: 123 })</div><div class="function-desc">Loads file from File Cabinet.</div><div class="function-meta"><span class="params">id</span><span class="returns">File</span><span class="gov-cost">10 units</span></div></div>
+
+<div class="function-card" data-keywords="file getcontents read"><div class="function-name">file.getContents()</div><div class="function-syntax">var contents = myFile.getContents()</div><div class="function-desc">Returns file contents as string.</div><div class="function-meta"><span class="returns">String</span><span class="gov-cost">0 units</span></div></div>
+</div>
+
+<!-- N/url -->
+<div class="module-section" id="url" data-module="url">
+<div class="module-header"><h2>N/url</h2><span class="module-badge">📚 Module 12</span></div>
+
+<div class="function-card" data-keywords="url resolvescript suitelet restlet"><div class="function-name">url.resolveScript(options)</div><div class="function-syntax">url.resolveScript({ scriptId: '...', deploymentId: '...', params: {...} })</div><div class="function-desc">Generates URL to Suitelet/RESTlet. Use returnExternalUrl: true for external.</div><div class="function-meta"><span class="params">scriptId, deploymentId, params, returnExternalUrl</span><span class="returns">String (URL)</span><span class="gov-cost">0 units</span></div></div>
+
+<div class="function-card" data-keywords="url resolverecord link"><div class="function-name">url.resolveRecord(options)</div><div class="function-syntax">url.resolveRecord({ recordType: 'customer', recordId: 123 })</div><div class="function-desc">Generates URL to a NetSuite record.</div><div class="function-meta"><span class="params">recordType, recordId, isEditMode</span><span class="returns">String (URL)</span><span class="gov-cost">0 units</span></div></div>
+</div>
+
+<!-- N/redirect -->
+<div class="module-section" id="redirect" data-module="redirect">
+<div class="module-header"><h2>N/redirect</h2><span class="module-badge">📚 Module 12</span></div>
+
+<div class="function-card" data-keywords="redirect torecord navigate"><div class="function-name">redirect.toRecord(options)</div><div class="function-syntax">redirect.toRecord({ type: 'salesorder', id: 123 })</div><div class="function-desc">Redirects user to a record.</div><div class="function-meta"><span class="params">type, id, isEditMode</span><span class="returns">void</span><span class="gov-cost">0 units</span></div></div>
+
+<div class="function-card" data-keywords="redirect tosuitelet navigate script"><div class="function-name">redirect.toSuitelet(options)</div><div class="function-syntax">redirect.toSuitelet({ scriptId: '...', deploymentId: '...', parameters: {...} })</div><div class="function-desc">Redirects user to a Suitelet.</div><div class="function-meta"><span class="params">scriptId, deploymentId, parameters</span><span class="returns">void</span><span class="gov-cost">0 units</span></div></div>
+</div>
+
+<!-- N/render -->
+<div class="module-section" id="render" data-module="render">
+<div class="module-header"><h2>N/render</h2><span class="module-badge">📚 Module 12</span></div>
+
+<div class="function-card" data-keywords="render create pdf template"><div class="function-name">render.create()</div><div class="function-syntax">var renderer = render.create()</div><div class="function-desc">Creates TemplateRenderer for PDF generation.</div><div class="function-meta"><span class="returns">TemplateRenderer</span><span class="gov-cost">0 units</span></div></div>
+
+<div class="function-card" data-keywords="render renderaspdf generate pdf"><div class="function-name">renderer.renderAsPdf()</div><div class="function-syntax">var pdfFile = renderer.renderAsPdf()</div><div class="function-desc">Renders template as PDF file.</div><div class="function-meta"><span class="returns">File</span><span class="gov-cost">10 units</span></div></div>
+
+<div class="function-card" data-keywords="render addrecord template data"><div class="function-name">renderer.addRecord(options)</div><div class="function-syntax">renderer.addRecord({ templateName: 'record', record: myRecord })</div><div class="function-desc">Adds record to renderer for template variables.</div><div class="function-meta"><span class="params">templateName, record</span><span class="returns">void</span><span class="gov-cost">0 units</span></div></div>
+</div>
+
+<!-- N/format -->
+<div class="module-section" id="format" data-module="format">
+<div class="module-header"><h2>N/format</h2><span class="module-badge">📚 Module 5</span></div>
+
+<div class="function-card" data-keywords="format parse convert string date"><div class="function-name">format.parse(options)</div><div class="function-syntax">format.parse({ value: '12/31/2024', type: format.Type.DATE })</div><div class="function-desc">Parses string to native type (Date, Number).</div><div class="function-meta"><span class="params">value, type</span><span class="returns">Date/Number</span><span class="gov-cost">0 units</span></div></div>
+
+<div class="function-card" data-keywords="format format convert date string display"><div class="function-name">format.format(options)</div><div class="function-syntax">format.format({ value: new Date(), type: format.Type.DATETIME })</div><div class="function-desc">Formats value to string for display.</div><div class="function-meta"><span class="params">value, type</span><span class="returns">String</span><span class="gov-cost">0 units</span></div></div>
+</div>
+
+<!-- N/task -->
+<div class="module-section" id="task" data-module="task">
+<div class="module-header"><h2>N/task</h2><span class="module-badge">📚 Module 8</span></div>
+
+<div class="function-card" data-keywords="task create schedule reschedule"><div class="function-name">task.create(options)</div><div class="function-syntax">task.create({ taskType: task.TaskType.SCHEDULED_SCRIPT, scriptId: '...' })</div><div class="function-desc">Creates task to schedule script execution.</div><div class="function-meta"><span class="params">taskType, scriptId, deploymentId, params</span><span class="returns">Task</span><span class="gov-cost">0 units</span></div><div class="example-toggle" onclick="toggleExample(this)">▶ Show Example</div><div class="example-code">var scriptTask = task.create({
+    taskType: task.TaskType.SCHEDULED_SCRIPT,
+    scriptId: 'customscript_my_scheduled',
+    deploymentId: 'customdeploy_my_scheduled',
+    params: { 'custscript_last_id': lastProcessedId }
+});
+var taskId = scriptTask.submit();</div></div>
+
+<div class="function-card" data-keywords="task submit execute run"><div class="function-name">task.submit()</div><div class="function-syntax">var taskId = myTask.submit()</div><div class="function-desc">Submits task for execution. Returns task ID.</div><div class="function-meta"><span class="returns">String (Task ID)</span><span class="gov-cost">0 units</span></div></div>
+</div>
+
+<!-- N/log -->
+<div class="module-section" id="log" data-module="log">
+<div class="module-header"><h2>N/log</h2><span class="module-badge">📚 Module 2</span></div>
+
+<div class="function-card" data-keywords="log debug trace development"><div class="function-name">log.debug(title, details)</div><div class="function-syntax">log.debug('My Title', JSON.stringify(obj))</div><div class="function-desc">Debug message. Only shows at Debug log level.</div><div class="function-meta"><span class="params">title, details</span><span class="gov-cost">0 units</span></div></div>
+
+<div class="function-card" data-keywords="log audit info production"><div class="function-name">log.audit(title, details)</div><div class="function-syntax">log.audit('Record Saved', 'ID: ' + id)</div><div class="function-desc">Audit message. For significant production events.</div><div class="function-meta"><span class="params">title, details</span><span class="gov-cost">0 units</span></div></div>
+
+<div class="function-card" data-keywords="log error exception failure"><div class="function-name">log.error(title, details)</div><div class="function-syntax">log.error('Error', e.message + ' | ' + e.stack)</div><div class="function-desc">Error message. Shows in red. Use in catch blocks.</div><div class="function-meta"><span class="params">title, details</span><span class="gov-cost">0 units</span></div></div>
+
+<div class="function-card" data-keywords="log emergency critical system"><div class="function-name">log.emergency(title, details)</div><div class="function-syntax">log.emergency('CRITICAL', 'System failure')</div><div class="function-desc">Emergency message. Highest priority level.</div><div class="function-meta"><span class="params">title, details</span><span class="gov-cost">0 units</span></div></div>
+</div>
+
+<!-- N/ui/serverWidget -->
+<div class="module-section" id="serverwidget" data-module="ui">
+<div class="module-header"><h2>N/ui/serverWidget</h2><span class="module-badge">📚 Module 12</span></div>
+
+<div class="function-card" data-keywords="serverwidget createform form suitelet"><div class="function-name">serverWidget.createForm(options)</div><div class="function-syntax">serverWidget.createForm({ title: 'My Form' })</div><div class="function-desc">Creates form for Suitelets.</div><div class="function-meta"><span class="params">title, hideNavBar</span><span class="returns">Form</span><span class="gov-cost">0 units</span></div></div>
+
+<div class="function-card" data-keywords="form addfield input text select"><div class="function-name">form.addField(options)</div><div class="function-syntax">form.addField({ id: 'custpage_myfield', type: serverWidget.FieldType.TEXT, label: 'My Field' })</div><div class="function-desc">Adds field to form. ID must start with 'custpage_'.</div><div class="function-meta"><span class="params">id, type, label, source</span><span class="returns">Field</span><span class="gov-cost">0 units</span></div></div>
+
+<div class="function-card" data-keywords="form addbutton button action"><div class="function-name">form.addButton(options)</div><div class="function-syntax">form.addButton({ id: 'custpage_btn', label: 'Click', functionName: 'myFunc()' })</div><div class="function-desc">Adds button to form. functionName is client JS.</div><div class="function-meta"><span class="params">id, label, functionName</span><span class="returns">Button</span><span class="gov-cost">0 units</span></div></div>
+
+<div class="function-card" data-keywords="form addsubmitbutton submit save post"><div class="function-name">form.addSubmitButton(options)</div><div class="function-syntax">form.addSubmitButton({ label: 'Submit' })</div><div class="function-desc">Adds submit button that POSTs form.</div><div class="function-meta"><span class="params">label</span><span class="returns">Button</span><span class="gov-cost">0 units</span></div></div>
+
+<div class="function-card" data-keywords="form addsublist table grid"><div class="function-name">form.addSublist(options)</div><div class="function-syntax">form.addSublist({ id: 'custpage_items', type: serverWidget.SublistType.LIST, label: 'Items' })</div><div class="function-desc">Adds sublist/table to form.</div><div class="function-meta"><span class="params">id, type, label</span><span class="returns">Sublist</span><span class="gov-cost">0 units</span></div></div>
+
+<div class="function-card" data-keywords="response writepage render display"><div class="function-name">response.writePage(form)</div><div class="function-syntax">context.response.writePage(form)</div><div class="function-desc">Writes form to response (displays page).</div><div class="function-meta"><span class="params">form/list</span><span class="returns">void</span><span class="gov-cost">0 units</span></div></div>
+</div>
+
+<!-- SuiteScript 2.x Complete Module Reference -->
+<div class="module-section" id="module-reference" data-module="all">
+<div class="module-header"><h2>📚 Complete SuiteScript 2.x Module Reference</h2></div>
+<p style="margin-bottom: 20px; color: #6b7280;">All available N/ modules with descriptions and documentation links.</p>
+
+<div class="function-card" data-keywords="action workflow button ui emulate"><div class="function-name">N/action</div><div class="function-desc">Execute record actions that emulate UI buttons. Load to trigger workflow actions or custom actions on records.</div><div class="function-meta"><span class="params">Client & Server</span><a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_1510761537.html" target="_blank" style="color:#2563eb;">📖 Docs</a></div></div>
+
+<div class="function-card" data-keywords="auth authentication login password credentials"><div class="function-name">N/auth</div><div class="function-desc">Change NetSuite login credentials programmatically.</div><div class="function-meta"><span class="params">Server Only</span><a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_4296360422.html" target="_blank" style="color:#2563eb;">📖 Docs</a></div></div>
+
+<div class="function-card" data-keywords="cache caching performance memory store"><div class="function-name">N/cache</div><div class="function-desc">Cache data to improve script performance. Store frequently accessed data to reduce API calls.</div><div class="function-meta"><span class="params">Server Only</span><a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_4642573343.html" target="_blank" style="color:#2563eb;">📖 Docs</a></div></div>
+
+<div class="function-card" data-keywords="certificate digital signing ssl"><div class="function-name">N/certificateControl</div><div class="function-desc">Access digital certificates for signing documents and secure communications.</div><div class="function-meta"><span class="params">Server Only</span><span class="gov-cost">Certificate Management permission</span><a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_1547247950.html" target="_blank" style="color:#2563eb;">📖 Docs</a></div></div>
+
+<div class="function-card" data-keywords="commerce ecommerce webstore cart items"><div class="function-name">N/commerce</div><div class="function-desc">Access web store assets like items, cart, and customer data in SuiteCommerce context.</div><div class="function-meta"><span class="params">Client & Server</span><a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_1532341439.html" target="_blank" style="color:#2563eb;">📖 Docs</a></div></div>
+
+<div class="function-card" data-keywords="compress zip gzip archive decompress"><div class="function-name">N/compress</div><div class="function-desc">Compress, decompress, and archive files (ZIP, GZIP).</div><div class="function-meta"><span class="params">Server Only</span><a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_158584507367.html" target="_blank" style="color:#2563eb;">📖 Docs</a></div></div>
+
+<div class="function-card" data-keywords="config configuration settings company preferences"><div class="function-name">N/config</div><div class="function-desc">Access NetSuite configuration settings and company preferences.</div><div class="function-meta"><span class="params">Server Only</span><a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_4261803800.html" target="_blank" style="color:#2563eb;">📖 Docs</a></div></div>
+
+<div class="function-card" data-keywords="crypto encryption hash hmac cipher decrypt"><div class="function-name">N/crypto</div><div class="function-desc">Hashing, HMAC, and symmetrical encryption using OpenSSL wrappers.</div><div class="function-meta"><span class="params">Server Only</span><a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_4358549582.html" target="_blank" style="color:#2563eb;">📖 Docs</a></div></div>
+
+<div class="function-card" data-keywords="crypto certificate signing xml digital signature verify"><div class="function-name">N/crypto/certificate</div><div class="function-desc">Sign XML documents with digital certificates using asymmetric cryptography.</div><div class="function-meta"><span class="params">Server Only</span><span class="gov-cost">Certificate Access permission</span><a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_1543432423.html" target="_blank" style="color:#2563eb;">📖 Docs</a></div></div>
+
+<div class="function-card" data-keywords="crypto random secure generator"><div class="function-name">N/crypto/random</div><div class="function-desc">Cryptographically-secure pseudo-random number generation.</div><div class="function-meta"><span class="params">Client & Server (2.1 for server)</span><a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_13113107585.html" target="_blank" style="color:#2563eb;">📖 Docs</a></div></div>
+
+<div class="function-card" data-keywords="currency exchange rate conversion"><div class="function-name">N/currency</div><div class="function-desc">Work with exchange rates between currencies based on specific dates.</div><div class="function-meta"><span class="params">Client & Server</span><a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_4358551775.html" target="_blank" style="color:#2563eb;">📖 Docs</a></div></div>
+
+<div class="function-card" data-keywords="currentrecord current record client context"><div class="function-name">N/currentRecord</div><div class="function-desc">Access the current record instance in client scripts. Auto-loaded in entry point scripts.</div><div class="function-meta"><span class="params">Client Only</span><a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_4625600928.html" target="_blank" style="color:#2563eb;">📖 Docs</a></div></div>
+
+<div class="function-card" data-keywords="dataset analytics workbook suiteanalytics query"><div class="function-name">N/dataset</div><div class="function-desc">Create and manage datasets in SuiteAnalytics Workbook.</div><div class="function-meta"><span class="params">Server Only</span><span class="gov-cost">SuiteAnalytics Workbook permission</span><a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/article_158946741680.html" target="_blank" style="color:#2563eb;">📖 Docs</a></div></div>
+
+<div class="function-card" data-keywords="document capture ocr extract text invoice receipt"><div class="function-name">N/documentCapture</div><div class="function-desc">Extract text content from documents (invoices, receipts, contracts) using AI.</div><div class="function-meta"><span class="params">Server Only (2.1)</span><a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/article_8134325498.html" target="_blank" style="color:#2563eb;">📖 Docs</a></div></div>
+
+<div class="function-card" data-keywords="email send mail message campaign bulk"><div class="function-name">N/email</div><div class="function-desc">Send regular, bulk, and campaign emails from within NetSuite.</div><div class="function-meta"><span class="params">Client & Server</span><a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_4358552361.html" target="_blank" style="color:#2563eb;">📖 Docs</a></div></div>
+
+<div class="function-card" data-keywords="encode encoding base64 utf8 convert"><div class="function-name">N/encode</div><div class="function-desc">Convert strings between different character encodings (Base64, UTF-8, etc.).</div><div class="function-meta"><span class="params">Server Only</span><a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_4369847722.html" target="_blank" style="color:#2563eb;">📖 Docs</a></div></div>
+
+<div class="function-card" data-keywords="error custom exception throw abort"><div class="function-name">N/error</div><div class="function-desc">Create custom SuiteScript errors for try-catch statements.</div><div class="function-meta"><span class="params">Server Only</span><a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_4243798608.html" target="_blank" style="color:#2563eb;">📖 Docs</a></div></div>
+
+<div class="function-card" data-keywords="file cabinet upload download create read write"><div class="function-name">N/file</div><div class="function-desc">Work with files in NetSuite File Cabinet - create, read, upload, download.</div><div class="function-meta"><span class="params">Server Only</span><a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_4205693274.html" target="_blank" style="color:#2563eb;">📖 Docs</a></div></div>
+
+<div class="function-card" data-keywords="format parse date number currency phone"><div class="function-name">N/format</div><div class="function-desc">Convert strings to/from formatted data (dates, numbers, currency, phone).</div><div class="function-meta"><span class="params">Client & Server</span><a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_4388721627.html" target="_blank" style="color:#2563eb;">📖 Docs</a></div></div>
+
+<div class="function-card" data-keywords="format i18n international currency locale"><div class="function-name">N/format/i18n</div><div class="function-desc">Format currency with international locale settings.</div><div class="function-meta"><span class="params">Client & Server</span><a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_1543861741.html" target="_blank" style="color:#2563eb;">📖 Docs</a></div></div>
+
+<div class="function-card" data-keywords="http request get post api external"><div class="function-name">N/http</div><div class="function-desc">Make HTTP requests to external services.</div><div class="function-meta"><span class="params">Client & Server</span><a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_4296361104.html" target="_blank" style="color:#2563eb;">📖 Docs</a></div></div>
+
+<div class="function-card" data-keywords="https secure request ssl tls api external"><div class="function-name">N/https</div><div class="function-desc">Make HTTPS requests. Encode binary content and access credential fields securely.</div><div class="function-meta"><span class="params">Client & Server</span><a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_4418229131.html" target="_blank" style="color:#2563eb;">📖 Docs</a></div></div>
+
+<div class="function-card" data-keywords="https client certificate ssl mutual tls"><div class="function-name">N/https/clientCertificate</div><div class="function-desc">Send SSL requests with mutual TLS using digital certificates.</div><div class="function-meta"><span class="params">Server Only</span><span class="gov-cost">Certificate Access permission</span><a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_1543986321.html" target="_blank" style="color:#2563eb;">📖 Docs</a></div></div>
+
+<div class="function-card" data-keywords="key control storage management secret"><div class="function-name">N/keyControl</div><div class="function-desc">Access key storage for secrets and credentials.</div><div class="function-meta"><span class="params">Server Only</span><span class="gov-cost">Key Management permission</span><a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_1557413213.html" target="_blank" style="color:#2563eb;">📖 Docs</a></div></div>
+
+<div class="function-card" data-keywords="llm ai artificial intelligence language model generative"><div class="function-name">N/llm</div><div class="function-desc">Use generative AI / large language models (LLMs) in scripts.</div><div class="function-meta"><span class="params">Server Only (2.1)</span><a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/article_9123730083.html" target="_blank" style="color:#2563eb;">📖 Docs</a></div></div>
+
+<div class="function-card" data-keywords="log debug audit error emergency trace"><div class="function-name">N/log</div><div class="function-desc">Log script execution details for debugging and auditing.</div><div class="function-meta"><span class="params">Client & Server</span><a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_4574548135.html" target="_blank" style="color:#2563eb;">📖 Docs</a></div></div>
+
+<div class="function-card" data-keywords="machine translation translate language ai"><div class="function-name">N/machineTranslation</div><div class="function-desc">Translate text into supported languages using generative AI.</div><div class="function-meta"><span class="params">Server Only (2.1)</span><a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/article_3151132758.html" target="_blank" style="color:#2563eb;">📖 Docs</a></div></div>
+
+<div class="function-card" data-keywords="pgp encryption secure message gpg"><div class="function-name">N/pgp</div><div class="function-desc">Send PGP-encrypted secure messages to recipients.</div><div class="function-meta"><span class="params">Server Only (2.1)</span><a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/article_5095832176.html" target="_blank" style="color:#2563eb;">📖 Docs</a></div></div>
+
+<div class="function-card" data-keywords="pi removal personal information gdpr privacy"><div class="function-name">N/piremoval</div><div class="function-desc">Remove personal information from system notes, workflow history, and fields (GDPR).</div><div class="function-meta"><span class="params">Server Only</span><span class="gov-cost">Remove Personal Information permissions</span><a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_156173791240.html" target="_blank" style="color:#2563eb;">📖 Docs</a></div></div>
+
+<div class="function-card" data-keywords="plugin custom implementation load"><div class="function-name">N/plugin</div><div class="function-desc">Load custom plug-in implementations for extensibility.</div><div class="function-meta"><span class="params">Server Only</span><a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_4558176297.html" target="_blank" style="color:#2563eb;">📖 Docs</a></div></div>
+
+<div class="function-card" data-keywords="portlet resize refresh dashboard form"><div class="function-name">N/portlet</div><div class="function-desc">Resize or refresh form portlets on dashboards.</div><div class="function-meta"><span class="params">Client Only</span><a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_4473510730.html" target="_blank" style="color:#2563eb;">📖 Docs</a></div></div>
+
+<div class="function-card" data-keywords="query suiteql sql analytics workbook"><div class="function-name">N/query</div><div class="function-desc">Create and run searches using SuiteQL (SQL-like syntax) via SuiteAnalytics Workbook.</div><div class="function-meta"><span class="params">Client & Server</span><span class="gov-cost">SuiteAnalytics Workbook permission</span><a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_1510275060.html" target="_blank" style="color:#2563eb;">📖 Docs</a></div></div>
+
+<div class="function-card" data-keywords="record create load save delete copy transform"><div class="function-name">N/record</div><div class="function-desc">Work with NetSuite records - create, load, save, delete, copy, transform.</div><div class="function-meta"><span class="params">Client & Server</span><a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_4267255811.html" target="_blank" style="color:#2563eb;">📖 Docs</a></div></div>
+
+<div class="function-card" data-keywords="recordcontext context type execution"><div class="function-name">N/recordContext</div><div class="function-desc">Get the context type of a record (how it was accessed).</div><div class="function-meta"><span class="params">Client & Server</span><a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_158627324548.html" target="_blank" style="color:#2563eb;">📖 Docs</a></div></div>
+
+<div class="function-card" data-keywords="redirect url suitelet record search navigation"><div class="function-name">N/redirect</div><div class="function-desc">Redirect users to URLs, Suitelets, records, task links, or searches.</div><div class="function-meta"><span class="params">Server Only</span><a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_4424286105.html" target="_blank" style="color:#2563eb;">📖 Docs</a></div></div>
+
+<div class="function-card" data-keywords="render pdf html template print email"><div class="function-name">N/render</div><div class="function-desc">Create PDFs, forms from templates, and emails from templates. Print functionality.</div><div class="function-meta"><span class="params">Server Only</span><span class="gov-cost">Advanced PDF/HTML Templates permission</span><a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_4412042824.html" target="_blank" style="color:#2563eb;">📖 Docs</a></div></div>
+
+<div class="function-card" data-keywords="runtime script session user version company"><div class="function-name">N/runtime</div><div class="function-desc">Access runtime settings for company, script, session, user, and version info.</div><div class="function-meta"><span class="params">Client & Server</span><a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_4296359529.html" target="_blank" style="color:#2563eb;">📖 Docs</a></div></div>
+
+<div class="function-card" data-keywords="restlet custom handling request response"><div class="function-name">N/scriptTypes/restlet</div><div class="function-desc">Create custom request/response handling for RESTlet scripts.</div><div class="function-meta"><span class="params">RESTlet Only</span><a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/article_4130555042.html" target="_blank" style="color:#2563eb;">📖 Docs</a></div></div>
+
+<div class="function-card" data-keywords="search saved create run load lookup filter column"><div class="function-name">N/search</div><div class="function-desc">Create and run saved searches. lookupFields, create, load, run, iterate results.</div><div class="function-meta"><span class="params">Client & Server</span><a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_4345764122.html" target="_blank" style="color:#2563eb;">📖 Docs</a></div></div>
+
+<div class="function-card" data-keywords="sftp ftp file transfer secure remote"><div class="function-name">N/sftp</div><div class="function-desc">Connect to remote FTP servers using SFTP and transfer files.</div><div class="function-meta"><span class="params">Server Only</span><span class="gov-cost">Key Access permission (for public key auth)</span><a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_4617004932.html" target="_blank" style="color:#2563eb;">📖 Docs</a></div></div>
+
+<div class="function-card" data-keywords="suiteappinfo bundle app information"><div class="function-name">N/suiteAppInfo</div><div class="function-desc">Access information about installed SuiteApps and Bundles.</div><div class="function-meta"><span class="params">Client & Server</span><a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/article_160236086332.html" target="_blank" style="color:#2563eb;">📖 Docs</a></div></div>
+
+<div class="function-card" data-keywords="task scheduled script mapreduce csv import workflow queue"><div class="function-name">N/task</div><div class="function-desc">Create and queue tasks: scheduled scripts, Map/Reduce, CSV imports, workflow execution.</div><div class="function-meta"><span class="params">Server Only</span><span class="gov-cost">Tasks permission</span><a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_4345787858.html" target="_blank" style="color:#2563eb;">📖 Docs</a></div></div>
+
+<div class="function-card" data-keywords="task accounting recognition revenue arrangement merge"><div class="function-name">N/task/accounting/recognition</div><div class="function-desc">Merge revenue arrangements or revenue elements for revenue recognition.</div><div class="function-meta"><span class="params">Server Only</span><a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_1554472720.html" target="_blank" style="color:#2563eb;">📖 Docs</a></div></div>
+
+<div class="function-card" data-keywords="transaction void cancel"><div class="function-name">N/transaction</div><div class="function-desc">Void transactions programmatically.</div><div class="function-meta"><span class="params">Client & Server</span><a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_4413162576.html" target="_blank" style="color:#2563eb;">📖 Docs</a></div></div>
+
+<div class="function-card" data-keywords="translation localization language strings collection"><div class="function-name">N/translation</div><div class="function-desc">Load Translation Collections for multi-language support.</div><div class="function-meta"><span class="params">Client & Server</span><a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_1538666156.html" target="_blank" style="color:#2563eb;">📖 Docs</a></div></div>
+
+<div class="function-card" data-keywords="dialog modal alert confirm popup"><div class="function-name">N/ui/dialog</div><div class="function-desc">Create modal dialogs with buttons (alert, confirm, create).</div><div class="function-meta"><span class="params">Client Only</span><a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_4497725142.html" target="_blank" style="color:#2563eb;">📖 Docs</a></div></div>
+
+<div class="function-card" data-keywords="message banner notification info warning error"><div class="function-name">N/ui/message</div><div class="function-desc">Display messages at the top of the screen under the menu bar.</div><div class="function-meta"><span class="params">Client Only</span><a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_4497735093.html" target="_blank" style="color:#2563eb;">📖 Docs</a></div></div>
+
+<div class="function-card" data-keywords="serverwidget form field button sublist suitelet ui"><div class="function-name">N/ui/serverWidget</div><div class="function-desc">Build custom UIs - forms, fields, buttons, sublists for Suitelets and User Events.</div><div class="function-meta"><span class="params">Server Only</span><a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_4321345532.html" target="_blank" style="color:#2563eb;">📖 Docs</a></div></div>
+
+<div class="function-card" data-keywords="url resolve domain path record suitelet"><div class="function-name">N/url</div><div class="function-desc">Build URLs for records, Suitelets, task links. Resolve domain paths.</div><div class="function-meta"><span class="params">Client & Server</span><a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_4358552918.html" target="_blank" style="color:#2563eb;">📖 Docs</a></div></div>
+
+<div class="function-card" data-keywords="util utility helper isarray isobject isfunction"><div class="function-name">N/util</div><div class="function-desc">Utility methods: isArray, isObject, isFunction, each, extend.</div><div class="function-meta"><span class="params">Client & Server</span><a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_4569538303.html" target="_blank" style="color:#2563eb;">📖 Docs</a></div></div>
+
+<div class="function-card" data-keywords="workbook analytics visualization chart pivot table"><div class="function-name">N/workbook</div><div class="function-desc">Create and manage workbooks in SuiteAnalytics Workbook (charts, pivots, tables).</div><div class="function-meta"><span class="params">Server Only</span><span class="gov-cost">SuiteAnalytics Workbook permission</span><a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/article_159006350818.html" target="_blank" style="color:#2563eb;">📖 Docs</a></div></div>
+
+<div class="function-card" data-keywords="workflow trigger initiate instance"><div class="function-name">N/workflow</div><div class="function-desc">Initiate new workflow instances or trigger existing ones programmatically.</div><div class="function-meta"><span class="params">Server Only</span><span class="gov-cost">Workflow permission</span><a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_4341725558.html" target="_blank" style="color:#2563eb;">📖 Docs</a></div></div>
+
+<div class="function-card" data-keywords="xml parse validate read modify xpath xslt"><div class="function-name">N/xml</div><div class="function-desc">Validate, parse, read, and modify XML documents. XPath support.</div><div class="function-meta"><span class="params">Client & Server</span><a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_4344917661.html" target="_blank" style="color:#2563eb;">📖 Docs</a></div></div>
+
+</div>
+
+<div class="nav-buttons">
+    <a href="Appendix-C-Case-Studies.html" class="back-btn">← Appendix C</a>
+    <a href="Master-Dashboard.html" class="back-btn">Dashboard</a>
+</div>
+
+</div>
+</div>
+
+<script>
+var currentFilter = 'all';
+
+function filterFunctions() {
+    var input = document.getElementById('searchInput').value.toLowerCase();
+    var cards = document.querySelectorAll('.function-card');
+    var sections = document.querySelectorAll('.module-section');
+    var visibleCount = 0;
+
+    cards.forEach(function(card) {
+        var keywords = card.getAttribute('data-keywords') || '';
+        var name = card.querySelector('.function-name').textContent.toLowerCase();
+        var desc = card.querySelector('.function-desc').textContent.toLowerCase();
+        var module = card.closest('.module-section').getAttribute('data-module');
+        
+        var matchesSearch = name.includes(input) || desc.includes(input) || keywords.includes(input);
+        var matchesFilter = currentFilter === 'all' || module === currentFilter;
+        
+        if (matchesSearch && matchesFilter) {
+            card.classList.remove('hidden');
+            visibleCount++;
+        } else {
+            card.classList.add('hidden');
+        }
+    });
+
+    sections.forEach(function(section) {
+        var visibleCards = section.querySelectorAll('.function-card:not(.hidden)');
+        section.style.display = visibleCards.length > 0 ? 'block' : 'none';
+    });
+
+    document.getElementById('resultsCount').textContent = 'Showing ' + visibleCount + ' function(s)';
+}
+
+function setFilter(filter) {
+    currentFilter = filter;
+    document.querySelectorAll('.filter-btn').forEach(function(btn) {
+        btn.classList.remove('active');
+    });
+    document.querySelector('[data-filter="' + filter + '"]').classList.add('active');
+    filterFunctions();
+}
+
+function toggleExample(el) {
+    var code = el.nextElementSibling;
+    if (code.classList.contains('show')) {
+        code.classList.remove('show');
+        el.textContent = '▶ Show Example';
+    } else {
+        code.classList.add('show');
+        el.textContent = '▼ Hide Example';
+    }
+}
+</script>
+</body>
+</html>

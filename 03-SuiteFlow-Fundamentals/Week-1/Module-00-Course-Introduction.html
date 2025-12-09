@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 0: Course Introduction - SuiteFlow Fundamentals</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f7fa;
+            line-height: 1.6;
+            color: #2d3748;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .breadcrumb {
+            font-size: 0.9em;
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+
+        .breadcrumb a {
+            color: white;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .breadcrumb a:hover {
+            border-bottom-color: white;
+        }
+
+        .module-title-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .module-number {
+            background: rgba(255,255,255,0.2);
+            width: 80px;
+            height: 80px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            font-weight: 700;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            font-weight: 700;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .objectives-box {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border-left: 5px solid #667eea;
+        }
+
+        .objectives-box h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .objectives-box ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .objectives-box li {
+            padding: 10px 0 10px 30px;
+            position: relative;
+            color: #555;
+        }
+
+        .objectives-box li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+            font-size: 1.3em;
+        }
+
+        .content-section {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .content-section h2 {
+            color: #2d3748;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .content-section h3 {
+            color: #667eea;
+            font-size: 1.4em;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        .content-section p {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .content-section ul, .content-section ol {
+            margin-left: 30px;
+            margin-bottom: 20px;
+        }
+
+        .content-section li {
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+        }
+
+        .info-box.blue {
+            background: #e3f2fd;
+            border-left-color: #2196f3;
+        }
+
+        .info-box.yellow {
+            background: #fff9c4;
+            border-left-color: #fbc02d;
+        }
+
+        .info-box.green {
+            background: #e8f5e9;
+            border-left-color: #4caf50;
+        }
+
+        .info-box.purple {
+            background: #f3e5f5;
+            border-left-color: #9c27b0;
+        }
+
+        .info-box.red {
+            background: #ffebee;
+            border-left-color: #f44336;
+        }
+
+        .info-box h4 {
+            color: #1976d2;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .info-box.yellow h4 {
+            color: #f57f17;
+        }
+
+        .info-box.green h4 {
+            color: #2e7d32;
+        }
+
+        .info-box.purple h4 {
+            color: #6a1b9a;
+        }
+
+        .info-box.red h4 {
+            color: #c62828;
+        }
+
+        .info-box p {
+            margin: 0;
+            color: #555;
+        }
+
+        .walkthrough {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+
+        .walkthrough h4 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .walkthrough-steps {
+            counter-reset: step-counter;
+        }
+
+        .walkthrough-step {
+            position: relative;
+            padding-left: 50px;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-left: 2px solid #e2e8f0;
+        }
+
+        .walkthrough-step:last-child {
+            border-left-color: transparent;
+        }
+
+        .walkthrough-step::before {
+            counter-increment: step-counter;
+            content: counter(step-counter);
+            position: absolute;
+            left: -15px;
+            top: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9em;
+        }
+
+        .walkthrough-step p {
+            margin: 5px 0;
+            color: #555;
+        }
+
+        .walkthrough-step strong {
+            color: #2d3748;
+        }
+
+        .exercise-section {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+
+        .exercise-section h3 {
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .exercise-section p {
+            color: white;
+            opacity: 0.95;
+            margin-bottom: 20px;
+        }
+
+        .exercise-link {
+            display: inline-block;
+            background: white;
+            color: #f5576c;
+            padding: 12px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .exercise-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        }
+
+        .key-takeaways {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+
+        .key-takeaways h3 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .key-takeaways ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .key-takeaways li {
+            padding: 12px 0 12px 30px;
+            position: relative;
+            color: white;
+            opacity: 0.95;
+        }
+
+        .key-takeaways li::before {
+            content: "★";
+            position: absolute;
+            left: 0;
+            font-size: 1.2em;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            gap: 20px;
+        }
+
+        .nav-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 15px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            flex: 1;
+            justify-content: center;
+        }
+
+        .nav-btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .nav-btn-secondary {
+            background: #e2e8f0;
+            color: #2d3748;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        .module-ref {
+            background: #f3e5f5;
+            color: #6a1b9a;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .module-title-section {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .navigation {
+                flex-direction: column;
+            }
+
+            .walkthrough-step {
+                padding-left: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="breadcrumb">
+                <a href="../Master-Dashboard.html">← Course Overview</a> / 
+                <a href="week-1-dashboard.html">Week 1</a> / 
+                Module 0
+            </div>
+            <div class="module-title-section">
+                <div class="module-number">00</div>
+                <div>
+                    <h1>Course Introduction</h1>
+                    <p style="margin-top: 10px; opacity: 0.9;">Setting the Foundation for Your SuiteFlow Journey</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Learning Objectives -->
+        <div class="objectives-box">
+            <h2>🎯 Learning Objectives</h2>
+            <p style="color: #666; margin-bottom: 15px;">Upon completion of this module, you will be able to:</p>
+            <ul>
+                <li>Describe the target audience and prerequisites for this course</li>
+                <li>List the primary learning outcomes you'll achieve by course completion</li>
+                <li>Enable SuiteFlow in your NetSuite training account</li>
+                <li>Configure essential user preferences that affect workflow development and debugging</li>
+                <li>Navigate to NetSuite Help Center and SuiteAnswers for additional resources</li>
+                <li>Understand the Furniture Request case study that forms the foundation for course exercises</li>
+            </ul>
+        </div>
+
+        <!-- Welcome Section -->
+        <div class="content-section">
+            <h2>Welcome to SuiteFlow: Workflow Fundamentals</h2>
+            
+            <p>
+                Welcome! You're about to embark on a comprehensive journey into NetSuite's powerful workflow automation tool, SuiteFlow. This course is designed to provide you with the foundational knowledge and practical skills needed to create and manage business process workflows that automate critical tasks across your organization.
+            </p>
+
+            <p>
+                Throughout this course, you'll build several workflows that perform real-world tasks such as field and form-level validations, executing actions on record load and save, creating new records, sending email notifications, troubleshooting workflow execution, and configuring sophisticated approval-based workflows.
+            </p>
+
+            <h3>Who Should Take This Course?</h3>
+
+            <p>This course is designed for:</p>
+            <ul>
+                <li><strong>Functional Users:</strong> Business analysts and other non-technical users who want to automate business processes</li>
+                <li><strong>NetSuite Administrators:</strong> Both functional and technical administrators responsible for workflow configuration</li>
+                <li><strong>Business Process Owners:</strong> Anyone responsible for defining and implementing organizational workflows</li>
+            </ul>
+
+            <div class="info-box yellow">
+                <h4>⚠️ Not Right for You?</h4>
+                <p>Software developers and other technical users who already feel proficient with SuiteFlow basics should consider taking the <strong>SuiteFlow: Advanced Workflows</strong> course instead. That course covers scheduling, sub-workflows, formulas, SuiteScript integration, and performance optimization.</p>
+            </div>
+
+            <h3>Prerequisites</h3>
+
+            <p>To get the most out of this course, you should have:</p>
+
+            <div class="info-box blue">
+                <h4>📚 Required Skills</h4>
+                <p><strong>Navigating NetSuite:</strong> You should be comfortable navigating the NetSuite user interface and completing basic administrative tasks.</p>
+                <p style="margin-top: 10px;"><strong>Saved Searches:</strong> Understanding of how to build saved search criteria using expressions is essential.</p>
+            </div>
+
+            <div class="info-box purple">
+                <h4>💡 Helpful (But Not Required)</h4>
+                <p><strong>Business Process Mapping:</strong> Experience with flowcharting or business process mapping tools like Microsoft Visio will help you visualize workflows.</p>
+                <p style="margin-top: 10px;"><strong>Logic Concepts:</strong> Understanding of basic if-then-else logic and programming concepts will make advanced topics easier to grasp.</p>
+            </div>
+
+            <div class="info-box green">
+                <h4>✅ Getting Started Resources</h4>
+                <p>If you need to brush up on NetSuite navigation or administrative tasks, view the <strong>Getting Started training videos</strong> available from SuiteAnswers before beginning this course.</p>
+            </div>
+
+            <h3>What You'll Learn</h3>
+
+            <p>By the end of this course, you will be able to:</p>
+
+            <ol>
+                <li><strong>Default data on forms</strong> and dynamically change form data during data entry</li>
+                <li><strong>Add field and form-level validations</strong> during data entry to ensure data quality</li>
+                <li><strong>Control the display of form data</strong> based on whether a form is in edit, view, or print mode</li>
+                <li><strong>Send email notifications</strong> and automate the creation of tasks, phone calls, and other records</li>
+                <li><strong>Automatically direct end users</strong> to different pages or records within NetSuite</li>
+                <li><strong>Troubleshoot workflow execution</strong> using the workflow execution log</li>
+                <li><strong>Generate approval routing workflows</strong> with multiple approvers and complex routing logic</li>
+                <li><strong>Manipulate sublist line fields</strong> on transaction records using sublist action groups</li>
+            </ol>
+        </div>
+
+        <!-- Training Account Setup -->
+        <div class="content-section">
+            <h2>Setting Up Your Training Account</h2>
+
+            <p>
+                For this course, you'll be working in a dedicated NetSuite training account. This sandbox environment allows you to practice building workflows without affecting any production data.
+            </p>
+
+            <div class="info-box yellow">
+                <h4>⚠️ Training on Demand Students</h4>
+                <p>If you registered for the training on demand version, you were <strong>not</strong> provided with your training account login information in the registration welcome email. You must request the provisioning of your course training account by contacting NetSuite Training when you're ready to start.</p>
+            </div>
+
+            <div class="info-box blue">
+                <h4>📥 Student Workbook</h4>
+                <p>Your welcome email includes a link to download the <strong>Student Workbook</strong>, which contains all hands-on course exercises. Download this guide before starting—you'll refer to it frequently throughout the course!</p>
+            </div>
+
+            <h3>Solution Workflows</h3>
+
+            <p>
+                Don't worry if you get stuck on an exercise! Pre-configured solution workflows are already loaded into your NetSuite training account. You can reference these if you need help or want to see how a completed workflow should look.
+            </p>
+
+            <div class="walkthrough">
+                <h4>🔍 Finding Solution Workflows</h4>
+                <div class="walkthrough-steps">
+                    <div class="walkthrough-step">
+                        <p><strong>Navigate to:</strong> Customization > Workflow > Workflows</p>
+                    </div>
+                    <div class="walkthrough-step">
+                        <p><strong>Filter by:</strong> "Furniture Request SOLUTION"</p>
+                    </div>
+                    <div class="walkthrough-step">
+                        <p><strong>Note:</strong> Most solution workflows will need to be <strong>enabled</strong> before they'll initiate on records.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Walkthrough Demonstration -->
+        <div class="content-section">
+            <h2>Walkthrough: Logging In & Setting Preferences</h2>
+
+            <p>
+                Let's walk through the essential setup steps you need to complete before starting your workflow development. These preferences are critical for effective workflow creation and troubleshooting.
+            </p>
+
+            <h3>Step 1: Logging Into Your Training Account</h3>
+
+            <div class="walkthrough">
+                <h4>🚀 Login Process</h4>
+                <div class="walkthrough-steps">
+                    <div class="walkthrough-step">
+                        <p><strong>Navigate to:</strong> www.netsuite.com in any supported web browser</p>
+                    </div>
+                    <div class="walkthrough-step">
+                        <p><strong>Click:</strong> The "Log In" link in the upper right corner</p>
+                    </div>
+                    <div class="walkthrough-step">
+                        <p><strong>Enter:</strong> The username and password provided in your registration email</p>
+                    </div>
+                    <div class="walkthrough-step">
+                        <p><strong>Security Questions:</strong> On first login, you'll be prompted to answer security questions. Refer to your Student Workbook for the required responses.</p>
+                    </div>
+                    <div class="walkthrough-step">
+                        <p><strong>Home Dashboard:</strong> Upon successful login, you'll land on the Home dashboard. You'll see a custom portlet welcoming you to the Workflow Fundamentals course.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-box red">
+                <h4>⚠️ Multiple Account Limitation</h4>
+                <p>You <strong>cannot</strong> be logged into NetSuite more than once within a single browser. If you want to access both your training account and your production account simultaneously, use different browsers (e.g., Chrome for training, Firefox for production).</p>
+            </div>
+
+            <h3>Step 2: Accessing SuiteFlow Documentation</h3>
+
+            <p>
+                Before we dive into building workflows, let's locate the official SuiteFlow documentation—you'll reference this throughout your learning journey.
+            </p>
+
+            <div class="walkthrough">
+                <h4>📚 Finding Documentation</h4>
+                <div class="walkthrough-steps">
+                    <div class="walkthrough-step">
+                        <p><strong>Click:</strong> The "Help" link at the very top of the NetSuite page</p>
+                    </div>
+                    <div class="walkthrough-step">
+                        <p><strong>Navigate to:</strong> SuiteCloud Platform > SuiteFlow Workflows</p>
+                    </div>
+                    <div class="walkthrough-step">
+                        <p><strong>Explore:</strong> Online documentation, troubleshooting tips, references, and workflow examples</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-box green">
+                <h4>✅ Pro Tip: Use SuiteAnswers</h4>
+                <p>Click the <strong>SuiteAnswers</strong> link from the Help Center to access an invaluable resource with training videos, support articles, demo videos, and links to Help Center documentation. Simply type what you're looking for and you'll get comprehensive results!</p>
+            </div>
+
+            <h3>Step 3: Configuring Critical User Preferences</h3>
+
+            <p>
+                Now for the most important setup step: configuring user preferences that directly affect how you'll work with workflows and troubleshoot issues.
+            </p>
+
+            <div class="walkthrough">
+                <h4>⚙️ Essential Preferences</h4>
+                <div class="walkthrough-steps">
+                    <div class="walkthrough-step">
+                        <p><strong>Navigate to:</strong> Home > Set Preferences</p>
+                    </div>
+                    <div class="walkthrough-step">
+                        <p><strong>General Subtab - Show Internal IDs:</strong> ✅ <strong>Check this box!</strong> This is <em>critical</em> for workflow development. It displays NetSuite field IDs when viewing field-level help (the "What's this?" link next to fields).</p>
+                        <p style="margin-top: 8px; padding-left: 20px; border-left: 3px solid #667eea;">
+                            <strong>Why it matters:</strong> You'll need these field IDs when building workflow conditions and when troubleshooting using workflow execution logs. Without this enabled, debugging becomes significantly harder!
+                        </p>
+                    </div>
+                    <div class="walkthrough-step">
+                        <p><strong>General Subtab - Time Zone:</strong> Set this to <em>your</em> local time zone (e.g., Mountain Time, Pacific Time). This is important when viewing date/time stamps in workflow execution logs.</p>
+                    </div>
+                    <div class="walkthrough-step">
+                        <p><strong>General Subtab - Date Format:</strong> Choose your preferred date format (e.g., MM/DD/YYYY). This affects how dates are displayed in NetSuite and how they're evaluated in workflow conditions.</p>
+                    </div>
+                    <div class="walkthrough-step">
+                        <p><strong>General Subtab - Time Format:</strong> Set your preferred time format. This affects the display of time-based values in workflow logs.</p>
+                    </div>
+                    <div class="walkthrough-step">
+                        <p><strong>Click Save:</strong> Your preferences are now configured and you're ready to build workflows!</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-box purple">
+                <h4>💡 Why These Settings Matter</h4>
+                <p>These settings don't just affect how data displays in NetSuite—they dictate how field values are displayed and <strong>evaluated</strong> in workflow conditions and workflow execution log events. Consistent settings prevent confusion when debugging workflows.</p>
+            </div>
+        </div>
+
+        <!-- Understanding the Case Study -->
+        <div class="content-section">
+            <h2>Understanding the Course Case Study</h2>
+
+            <p>
+                Throughout this course, you'll be building workflows for a fictional company's <strong>Furniture Request</strong> business process. This case study provides a realistic context for learning workflow automation.
+            </p>
+
+            <h3>The Furniture Request Scenario</h3>
+
+            <p>
+                The case study revolves around a custom NetSuite record type called <strong>Furniture Request</strong>. Employees use this record to request new furniture for their workspace. The business process includes:
+            </p>
+
+            <ul>
+                <li><strong>Data Entry:</strong> Employees submit furniture requests with details like furniture type, quantity, and estimated cost</li>
+                <li><strong>Validation:</strong> The system validates the request data (e.g., cost limits, required approvals)</li>
+                <li><strong>Approval Routing:</strong> Requests are routed to appropriate approvers based on business rules</li>
+                <li><strong>Notifications:</strong> Automated emails notify stakeholders at various stages</li>
+                <li><strong>Record Creation:</strong> Related records (tasks, phone calls) are created automatically</li>
+            </ul>
+
+            <div class="info-box blue">
+                <h4>📄 Optional: Review the Full Case Study</h4>
+                <p>A detailed case study document is available in your training account's File Cabinet. To access it:</p>
+                <ol style="margin-left: 30px; margin-top: 10px;">
+                    <li>Navigate to: <strong>Documents > Files > File Cabinet</strong></li>
+                    <li>Select the <strong>Workflow Fundamentals</strong> folder</li>
+                    <li>Download: <strong>"Understanding the Case Study.pdf"</strong></li>
+                </ol>
+                <p style="margin-top: 10px;">This document provides an overview of the users, roles, business requirements, and workflows you'll be building.</p>
+            </div>
+
+            <h3>Why Use a Case Study?</h3>
+
+            <p>
+                The Furniture Request case study serves multiple purposes:
+            </p>
+
+            <ol>
+                <li><strong>Realistic Context:</strong> You'll learn SuiteFlow concepts in the context of a real business process</li>
+                <li><strong>Progressive Complexity:</strong> The workflows start simple and grow more sophisticated as you progress</li>
+                <li><strong>Modular Design:</strong> You'll build multiple small workflows that work together—a best practice approach</li>
+                <li><strong>Reusable Patterns:</strong> The techniques you learn can be applied to <em>any</em> NetSuite record type in your own organization</li>
+            </ol>
+
+            <div class="info-box green">
+                <h4>✅ Think Beyond Furniture Requests</h4>
+                <p>While you're building Furniture Request workflows, constantly think about how these same patterns apply to <em>your</em> business processes: expense reports, purchase requisitions, customer onboarding, contract approvals, etc. The skills are universally applicable!</p>
+            </div>
+        </div>
+
+        <!-- Hands-On Exercises -->
+        <div class="exercise-section">
+            <h3>🎯 Hands-On Exercises</h3>
+            <p>
+                It's time to put your knowledge into practice! The exercises for this module will guide you through enabling SuiteFlow, configuring your user preferences, and (optionally) reviewing the case study in detail.
+            </p>
+            <p>
+                <strong>Required Exercises:</strong>
+            </p>
+            <ul style="margin-left: 30px; margin-bottom: 20px;">
+                <li>Exercise 1: Enabling SuiteFlow in Your Training Account</li>
+                <li>Exercise 2: Adjusting NetSuite Preferences</li>
+            </ul>
+            <p>
+                <strong>Optional Exercise:</strong>
+            </p>
+            <ul style="margin-left: 30px;">
+                <li>Exercise 3: Review the Course Case Study</li>
+            </ul>
+            <a href="../Appendices/Appendix-B-Hands-On-Exercises.html#module-0" class="exercise-link">Go to Module 0 Exercises →</a>
+        </div>
+
+        <!-- Key Takeaways -->
+        <div class="key-takeaways">
+            <h3>🌟 Key Takeaways</h3>
+            <ul>
+                <li><strong>Show Internal IDs</strong> is the most critical user preference for workflow development—it displays field IDs needed for conditions and troubleshooting</li>
+                <li>Time zone and date format preferences affect both display <em>and</em> evaluation of date/time values in workflow conditions</li>
+                <li>Solution workflows are pre-loaded in your account—use them as reference if you get stuck on exercises</li>
+                <li>You cannot be logged into NetSuite in multiple windows of the same browser—use different browsers for multiple accounts</li>
+                <li>SuiteAnswers is your go-to resource for additional training materials, support articles, and documentation</li>
+                <li>The Furniture Request case study provides realistic context for learning—but the skills apply to any business process</li>
+            </ul>
+        </div>
+
+        <!-- Navigation -->
+        <div class="navigation">
+            <a href="week-1-dashboard.html" class="nav-btn nav-btn-secondary">
+                ← Back to Week 1 Overview
+            </a>
+            <a href="Module-01-SuiteFlow-Overview.html" class="nav-btn nav-btn-primary">
+                Next: Module 1 - SuiteFlow Overview →
+            </a>
+        </div>
+    </div>
+</body>
+</html>

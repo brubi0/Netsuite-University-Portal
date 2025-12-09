@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 3: Using SuiteScript Objects</title>
+    <style>
+        * {margin:0;padding:0;box-sizing:border-box}
+        body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.8;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:40px 20px}
+        .container{max-width:900px;margin:0 auto}
+        .header{background:white;padding:30px 40px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.2);margin-bottom:30px}
+        .header h1{color:#2563eb;font-size:2rem;margin-bottom:10px}
+        .header .meta{color:#6b7280;font-size:0.9rem}
+        .content{background:white;padding:40px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.2)}
+        .content h2{color:#1e40af;margin:35px 0 20px 0;font-size:1.6rem;padding-bottom:10px;border-bottom:3px solid #dbeafe}
+        .content h2:first-of-type{margin-top:0}
+        .content h3{color:#374151;margin:25px 0 15px 0;font-size:1.3rem}
+        .content p{margin:15px 0;color:#374151;line-height:1.9}
+        .content ul,.content ol{margin:15px 0 15px 30px;color:#374151}
+        .content li{margin:10px 0;line-height:1.7}
+        .info-box{padding:20px 25px;border-radius:8px;margin:25px 0;border-left:5px solid}
+        .info-box.blue{background:#dbeafe;border-color:#2563eb}
+        .info-box.yellow{background:#fef3c7;border-color:#f59e0b}
+        .info-box.green{background:#dcfce7;border-color:#10b981}
+        .info-box.red{background:#fee2e2;border-color:#ef4444}
+        .info-box.purple{background:#f3e8ff;border-color:#9333ea}
+        .info-box strong{color:#1e40af;display:block;margin-bottom:10px;font-size:1.1rem}
+        code{background:#f3f4f6;padding:3px 8px;border-radius:4px;font-family:'Courier New',monospace;font-size:0.9em;color:#ef4444}
+        pre{background:#1e293b;color:#e2e8f0;padding:25px;border-radius:8px;overflow-x:auto;margin:25px 0;border-left:5px solid #667eea}
+        pre code{background:none;padding:0;color:inherit}
+        .takeaway{background:#f0f9ff;border:2px solid #0ea5e9;border-radius:10px;padding:25px;margin:30px 0}
+        .takeaway h3{color:#0369a1;margin:0 0 15px 0}
+        .takeaway ul{margin:10px 0 10px 25px}
+        .takeaway li{color:#0c4a6e;font-weight:500}
+        .nav-buttons{display:flex;justify-content:space-between;margin-top:40px;gap:20px}
+        .back-btn,.next-btn{padding:14px 28px;border-radius:8px;text-decoration:none;font-weight:600;transition:all 0.3s}
+        .back-btn{background:#6b7280;color:white}
+        .next-btn{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:white}
+        .back-btn:hover,.next-btn:hover{transform:translateY(-2px);opacity:0.95}
+        table{width:100%;border-collapse:collapse;margin:20px 0}
+        table th,table td{padding:12px;text-align:left;border-bottom:1px solid #e5e7eb}
+        table th{background:#f3f4f6;color:#1e40af;font-weight:600}
+        .toc{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:20px;margin-bottom:30px}
+        .toc h3{color:#1e40af;margin-bottom:15px;font-size:1.1rem}
+        .toc ul{list-style:none;margin:0;padding:0}
+        .toc li{margin:8px 0}
+        .toc a{color:#2563eb;text-decoration:none}
+        .toc a:hover{text-decoration:underline}
+        .comparison{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:20px 0}
+        .comparison > div{padding:20px;border-radius:8px}
+        .do-this{background:#dcfce7;border:2px solid #10b981}
+        .not-this{background:#fee2e2;border:2px solid #ef4444}
+        .comparison h4{margin:0 0 10px 0;font-size:1rem}
+        @media (max-width: 600px) {.comparison{grid-template-columns:1fr}}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Module 3: Using SuiteScript Objects</h1>
+            <p class="meta">Week 2 • NetSuite SuiteScript 2.0 Training • ~60 minutes</p>
+        </div>
+        <div class="content">
+            
+            <div class="toc">
+                <h3>📑 In This Module</h3>
+                <ul>
+                    <li><a href="#objectives">Learning Objectives</a></li>
+                    <li><a href="#context">1. The Context Object</a></li>
+                    <li><a href="#record">2. Getting the Record Object</a></li>
+                    <li><a href="#getvalue">3. getValue() vs getText()</a></li>
+                    <li><a href="#setvalue">4. setValue() vs setText()</a></li>
+                    <li><a href="#logging">5. Log Levels Explained</a></li>
+                    <li><a href="#nodom">6. Why Never Use DOM</a></li>
+                    <li><a href="#debugging">7. Debugging SuiteScript</a></li>
+                    <li><a href="#practice">Practice Exercises</a></li>
+                </ul>
+            </div>
+
+            <h2 id="objectives">🎯 Learning Objectives</h2>
+            <p>By the end of this module, you will be able to:</p>
+            <ul>
+                <li>Understand what the context object is and how to use it</li>
+                <li>Extract the record object from context</li>
+                <li>Get and set field values correctly using the right methods</li>
+                <li>Choose the appropriate log level for different situations</li>
+                <li>Debug server-side scripts using the SuiteScript Debugger</li>
+                <li>Avoid common mistakes like using DOM directly</li>
+            </ul>
+
+            <h2 id="context">1. The Context Object</h2>
+            
+            <h3>What Is It?</h3>
+            <p>Every entry point function in SuiteScript 2.x receives a <strong>context object</strong>. Think of it as a "package of information" that NetSuite hands to your function, containing everything you need to know about the current operation.</p>
+            
+            <div class="info-box blue">
+                <strong>💡 Key Insight</strong>
+                <p>The context object is called "context" because its contents <em>change depending on the context</em> of execution. A beforeLoad context contains different properties than an afterSubmit context.</p>
+            </div>
+
+            <h3>Basic Structure</h3>
+<pre><code>/**
+ * @NApiVersion 2.1
+ * @NScriptType UserEventScript
+ */
+define(['N/log'], function(log) {
+    
+    function afterSubmit(context) {
+        // context is passed automatically by NetSuite
+        // It contains info about this specific execution
+        
+        log.debug('Context Type', context.type);  // 'create', 'edit', etc.
+    }
+    
+    return { afterSubmit: afterSubmit };
+});</code></pre>
+
+            <h3>Common Context Properties</h3>
+            <table>
+                <tr><th>Property</th><th>Description</th><th>Available In</th></tr>
+                <tr><td><code>context.newRecord</code></td><td>The current record being processed</td><td>All User Event entry points</td></tr>
+                <tr><td><code>context.oldRecord</code></td><td>The record <em>before</em> changes (read-only)</td><td>beforeSubmit, afterSubmit (edit only)</td></tr>
+                <tr><td><code>context.type</code></td><td>The trigger type (create, edit, delete, view, etc.)</td><td>All User Event entry points</td></tr>
+                <tr><td><code>context.form</code></td><td>The form object for UI manipulation</td><td>beforeLoad only</td></tr>
+            </table>
+
+            <div class="info-box yellow">
+                <strong>⚠️ SuiteScript 1.0 vs 2.x</strong>
+                <p>In SuiteScript 1.0, entry points had multiple separate parameters (e.g., <code>afterSubmit(type, form, request)</code>). In 2.x, everything is bundled into the single context object. This is cleaner and more maintainable.</p>
+            </div>
+
+            <h2 id="record">2. Getting the Record Object</h2>
+            
+            <h3>newRecord vs oldRecord</h3>
+            <p>The context object gives you access to the record through two properties:</p>
+
+<pre><code>function afterSubmit(context) {
+    // Get the current state of the record
+    var currentRecord = context.newRecord;
+    
+    // Get the previous state (only on edit/delete)
+    var previousRecord = context.oldRecord;
+    
+    // Example: Compare old vs new values
+    if (context.type === 'edit') {
+        var oldStatus = previousRecord.getValue('status');
+        var newStatus = currentRecord.getValue('status');
+        
+        if (oldStatus !== newStatus) {
+            log.audit('Status Changed', 'From ' + oldStatus + ' to ' + newStatus);
+        }
+    }
+}</code></pre>
+
+            <div class="info-box green">
+                <strong>✅ When to Use Each</strong>
+                <ul>
+                    <li><code>newRecord</code>: 95% of the time — this is the current version of the record</li>
+                    <li><code>oldRecord</code>: When you need to compare "before and after" on edits</li>
+                </ul>
+            </div>
+
+            <h3>Standard Fields vs Custom Fields</h3>
+            <p><strong>Standard fields</strong> are created by NetSuite and exist in all accounts (e.g., <code>companyname</code>, <code>email</code>, <code>entity</code>). <strong>Custom fields</strong> are created by administrators for specific business needs.</p>
+            
+            <table>
+                <tr><th>Field Type</th><th>ID Pattern</th><th>Example</th></tr>
+                <tr><td>Body field (transaction)</td><td><code>custbody_</code></td><td><code>custbody_approval_notes</code></td></tr>
+                <tr><td>Column field (sublist)</td><td><code>custcol_</code></td><td><code>custcol_item_discount</code></td></tr>
+                <tr><td>Record field</td><td><code>custrecord_</code></td><td><code>custrecord_project_phase</code></td></tr>
+                <tr><td>Entity field</td><td><code>custentity_</code></td><td><code>custentity_loyalty_tier</code></td></tr>
+            </table>
+
+            <h2 id="getvalue">3. getValue() vs getText()</h2>
+            
+            <p>This is <strong>one of the most important concepts</strong> in SuiteScript. Choosing the wrong method is a common source of bugs.</p>
+
+            <h3>The Rule</h3>
+            <div class="info-box purple">
+                <strong>🎯 Simple Decision Rule</strong>
+                <ul>
+                    <li><strong>getValue()</strong>: Returns the internal ID or raw value</li>
+                    <li><strong>getText()</strong>: Returns the display text (only works on dropdown/list fields)</li>
+                </ul>
+            </div>
+
+            <h3>For Regular Fields (No Dropdown)</h3>
+<pre><code>// Text, number, date, email, etc. — always use getValue()
+var customerName = record.getValue('companyname');  // "Acme Corp"
+var email = record.getValue('email');               // "john@acme.com"
+var phone = record.getValue('phone');               // "555-1234"
+var amount = record.getValue('amount');             // 1500.00</code></pre>
+
+            <h3>For Dropdown/List Fields</h3>
+<pre><code>// List fields (dropdowns) — you have a choice
+var salesRepId = record.getValue('salesrep');    // Returns: 42 (internal ID)
+var salesRepName = record.getText('salesrep');   // Returns: "John Smith" (display text)
+
+var statusId = record.getValue('status');        // Returns: "A" (internal value)
+var statusText = record.getText('status');       // Returns: "Approved" (display text)</code></pre>
+
+            <div class="comparison">
+                <div class="do-this">
+                    <h4>✅ When to Use getValue()</h4>
+                    <ul>
+                        <li>Saving the ID to another field</li>
+                        <li>Loading a related record</li>
+                        <li>Comparing against known IDs</li>
+                        <li>All non-dropdown fields</li>
+                    </ul>
+                </div>
+                <div class="do-this">
+                    <h4>✅ When to Use getText()</h4>
+                    <ul>
+                        <li>Displaying to users</li>
+                        <li>Including in emails/PDFs</li>
+                        <li>Logging human-readable info</li>
+                        <li>Only works on dropdowns!</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="info-box red">
+                <strong>🚫 Common Mistake</strong>
+                <p>Using <code>getText()</code> on a regular text field returns <code>null</code>. Only use <code>getText()</code> on fields with dropdowns!</p>
+<pre><code>// WRONG - email is not a dropdown
+var email = record.getText('email');  // Returns: null
+
+// CORRECT
+var email = record.getValue('email'); // Returns: "john@acme.com"</code></pre>
+            </div>
+
+            <h2 id="setvalue">4. setValue() vs setText()</h2>
+            
+            <p>Setting values follows similar rules, but with an important difference in syntax.</p>
+
+<pre><code>// Setting a regular field value
+record.setValue({
+    fieldId: 'custbody_notes',
+    value: 'Approved by manager'
+});
+
+// Setting a dropdown by ID (most common)
+record.setValue({
+    fieldId: 'salesrep',
+    value: 42  // Internal ID of the sales rep
+});
+
+// Setting a dropdown by text (when you don't know the ID)
+record.setText({
+    fieldId: 'salesrep',
+    text: 'John Smith'  // Display name - NetSuite looks up the ID
+});</code></pre>
+
+            <div class="info-box yellow">
+                <strong>⚠️ Performance Note</strong>
+                <p><code>setText()</code> is slower than <code>setValue()</code> because NetSuite has to look up the ID from the text. When possible, use <code>setValue()</code> with the internal ID.</p>
+            </div>
+
+            <h2 id="logging">5. Log Levels Explained</h2>
+            
+            <p>NetSuite provides four log levels, each with a specific purpose:</p>
+
+            <table>
+                <tr><th>Level</th><th>Method</th><th>Purpose</th><th>When to Use</th></tr>
+                <tr><td>1. Debug</td><td><code>log.debug()</code></td><td>Development info</td><td>During development, troubleshooting</td></tr>
+                <tr><td>2. Audit</td><td><code>log.audit()</code></td><td>Track changes</td><td>Recording business events, who did what</td></tr>
+                <tr><td>3. Error</td><td><code>log.error()</code></td><td>Handled errors</td><td>When something goes wrong but is handled</td></tr>
+                <tr><td>4. Emergency</td><td><code>log.emergency()</code></td><td>Critical failures</td><td>Script-breaking issues (rarely used)</td></tr>
+            </table>
+
+<pre><code>log.debug('Title', 'Detail message');     // Development
+log.audit('Status Changed', 'A to B');    // Business tracking
+log.error('API Failed', error.message);   // Error handling
+log.emergency('Critical', 'Data loss!');  // Rarely needed</code></pre>
+
+            <h3>How Log Levels Work on Deployments</h3>
+            <p>Each script deployment has a "Log Level" setting that acts as a filter:</p>
+            
+            <div class="info-box blue">
+                <strong>💡 Log Level Hierarchy</strong>
+                <p>If you set the deployment to "Error", only Error and Emergency logs will appear. Debug and Audit logs are silently ignored. This is useful for production to reduce log volume.</p>
+                <ul>
+                    <li><strong>Debug</strong>: Shows Debug + Audit + Error + Emergency</li>
+                    <li><strong>Audit</strong>: Shows Audit + Error + Emergency</li>
+                    <li><strong>Error</strong>: Shows Error + Emergency</li>
+                    <li><strong>Emergency</strong>: Shows Emergency only</li>
+                </ul>
+            </div>
+
+            <div class="info-box red">
+                <strong>🚫 Log Limit Warning</strong>
+                <p>If your script generates more than <strong>100,000 logs per hour</strong>, NetSuite automatically increases your log level to reduce volume. Design your logging carefully!</p>
+            </div>
+
+            <h2 id="nodom">6. Why Never Use DOM</h2>
+            
+            <p>If you have JavaScript experience, you might be tempted to access form elements directly using <code>document.getElementById()</code> or similar DOM methods. <strong>Don't do this.</strong></p>
+
+            <div class="comparison">
+                <div class="not-this">
+                    <h4>🚫 Never Do This</h4>
+<pre><code>// DOM manipulation - WRONG!
+var field = document.getElementById('salesrep');
+field.value = 42;</code></pre>
+                </div>
+                <div class="do-this">
+                    <h4>✅ Always Do This</h4>
+<pre><code>// SuiteScript API - CORRECT
+record.setValue({
+    fieldId: 'salesrep',
+    value: 42
+});</code></pre>
+                </div>
+            </div>
+
+            <h3>Why DOM Access is Dangerous</h3>
+            <ol>
+                <li><strong>Not Future-Proof</strong>: NetSuite can change the underlying HTML element names in any release. Your script will break.</li>
+                <li><strong>Bypasses Validation</strong>: SuiteScript's setValue() triggers sourcing, field validation, and other built-in logic. DOM doesn't.</li>
+                <li><strong>Cross-Browser Issues</strong>: SuiteScript handles browser differences. DOM code might work in Chrome but fail in Safari.</li>
+                <li><strong>Server Sync Issues</strong>: DOM changes may not sync to the server correctly, causing data corruption.</li>
+            </ol>
+
+            <h2 id="debugging">7. Debugging SuiteScript</h2>
+            
+            <h3>Server-Side Debugging</h3>
+            <p>For User Event scripts and other server-side code, use NetSuite's built-in Script Debugger:</p>
+            
+            <ol>
+                <li>Navigate to <strong>Customization → Scripting → Script Debugger</strong></li>
+                <li>Click <strong>"Debug Existing"</strong> and select your script</li>
+                <li>Set breakpoints by clicking line numbers</li>
+                <li>Trigger your script (e.g., save a record)</li>
+                <li>Use the debugger to step through code</li>
+            </ol>
+
+            <div class="info-box yellow">
+                <strong>⚠️ Debugger Requirements</strong>
+                <ul>
+                    <li>You must be the <strong>Owner</strong> of the script</li>
+                    <li>The deployment Status must be <strong>Testing</strong> (not Released)</li>
+                    <li>You must use the <strong>debugger URL</strong> (debugger.na1.netsuite.com, etc.)</li>
+                    <li>Debug sessions time out after a few minutes of inactivity</li>
+                </ul>
+            </div>
+
+            <h3>Debugger Features</h3>
+            <table>
+                <tr><th>Feature</th><th>Description</th></tr>
+                <tr><td>Local Variables</td><td>View all variables and their current values</td></tr>
+                <tr><td>Watches</td><td>Track specific variables you care about</td></tr>
+                <tr><td>Evaluate Expression</td><td>Run ad-hoc code like <code>record.getValue('email')</code></td></tr>
+                <tr><td>Execution Log</td><td>See log output in real-time</td></tr>
+                <tr><td>Step Over/Into</td><td>Execute line-by-line</td></tr>
+            </table>
+
+            <h3>Using REQUIRE for Quick Tests</h3>
+            <p>When testing small code snippets in the debugger, use <code>require</code> instead of <code>define</code>:</p>
+            
+<pre><code>// Quick test script (no return statement needed)
+require(['N/search', 'N/log'], function(search, log) {
+    var results = search.create({
+        type: 'customer',
+        filters: [['email', 'contains', '@acme.com']],
+        columns: ['companyname', 'email']
+    }).run().getRange({ start: 0, end: 10 });
+    
+    log.debug('Results', JSON.stringify(results));
+});</code></pre>
+
+            <h2 id="practice">🏋️ Practice Exercises</h2>
+            
+            <div class="info-box green">
+                <strong>Exercise 1: Context Exploration</strong>
+                <p>Create a User Event script that logs all available context properties on different trigger types. Deploy to an Employee record and observe what's available in beforeLoad vs afterSubmit.</p>
+            </div>
+
+            <div class="info-box green">
+                <strong>Exercise 2: getValue vs getText</strong>
+                <p>On a Sales Order, log both <code>getValue()</code> and <code>getText()</code> for the following fields: <code>entity</code> (customer), <code>status</code>, <code>memo</code>, <code>total</code>. Note which method works for each field type.</p>
+            </div>
+
+            <div class="info-box green">
+                <strong>Exercise 3: Change Detection</strong>
+                <p>Create an afterSubmit script that detects when a specific field changes (e.g., status or salesrep). Use <code>oldRecord</code> and <code>newRecord</code> to compare, and log the change with an audit log.</p>
+            </div>
+
+            <div class="takeaway">
+                <h3>🎯 Key Takeaways</h3>
+                <ul>
+                    <li>The context object provides execution information — its contents vary by entry point</li>
+                    <li>Use <code>context.newRecord</code> for current data, <code>context.oldRecord</code> for comparing changes</li>
+                    <li><code>getValue()</code> returns IDs/raw values; <code>getText()</code> returns display text (dropdowns only)</li>
+                    <li>Custom field IDs follow patterns: custbody_, custcol_, custrecord_, custentity_</li>
+                    <li>Log levels are hierarchical — set deployment level based on environment</li>
+                    <li>Never use DOM — always use SuiteScript's record API methods</li>
+                    <li>Debug with Status = Testing and you as Owner</li>
+                </ul>
+            </div>
+
+            <div class="nav-buttons">
+                <a href="week-2-dashboard.html" class="back-btn">← Back to Week 2</a>
+                <a href="../Week-3/Module-4.html" class="next-btn">Next: Module 4 →</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

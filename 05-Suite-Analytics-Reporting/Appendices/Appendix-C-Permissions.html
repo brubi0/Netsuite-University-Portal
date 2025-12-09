@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appendix C: Permissions Reference - Suite Analytics Learning Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #0f0f1a; color: #e0e0e0; line-height: 1.7; }
+        .header { background: linear-gradient(135deg, #0f3460 0%, #533483 100%); padding: 30px 20px; }
+        .header-content { max-width: 1000px; margin: 0 auto; }
+        .breadcrumb { font-size: 0.9em; margin-bottom: 10px; opacity: 0.8; }
+        .breadcrumb a { color: #fff; text-decoration: none; }
+        h1 { font-size: 2em; font-weight: 700; color: #fff; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 40px 20px; }
+        h2 { color: #e94560; font-size: 1.5em; margin: 40px 0 20px; padding-bottom: 10px; border-bottom: 2px solid #e94560; }
+        p { margin-bottom: 15px; }
+        .intro-box { background: linear-gradient(145deg, #1a1a2e 0%, #1e1e32 100%); border-radius: 15px; padding: 25px; margin: 25px 0; border-left: 4px solid #e94560; }
+        .intro-box h4 { color: #e94560; margin-bottom: 12px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #333; }
+        th { background: rgba(233,69,96,0.2); color: #e94560; font-weight: 600; }
+        .key-point { background: rgba(83,52,131,0.2); border-radius: 10px; padding: 20px; margin: 20px 0; border: 1px solid rgba(83,52,131,0.4); }
+        .key-point h4 { color: #533483; margin-bottom: 10px; }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 50px; padding-top: 30px; border-top: 1px solid #333; flex-wrap: wrap; gap: 15px; }
+        .nav-btn { padding: 12px 25px; border-radius: 25px; text-decoration: none; font-weight: 600; font-size: 0.9em; transition: all 0.3s ease; }
+        .nav-btn.secondary { background: rgba(255,255,255,0.1); color: #fff; }
+        .nav-btn.primary { background: linear-gradient(135deg, #e94560 0%, #533483 100%); color: #fff; }
+        ul { margin-left: 20px; margin-bottom: 15px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="breadcrumb">
+                <a href="../Master-Dashboard.html">Course Overview</a> / Appendix C
+            </div>
+            <h1>🔐 Appendix C: Permissions Reference</h1>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="intro-box">
+            <h4>Saved Search Permissions</h4>
+            <p>Access to saved searches is controlled by multiple factors: the Public checkbox, Audience settings, record-level permissions, and role restrictions. Understanding these layers helps you share searches appropriately.</p>
+        </div>
+
+        <h2>Search Visibility Settings</h2>
+
+        <table>
+            <thead><tr><th>Setting</th><th>Location</th><th>Effect</th></tr></thead>
+            <tbody>
+                <tr><td><strong>Private</strong> (default)</td><td>Main search form</td><td>Only owner can see/run</td></tr>
+                <tr><td><strong>Public</strong></td><td>Main search form</td><td>All users with record access can see</td></tr>
+                <tr><td><strong>Audience</strong></td><td>Audience subtab</td><td>Specific roles/employees/groups</td></tr>
+            </tbody>
+        </table>
+
+        <h2>Role Permissions</h2>
+
+        <div class="key-point">
+            <h4>📋 Required Permissions</h4>
+            <table>
+                <thead><tr><th>Permission</th><th>Level</th><th>Allows</th></tr></thead>
+                <tbody>
+                    <tr><td>Reports</td><td>View</td><td>Run standard reports</td></tr>
+                    <tr><td>Saved Searches</td><td>View</td><td>Run public saved searches</td></tr>
+                    <tr><td>Saved Searches</td><td>Create</td><td>Create new saved searches</td></tr>
+                    <tr><td>Saved Searches</td><td>Edit</td><td>Modify existing searches</td></tr>
+                    <tr><td>Publish Search</td><td>Full</td><td>Make searches public</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2>Audience Subtab Options</h2>
+
+        <table>
+            <thead><tr><th>Field</th><th>Purpose</th></tr></thead>
+            <tbody>
+                <tr><td><strong>Roles</strong></td><td>Select specific roles that can access</td></tr>
+                <tr><td><strong>Employees</strong></td><td>Select individual employees</td></tr>
+                <tr><td><strong>Partners</strong></td><td>Share with partner center users</td></tr>
+                <tr><td><strong>Groups</strong></td><td>Share with entity groups</td></tr>
+            </tbody>
+        </table>
+
+        <h2>Record-Level Security</h2>
+
+        <div class="key-point">
+            <h4>🔒 Data Access Rules</h4>
+            <p>Even with search access, users only see records they have permission to view:</p>
+            <ul>
+                <li><strong>Role restrictions</strong> — Transaction types, record types</li>
+                <li><strong>Subsidiary restrictions</strong> — OneWorld subsidiary access</li>
+                <li><strong>Department/Class/Location</strong> — Segment restrictions</li>
+                <li><strong>Custom record permissions</strong> — Per-record type access</li>
+            </ul>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="Appendix-B-Date-Filters.html" class="nav-btn secondary">← Date Filters</a>
+            <a href="Appendix-D-Glossary.html" class="nav-btn primary">Next: Glossary →</a>
+        </div>
+    </div>
+</body>
+</html>

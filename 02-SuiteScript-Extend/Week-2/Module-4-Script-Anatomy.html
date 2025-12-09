@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 4: Script Anatomy - SuiteScript Learning Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%); --dark-bg: #1a1a2e; --card-bg: #16213e; --text-primary: #ffffff; --text-secondary: #a0aec0; --border-color: rgba(255,255,255,0.1); --purple: #9f7aea; --success: #48bb78; --warning: #ecc94b; --info: #4299e1; --code-bg: #0d1117; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--dark-bg); color: var(--text-primary); min-height: 100vh; line-height: 1.7; }
+        .nav-bar { background: var(--card-bg); padding: 15px 20px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+        .nav-bar a { color: var(--purple); text-decoration: none; font-size: 0.95rem; }
+        .nav-bar a:hover { text-decoration: underline; }
+        .header { background: var(--primary-gradient); padding: 50px 20px; }
+        .header-content { max-width: 900px; margin: 0 auto; }
+        .header .module-tag { display: inline-block; background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 20px; font-size: 0.85rem; margin-bottom: 15px; }
+        .header h1 { font-size: 2.2rem; margin-bottom: 10px; }
+        .header p { font-size: 1.1rem; opacity: 0.9; }
+        .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+        .content-section { margin-bottom: 40px; }
+        .content-section h2 { font-size: 1.5rem; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid var(--border-color); }
+        .content-section h3 { font-size: 1.2rem; margin: 25px 0 15px 0; color: var(--purple); }
+        .content-section p { margin-bottom: 15px; color: var(--text-secondary); }
+        .info-box { border-radius: 10px; padding: 20px; margin: 20px 0; }
+        .info-box.blue { background: rgba(66, 153, 225, 0.15); border: 1px solid rgba(66, 153, 225, 0.3); }
+        .info-box.green { background: rgba(72, 187, 120, 0.15); border: 1px solid rgba(72, 187, 120, 0.3); }
+        .info-box.yellow { background: rgba(236, 201, 75, 0.15); border: 1px solid rgba(236, 201, 75, 0.3); }
+        .info-box.purple { background: rgba(159, 122, 234, 0.15); border: 1px solid rgba(159, 122, 234, 0.3); }
+        .info-box h4 { margin-bottom: 10px; font-size: 1rem; }
+        .info-box p { margin-bottom: 0; font-size: 0.95rem; }
+        pre { background: var(--code-bg); border-radius: 10px; padding: 20px; overflow-x: auto; margin: 20px 0; border: 1px solid var(--border-color); }
+        code { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; line-height: 1.6; }
+        .inline-code { background: var(--code-bg); padding: 2px 8px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--purple); }
+        .comment { color: #6a9955; }
+        .keyword { color: #569cd6; }
+        .string { color: #ce9178; }
+        .function { color: #dcdcaa; }
+        .property { color: #9cdcfe; }
+        .concept-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        .concept-table th, .concept-table td { padding: 12px 15px; text-align: left; border: 1px solid var(--border-color); }
+        .concept-table th { background: var(--card-bg); font-weight: 600; color: var(--purple); }
+        .concept-table td { color: var(--text-secondary); }
+        .key-takeaways { background: var(--card-bg); border-radius: 12px; padding: 25px; margin-top: 40px; border: 1px solid var(--border-color); }
+        .key-takeaways h3 { margin-bottom: 15px; }
+        .key-takeaways ul { list-style: none; }
+        .key-takeaways li { padding: 8px 0; padding-left: 25px; position: relative; color: var(--text-secondary); }
+        .key-takeaways li::before { content: '✓'; position: absolute; left: 0; color: var(--success); }
+        .nav-footer { display: flex; justify-content: space-between; margin-top: 50px; padding-top: 30px; border-top: 1px solid var(--border-color); flex-wrap: wrap; gap: 10px; }
+        .nav-footer a { color: var(--purple); text-decoration: none; }
+        .nav-footer a:hover { text-decoration: underline; }
+        @media (max-width: 768px) { .header h1 { font-size: 1.8rem; } }
+    </style>
+</head>
+<body>
+    <nav class="nav-bar">
+        <a href="week-2-dashboard.html">← Week 2 Dashboard</a>
+        <div style="display: flex; gap: 15px;">
+            <a href="../Week-1/Module-3-Development-Environment.html">← Module 3</a>
+            <a href="../Week-3/week-3-dashboard.html">Week 3 →</a>
+        </div>
+    </nav>
+
+    <header class="header">
+        <div class="header-content">
+            <span class="module-tag">Week 2 • Module 4</span>
+            <h1>Script Anatomy</h1>
+            <p>Understanding the complete structure of a SuiteScript file</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="content-section">
+            <h2>📋 The Comment Block</h2>
+            <p>Every SuiteScript file begins with a comment block containing special JSDoc-style tags that NetSuite reads to understand the script:</p>
+
+            <pre><code><span class="comment">/**
+ * @NApiVersion 2.1
+ * @NModuleScope SameAccount
+ * @NScriptType UserEventScript
+ * 
+ * @see https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/...
+ * @author Your Name
+ */</span></code></pre>
+
+            <h3>Required Tags</h3>
+            <table class="concept-table">
+                <thead>
+                    <tr>
+                        <th>Tag</th>
+                        <th>Values</th>
+                        <th>Purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="inline-code">@NApiVersion</span></td>
+                        <td>2.1, 2.0, 2.x, 1.0</td>
+                        <td>Specifies SuiteScript version. Use 2.1 for modern JavaScript features.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="inline-code">@NScriptType</span></td>
+                        <td>UserEventScript, ClientScript, Suitelet, etc.</td>
+                        <td>Tells NetSuite what type of script this is.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="inline-code">@NModuleScope</span></td>
+                        <td>SameAccount, Public</td>
+                        <td>Controls which scripts can import this as a dependency.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="info-box blue">
+                <h4>💡 SuiteScript 2.1 Benefits</h4>
+                <p>Version 2.1 enables modern JavaScript features: arrow functions, template literals, destructuring, const/let, and async/await. Always use 2.1 for new development.</p>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>📦 The Define Block</h2>
+            <p>SuiteScript uses the AMD (Asynchronous Module Definition) pattern. The <span class="inline-code">define()</span> function loads module dependencies:</p>
+
+            <pre><code><span class="keyword">define</span>([<span class="string">'N/record'</span>, <span class="string">'N/search'</span>, <span class="string">'N/log'</span>],
+    <span class="comment">/**
+     * @param {record} record
+     * @param {search} search  
+     * @param {log} log
+     */</span>
+    <span class="keyword">function</span>(<span class="property">record</span>, <span class="property">search</span>, <span class="property">log</span>) {
+        
+        <span class="comment">// Your code here</span>
+        
+        <span class="keyword">return</span> {
+            beforeLoad: beforeLoad,
+            afterSubmit: afterSubmit
+        };
+    }
+);</code></pre>
+
+            <h3>Structure Breakdown</h3>
+            <ul style="list-style: disc; margin-left: 25px; color: var(--text-secondary); margin-bottom: 20px;">
+                <li><strong>Array of strings</strong> — Module paths (e.g., <span class="inline-code">'N/record'</span>, <span class="inline-code">'N/ui/serverWidget'</span>)</li>
+                <li><strong>JSDoc comment</strong> — Types for IDE autocomplete</li>
+                <li><strong>Callback function</strong> — Parameters match the array order</li>
+                <li><strong>Return object</strong> — Exports entry points that NetSuite can call</li>
+            </ul>
+
+            <div class="info-box yellow">
+                <h4>⚠️ Common Mistake</h4>
+                <p>The order of modules in the array must match the order of parameters in the function. If you add <span class="inline-code">'N/email'</span> to the array, you must add <span class="inline-code">email</span> as the next function parameter.</p>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>🚪 Entry Points</h2>
+            <p>Entry points are functions that NetSuite calls at specific moments. Each script type has different entry points:</p>
+
+            <h3>User Event Script Entry Points</h3>
+            <table class="concept-table">
+                <thead>
+                    <tr>
+                        <th>Entry Point</th>
+                        <th>When It Runs</th>
+                        <th>Common Uses</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="inline-code">beforeLoad</span></td>
+                        <td>Before record is displayed to user</td>
+                        <td>Add fields, buttons, hide fields, set defaults</td>
+                    </tr>
+                    <tr>
+                        <td><span class="inline-code">beforeSubmit</span></td>
+                        <td>After user clicks Save, before database write</td>
+                        <td>Validation, calculations, data transformation</td>
+                    </tr>
+                    <tr>
+                        <td><span class="inline-code">afterSubmit</span></td>
+                        <td>After record is saved to database</td>
+                        <td>Notifications, update related records, integrations</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Client Script Entry Points</h3>
+            <table class="concept-table">
+                <thead>
+                    <tr>
+                        <th>Entry Point</th>
+                        <th>When It Runs</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="inline-code">pageInit</span></td>
+                        <td>When the page fully loads</td>
+                    </tr>
+                    <tr>
+                        <td><span class="inline-code">validateField</span></td>
+                        <td>When user exits a field (before value is committed)</td>
+                    </tr>
+                    <tr>
+                        <td><span class="inline-code">fieldChanged</span></td>
+                        <td>After a field value changes</td>
+                    </tr>
+                    <tr>
+                        <td><span class="inline-code">postSourcing</span></td>
+                        <td>After field sourcing completes</td>
+                    </tr>
+                    <tr>
+                        <td><span class="inline-code">saveRecord</span></td>
+                        <td>When user clicks Save (before submission)</td>
+                    </tr>
+                    <tr>
+                        <td><span class="inline-code">lineInit</span></td>
+                        <td>When a sublist line is selected</td>
+                    </tr>
+                    <tr>
+                        <td><span class="inline-code">validateLine</span></td>
+                        <td>Before a sublist line is committed</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="content-section">
+            <h2>📄 The Context Object</h2>
+            <p>Each entry point receives a <span class="inline-code">context</span> object with information about the current event:</p>
+
+            <pre><code><span class="keyword">function</span> <span class="function">beforeLoad</span>(context) {
+    <span class="comment">// context.type — Event type: 'create', 'edit', 'view', 'copy', etc.</span>
+    <span class="comment">// context.form — The form object (can add fields, buttons)</span>
+    <span class="comment">// context.newRecord — The record being loaded</span>
+    <span class="comment">// context.request — HTTP request (for Suitelets)</span>
+    
+    <span class="keyword">if</span> (context.<span class="property">type</span> === context.<span class="property">UserEventType</span>.<span class="property">CREATE</span>) {
+        <span class="comment">// Only run on create</span>
+    }
+}
+
+<span class="keyword">function</span> <span class="function">afterSubmit</span>(context) {
+    <span class="comment">// context.newRecord — Record after changes</span>
+    <span class="comment">// context.oldRecord — Record before changes (null on create)</span>
+    <span class="comment">// context.type — Event type</span>
+    
+    <span class="keyword">const</span> <span class="property">recordId</span> = context.<span class="property">newRecord</span>.<span class="property">id</span>;
+}</code></pre>
+
+            <div class="info-box green">
+                <h4>✅ Best Practice</h4>
+                <p>Always check <span class="inline-code">context.type</span> before running logic. You rarely want a script to execute on every event type (create, edit, view, copy, delete).</p>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>📚 Finding Documentation</h2>
+            <p>The NetSuite Help Center at <span class="inline-code">docs.oracle.com</span> is your primary reference. Here's how to find what you need:</p>
+
+            <h3>For Script Types</h3>
+            <p>Search for the script type (e.g., "SuiteScript 2.x User Event Script") to find:</p>
+            <ul style="list-style: disc; margin-left: 25px; color: var(--text-secondary);">
+                <li>Available entry points and when they trigger</li>
+                <li>Context object properties for each entry point</li>
+                <li>Supported event types</li>
+                <li>Code examples</li>
+            </ul>
+
+            <h3>For Modules</h3>
+            <p>Search for the module name (e.g., "N/record module") to find:</p>
+            <ul style="list-style: disc; margin-left: 25px; color: var(--text-secondary);">
+                <li>All available methods and functions</li>
+                <li>Parameter requirements and return types</li>
+                <li>Governance units consumed</li>
+                <li>Usage examples</li>
+            </ul>
+
+            <div class="info-box purple">
+                <h4>📚 Pro Tip: @see Tags</h4>
+                <p>Add <span class="inline-code">@see</span> links in your script comments pointing to relevant documentation. This helps future developers (including yourself) quickly find reference material.</p>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>✍️ JSDoc for IDE Intelligence</h2>
+            <p>JSDoc annotations enable autocomplete and type checking in your IDE:</p>
+
+            <pre><code><span class="comment">/**
+ * Validates and processes the expense report after save
+ * @param {Object} context
+ * @param {Record} context.newRecord - The saved expense report
+ * @param {Record} context.oldRecord - Previous version (null on create)
+ * @param {string} context.type - Event type (create, edit, delete)
+ * @returns {void}
+ */</span>
+<span class="keyword">function</span> <span class="function">afterSubmit</span>(context) {
+    <span class="keyword">const</span> { <span class="property">newRecord</span>, <span class="property">type</span> } = context;
+    
+    <span class="comment">// Your IDE now knows newRecord has .id, .type, .getValue(), etc.</span>
+}</code></pre>
+
+            <p>Common JSDoc tags:</p>
+            <table class="concept-table">
+                <thead>
+                    <tr>
+                        <th>Tag</th>
+                        <th>Purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="inline-code">@param {Type} name</span></td>
+                        <td>Documents a function parameter</td>
+                    </tr>
+                    <tr>
+                        <td><span class="inline-code">@returns {Type}</span></td>
+                        <td>Documents return value</td>
+                    </tr>
+                    <tr>
+                        <td><span class="inline-code">@throws {Error}</span></td>
+                        <td>Documents possible exceptions</td>
+                    </tr>
+                    <tr>
+                        <td><span class="inline-code">@example</span></td>
+                        <td>Provides usage example</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="content-section" style="background: rgba(66, 153, 225, 0.1); border: 1px solid rgba(66, 153, 225, 0.2); border-radius: 12px; padding: 25px; margin: 30px 0;">
+            <h2 style="border: none; padding: 0; margin-bottom: 15px;">📖 Finding This in the Docs</h2>
+            <p>To look up script anatomy and entry points:</p>
+            <ol style="margin-left: 20px; color: var(--text-secondary);">
+                <li style="margin-bottom: 8px;">Go to <strong>docs.oracle.com</strong> → SuiteScript 2.x API Reference</li>
+                <li style="margin-bottom: 8px;">Navigate to <strong>Script Types</strong> section</li>
+                <li style="margin-bottom: 8px;">Select your script type to see all entry points and context object properties</li>
+            </ol>
+            <p style="margin-top: 15px;"><strong>Key pages to bookmark:</strong></p>
+            <ul style="margin-left: 20px; color: var(--text-secondary);">
+                <li>User Event Script Type → context.newRecord, context.oldRecord, context.type</li>
+                <li>Client Script Type → context.currentRecord, context.mode</li>
+                <li>SuiteScript 2.x Modules → for define() import paths</li>
+                <li>"@NApiVersion" annotation reference → version requirements</li>
+            </ul>
+        </section>
+
+        <div class="key-takeaways">
+            <h3>🎯 Key Takeaways</h3>
+            <ul>
+                <li><span class="inline-code">@NApiVersion 2.1</span> enables modern JavaScript features</li>
+                <li><span class="inline-code">@NScriptType</span> tells NetSuite what kind of script this is</li>
+                <li>The <span class="inline-code">define()</span> block loads module dependencies in order</li>
+                <li>Entry points must be returned from the define callback</li>
+                <li>Context objects provide event type, record access, and form manipulation</li>
+                <li>Always check <span class="inline-code">context.type</span> before running logic</li>
+                <li>Use JSDoc annotations for IDE autocomplete and documentation</li>
+                <li>NetSuite Help Center is your primary documentation source</li>
+            </ul>
+        </div>
+
+        <nav class="nav-footer">
+            <a href="../Week-1/Module-3-Development-Environment.html">← Module 3: Development Environment</a>
+            <a href="../Week-3/week-3-dashboard.html">Week 3: Record Operations →</a>
+        </nav>
+    </main>
+</body>
+</html>

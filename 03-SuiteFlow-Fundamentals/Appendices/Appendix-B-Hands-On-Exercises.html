@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Appendix B: Hands-On Exercises - SuiteFlow Fundamentals</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f5f7fa; padding: 20px; }
+        .container { max-width: 1400px; margin: 0 auto; background: white; border-radius: 15px; padding: 40px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+        h1 { color: #667eea; font-size: 2.5em; margin-bottom: 30px; }
+        .exercise-section { background: #f8f9fa; padding: 30px; border-radius: 10px; margin: 30px 0; border-left: 5px solid #667eea; }
+        .exercise-section h2 { color: #2d3748; margin-bottom: 20px; }
+        .step { background: white; padding: 20px; margin: 15px 0; border-radius: 8px; border-left: 3px solid #667eea; }
+        .info-box { background: #e3f2fd; padding: 20px; margin: 20px 0; border-radius: 8px; border-left: 4px solid #2196f3; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📝 Appendix B: Hands-On Exercises</h1>
+        <p style="color: #666; font-size: 1.1em; margin-bottom: 30px;">Complete collection of all course exercises with step-by-step instructions and solutions.</p>
+        
+        <div class="info-box">
+            <h3 style="color: #1976d2;">📥 Student Workbook</h3>
+            <p>All exercises in this appendix are extracted from the official NetSuite Student Workbook. For the most current version with full screenshots and detailed instructions, refer to your downloaded Student Workbook PDF.</p>
+        </div>
+        
+        <div class="exercise-section" id="module-0">
+            <h2>Module 0: Course Introduction</h2>
+            <h3>Exercise 1: Enabling SuiteFlow</h3>
+            <div class="step">
+                <p><strong>Objective:</strong> Verify SuiteFlow feature is enabled in your training account</p>
+                <ol style="margin-left: 30px; margin-top: 15px;">
+                    <li>Navigate to: <strong>Setup > Company > Enable Features</strong></li>
+                    <li>Select the <strong>SuiteCloud</strong> subtab</li>
+                    <li>Locate the <strong>SuiteFlow</strong> section</li>
+                    <li>Verify that <strong>SUITEFLOW</strong> is checked</li>
+                    <li>Click <strong>Save</strong> (if necessary)</li>
+                </ol>
+            </div>
+            
+            <h3>Exercise 2: Adjusting User Preferences</h3>
+            <div class="step">
+                <p><strong>Objective:</strong> Configure essential user preferences for workflow development</p>
+                <ol style="margin-left: 30px; margin-top: 15px;">
+                    <li>Navigate to: <strong>Home > Set Preferences</strong></li>
+                    <li>On the <strong>General</strong> subtab, configure:
+                        <ul style="margin-left: 30px; margin-top: 10px;">
+                            <li><strong>Time Zone:</strong> Set to your local time zone</li>
+                            <li><strong>Date Format:</strong> Choose your preferred format</li>
+                            <li><strong>Show Internal IDs:</strong> ✓ Check this box (CRITICAL!)</li>
+                        </ul>
+                    </li>
+                    <li>On the <strong>Analytics</strong> subtab:
+                        <ul style="margin-left: 30px; margin-top: 10px;">
+                            <li>Check <strong>Show List When Only One Result</strong></li>
+                        </ul>
+                    </li>
+                    <li>Click <strong>Save</strong></li>
+                </ol>
+            </div>
+        </div>
+        
+        <div class="exercise-section" id="module-1">
+            <h2>Module 1: SuiteFlow Overview</h2>
+            <h3>Exercise 1: Inspect the Custom Furniture Request Record</h3>
+            <div class="step">
+                <p><strong>Objective:</strong> Explore the custom record type used throughout the course</p>
+                <ol style="margin-left: 30px; margin-top: 15px;">
+                    <li>Navigate to: <strong>Customization > List, Records, & Fields > Record Types</strong></li>
+                    <li>Click on the <strong>Furniture Request</strong> link</li>
+                    <li>Review the record structure:
+                        <ul style="margin-left: 30px; margin-top: 10px;">
+                            <li>Standard and custom fields</li>
+                            <li>Field types and configurations</li>
+                            <li>Required fields and validations</li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
+            
+            <h3>Exercise 2: Create a New Furniture Request Record</h3>
+            <div class="step">
+                <p><strong>Objective:</strong> Create a test record to understand the data model</p>
+                <ol style="margin-left: 30px; margin-top: 15px;">
+                    <li>Navigate to: <strong>Lists > Custom > Furniture Request > New</strong></li>
+                    <li>Enter test data for all fields</li>
+                    <li>Save the record</li>
+                    <li>Note the record ID and field behaviors</li>
+                </ol>
+            </div>
+            
+            <h3>Exercise 3: Create a Simple Workflow</h3>
+            <div class="step">
+                <p><strong>Objective:</strong> Build your first workflow with a Show Message action</p>
+                <ol style="margin-left: 30px; margin-top: 15px;">
+                    <li>Navigate to: <strong>Customization > Workflow > Workflows > New Workflow</strong></li>
+                    <li>Enter workflow details:
+                        <ul style="margin-left: 30px; margin-top: 10px;">
+                            <li><strong>Name:</strong> "My First Workflow"</li>
+                            <li><strong>ID:</strong> "wf_my_first"</li>
+                            <li><strong>Record Type:</strong> Furniture Request</li>
+                            <li><strong>Initiate On:</strong> Create</li>
+                            <li><strong>Release Status:</strong> Testing</li>
+                            <li><strong>Enable Logging:</strong> Checked</li>
+                        </ul>
+                    </li>
+                    <li>Rename default state to "Data Entry"</li>
+                    <li>Add a <strong>Show Message</strong> action with your welcome message</li>
+                    <li>Test by creating a new Furniture Request record</li>
+                </ol>
+            </div>
+        </div>
+        
+        <div class="info-box" style="background: #e8f5e9; border-left-color: #4caf50;">
+            <h3 style="color: #2e7d32;">✅ Exercise Solutions</h3>
+            <p>Solution workflows are pre-loaded in your training account. Filter by "Furniture Request SOLUTION" to view them. Remember: most solution workflows need to be <strong>enabled</strong> before they'll execute!</p>
+        </div>
+        
+        <div style="margin-top: 40px;">
+            <p style="color: #666;"><em>Additional exercises for modules 2-11 are available in your Student Workbook PDF. This appendix provides a quick reference format for the most essential exercises.</em></p>
+        </div>
+        
+        <div style="margin-top: 40px; padding-top: 30px; border-top: 2px solid #e2e8f0;">
+            <a href="../Master-Dashboard.html" style="display: inline-block; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 12px 30px; border-radius: 25px; text-decoration: none; font-weight: 600;">← Back to Course Overview</a>
+        </div>
+    </div>
+</body>
+</html>
